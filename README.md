@@ -26,7 +26,7 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 
 # 🛠️ Tech Stack
 
-# Frontend
+## Frontend
 
 - React.js
 - TypeScript
@@ -34,12 +34,12 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 - Framer Motion
 - Vite
 
-# UI Components
+## UI Components
 
 - shadcn/ui
 - Lucide React Icons
 
-# Deployment
+## Deployment
 
 - Netlify
 
@@ -63,46 +63,94 @@ SmartResume/
 ├── vite.config.ts
 ├── tailwind.config.js
 └── README.md
-⚡ Getting Started
-1️⃣ Clone Repository
+```
+
+---
+
+# ⚡ Getting Started
+
+## 1️⃣ Clone Repository
+
+```bash
 git clone https://github.com/SurajRawatr07/RESUME-BUILDER-WEBSITE.git
-2️⃣ Go To Project Folder
+```
+
+## 2️⃣ Go To Project Folder
+
+```bash
 cd RESUME-BUILDER-WEBSITE
-3️⃣ Install Dependencies
+```
+
+## 3️⃣ Install Dependencies
+
+```bash
 npm install
-4️⃣ Run Development Server
+```
+
+## 4️⃣ Run Development Server
+
+```bash
 npm run dev
-🎨 UI Highlights
-Premium Landing Page
-Smooth Animations
-Elegant Resume Templates
-Fast Navigation Experience
-Mobile Optimized Layout
-📱 Responsive Design
+```
+
+---
+
+# 🎨 UI Highlights
+
+- Premium Landing Page
+- Smooth Animations
+- Elegant Resume Templates
+- Fast Navigation Experience
+- Mobile Optimized Layout
+
+---
+
+# 📱 Responsive Design
 
 Works perfectly on:
 
-Desktop 💻
-Tablet 📱
-Mobile 📲
-🔥 Why SmartResume?
+- Desktop 💻
+- Tablet 📱
+- Mobile 📲
+
+---
+
+# 🔥 Why SmartResume?
 
 SmartResume helps students, developers, and professionals create modern resumes quickly with a clean UI and powerful features.
 
-🚀 Future Features
-AI Resume Suggestions
-Multiple Resume Themes
-Resume Analytics
-Drag & Drop Sections
-Resume Sharing Link
-👨‍💻 Author
-Suraj Rawat
-Frontend Developer
-React Developer
-UI/UX Enthusiast
-🌟 Support
+---
+
+# 🚀 Future Features
+
+- AI Resume Suggestions
+- Multiple Resume Themes
+- Resume Analytics
+- Drag & Drop Sections
+- Resume Sharing Link
+
+---
+
+# 👨‍💻 Author
+
+## Suraj Rawat
+
+- Frontend Developer
+- React Developer
+- UI/UX Enthusiast
+
+---
+
+# 🌟 Support
 
 If you like this project, give it a ⭐ on GitHub.
 
-💬 Connect With Me
-GitHub: https://github.com/SurajRawatr07
+---
+
+# 💬 Connect With Me
+
+- GitHub: https://github.com/SurajRawatr07
+
+---
+
+# ❤️ Made With Passion By Suraj Rawat
