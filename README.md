@@ -26,18 +26,18 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 
 # 🛠️ Tech Stack
 
-### Frontend
+## Frontend
 - React.js
 - TypeScript
 - Tailwind CSS
 - Framer Motion
 - Vite
 
-### UI Components
+## UI Components
 - shadcn/ui
 - Lucide React Icons
 
-### Deployment
+## Deployment
 - Netlify
 
 ---
@@ -48,15 +48,19 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 SmartResume/
 │
 ├── public/
+│
 ├── src/
 │   ├── components/
 │   ├── pages/
 │   ├── assets/
-│   └── styles/
+│   ├── styles/
+│   └── hooks/
 │
 ├── package.json
 ├── vite.config.ts
+├── tailwind.config.js
 └── README.md
+
 ⚡ Getting Started
 1️⃣ Clone Repository
 git clone https://github.com/SurajRawatr07/RESUME-BUILDER-WEBSITE.git
@@ -66,6 +70,9 @@ cd RESUME-BUILDER-WEBSITE
 npm install
 4️⃣ Run Development Server
 npm run dev
+
+
+
 🎨 UI Highlights
 Premium Landing Page
 Smooth Animations
@@ -74,11 +81,15 @@ Fast Navigation Experience
 Mobile Optimized Layout
 📱 Responsive Design
 
+
 Works perfectly on:
 
 Desktop 💻
 Tablet 📱
 Mobile 📲
+
+
+
 🔥 Why SmartResume?
 
 SmartResume helps students, developers, and professionals create modern resumes quickly with a clean UI and powerful features.
@@ -89,19 +100,19 @@ Multiple Resume Themes
 Resume Analytics
 Drag & Drop Sections
 Resume Sharing Link
-📦 Build For Production
-npm run build
-🔍 Preview Production Build
-npm run preview
+
+
+
 👨‍💻 Author
 Suraj Rawat
 Frontend Developer
 React Developer
 UI/UX Enthusiast
+
+
 🌟 Support
 
 If you like this project, give it a ⭐ on GitHub.
 
 💬 Connect With Me
 GitHub: https://github.com/SurajRawatr07
-❤️ Made With Passion By Suraj Rawat
