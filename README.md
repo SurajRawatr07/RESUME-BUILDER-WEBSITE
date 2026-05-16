@@ -4,13 +4,13 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 
 ---
 
-## 🌐 Live Demo
+# 🌐 Live Demo
 
 👉 https://surajresumebuilder.netlify.app/
 
 ---
 
-## ✨ Features
+# ✨ Features
 
 - Modern & Responsive UI
 - ATS Friendly Resume Templates
@@ -24,9 +24,9 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
-### Frontend
+# Frontend
 
 - React.js
 - TypeScript
@@ -34,18 +34,18 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 - Framer Motion
 - Vite
 
-### UI Components
+# UI Components
 
 - shadcn/ui
 - Lucide React Icons
 
-### Deployment
+# Deployment
 
 - Netlify
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```bash
 SmartResume/
@@ -63,9 +63,6 @@ SmartResume/
 ├── vite.config.ts
 ├── tailwind.config.js
 └── README.md
-
-
-
 ⚡ Getting Started
 1️⃣ Clone Repository
 git clone https://github.com/SurajRawatr07/RESUME-BUILDER-WEBSITE.git
@@ -75,9 +72,6 @@ cd RESUME-BUILDER-WEBSITE
 npm install
 4️⃣ Run Development Server
 npm run dev
-
-
-
 🎨 UI Highlights
 Premium Landing Page
 Smooth Animations
@@ -91,8 +85,6 @@ Works perfectly on:
 Desktop 💻
 Tablet 📱
 Mobile 📲
-
-
 🔥 Why SmartResume?
 
 SmartResume helps students, developers, and professionals create modern resumes quickly with a clean UI and powerful features.
@@ -103,8 +95,6 @@ Multiple Resume Themes
 Resume Analytics
 Drag & Drop Sections
 Resume Sharing Link
-
-
 👨‍💻 Author
 Suraj Rawat
 Frontend Developer
