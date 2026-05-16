@@ -1,32 +1,51 @@
-# 🚀 SmartResume — AI Powered Resume Builder
+<div align="center">
 
-A modern and responsive Resume Builder Website to create beautiful, ATS-friendly resumes with live preview and PDF download support.
+# 🚀 SmartResume
 
----
+### AI Powered Resume Builder
 
-# 🌐 Live Demo
+<p align="center">
+  A modern and responsive Resume Builder Website to create beautiful, ATS-friendly resumes with live preview and PDF download support.
+</p>
 
-👉 https://surajresumebuilder.netlify.app/
+<br>
+
+<a href="https://surajresumebuilder.netlify.app/">
+  <img src="https://img.shields.io/badge/🌐_Live_Demo-Visit_Website-blue?style=for-the-badge" />
+</a>
+
+<a href="https://github.com/SurajRawatr07/RESUME-BUILDER-WEBSITE">
+  <img src="https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github" />
+</a>
+
+<br><br>
+
+<img src="https://img.shields.io/badge/React-Frontend-blue?style=flat-square&logo=react" />
+<img src="https://img.shields.io/badge/TypeScript-Language-blue?style=flat-square&logo=typescript" />
+<img src="https://img.shields.io/badge/TailwindCSS-Styling-38BDF8?style=flat-square&logo=tailwind-css" />
+<img src="https://img.shields.io/badge/Vite-Build_Tool-646CFF?style=flat-square&logo=vite" />
+
+</div>
 
 ---
 
 # ✨ Features
 
-- Modern & Responsive UI
-- ATS Friendly Resume Templates
-- Real-Time Resume Preview
-- PDF Download Support
-- Dark / Light Mode
-- Smooth Animations
-- Mobile Friendly Design
-- Secure Authentication
-- Professional Dashboard UI
+✔️ Modern & Responsive UI  
+✔️ ATS Friendly Resume Templates  
+✔️ Real-Time Resume Preview  
+✔️ PDF Download Support  
+✔️ Dark / Light Mode  
+✔️ Smooth Animations  
+✔️ Mobile Friendly Design  
+✔️ Secure Authentication  
+✔️ Professional Dashboard UI  
 
 ---
 
 # 🛠️ Tech Stack
 
-## Frontend
+## 🎨 Frontend
 
 - React.js
 - TypeScript
@@ -34,12 +53,12 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 - Framer Motion
 - Vite
 
-## UI Components
+## 🧩 UI Components
 
 - shadcn/ui
 - Lucide React Icons
 
-## Deployment
+## 🚀 Deployment
 
 - Netlify
 
@@ -135,9 +154,7 @@ SmartResume helps students, developers, and professionals create modern resumes 
 
 ## Suraj Rawat
 
-- Frontend Developer
-- React Developer
-- UI/UX Enthusiast
+Frontend Developer • React Developer • UI/UX Enthusiast
 
 ---
 
@@ -149,8 +166,14 @@ If you like this project, give it a ⭐ on GitHub.
 
 # 💬 Connect With Me
 
-- GitHub: https://github.com/SurajRawatr07
+### GitHub
+
+👉 https://github.com/SurajRawatr07
 
 ---
 
+<div align="center">
+
 # ❤️ Made With Passion By Suraj Rawat
+
+</div>
