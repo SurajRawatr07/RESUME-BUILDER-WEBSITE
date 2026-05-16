@@ -10,39 +10,42 @@ A modern and responsive Resume Builder Website to create beautiful, ATS-friendly
 
 ---
 
-# ✨ Features
+## ✨ Features
 
-- Modern & Responsive UI  
-- ATS Friendly Resume Templates  
-- Real-Time Resume Preview  
-- PDF Download Support  
-- Dark / Light Mode  
-- Smooth Animations  
-- Mobile Friendly Design  
-- Secure Authentication  
-- Professional Dashboard UI  
+- Modern & Responsive UI
+- ATS Friendly Resume Templates
+- Real-Time Resume Preview
+- PDF Download Support
+- Dark / Light Mode
+- Smooth Animations
+- Mobile Friendly Design
+- Secure Authentication
+- Professional Dashboard UI
 
 ---
 
-# 🛠️ Tech Stack
+## 🛠️ Tech Stack
 
-## Frontend
+### Frontend
+
 - React.js
 - TypeScript
 - Tailwind CSS
 - Framer Motion
 - Vite
 
-## UI Components
+### UI Components
+
 - shadcn/ui
 - Lucide React Icons
 
-## Deployment
+### Deployment
+
 - Netlify
 
 ---
 
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```bash
 SmartResume/
@@ -60,6 +63,8 @@ SmartResume/
 ├── vite.config.ts
 ├── tailwind.config.js
 └── README.md
+
+
 
 ⚡ Getting Started
 1️⃣ Clone Repository
@@ -81,13 +86,11 @@ Fast Navigation Experience
 Mobile Optimized Layout
 📱 Responsive Design
 
-
 Works perfectly on:
 
 Desktop 💻
 Tablet 📱
 Mobile 📲
-
 
 
 🔥 Why SmartResume?
@@ -102,14 +105,11 @@ Drag & Drop Sections
 Resume Sharing Link
 
 
-
 👨‍💻 Author
 Suraj Rawat
 Frontend Developer
 React Developer
 UI/UX Enthusiast
-
-
 🌟 Support
 
 If you like this project, give it a ⭐ on GitHub.
