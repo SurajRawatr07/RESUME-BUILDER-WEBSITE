@@ -164,7 +164,7 @@ If you like this project, give it a ⭐ on GitHub.
 
 ---
 
-# 💬 Connect With Me
+#  Connect With Me
 
 ### GitHub
 
