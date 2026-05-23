@@ -1,6 +1,6 @@
 <div align="center">
 
-#  SmartResume
+# 🚀 SmartResume
 
 ### AI Powered Resume Builder
 
@@ -29,7 +29,7 @@
 
 ---
 
-#  Features
+# ✨ Features
 
 ✔️ Modern & Responsive UI  
 ✔️ ATS Friendly Resume Templates  
@@ -43,9 +43,9 @@
 
 ---
 
-#  Tech Stack
+# 🛠️ Tech Stack
 
-##  Frontend
+## 🎨 Frontend
 
 - React.js
 - TypeScript
@@ -53,18 +53,18 @@
 - Framer Motion
 - Vite
 
-##  UI Components
+## 🧩 UI Components
 
 - shadcn/ui
 - Lucide React Icons
 
-##  Deployment
+## 🚀 Deployment
 
 - Netlify
 
 ---
 
-#  Project Structure
+# 📂 Project Structure
 
 ```bash
 SmartResume/
@@ -164,7 +164,7 @@ If you like this project, give it a ⭐ on GitHub.
 
 ---
 
-#  Connect With Me
+# 💬 Connect With Me
 
 ### GitHub
 
@@ -174,6 +174,6 @@ If you like this project, give it a ⭐ on GitHub.
 
 <div align="center">
 
-#  Made With Passion By Suraj Rawat
+# ❤️ Made With Passion By Suraj Rawat
 
 </div>
