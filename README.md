@@ -53,7 +53,7 @@
 - Framer Motion
 - Vite
 
-## 🧩 UI Components
+##  UI Components
 
 - shadcn/ui
 - Lucide React Icons
