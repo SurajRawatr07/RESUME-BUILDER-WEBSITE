@@ -58,7 +58,7 @@
 - shadcn/ui
 - Lucide React Icons
 
-## 🚀 Deployment
+##  Deployment
 
 - Netlify
 
