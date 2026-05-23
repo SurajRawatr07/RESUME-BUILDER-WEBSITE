@@ -29,7 +29,7 @@
 
 ---
 
-# ✨ Features
+#  Features
 
 ✔️ Modern & Responsive UI  
 ✔️ ATS Friendly Resume Templates  
