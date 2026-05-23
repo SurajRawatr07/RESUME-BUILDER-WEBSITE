@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 SmartResume
+#  SmartResume
 
 ### AI Powered Resume Builder
 
