@@ -45,7 +45,7 @@
 
 #  Tech Stack
 
-## 🎨 Frontend
+##  Frontend
 
 - React.js
 - TypeScript
