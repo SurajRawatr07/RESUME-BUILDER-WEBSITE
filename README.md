@@ -64,7 +64,7 @@
 
 ---
 
-# 📂 Project Structure
+#  Project Structure
 
 ```bash
 SmartResume/
