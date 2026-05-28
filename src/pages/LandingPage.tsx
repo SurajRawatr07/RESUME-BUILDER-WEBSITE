@@ -7,12 +7,7 @@ import {
 } from 'framer-motion';
 
 import {
-  F
-  Phone,
-  MapPin,
-  CheckCircle2,
-  Share2,
-  MousePointerClick,
+ ointerClick,
   BadgeCheck,
 } from 'lucide-react';
 
