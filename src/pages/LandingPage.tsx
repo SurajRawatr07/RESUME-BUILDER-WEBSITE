@@ -7,13 +7,7 @@ import {
 } from 'framer-motion';
 
 import {
-  FileText,
-  Zap,
-  Sparkles,
-  Shield,
-  Linkedin,
-  Github,
-  Mail,
+  F
   Phone,
   MapPin,
   CheckCircle2,
