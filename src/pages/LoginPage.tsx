@@ -4,11 +4,7 @@ import {
   Eye,
   EyeOff,
   Loader2,
-  Mail,
-
-import { useEffect, useState } from "react";
-
-interface LoginPageProps {
+  ginPageProps {
   onLoginSuccess: () => void;
   onNavigateToSignup: () => void;
   onNavigateToForgotPassword: () => void;
