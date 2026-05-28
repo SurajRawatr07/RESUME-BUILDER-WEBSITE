@@ -5,15 +5,7 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-'Feature============ */
-const features = [
-  {
-    icon: Zap,
-    title: 'ATS Optimized',
-    desc: 'Professional ATS-friendly resume templates.',
-    color: '#f59e0b',
-    bg: 'rgba(245,158,11,0.12)',
-  },
+'Feature==
   {
     icon: Eye,
     title: 'Live Preview',
