@@ -4,7 +4,42 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import {] = useState("");
+import {
+  Eye,
+  EyeOff,
+  Loader2,
+  CheckCircle2,
+  User,
+  Mail,
+  Lock,
+  Sparkles,
+  ShieldCheck,
+  ArrowRight,
+  Moon,
+  Sun,
+  AlertTriangle,
+} from "lucide-react";
+
+import { useEffect, useState } from "react";
+
+interface SignupPageProps {
+  onSignupSuccess: () => void;
+  onNavigateToLogin: () => void;
+}
+
+export default function SignupPage({
+  onSignupSuccess,
+  onNavigateToLogin,
+}: SignupPageProps) {
+  const { signup } = useAuth();
+
+  // =========================
+  // STATES
+  // =========================
+
+  const [darkMode, setDarkMode] = useState(true);
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
