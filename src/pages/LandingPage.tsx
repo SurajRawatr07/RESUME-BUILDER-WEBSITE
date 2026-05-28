@@ -5,7 +5,61 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-'Feature==
+
+import {
+  FileText,
+  Zap,
+  Download,
+  Eye,
+  FileCheck,
+  Layout,
+  Menu,
+  X,
+  ArrowRight,
+  Sparkles,
+  Shield,
+  Linkedin,
+  Github,
+  Mail,
+  Phone,
+  MapPin,
+  CheckCircle2,
+  Share2,
+  MousePointerClick,
+  BadgeCheck,
+} from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/useAuth';
+import { useTheme } from '@/context/ThemeContext';
+import ThemeToggle from '@/components/ui/ThemeToggle';
+import TemplateGallery from '@/components/features/TemplateGallery';
+
+interface LandingPageProps {
+  onStartBuilding: () => void;
+}
+
+/* ========================================
+   NAVIGATION
+======================================== */
+const navLinks = [
+  { label: 'Home', href: '#home' },
+  { label: 'Templates', href: '#templates' },
+  { label: 'Features', href: '#features' },
+  { label: 'How It Works', href: '#how-it-works' },
+];
+
+/* ========================================
+   FEATURES
+======================================== */
+const features = [
+  {
+    icon: Zap,
+    title: 'ATS Optimized',
+    desc: 'Professional ATS-friendly resume templates.',
+    color: '#f59e0b',
+    bg: 'rgba(245,158,11,0.12)',
+  },
   {
     icon: Eye,
     title: 'Live Preview',
