@@ -6,15 +6,7 @@ import { Label } from "@/components/ui/label";
 
 import {
   Eye,
-  AlertTriangle,
-} from "lucide-react";
-
-import { useEffect, useState } from "react";
-
-interface SignupPageProps {
-  onSignupSuccess: () => void;
-  onNavigateToLogin: () => void;
-}
+  Aler
 
 export default function SignupPage({
   onSignupSuccess,
