@@ -5,13 +5,7 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-from======================
-   NAVIGATION
-======================================== */
-const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Templates', href: '#templates' },
-  { label: 'Features', href: '#features' },
+'Features', href: '#features' },
   { label: 'How It Works', href: '#how-it-works' },
 ];
 
