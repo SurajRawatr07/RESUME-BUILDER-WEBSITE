@@ -5,10 +5,6 @@ import {
   EyeOff,
   Loader2,
   Mail,
-  Sun,
-  CheckCircle2,
-  AlertTriangle,
-} from "lucide-react";
 
 import { useEffect, useState } from "react";
 
