@@ -6,13 +6,7 @@ import { Label } from "@/components/ui/label";
 
 import {
   Eye,
-  Aler
-
-export default function SignupPage({
-  onSignupSuccess,
-  onNavigateToLogin,
-}: SignupPageProps) {
-  const { signup } = useAuth();
+  Agnup } = useAuth();
 
   // =========================
   // STATES
