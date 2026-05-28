@@ -5,14 +5,7 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-from '@/components/ui/ThemeToggle';
-import TemplateGallery from '@/components/features/TemplateGallery';
-
-interface LandingPageProps {
-  onStartBuilding: () => void;
-}
-
-/* ========================================
+from======================
    NAVIGATION
 ======================================== */
 const navLinks = [
