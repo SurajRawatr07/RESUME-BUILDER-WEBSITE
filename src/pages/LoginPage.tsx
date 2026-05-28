@@ -3,10 +3,37 @@ import { useAuth } from "@/hooks/useAuth";
 import {
   Eye,
   EyeOff,
-  LoorgotPassword,
+  Loader2,
+  Mail,
+  Lock,
+  ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  Moon,
+  Sun,
+  CheckCircle2,
+  AlertTriangle,
+} from "lucide-react";
+
+import { useEffect, useState } from "react";
+
+interface LoginPageProps {
+  onLoginSuccess: () => void;
+  onNavigateToSignup: () => void;
+  onNavigateToForgotPassword: () => void;
+}
+
+export default function LoginPage({
+  onLoginSuccess,
+  onNavigateToSignup,
+  onNavigateToForgotPassword,
 }: LoginPageProps) {
   const { login } = useAuth();
-ssword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   const [error, setError] = useState("");
