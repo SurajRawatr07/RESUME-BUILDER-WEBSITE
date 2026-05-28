@@ -6,13 +6,6 @@ import { Label } from "@/components/ui/label";
 
 import {
   Eye,
-  EyeOff,
-  Loader2,
-  Sparkles,
-  ShieldCheck,
-  ArrowRight,
-  Moon,
-  Sun,
   AlertTriangle,
 } from "lucide-react";
 
