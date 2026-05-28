@@ -3,13 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import {
   Eye,
   EyeOff,
-  Loader2,
-  
-
-export default function LoginPage({
-  onLoginSuccess,
-  onNavigateToSignup,
-  onNavigateToForgotPassword,
+  LoorgotPassword,
 }: LoginPageProps) {
   const { login } = useAuth();
 
