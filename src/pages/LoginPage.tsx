@@ -4,11 +4,7 @@ import {
   Eye,
   EyeOff,
   Loader2,
-  ginPageProps {
-  onLoginSuccess: () => void;
-  onNavigateToSignup: () => void;
-  onNavigateToForgotPassword: () => void;
-}
+  
 
 export default function LoginPage({
   onLoginSuccess,
