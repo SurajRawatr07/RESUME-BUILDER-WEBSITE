@@ -9,8 +9,6 @@ import {
   EyeOff,
   Loader2,
   CheckCircle2,
-  User,
-  Mail,
   Lock,
   Sparkles,
   ShieldCheck,
