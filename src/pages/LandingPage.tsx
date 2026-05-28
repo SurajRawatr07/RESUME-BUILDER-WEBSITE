@@ -9,13 +9,6 @@ import {
 import {
   FileText,
   Zap,
-  Download,
-  Eye,
-  FileCheck,
-  Layout,
-  Menu,
-  X,
-  ArrowRight,
   Sparkles,
   Shield,
   Linkedin,
