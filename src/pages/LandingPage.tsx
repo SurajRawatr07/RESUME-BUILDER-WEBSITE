@@ -5,13 +5,7 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-'Features', href: '#features' },
-  { label: 'How It Works', href: '#how-it-works' },
-];
-
-/* ========================================
-   FEATURES
-======================================== */
+'Feature============ */
 const features = [
   {
     icon: Zap,
