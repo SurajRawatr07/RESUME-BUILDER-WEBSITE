@@ -5,16 +5,7 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-
-import {
- ointerClick,
-  BadgeCheck,
-} from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/hooks/useAuth';
-import { useTheme } from '@/context/ThemeContext';
-import ThemeToggle from '@/components/ui/ThemeToggle';
+from '@/components/ui/ThemeToggle';
 import TemplateGallery from '@/components/features/TemplateGallery';
 
 interface LandingPageProps {
