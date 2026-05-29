@@ -1,11 +1,4 @@
-export interface ResumeData {
-  // Personal Info
-  fullName: string;
-  jobTitle: string;
-  email: string;
-  phone: string;
-  location: string;
-  
+
   //
   // Projects
   projects: Project[];
