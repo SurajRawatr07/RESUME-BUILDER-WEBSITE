@@ -11,14 +11,7 @@ export interface ResumeData {
   projects: Project[];
   
   // Skills & Technologies
-  skills: string[];
-  technologies: string[];
-  
-  // Additional Sections
-  certifications: Certification[];
-  achievements: string[];
-  languages: Language[];
-  interests: string[];
+tring[];
 }
 
 export interface Experience {
