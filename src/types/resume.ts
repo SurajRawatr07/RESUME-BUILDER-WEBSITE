@@ -1,13 +1,7 @@
 
   //
   // Projects
-  projects: Project[];
-  
-  // Skills & Technologies
-tring[];
-}
-
-export interface Experience {
+  erface Experience {
   id: string;
   jobTitle: string;
   company: string;
