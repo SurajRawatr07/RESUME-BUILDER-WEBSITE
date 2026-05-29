@@ -1,7 +1,36 @@
-
-  //
+export interface ResumeData {
+  // Personal Info
+  fullName: string;
+  jobTitle: string;
+  email: string;
+  phone: string;
+  location: string;
+  
+  // Profile
+  aboutMe: string;
+  summary: string;
+  
+  // Experience
+  experiences: Experience[];
+  
+  // Education
+  education: Education[];
+  
   // Projects
-  erface Experience {
+  projects: Project[];
+  
+  // Skills & Technologies
+  skills: string[];
+  technologies: string[];
+  
+  // Additional Sections
+  certifications: Certification[];
+  achievements: string[];
+  languages: Language[];
+  interests: string[];
+}
+
+export interface Experience {
   id: string;
   jobTitle: string;
   company: string;
