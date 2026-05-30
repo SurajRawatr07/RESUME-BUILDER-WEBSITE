@@ -1,18 +1,7 @@
 import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 sName="text-sm text-teal-600 font-medium">
-                        {exp.company} {exp.location && `• ${exp.location}`}
-                      </p>
-                    </div>
-                    <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
-                      {formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}
-                    </p>
-                  </div>
-                  <p className="text-sm text-gray-700 leading-relaxed">{exp.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+                     
         )}
 
         {/* Projects */}
