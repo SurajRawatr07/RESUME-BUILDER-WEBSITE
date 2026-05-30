@@ -4,19 +4,6 @@ import { formatDate } from '@/lib/utils';
 interface SoftwareEngineerTemplateProps {
   data: ResumeData;
 }
-
-export default function SoftwareEngineerTemplate({ data }: SoftwareEngineerTemplateProps) {
-  rta.email
-
-        {/* Experience First (Corporate Standard) */}
-        {data.experiences.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3 pb-1 border-b border-gray-300">
-              Professional Experience
-            </h2>
-            <div className="space-y-4">
-              {data.experiences.map((exp) => (
-                <div key={exp.id}>
                   <div className="flex justify-between items-start mb-1">
                     <div>
                       <h3 className="text-base font-bold text-gray-900">{exp.jobTitle}</h3>
