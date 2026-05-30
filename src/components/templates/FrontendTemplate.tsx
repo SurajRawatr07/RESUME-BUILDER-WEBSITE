@@ -7,14 +7,7 @@ interface FrontendTemplateProps {
 
 export default function FrontendTemplate({ data }: FrontendTemplateProps) {
   return (
-    <div className="w-full h-full bg-white text-gray-900 p-10 print:p-10">
-      {/* Header with UI Focus */}
-      <div className="mb-8 pb-6 border-b-4 border-indigo-500">
-        <h1 className="text-4xl font-bold text-gray-900 mb-1">{data.fullName}</h1>
-        <p className="text-xl text-indigo-600 font-semibold mb-3">{data.jobTitle}</p>
-        <div className="flex flex-wrap gap-4 text-sm text-gray-600">
-          <span className="flex items-center gap-1">
-            <span className="w-1 h-1 bg-indigo-500 rounded-full"></span>
+    <d1 bg-indigo-500 rounded-full"></span>
             {data.email}
           </span>
           <span className="flex items-center gap-1">
