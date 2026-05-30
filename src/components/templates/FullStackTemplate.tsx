@@ -5,17 +5,6 @@ interface FullStackTemplateProps {
   data: ResumeData;
 }
 
-    <div className=
-      <div className="p-8">
-        {/* Summary */}
-        {data.summary && (
-          <div className="mb-6">
-            <h2 className="text-base font-bold text-gray-900 mb-2 flex items-center gap-2">
-              <span className="w-1 h-5 bg-blue-600"></span>
-              Professional Profile
-            </h2>
-            <p className="text-sm text-gray-700 leading-relaxed pl-3">{data.summary}</p>
-          </div>
         )}
 
         {/* Dual-Column Tech Stack */}
