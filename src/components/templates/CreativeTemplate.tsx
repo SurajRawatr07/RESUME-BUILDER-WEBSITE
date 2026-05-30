@@ -5,15 +5,7 @@ interface CreativeTemplateProps {
   data: ResumeData;
 }
 
-export default function CreativeTemplate({ data }: CreativeTemplateProps) {
-  return (
-    <div className="w-full h-full bg-white text-gray-900">
-      {/* Stylish Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-8 pb-12">
-        <div className="max-w-4xl">
-          <h1 className="text-4xl font-bold mb-2">{data.fullName}</h1>
-          <p className="text-xl text-blue-100 mb-4">{data.jobTitle}</p>
-          {data.aboutMe && (
+export default&& (
             <p className="text-sm text-blue-50 max-w-2xl italic">{data.aboutMe}</p>
           )}
         </div>
