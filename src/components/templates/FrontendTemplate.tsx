@@ -7,14 +7,7 @@ interface FrontendTemplateProps {
           </s data.summary) && (
         <div className="mb-7">
           <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-2 flex items-center gap-2">
-            <span className="w-6 h-0.5 bg-indigo-500"></span>
-            About Me
-          </h2>
-          <p className="text-sm text-gray-700 leading-relaxed">
-            {data.aboutMe || data.summary}
-          </p>
-        </div>
-      )}
+            <s
 
       {/* Frontend Technologies (Highlighted) */}
       {data.technologies.length > 0 && (
