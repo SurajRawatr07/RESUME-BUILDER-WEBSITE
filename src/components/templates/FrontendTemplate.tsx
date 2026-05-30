@@ -4,14 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface FrontendTemplateProps {
   data: ReName="w-1 h-1 bg-indigo-500 rounded-full"></span>
             {data.phone}
-          </s data.summary) && (
-        <div sName="w-6 h-0.5 bg-indigo-500"></span>
-            Frontend Technologies
-          </h2>
-          <div className="grid grid-cols-4 gap-2">
-            {data.technologies.map((tech, idx) => (
-              <div
-                key={idx}
+          </s data
                 className="px-3 py-2 bg-indigo-50 border border-indigo-200 rounded text-sm font-medium text-indigo-700 text-center"
               >
                 {tech}
