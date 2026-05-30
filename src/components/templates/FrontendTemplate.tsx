@@ -5,15 +5,7 @@ interface FrontendTemplateProps {
   data: ReName="w-1 h-1 bg-indigo-500 rounded-full"></span>
             {data.phone}
           </s data.summary) && (
-        <div className="mb-7">
-          <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-2 flex items-center gap-2">
-            <s
-
-      {/* Frontend Technologies (Highlighted) */}
-      {data.technologies.length > 0 && (
-        <div className="mb-7">
-          <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <span className="w-6 h-0.5 bg-indigo-500"></span>
+        <div sName="w-6 h-0.5 bg-indigo-500"></span>
             Frontend Technologies
           </h2>
           <div className="grid grid-cols-4 gap-2">
