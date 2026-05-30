@@ -6,14 +6,8 @@ interface ModernTemplateProps {
 }ame="space-y-2">
               <h2 className="text-base font-bold uppercase tracking-wider mb-3">Languages</h2>
               {data.languages.map((lang) => (
-                <div key={lang.id} className="text-sm">
-                  <p className="font-medium">{lang.language}</p>
-                  <p className="text-indigo-200 text-xs">{lang.proficiency}</p>
-                </div>
-              ))}
-            </div>
-          )}
 
+                
           {/* Interests */}
           {data.interests.length > 0 && (
             <div className="space-y-2">
