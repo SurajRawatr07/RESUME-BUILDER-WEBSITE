@@ -9,17 +9,7 @@ interface SoftwareEngineerTemplateProps {
                     </p>
                   </div>
                   <p className="text-xs text-gray-600 mb-1">{proj.technologies}</p>
-                  <p className="text-sm text-gray-700 leading-relaxed">{proj.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Education */}
-        {data.education.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3 pb-1 border-b border-gray-300">
+                  <p clasext-sm font-bold text-gray-900 uppercase tracking-wide mb-3 pb-1 border-b border-gray-300">
               Education
             </h2>
             <div className="space-y-3">
