@@ -3,16 +3,7 @@ import { formatDate } from '@/lib/utils';
 
 interface CreativeTemplateProps {
   data: ResumeData;
-}
-
-        <divclassName="font-medium text-gray-900">{data.email}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 uppercase mb-1">Phone</p>
-              <p className="font-medium text-gray-900">{data.phone}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 uppercase mb-1">Location</p>
+}text-xs text-gray-500 uppercase mb-1">Location</p>
               <p className="font-medium text-gray-900">{data.location}</p>
             </div>
           </div>
