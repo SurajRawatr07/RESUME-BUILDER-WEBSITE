@@ -5,20 +5,7 @@ interface SoftwareEngineerTemplateProps {
   data: ResumeData;
 }
                   <div className="flex justify-between items-start mb-1">
-                    <div>
-             "text-sm text-gray-700 leading-relaxed mt-2">{exp.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Technical Skills */}
-        <div className="mb-6">
-          <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3 pb-1 border-b border-gray-300">
-            Technical Skills
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
+     me="grid grid-cols-2 gap-4">
             {data.technologies.length > 0 && (
               <div>
                 <p className="text-xs font-bold text-gray-700 mb-2">Technologies</p>
