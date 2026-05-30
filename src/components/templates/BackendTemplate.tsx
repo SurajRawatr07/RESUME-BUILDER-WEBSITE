@@ -4,13 +4,6 @@ import { formatDate } from '@/lib/utils';
 interface BackendTemplateProps {
   data: ResumeData;
 }
-
-      {/* Technical Skills */}
-      {data.technologies.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-base font-bold text-gray-900 uppercase mb-2 border-l-4 border-gray-800 pl-3">
-            Backend Technologies & Tools
-          </h2>
           <div className="pl-5">
             <p className="text-sm text-gray-700 leading-relaxed">
               {data.technologies.join(' • ')}
