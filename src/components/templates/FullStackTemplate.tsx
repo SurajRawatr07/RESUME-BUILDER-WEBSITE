@@ -3,15 +3,7 @@ import { formatDate } from '@/lib/utils';
 
 interface FullStackTemplateProps {
   data: ResumeData;
-}
-
-        )}
-
-        {/* Dual-Column Tech Stack */}
-        <div className="mb-6">
-          <h2 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <span className="w-1 h-5 bg-teal-600"></span>
-            Technical Stack
+}tack
           </h2>
           <div className="grid grid-cols-2 gap-4 pl-3">
             {/* Frontend Stack */}
