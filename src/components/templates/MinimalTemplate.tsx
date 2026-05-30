@@ -5,17 +5,6 @@ interface MinimalTemplateProps {
   data: ResumeData;
 }
 
-          <span>•</span>
-          <span>{data.locatio
-      {data.summary && (
-        <div className="mb-8">
-          <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-3">
-            Professional Summary
-          </h2>
-          <p className="text-sm text-gray-700 leading-relaxed">{data.summary}</p>
-        </div>
-      )}
-
       {/* Experience */}
       {data.experiences.length > 0 && (
         <div className="mb-8">
