@@ -5,12 +5,7 @@ interface BackendTemplateProps {
   data: ResumeData;
 }
    ssional Experience */}
-      {data.experiences.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-base font-bold text-gray-900 uppercase mb-3 border-l-4 border-gray-800 pl-3">
-            Professional Experience
-          </h2>
-          <div className="space-y-4 pl-5">
+      {dv className="space-y-4 pl-5">
             {data.experiences.map((exp) => (
               <div key={exp.id}>
                 <div className="flex justify-between items-baseline mb-1">
