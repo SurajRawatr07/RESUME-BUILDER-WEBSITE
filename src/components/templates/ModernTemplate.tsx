@@ -6,16 +6,7 @@ interface ModernTemplateProps {
 }
  classNam]className="text-white">{data.location}</p>
             </div>
-          </div>
-
-          {/* Skills */}
-          {data.skills.length > 0 && (
-            <div className="space-y-2">
-              <h2 className="text-base font-bold uppercase tracking-wider mb-3">Skills</h2>
-              <div className="flex flex-wrap gap-2">
-                {data.skills.map((skill, idx) => (
-                  <span key={idx} className="text-xs bg-indigo-500 px-2 py-1 rounded">
-                    {skill}
+          </div>}
                   </span>
                 ))}
               </div>
