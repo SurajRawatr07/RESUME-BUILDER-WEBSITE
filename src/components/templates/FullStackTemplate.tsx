@@ -7,16 +7,7 @@ interface FullStackTemplateProps {
         
                       {tech}
                     </span>
-                  ))}"text-sm font-bold text-teal-600 mb-2">Backend</h3>
-                <div className="flex flex-wrap gap-1.5">
-                  {backendTech.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2 py-1 bg-teal-50 text-teal-700 rounded text-xs font-medium"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                  ))}"text-sm
                 </div>
               </div>
             )}
