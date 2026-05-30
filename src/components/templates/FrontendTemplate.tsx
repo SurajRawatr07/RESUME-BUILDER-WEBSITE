@@ -3,15 +3,7 @@ import { formatDate } from '@/lib/utils';
 
 interface FrontendTemplateProps {
   data: ReName="w-1 h-1 bg-indigo-500 rounded-full"></span>
-            {data.phone}
-         ="text-xs text-indigo-600 mb-2 font-medium">
-                  Tech Stack: {proj.technologies}
-                </p>
-                <p className="text-sm text-gray-700 leading-relaxed mb-2">{proj.description}</p>
-                {proj.link && (
-                  <p className="text-xs text-gray-500">
-                    <span className="font-medium">Link:</span> {proj.link}
-                  </p>
+            {data.phon
                 )}
               </div>
             ))}
