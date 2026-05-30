@@ -2,29 +2,7 @@ import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
 interface SoftwareEngineerTemplateProps {
-  data: ResumeData;
-}
-                  <div className="flex justify-be
-                    
-                <p className="text-xs font-bold text-gray-700 mb-2">Core Skills</p>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  {data.skills.join(', ')}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Projects */}
-        {data.projects.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3 pb-1 border-b border-gray-300">
-              Key Projects
-            </h2>
-            <div className="space-y-3">
-              {data.projects.map((proj) => (
-                <div key={proj.id}>
-                  <div className="flex justify-between items-baseline mb-1">
+  data: ResumeData; justify-between items-baseline mb-1">
                     <h3 className="text-base font-bold text-gray-900">{proj.title}</h3>
                     <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
                       {formatDate(proj.startDate)} - {formatDate(proj.endDate)}
