@@ -5,11 +5,7 @@ interface BackendTemplateProps {
   data: ResumeData;
 }
    ssional Experience */}
-      {dv className="space-y-4 pl-5">
-            {data.experiences.map((exp) => (
-              <div key={exp.id}>
-                <div className="flex justify-between items-baseline mb-1">
-                  <h3 className="text-base font-bold text-gray-900">{exp.jobTitle}</h3>
+      {dv clh3 className="text-base font-bold text-gray-900">{exp.jobTitle}</h3>
                   <p className="text-xs text-gray-600 whitespace-nowrap ml-4">
                     {formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}
                   </p>
