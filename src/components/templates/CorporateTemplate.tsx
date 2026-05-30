@@ -4,14 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface CorporateTemplateProps {
   data: ResumeData;
 }a.jobTitle}
-            </p>
-          </div>
-          {/* Gold accent divider */}
-          <div style={{ textAlign: 'right', borderLeft: '3px solid #f59e0b', paddingLeft: '20px' }}>
-            <p style={{ fontSize: '12px', color: '#cbd5e1', marginBottom: '3px' }}>{data.email}</p>
-            <p style={{ fontSize: '12px', color: '#cbd5e1', marginBottom: '3px' }}>{data.phone}</p>
-            <p style={{ fontSize: '12px', color: '#cbd5e1' }}>{data.location}</p>
-          </div>
+         >
         </div>
         {/* Gold rule */}
         <div style={{ height: '2px', background: 'linear-gradient(90deg, #f59e0b, #fbbf24, transparent)', marginTop: '20px', borderRadius: '2px' }} />
