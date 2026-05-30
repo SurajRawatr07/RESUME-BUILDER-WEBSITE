@@ -4,16 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface FrontendTemplateProps {
   data: ReName="w-1 h-1 bg-indigo-500 rounded-full"></span>
             {data.phone}
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-1 h-1 bg-indigo-500 rounded-full"></span>
-            {data.location}
-          </span>
-        </div>
-      </div>
-
-      {/* About Me / Summary */}
-      {(data.aboutMe || data.summary) && (
+          </s data.summary) && (
         <div className="mb-7">
           <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-2 flex items-center gap-2">
             <span className="w-6 h-0.5 bg-indigo-500"></span>
