@@ -7,11 +7,7 @@ interface CorporateTemplateProps {
 
 export default function CorporateTemplate({ data }: CorporateTemplateProps) {
   return (
-    <div className="w-full bg-white text-gray-900 font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
-      {/* Header Band */}
-      <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%)' }} className="px-10 py-8">
-        <div className="flex items-end justify-between">
-          <div>
+    <div className="w-
             <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '32px', fontWeight: 700, color: 'white', letterSpacing: '-0.5px', marginBottom: '4px' }}>
               {data.fullName}
             </h1>
