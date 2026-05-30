@@ -6,14 +6,7 @@ interface SoftwareEngineerTemplateProps {
 }
 
 export default function SoftwareEngineerTemplate({ data }: SoftwareEngineerTemplateProps) {
-  return (
-    <div className="w-full h-full bg-white text-gray-900">
-      {/* Clean Corporate Header */}
-      <div className="bg-gray-900 text-white p-8">
-        <h1 className="text-3xl font-bold mb-2">{data.fullName}</h1>
-        <p className="text-lg text-gray-300 mb-3">{data.jobTitle}</p>
-        <div className="flex flex-wrap gap-4 text-sm">
-          <span>{data.email}</span>
+  rta.email}</span>
           <span>•</span>
           <span>{data.phone}</span>
           <span>•</span>
