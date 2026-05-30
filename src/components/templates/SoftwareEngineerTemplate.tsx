@@ -6,16 +6,7 @@ interface SoftwareEngineerTemplateProps {
 }
 
 export default function SoftwareEngineerTemplate({ data }: SoftwareEngineerTemplateProps) {
-  rta.email}<p-8">
-        {/* Professional Summary */}
-        {data.summary && (
-          <div className="mb-6">
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-2 pb-1 border-b border-gray-300">
-              Summary
-            </h2>
-            <p className="text-sm text-gray-700 leading-relaxed">{data.summary}</p>
-          </div>
-        )}
+  rta.email
 
         {/* Experience First (Corporate Standard) */}
         {data.experiences.length > 0 && (
