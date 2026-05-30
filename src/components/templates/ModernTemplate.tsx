@@ -1,7 +1,82 @@
 import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
-interface Moderts */}
+interface ModernTemplateProps {
+  data: ResumeData;
+}
+
+export default function ModernTemplate({ data }: ModernTemplateProps) {
+  return (
+    <div className="w-full h-full bg-white text-gray-900 flex print:block">
+      {/* Left Sidebar */}
+      <div className="w-[35%] bg-indigo-600 text-white p-8 print:w-[35%]">
+        <div className="space-y-6">
+          {/* Name */}
+          <div className="border-b border-indigo-400 pb-4">
+            <h1 className="text-2xl font-bold mb-1">{data.fullName}</h1>
+            <p className="text-indigo-200 text-sm font-medium">{data.jobTitle}</p>
+          </div>
+
+          {/* Contact */}
+          <div className="space-y-2 text-sm">
+            <h2 className="text-base font-bold uppercase tracking-wider mb-3">Contact</h2>
+            <div>
+              <p className="text-indigo-200 text-xs uppercase mb-0.5">Email</p>
+              <p className="text-white">{data.email}</p>
+            </div>
+            <div>
+              <p className="text-indigo-200 text-xs uppercase mb-0.5">Phone</p>
+              <p className="text-white">{data.phone}</p>
+            </div>
+            <div>
+              <p className="text-indigo-200 text-xs uppercase mb-0.5">Location</p>
+              <p className="text-white">{data.location}</p>
+            </div>
+          </div>
+
+          {/* Skills */}
+          {data.skills.length > 0 && (
+            <div className="space-y-2">
+              <h2 className="text-base font-bold uppercase tracking-wider mb-3">Skills</h2>
+              <div className="flex flex-wrap gap-2">
+                {data.skills.map((skill, idx) => (
+                  <span key={idx} className="text-xs bg-indigo-500 px-2 py-1 rounded">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Technologies */}
+          {data.technologies.length > 0 && (
+            <div className="space-y-2">
+              <h2 className="text-base font-bold uppercase tracking-wider mb-3">Technologies</h2>
+              <div className="space-y-1 text-sm">
+                {data.technologies.map((tech, idx) => (
+                  <div key={idx} className="flex items-center">
+                    <span className="w-1 h-1 bg-indigo-300 rounded-full mr-2"></span>
+                    <span>{tech}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Languages */}
+          {data.languages.length > 0 && (
+            <div className="space-y-2">
+              <h2 className="text-base font-bold uppercase tracking-wider mb-3">Languages</h2>
+              {data.languages.map((lang) => (
+                <div key={lang.id} className="text-sm">
+                  <p className="font-medium">{lang.language}</p>
+                  <p className="text-indigo-200 text-xs">{lang.proficiency}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Interests */}
           {data.interests.length > 0 && (
             <div className="space-y-2">
               <h2 className="text-base font-bold uppercase tracking-wider mb-3">Interests</h2>
