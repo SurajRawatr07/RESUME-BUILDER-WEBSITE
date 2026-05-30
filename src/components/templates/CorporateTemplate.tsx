@@ -2,18 +2,7 @@ import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
 interface CorporateTemplateProps {
-  data: ResumeData;
-}a.jobTitle}
-         >
-        </div>
-        {/* Gold rule */}
-        <div style={{ height: '2px', background: 'linear-gradient(90deg, #f59e0b, #fbbf24, transparent)', marginTop: '20px', borderRadius: '2px' }} />
-      </div>
-
-      {/* Body */}
-      <div className="flex">
-        {/* Main Content */}
-        <div className="flex-1 px-10 py-8 space-y-6">
+  data:="flex-1 px-10 py-8 space-y-6">
 
           {/* Summary */}
           {data.summary && (
