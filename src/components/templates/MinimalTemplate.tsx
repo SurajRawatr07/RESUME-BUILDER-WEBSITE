@@ -6,20 +6,7 @@ interface MinimalTemplateProps {
 }3 className="text-base font-semibold text-gray-900">{exp.jobTitle}</h3>
                   <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
           ame="mb-8">
-          <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4">
-            Education
-          </h className="text-base font-semibold text-gray-900">{edu.degree}</h3>
-                  <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
-                    {formatDate(edu.graduationDate)}
-                    {edu.gpa && ` • GPA: ${edu.gpa}`}
-                  </p>
-                </div>
-                <p className="text-sm text-gray-600">
-                  {edu.institution} {edu.location && `• ${edu.location}`}
-                </p>
-                {edu.description && (
-                  <p className="text-sm text-gray-700 mt-1">{edu.description}</p>
-                )}
+          <h2
               </div>
             ))}
           </div>
