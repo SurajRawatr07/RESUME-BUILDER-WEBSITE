@@ -1,7 +1,84 @@
 import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
-sName="text-sm text-teal-600 font-medium">
-                     
+
+interface CreativeTemplateProps {
+  data: ResumeData;
+}
+
+export default function CreativeTemplate({ data }: CreativeTemplateProps) {
+  return (
+    <div className="w-full h-full bg-white text-gray-900">
+      {/* Stylish Header */}
+      <div className="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-8 pb-12">
+        <div className="max-w-4xl">
+          <h1 className="text-4xl font-bold mb-2">{data.fullName}</h1>
+          <p className="text-xl text-blue-100 mb-4">{data.jobTitle}</p>
+          {data.aboutMe && (
+            <p className="text-sm text-blue-50 max-w-2xl italic">{data.aboutMe}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="p-8 -mt-6">
+        {/* Contact Card */}
+        <div className="bg-white shadow-lg rounded-lg p-6 mb-6 border-t-4 border-teal-500">
+          <div className="grid grid-cols-3 gap-4 text-sm">
+            <div>
+              <p className="text-xs text-gray-500 uppercase mb-1">Email</p>
+              <p className="font-medium text-gray-900">{data.email}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 uppercase mb-1">Phone</p>
+              <p className="font-medium text-gray-900">{data.phone}</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 uppercase mb-1">Location</p>
+              <p className="font-medium text-gray-900">{data.location}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Summary */}
+        {data.summary && (
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                <div className="w-4 h-4 border-2 border-white rounded"></div>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900">Professional Summary</h2>
+            </div>
+            <p className="text-sm text-gray-700 leading-relaxed pl-10">{data.summary}</p>
+          </div>
+        )}
+
+        {/* Experience */}
+        {data.experiences.length > 0 && (
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
+                <div className="w-4 h-4 border-2 border-white rounded-sm"></div>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900">Experience</h2>
+            </div>
+            <div className="space-y-4 pl-10">
+              {data.experiences.map((exp) => (
+                <div key={exp.id} className="border-l-2 border-teal-200 pl-4">
+                  <div className="flex justify-between items-start mb-1">
+                    <div>
+                      <h3 className="text-base font-bold text-gray-900">{exp.jobTitle}</h3>
+                      <p className="text-sm text-teal-600 font-medium">
+                        {exp.company} {exp.location && `• ${exp.location}`}
+                      </p>
+                    </div>
+                    <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
+                      {formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}
+                    </p>
+                  </div>
+                  <p className="text-sm text-gray-700 leading-relaxed">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
 
         {/* Projects */}
