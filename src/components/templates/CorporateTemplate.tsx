@@ -3,15 +3,7 @@ import { formatDate } from '@/lib/utils';
 
 interface CorporateTemplateProps {
   data:="flex-1 px-10 py-8 space-y-6">
-
-     tyle={{ f<p style={{ fontSize: '13px', color: '#f59e0b', fontWeight: 600 }}>
-                          {exp.company}{exp.location && ` • ${exp.location}`}
-                        </p>
-                      </div>
-                      <span style={{ fontSize: '11px', color: '#64748b', background: '#f1f5f9', padding: '2px 8px', borderRadius: '4px', whiteSpace: 'nowrap', marginLeft: '12px' }}>
-                        {formatDate(exp.startDate)} – {exp.current ? 'Present' : formatDate(exp.endDate)}
-                      </span>
-                    </div>
+  </div>
                     <p style={{ fontSize: '12.5px', color: '#475569', lineHeight: '1.6' }}>{exp.description}</p>
                   </div>
                 ))}
