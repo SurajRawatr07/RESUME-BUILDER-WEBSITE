@@ -5,13 +5,7 @@ interface ModernTemplateProps {
   data: ResumeData;
 }
  classNam]className="text-white">{data.location}</p>
-         className="space-y-2">
-              <h2 className="text-base font-bold uppercase tracking-wider mb-3">Technologies</h2>
-              <div className="space-y-1 text-sm">
-                {data.technologies.map((tech, idx) => (
-                  <div key={idx} className="flex items-center">
-                    <span className="w-1 h-1 bg-indigo-300 rounded-full mr-2"></span>
-                    <span>{tech}</span>
+         c] <span>{tech}</span>
                   </div>
                 ))}
               </div>
