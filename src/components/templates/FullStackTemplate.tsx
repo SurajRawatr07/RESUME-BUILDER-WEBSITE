@@ -6,15 +6,7 @@ interface FullStackTemplateProps {
 }
 
     <div className="w-full h-full bg-white text-gray-900">
-      {/* Dual-Tone Header */}
-      <div className="flex">
-        <div className="w-1/2 bg-blue-600 text-white p-6">
-          <h1 className="text-3xl font-bold mb-1">{data.fullName}</h1>
-          <p className="text-lg text-blue-100">{data.jobTitle}</p>
-        </div>
-        <div className="w-1/2 bg-teal-600 text-white p-6 flex items-end">
-          <div className="text-sm space-y-1">
-            <p>{data.email}</p>
+      {/* Dual-il}</p>
             <p>{data.phone}</p>
             <p>{data.location}</p>
           </div>
