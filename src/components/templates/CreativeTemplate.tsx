@@ -5,11 +5,7 @@ interface CreativeTemplateProps {
   data: ResumeData;
 }
 
-        <div className="bg-white shadow-lg rounded-lg p-6 mb-6 border-t-4 border-teal-500">
-          <div className="grid grid-cols-3 gap-4 text-sm">
-            <div>
-              <p className="text-xs text-gray-500 uppercase mb-1">Email</p>
-              <p className="font-medium text-gray-900">{data.email}</p>
+        <divclassName="font-medium text-gray-900">{data.email}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500 uppercase mb-1">Phone</p>
