@@ -6,12 +6,7 @@ interface FullStackTemplateProps {
 }
 
 export default function FullStackTemplate({ data }: FullStackTemplateProps) {
-  // Split technologies into frontend and backend
-  const frontendTech = data.technologies.filter(tech =>
-    /react|vue|angular|html|css|tailwind|sass|bootstrap|javascript|typescript|next|svelte/i.test(tech)
-  );
-  const backendTech = data.technologies.filter(tech =>
-    /node|python|java|php|ruby|go|rust|django|flask|spring|express|api|sql|mongodb|postgresql|redis|docker|kubernetes|aws|azure|gcp/i.test(tech)
+  // Split technologieo|rust|django|flask|spring|express|api|sql|mongodb|postgresql|redis|docker|kubernetes|aws|azure|gcp/i.test(tech)
   );
   const otherTech = data.technologies.filter(tech =>
     !frontendTech.includes(tech) && !backendTech.includes(tech)
