@@ -7,16 +7,7 @@ interface ModernTemplateProps {
 
 export default function ModernTemplate({ data }: ModernTemplateProps) {
   return (
-    <div className="w-full h-full bg-white text-gray-900 flex print:block">
-      {/* Left Sidebar */}
-      <div className="w-[35%] bg-indigo-600 text-white p-8 print:w-[35%]">
-        <div className="space-y-6">
-          {/* Name */}
-          <div className="border-b border-indigo-400 pb-4">
-            <h1 className="text-2xl font-bold mb-1">{data.fullName}</h1>
-            <p className="text-indigo-200 text-sm font-medium">{data.jobTitle}</p>
-          </div>
-
+    <div className="w-full h
           {/* Contact */}
           <div className="space-y-2 text-sm">
             <h2 className="text-base font-bold uppercase tracking-wider mb-3">Contact</h2>
