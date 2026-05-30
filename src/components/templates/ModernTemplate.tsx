@@ -4,15 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface ModernTemplateProps {
   data: ResumeData;
 }
-
-export default function ModernTemplate({ data }: ModernTemplateProps) {
-  return (
-    <div className="w-full h
-          {/* Contact */}
-          <div className="space-y-2 text-sm">
-            <h2 className="text-base font-bold uppercase tracking-wider mb-3">Contact</h2>
-            <div>
-              <p className="text-indigo-200 text-xs uppercase mb-0.5">Email</p>
+ className="text-indigo-200 text-xs uppercase mb-0.5">Email</p>
               <p className="text-white">{data.email}</p>
             </div>
             <div>
