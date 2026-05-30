@@ -4,23 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface FrontendTemplateProps {
   data: ReName="w-1 h-1 bg-indigo-500 rounded-full"></span>
             {data.phone}
-          </s data
-                className="px-3 py-2 bg-indigo-50 border border-indigo-200 rounded text-sm font-medium text-indigo-700 text-center"
-           e="mb-7">
-          <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <span className="w-6 h-0.5 bg-indigo-500"></span>
-            UI Projects
-          </h2>
-          <div className="space-y-4">
-            {data.projects.map((proj) => (
-              <div key={proj.id} className="bg-gray-50 border-l-4 border-indigo-500 p-4 rounded-r">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-base font-bold text-gray-900">{proj.title}</h3>
-                  <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
-                    {formatDate(proj.startDate)} - {formatDate(proj.endDate)}
-                  </p>
-                </div>
-                <p className="text-xs text-indigo-600 mb-2 font-medium">
+         ="text-xs text-indigo-600 mb-2 font-medium">
                   Tech Stack: {proj.technologies}
                 </p>
                 <p className="text-sm text-gray-700 leading-relaxed mb-2">{proj.description}</p>
