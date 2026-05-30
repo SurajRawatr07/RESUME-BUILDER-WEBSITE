@@ -5,16 +5,7 @@ interface CorporateTemplateProps {
   data:="flex-1 px-10 py-8 space-y-6">
 
      tyle={{ fontSize: '13px', color: '#475569', lineHeight: '1.7' }}>{data.summary}</p>
-            </section>
-          )}
-
-          {/* Experience */}
-          {data.experiences.length > 0 && (
-            <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '12px' }}>
-                Professional Experience
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        yle={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {data.experiences.map(exp => (
                   <div key={exp.id} style={{ paddingLeft: '14px', borderLeft: '2px solid #e2e8f0' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
