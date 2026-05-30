@@ -1,16 +1,6 @@
 import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
-
-interface CreaName="text-xl font-bold text-gray-900">Professional Summary</h2>
-            </div>
-            <p classNa
-            <div className="space-y-4 pl-10">
-              {data.experiences.map((exp) => (
-                <div key={exp.id} className="border-l-2 border-teal-200 pl-4">
-                  <div className="flex justify-between items-start mb-1">
-                    <div>
-                      <h3 className="text-base font-bold text-gray-900">{exp.jobTitle}</h3>
-                      <p className="text-sm text-teal-600 font-medium">
+sName="text-sm text-teal-600 font-medium">
                         {exp.company} {exp.location && `• ${exp.location}`}
                       </p>
                     </div>
