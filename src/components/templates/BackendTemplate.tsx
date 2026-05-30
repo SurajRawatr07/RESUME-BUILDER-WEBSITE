@@ -4,21 +4,6 @@ import { formatDate } from '@/lib/utils';
 interface BackendTemplateProps {
   data: ResumeData;
 }
-der-b-2 border-gray-800">
-        <h1 className="text-3xl font-bold text-gray-900 mb-1">{data.fullName}</h1>
-        <p className="text-lg text-gray-700 font-medium mb-3">{data.jobTitle}</p>
-        <div className="text-sm text-gray-600 space-y-1">
-          <p>Email: {data.email} | Phone: {data.phone} | Location: {data.location}</p>
-        </div>
-      {/* Professional Summary */}
-      {data.summary && (
-        <div className="mb-6">
-          <h2 className="text-base font-bold text-gray-900 uppercase mb-2 border-l-4 border-gray-800 pl-3">
-            Professional Summary
-          </h2>
-          <p className="text-sm text-gray-700 leading-relaxed pl-5">{data.summary}</p>
-        </div>
-      )}
 
       {/* Technical Skills */}
       {data.technologies.length > 0 && (
