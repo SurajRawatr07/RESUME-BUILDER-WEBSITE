@@ -3,16 +3,7 @@ import { formatDate } from '@/lib/utils';
 
 interface CorporateTemplateProps {
   data: ResumeData;
-}
-
-export default function CorporateTemplate({ data }: CorporateTemplateProps) {
-  return (
-    <div className="w-
-            <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '32px', fontWeight: 700, color: 'white', letterSpacing: '-0.5px', marginBottom: '4px' }}>
-              {data.fullName}
-            </h1>
-            <p style={{ fontSize: '15px', color: '#94a3b8', fontWeight: 500, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
-              {data.jobTitle}
+}a.jobTitle}
             </p>
           </div>
           {/* Gold accent divider */}
