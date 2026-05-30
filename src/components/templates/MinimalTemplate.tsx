@@ -3,19 +3,7 @@ import { formatDate } from '@/lib/utils';
 
 interface MinimalTemplateProps {
   data: ResumeData;
-}
-
-      {/* Experience */}
-      {data.experiences.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4">
-            Experience
-          </h2>
-          <div className="space-y-6">
-            {data.experiences.map((exp) => (
-              <div key={exp.id}>
-                <div className="flex justify-between items-baseline mb-1">
-                  <h3 className="text-base font-semibold text-gray-900">{exp.jobTitle}</h3>
+}3 className="text-base font-semibold text-gray-900">{exp.jobTitle}</h3>
                   <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
                     {formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}
                   </p>
