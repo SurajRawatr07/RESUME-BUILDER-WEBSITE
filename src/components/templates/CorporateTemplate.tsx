@@ -1,6 +1,80 @@
 import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
+interface CorporateTemplateProps {
+  data: ResumeData;
+}
+
+export default function CorporateTemplate({ data }: CorporateTemplateProps) {
+  return (
+    <div className="w-full bg-white text-gray-900 font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
+      {/* Header Band */}
+      <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%)' }} className="px-10 py-8">
+        <div className="flex items-end justify-between">
+          <div>
+            <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '32px', fontWeight: 700, color: 'white', letterSpacing: '-0.5px', marginBottom: '4px' }}>
+              {data.fullName}
+            </h1>
+            <p style={{ fontSize: '15px', color: '#94a3b8', fontWeight: 500, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
+              {data.jobTitle}
+            </p>
+          </div>
+          {/* Gold accent divider */}
+          <div style={{ textAlign: 'right', borderLeft: '3px solid #f59e0b', paddingLeft: '20px' }}>
+            <p style={{ fontSize: '12px', color: '#cbd5e1', marginBottom: '3px' }}>{data.email}</p>
+            <p style={{ fontSize: '12px', color: '#cbd5e1', marginBottom: '3px' }}>{data.phone}</p>
+            <p style={{ fontSize: '12px', color: '#cbd5e1' }}>{data.location}</p>
+          </div>
+        </div>
+        {/* Gold rule */}
+        <div style={{ height: '2px', background: 'linear-gradient(90deg, #f59e0b, #fbbf24, transparent)', marginTop: '20px', borderRadius: '2px' }} />
+      </div>
+
+      {/* Body */}
+      <div className="flex">
+        {/* Main Content */}
+        <div className="flex-1 px-10 py-8 space-y-6">
+
+          {/* Summary */}
+          {data.summary && (
+            <section>
+              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '10px' }}>
+                Executive Summary
+              </h2>
+              <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.7' }}>{data.summary}</p>
+            </section>
+          )}
+
+          {/* Experience */}
+          {data.experiences.length > 0 && (
+            <section>
+              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '12px' }}>
+                Professional Experience
+              </h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {data.experiences.map(exp => (
+                  <div key={exp.id} style={{ paddingLeft: '14px', borderLeft: '2px solid #e2e8f0' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
+                      <div>
+                        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a' }}>{exp.jobTitle}</h3>
+                        <p style={{ fontSize: '13px', color: '#f59e0b', fontWeight: 600 }}>
+                          {exp.company}{exp.location && ` • ${exp.location}`}
+                        </p>
+                      </div>
+                      <span style={{ fontSize: '11px', color: '#64748b', background: '#f1f5f9', padding: '2px 8px', borderRadius: '4px', whiteSpace: 'nowrap', marginLeft: '12px' }}>
+                        {formatDate(exp.startDate)} – {exp.current ? 'Present' : formatDate(exp.endDate)}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: '12.5px', color: '#475569', lineHeight: '1.6' }}>{exp.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Projects */}
+          {data.projects.length > 0 && (
+            <section>
               <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '12px' }}>
                 Key Projects
               </h2>
