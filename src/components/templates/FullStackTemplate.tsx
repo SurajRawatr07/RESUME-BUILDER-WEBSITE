@@ -5,14 +5,6 @@ interface FullStackTemplateProps {
   data: ResumeData;
 }
 
-export default function FullStackTemplate({ data }: FullStackTemplateProps) {
-  // Split technologieo|rust|django|flask|spring|express|api|sql|mongodb|postgresql|redis|docker|kubernetes|aws|azure|gcp/i.test(tech)
-  );
-  const otherTech = data.technologies.filter(tech =>
-    !frontendTech.includes(tech) && !backendTech.includes(tech)
-  );
-
-  return (
     <div className="w-full h-full bg-white text-gray-900">
       {/* Dual-Tone Header */}
       <div className="flex">
