@@ -4,16 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface ModernTemplateProps {
   data: ResumeData;
 }
- className="text-indigo-200 text-xs uppercase mb-0.5">Email</p>
-              <p className="text-white">{data.email}</p>
-            </div>
-            <div>
-              <p className="text-indigo-200 text-xs uppercase mb-0.5">Phone</p>
-              <p className="text-white">{data.phone}</p>
-            </div>
-            <div>
-              <p className="text-indigo-200 text-xs uppercase mb-0.5">Location</p>
-              <p className="text-white">{data.location}</p>
+ classNam]className="text-white">{data.location}</p>
             </div>
           </div>
 
