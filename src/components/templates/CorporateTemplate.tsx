@@ -4,13 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface CorporateTemplateProps {
   data:="flex-1 px-10 py-8 space-y-6">
 
-          {/* Summary */}
-          {data.summary && (
-            <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '10px' }}>
-                Executive Summary
-              </h2>
-              <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.7' }}>{data.summary}</p>
+     tyle={{ fontSize: '13px', color: '#475569', lineHeight: '1.7' }}>{data.summary}</p>
             </section>
           )}
 
