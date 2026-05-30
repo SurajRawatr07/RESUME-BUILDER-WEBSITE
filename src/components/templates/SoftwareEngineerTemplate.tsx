@@ -6,16 +6,7 @@ interface SoftwareEngineerTemplateProps {
 }
                   <div className="flex justify-between items-start mb-1">
                     <div>
-                      <h3 className="text-base font-bold text-gray-900">{exp.jobTitle}</h3>
-                      <p className="text-sm text-gray-600">
-                        {exp.company} {exp.location && `| ${exp.location}`}
-                      </p>
-                    </div>
-                    <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
-                      {formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}
-                    </p>
-                  </div>
-                  <p className="text-sm text-gray-700 leading-relaxed mt-2">{exp.description}</p>
+             "text-sm text-gray-700 leading-relaxed mt-2">{exp.description}</p>
                 </div>
               ))}
             </div>
