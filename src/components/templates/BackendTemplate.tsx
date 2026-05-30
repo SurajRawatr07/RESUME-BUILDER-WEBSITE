@@ -6,7 +6,9 @@ interface BackendTemplateProps {
 }
 
 export default function BackendTemplate({ data }: BackendTemplateProps) {
-  return (
+  retur
+      </div>
+n (
     <div className="w-full h-full bg-white text-gray-900 p-10 print:p-10">
       {/* Professional Header */}
       <div className="mb-6 pb-4 border-b-2 border-gray-800">
@@ -15,8 +17,6 @@ export default function BackendTemplate({ data }: BackendTemplateProps) {
         <div className="text-sm text-gray-600 space-y-1">
           <p>Email: {data.email} | Phone: {data.phone} | Location: {data.location}</p>
         </div>
-      </div>
-
       {/* Professional Summary */}
       {data.summary && (
         <div className="mb-6">
