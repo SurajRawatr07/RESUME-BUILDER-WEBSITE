@@ -3,8 +3,90 @@ import { formatDate } from '@/lib/utils';
 
 interface MinimalTemplateProps {
   data: ResumeData;
-}3 className="text-base font-semibold text-gray-900">{exp.jobTitle}</h3>
-             "mb-8">
+}
+
+export default function MinimalTemplate({ data }: MinimalTemplateProps) {
+  return (
+    <div className="w-full h-full bg-white text-gray-900 p-12 print:p-12">
+      {/* Header */}
+      <div className="text-center mb-8 pb-6 border-b border-gray-200">
+        <h1 className="text-4xl font-light text-gray-900 mb-2 tracking-wide">{data.fullName}</h1>
+        <p className="text-lg text-gray-600 mb-4">{data.jobTitle}</p>
+        <div className="flex justify-center gap-6 text-sm text-gray-600">
+          <span>{data.email}</span>
+          <span>•</span>
+          <span>{data.phone}</span>
+          <span>•</span>
+          <span>{data.location}</span>
+        </div>
+      </div>
+
+      {/* Summary */}
+      {data.summary && (
+        <div className="mb-8">
+          <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-3">
+            Professional Summary
+          </h2>
+          <p className="text-sm text-gray-700 leading-relaxed">{data.summary}</p>
+        </div>
+      )}
+
+      {/* Experience */}
+      {data.experiences.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4">
+            Experience
+          </h2>
+          <div className="space-y-6">
+            {data.experiences.map((exp) => (
+              <div key={exp.id}>
+                <div className="flex justify-between items-baseline mb-1">
+                  <h3 className="text-base font-semibold text-gray-900">{exp.jobTitle}</h3>
+                  <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
+                    {formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}
+                  </p>
+                </div>
+                <p className="text-sm text-gray-600 mb-2">
+                  {exp.company} {exp.location && `• ${exp.location}`}
+                </p>
+                <p className="text-sm text-gray-700 leading-relaxed">{exp.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Education */}
+      {data.education.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4">
+            Education
+          </h2>
+          <div className="space-y-4">
+            {data.education.map((edu) => (
+              <div key={edu.id}>
+                <div className="flex justify-between items-baseline mb-1">
+                  <h3 className="text-base font-semibold text-gray-900">{edu.degree}</h3>
+                  <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
+                    {formatDate(edu.graduationDate)}
+                    {edu.gpa && ` • GPA: ${edu.gpa}`}
+                  </p>
+                </div>
+                <p className="text-sm text-gray-600">
+                  {edu.institution} {edu.location && `• ${edu.location}`}
+                </p>
+                {edu.description && (
+                  <p className="text-sm text-gray-700 mt-1">{edu.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Projects */}
+      {data.projects.length > 0 && (
+        <div className="mb-8">
           <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4">
             Projects
           </h2>
