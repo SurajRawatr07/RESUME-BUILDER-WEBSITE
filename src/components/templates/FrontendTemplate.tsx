@@ -2,8 +2,89 @@ import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
 interface FrontendTemplateProps {
-  data: ReName="w-1 h-1 bg-indigo-500 rounded-full"></span>
-            {data.phon
+  data: ResumeData;
+}
+
+export default function FrontendTemplate({ data }: FrontendTemplateProps) {
+  return (
+    <div className="w-full h-full bg-white text-gray-900 p-10 print:p-10">
+      {/* Header with UI Focus */}
+      <div className="mb-8 pb-6 border-b-4 border-indigo-500">
+        <h1 className="text-4xl font-bold text-gray-900 mb-1">{data.fullName}</h1>
+        <p className="text-xl text-indigo-600 font-semibold mb-3">{data.jobTitle}</p>
+        <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+          <span className="flex items-center gap-1">
+            <span className="w-1 h-1 bg-indigo-500 rounded-full"></span>
+            {data.email}
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-1 h-1 bg-indigo-500 rounded-full"></span>
+            {data.phone}
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-1 h-1 bg-indigo-500 rounded-full"></span>
+            {data.location}
+          </span>
+        </div>
+      </div>
+
+      {/* About Me / Summary */}
+      {(data.aboutMe || data.summary) && (
+        <div className="mb-7">
+          <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-2 flex items-center gap-2">
+            <span className="w-6 h-0.5 bg-indigo-500"></span>
+            About Me
+          </h2>
+          <p className="text-sm text-gray-700 leading-relaxed">
+            {data.aboutMe || data.summary}
+          </p>
+        </div>
+      )}
+
+      {/* Frontend Technologies (Highlighted) */}
+      {data.technologies.length > 0 && (
+        <div className="mb-7">
+          <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <span className="w-6 h-0.5 bg-indigo-500"></span>
+            Frontend Technologies
+          </h2>
+          <div className="grid grid-cols-4 gap-2">
+            {data.technologies.map((tech, idx) => (
+              <div
+                key={idx}
+                className="px-3 py-2 bg-indigo-50 border border-indigo-200 rounded text-sm font-medium text-indigo-700 text-center"
+              >
+                {tech}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Projects (UI-Centric) */}
+      {data.projects.length > 0 && (
+        <div className="mb-7">
+          <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <span className="w-6 h-0.5 bg-indigo-500"></span>
+            UI Projects
+          </h2>
+          <div className="space-y-4">
+            {data.projects.map((proj) => (
+              <div key={proj.id} className="bg-gray-50 border-l-4 border-indigo-500 p-4 rounded-r">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-base font-bold text-gray-900">{proj.title}</h3>
+                  <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
+                    {formatDate(proj.startDate)} - {formatDate(proj.endDate)}
+                  </p>
+                </div>
+                <p className="text-xs text-indigo-600 mb-2 font-medium">
+                  Tech Stack: {proj.technologies}
+                </p>
+                <p className="text-sm text-gray-700 leading-relaxed mb-2">{proj.description}</p>
+                {proj.link && (
+                  <p className="text-xs text-gray-500">
+                    <span className="font-medium">Link:</span> {proj.link}
+                  </p>
                 )}
               </div>
             ))}
