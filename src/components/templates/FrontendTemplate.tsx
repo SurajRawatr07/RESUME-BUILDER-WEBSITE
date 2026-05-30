@@ -2,16 +2,7 @@ import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
 interface FrontendTemplateProps {
-  data: ResumeData;
-}
-
-export default function FrontendTemplate({ data }: FrontendTemplateProps) {
-  return (
-    <d1 bg-indigo-500 rounded-full"></span>
-            {data.email}
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="w-1 h-1 bg-indigo-500 rounded-full"></span>
+  data: ReName="w-1 h-1 bg-indigo-500 rounded-full"></span>
             {data.phone}
           </span>
           <span className="flex items-center gap-1">
