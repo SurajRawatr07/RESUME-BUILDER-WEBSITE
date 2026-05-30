@@ -3,11 +3,85 @@ import { formatDate } from '@/lib/utils';
 
 interface FullStackTemplateProps {
   data: ResumeData;
-}tack
-        
+}
+
+export default function FullStackTemplate({ data }: FullStackTemplateProps) {
+  // Split technologies into frontend and backend
+  const frontendTech = data.technologies.filter(tech =>
+    /react|vue|angular|html|css|tailwind|sass|bootstrap|javascript|typescript|next|svelte/i.test(tech)
+  );
+  const backendTech = data.technologies.filter(tech =>
+    /node|python|java|php|ruby|go|rust|django|flask|spring|express|api|sql|mongodb|postgresql|redis|docker|kubernetes|aws|azure|gcp/i.test(tech)
+  );
+  const otherTech = data.technologies.filter(tech =>
+    !frontendTech.includes(tech) && !backendTech.includes(tech)
+  );
+
+  return (
+    <div className="w-full h-full bg-white text-gray-900">
+      {/* Dual-Tone Header */}
+      <div className="flex">
+        <div className="w-1/2 bg-blue-600 text-white p-6">
+          <h1 className="text-3xl font-bold mb-1">{data.fullName}</h1>
+          <p className="text-lg text-blue-100">{data.jobTitle}</p>
+        </div>
+        <div className="w-1/2 bg-teal-600 text-white p-6 flex items-end">
+          <div className="text-sm space-y-1">
+            <p>{data.email}</p>
+            <p>{data.phone}</p>
+            <p>{data.location}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-8">
+        {/* Summary */}
+        {data.summary && (
+          <div className="mb-6">
+            <h2 className="text-base font-bold text-gray-900 mb-2 flex items-center gap-2">
+              <span className="w-1 h-5 bg-blue-600"></span>
+              Professional Profile
+            </h2>
+            <p className="text-sm text-gray-700 leading-relaxed pl-3">{data.summary}</p>
+          </div>
+        )}
+
+        {/* Dual-Column Tech Stack */}
+        <div className="mb-6">
+          <h2 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+            <span className="w-1 h-5 bg-teal-600"></span>
+            Technical Stack
+          </h2>
+          <div className="grid grid-cols-2 gap-4 pl-3">
+            {/* Frontend Stack */}
+            {frontendTech.length > 0 && (
+              <div className="border-l-2 border-blue-400 pl-3">
+                <h3 className="text-sm font-bold text-blue-600 mb-2">Frontend</h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {frontendTech.map((tech, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium"
+                    >
                       {tech}
                     </span>
-                  ))}"text-sm
+                  ))}
+                </div>
+              </div>
+            )}
+            {/* Backend Stack */}
+            {backendTech.length > 0 && (
+              <div className="border-l-2 border-teal-400 pl-3">
+                <h3 className="text-sm font-bold text-teal-600 mb-2">Backend</h3>
+                <div className="flex flex-wrap gap-1.5">
+                  {backendTech.map((tech, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-1 bg-teal-50 text-teal-700 rounded text-xs font-medium"
+                    >
+                      {tech}
+                    </span>
+                  ))}
                 </div>
               </div>
             )}
