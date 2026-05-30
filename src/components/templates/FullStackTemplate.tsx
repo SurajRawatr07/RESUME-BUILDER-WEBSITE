@@ -5,14 +5,7 @@ interface FullStackTemplateProps {
   data: ResumeData;
 }
 
-    <div className="w-full h-full bg-white text-gray-900">
-      {/* Dual-il}</p>
-            <p>{data.phone}</p>
-            <p>{data.location}</p>
-          </div>
-        </div>
-      </div>
-
+    <div className=
       <div className="p-8">
         {/* Summary */}
         {data.summary && (
