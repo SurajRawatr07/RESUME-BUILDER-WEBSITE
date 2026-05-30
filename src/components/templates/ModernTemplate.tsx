@@ -5,17 +5,7 @@ interface ModernTemplateProps {
   data: ResumeData;
 }
  classNam]className="text-white">{data.location}</p>
-            </div>
-          </div>}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Technologies */}
-          {data.technologies.length > 0 && (
-            <div className="space-y-2">
+         className="space-y-2">
               <h2 className="text-base font-bold uppercase tracking-wider mb-3">Technologies</h2>
               <div className="space-y-1 text-sm">
                 {data.technologies.map((tech, idx) => (
