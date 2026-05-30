@@ -5,17 +5,6 @@ interface MinimalTemplateProps {
   data: ResumeData;
 }
 
-export default function MinimalTemplate({ data }: MinimalTemplateProps) {
-  return (
-    <div className="w-full h-full bg-white text-gray-900 p-12 print:p-12">
-      {/* Header */}
-      <div className="text-center mb-8 pb-6 border-b border-gray-200">
-        <h1 className="text-4xl font-light text-gray-900 mb-2 tracking-wide">{data.fullName}</h1>
-        <p className="text-lg text-gray-600 mb-4">{data.jobTitle}</p>
-        <div className="flex justify-center gap-6 text-sm text-gray-600">
-          <span>{data.email}</span>
-          <span>•</span>
-          <span>{data.phone}</span>
           <span>•</span>
           <span>{data.location}</span>
         </div>
