@@ -6,17 +6,7 @@ interface FrontendTemplateProps {
             {data.phone}
           </s data
                 className="px-3 py-2 bg-indigo-50 border border-indigo-200 rounded text-sm font-medium text-indigo-700 text-center"
-              >
-                {tech}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Projects (UI-Centric) */}
-      {data.projects.length > 0 && (
-        <div className="mb-7">
+           e="mb-7">
           <h2 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-3 flex items-center gap-2">
             <span className="w-6 h-0.5 bg-indigo-500"></span>
             UI Projects
