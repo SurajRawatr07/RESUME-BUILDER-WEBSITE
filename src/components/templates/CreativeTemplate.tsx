@@ -2,15 +2,7 @@ import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
 interface CreativeTemplateProps {
-  data: ResumeData;
-}text-xs text-gray-500 uppercase mb-1">Location</p>
-              <p className="font-medium text-gray-900">{data.location}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Summary */}
-        {data.summary && (
+  data: ResumeDat&& (
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
