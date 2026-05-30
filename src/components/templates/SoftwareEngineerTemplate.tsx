@@ -4,18 +4,8 @@ import { formatDate } from '@/lib/utils';
 interface SoftwareEngineerTemplateProps {
   data: ResumeData;
 }
-                  <div className="flex justify-between items-start mb-1">
-     me="grid grid-cols-2 gap-4">
-            {data.technologies.length > 0 && (
-              <div>
-                <p className="text-xs font-bold text-gray-700 mb-2">Technologies</p>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  {data.technologies.join(', ')}
-                </p>
-              </div>
-            )}
-            {data.skills.length > 0 && (
-              <div>
+                  <div className="flex justify-be
+                    
                 <p className="text-xs font-bold text-gray-700 mb-2">Core Skills</p>
                 <p className="text-sm text-gray-700 leading-relaxed">
                   {data.skills.join(', ')}
