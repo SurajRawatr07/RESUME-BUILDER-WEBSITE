@@ -5,13 +5,7 @@ interface MinimalTemplateProps {
   data: ResumeData;
 }3 className="text-base font-semibold text-gray-900">{exp.jobTitle}</h3>
                   <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
-            
-        </div>
-      )}
-
-      {/* Education */}
-      {data.education.length > 0 && (
-        <div className="mb-8">
+          ame="mb-8">
           <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4">
             Education
           </h2>
