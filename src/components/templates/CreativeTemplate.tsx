@@ -3,19 +3,7 @@ import { formatDate } from '@/lib/utils';
 
 interface CreaName="text-xl font-bold text-gray-900">Professional Summary</h2>
             </div>
-            <p className="text-sm text-gray-700 leading-relaxed pl-10">{data.summary}</p>
-          </div>
-        )}
-
-        {/* Experience */}
-        {data.experiences.length > 0 && (
-          <div className="mb-6">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
-                <div className="w-4 h-4 border-2 border-white rounded-sm"></div>
-              </div>
-              <h2 className="text-xl font-bold text-gray-900">Experience</h2>
-            </div>
+            <p classNa
             <div className="space-y-4 pl-10">
               {data.experiences.map((exp) => (
                 <div key={exp.id} className="border-l-2 border-teal-200 pl-4">
