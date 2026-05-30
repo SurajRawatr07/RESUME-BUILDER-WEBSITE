@@ -8,12 +8,7 @@ interface MinimalTemplateProps {
           ame="mb-8">
           <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-4">
             Education
-          </h2>
-          <div className="space-y-4">
-            {data.education.map((edu) => (
-              <div key={edu.id}>
-                <div className="flex justify-between items-baseline mb-1">
-                  <h3 className="text-base font-semibold text-gray-900">{edu.degree}</h3>
+          </h className="text-base font-semibold text-gray-900">{edu.degree}</h3>
                   <p className="text-xs text-gray-500 whitespace-nowrap ml-4">
                     {formatDate(edu.graduationDate)}
                     {edu.gpa && ` • GPA: ${edu.gpa}`}
