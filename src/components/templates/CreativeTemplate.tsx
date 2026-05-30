@@ -5,14 +5,6 @@ interface CreativeTemplateProps {
   data: ResumeData;
 }
 
-export default&& (
-            <p className="text-sm text-blue-50 max-w-2xl italic">{data.aboutMe}</p>
-          )}
-        </div>
-      </div>
-
-      <div className="p-8 -mt-6">
-        {/* Contact Card */}
         <div className="bg-white shadow-lg rounded-lg p-6 mb-6 border-t-4 border-teal-500">
           <div className="grid grid-cols-3 gap-4 text-sm">
             <div>
