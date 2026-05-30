@@ -3,18 +3,7 @@ import { formatDate } from '@/lib/utils';
 
 interface ModernTemplateProps {
   data: ResumeData;
-}
- classNam]className="text-white">{data.location}</p>
-         c] <span>{tech}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Languages */}
-          {data.languages.length > 0 && (
-            <div className="space-y-2">
+}ame="space-y-2">
               <h2 className="text-base font-bold uppercase tracking-wider mb-3">Languages</h2>
               {data.languages.map((lang) => (
                 <div key={lang.id} className="text-sm">
