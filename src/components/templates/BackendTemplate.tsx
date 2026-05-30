@@ -5,16 +5,7 @@ interface BackendTemplateProps {
   data: ResumeData;
 }
    ssional Experience */}
-      {dv clh3 className="text-base font-bold text-gray-900">{exp.jobTitle}</h3>
-                  <p className="text-xs text-gray-600 whitespace-nowrap ml-4">
-                    {formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}
-                  </p>
-                </div>
-                <p className="text-sm text-gray-600 font-medium mb-2">
-                  {exp.company} {exp.location && `| ${exp.location}`}
-                </p>
-                <p className="text-sm text-gray-700 leading-relaxed">{exp.description}</p>
-              </div>
+      {dv clh3 c
             ))}
           </div>
         </div>
