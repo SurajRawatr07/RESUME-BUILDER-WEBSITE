@@ -7,14 +7,7 @@ interface FullStackTemplateProps {
         
                       {tech}
                     </span>
-                  ))}
-                </div>
-              </div>
-            )}
-            {/* Backend Stack */}
-            {backendTech.length > 0 && (
-              <div className="border-l-2 border-teal-400 pl-3">
-                <h3 className="text-sm font-bold text-teal-600 mb-2">Backend</h3>
+                  ))}"text-sm font-bold text-teal-600 mb-2">Backend</h3>
                 <div className="flex flex-wrap gap-1.5">
                   {backendTech.map((tech, idx) => (
                     <span
