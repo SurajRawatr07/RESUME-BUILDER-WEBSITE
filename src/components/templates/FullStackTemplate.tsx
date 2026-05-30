@@ -4,18 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface FullStackTemplateProps {
   data: ResumeData;
 }tack
-          </h2>
-          <div className="grid grid-cols-2 gap-4 pl-3">
-            {/* Frontend Stack */}
-            {frontendTech.length > 0 && (
-              <div className="border-l-2 border-blue-400 pl-3">
-                <h3 className="text-sm font-bold text-blue-600 mb-2">Frontend</h3>
-                <div className="flex flex-wrap gap-1.5">
-                  {frontendTech.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium"
-                    >
+        
                       {tech}
                     </span>
                   ))}
