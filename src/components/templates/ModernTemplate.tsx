@@ -1,14 +1,7 @@
 import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
-interface ModernTemplateProps {
-  data: ResumeData;
-}ame="space-y-2">
-              <h2 className="text-base font-bold uppercase tracking-wider mb-3">Languages</h2>
-              {data.languages.map((lang) => (
-
-                
-          {/* Interests */}
+interface Moderts */}
           {data.interests.length > 0 && (
             <div className="space-y-2">
               <h2 className="text-base font-bold uppercase tracking-wider mb-3">Interests</h2>
