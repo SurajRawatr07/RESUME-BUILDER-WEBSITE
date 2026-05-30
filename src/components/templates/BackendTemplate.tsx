@@ -5,14 +5,7 @@ interface BackendTemplateProps {
   data: ResumeData;
 }
    ssional Experience */}
-      {dv clh3 c
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Backend Projects / System Design */}
-      {data.projects.length > 0 && (
+      projects.length > 0 && (
         <div className="mb-6">
           <h2 className="text-base font-bold text-gray-900 uppercase mb-3 border-l-4 border-gray-800 pl-3">
             Backend Projects & Architecture
