@@ -1,19 +1,6 @@
 import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
 
-interface CorporateTemplateProps {
-  data:="flex-1 px-10 py-8 space-y-6">
-  </div>
-                    <p style={{ fontSize: '12.5px', color: '#475569', lineHeight: '1.6' }}>{exp.description}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Projects */}
-          {data.projects.length > 0 && (
-            <section>
               <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '12px' }}>
                 Key Projects
               </h2>
