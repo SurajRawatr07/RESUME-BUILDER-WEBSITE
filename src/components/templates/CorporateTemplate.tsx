@@ -4,14 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface CorporateTemplateProps {
   data:="flex-1 px-10 py-8 space-y-6">
 
-     tyle={{ fontSize: '13px', color: '#475569', lineHeight: '1.7' }}>{data.summary}</p>
-        yle={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {data.experiences.map(exp => (
-                  <div key={exp.id} style={{ paddingLeft: '14px', borderLeft: '2px solid #e2e8f0' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
-                      <div>
-                        <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a' }}>{exp.jobTitle}</h3>
-                        <p style={{ fontSize: '13px', color: '#f59e0b', fontWeight: 600 }}>
+     tyle={{ f<p style={{ fontSize: '13px', color: '#f59e0b', fontWeight: 600 }}>
                           {exp.company}{exp.location && ` • ${exp.location}`}
                         </p>
                       </div>
