@@ -6,11 +6,7 @@ interface MinimalTemplateProps {
 }
 
           <span>•</span>
-          <span>{data.location}</span>
-        </div>
-      </div>
-
-      {/* Summary */}
+          <span>{data.locatio
       {data.summary && (
         <div className="mb-8">
           <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-3">
