@@ -4,14 +4,7 @@ import { formatDate } from '@/lib/utils';
 interface BackendTemplateProps {
   data: ResumeData;
 }
-
-export default function BackendTemplate({ data }: BackendTemplateProps) {
-  retur
-      </div>
-n (
-    <div className="w-full h-full bg-white text-gray-900 p-10 print:p-10">
-      {/* Professional Header */}
-      <div className="mb-6 pb-4 border-b-2 border-gray-800">
+der-b-2 border-gray-800">
         <h1 className="text-3xl font-bold text-gray-900 mb-1">{data.fullName}</h1>
         <p className="text-lg text-gray-700 font-medium mb-3">{data.jobTitle}</p>
         <div className="text-sm text-gray-600 space-y-1">
