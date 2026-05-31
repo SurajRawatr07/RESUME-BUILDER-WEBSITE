@@ -6,18 +6,7 @@ impowATSChecker] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
   consxportMenu(false);
     await exportToDOCX(resumeData, `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
-    setIsExporting(false);
-  };min-h-screen translex items-center gap-3 min-w-0">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onBack}
-              className={`rounded-xl transition-colors shrink-0 ${isDark ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-indigo-50 hover:text-indigo-600'}`}
-            >
-              <ArrowLeft className="w-4 h-4 mr-1.5" />
-              <span className="hidden sm:inline">Back</span>
-            </Button>
-            <div className="flex items-center gap-2">
+   sName="flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center shadow-md shrink-0">
                 <FileText className="w-4 h-4 text-white" />
               </div>
