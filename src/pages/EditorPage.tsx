@@ -7,11 +7,7 @@ impowATSChecker] = useState(false);
          ame="flex items-center gap-2 flex-shrink-0">
             {/* User badge */}
             <div className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium border ${isDark ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-indigo-50 border-indigo-100 text-gray-700'}`}>
-              <User className="w-3.5 h-3.5 text-indigo-500" />
-              <span>Account</span>
-            </div>
-
-            <ThemeToggle />
+    oggle />
 
             <Button
               variant="outline"
