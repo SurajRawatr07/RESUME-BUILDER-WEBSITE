@@ -6,12 +6,6 @@ impowATSChecker] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
-  const handleExportPDF = async () => {
-    setIsExporting(true);
-    setShowExportMenu(false);
-    await exportToPDF('resume-preview-content', `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
-    setIsExporting(false);
-  };
 
   const handleExportDOCX = async () => {
     setIsExporting(true);
