@@ -7,13 +7,7 @@ import { useState } from 'react';
 import { useTheme } 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSu-screen relative overflow-hidden flex items-center justify-center p-4 transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100'}`}>
-      <div className="absolute top-4 right-4 z-20"><ThemeToggle /></div>
-
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div animate={{ x: [0, 20, 0], y: [0, -30, 0] }} transition={{ duration: 10, repeat: Infinity }}
-          className={`absolute top-20 left-20 w-64 h-64 rounded-full filter blur-3xl opacity-25 ${isDark ? 'bg-blue-800' : 'bg-blue-300'}`} />
-      </div>
+    if (email)
 
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="relative w-full max-w-md">
         <div className="text-center mb-8">
