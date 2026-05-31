@@ -7,13 +7,7 @@ impowATSChecker] = useState(false);
   consxportMenu(false);
     await exportToDOCX(resumeData, `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
     setIsExporting(false);
-  };min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gray-50'}`}
-    >
-      {/* Header */}
-      <header className={`sticky top-0 z-40 no-print backdrop-blur-xl border-b transition-colors duration-300 ${isDark ? 'bg-gray-900/90 border-gray-800 shadow-gray-900/50' : 'bg-white/90 border-gray-200'} shadow-lg`}>
-        <div className="px-4 py-3 flex items-center justify-between gap-3">
-          {/* Left */}
-          <div className="flex items-center gap-3 min-w-0">
+  };min-h-screen translex items-center gap-3 min-w-0">
             <Button
               variant="ghost"
               size="sm"
