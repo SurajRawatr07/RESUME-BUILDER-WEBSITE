@@ -7,11 +7,7 @@ import { useState } from 'react';
 import { useTheme } 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) setSubmitted(true);
-  };
-
-  return (
-    <div className={`min-h-screen relative overflow-hidden flex items-center justify-center p-4 transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100'}`}>
+    if (email) setSu-screen relative overflow-hidden flex items-center justify-center p-4 transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100'}`}>
       <div className="absolute top-4 right-4 z-20"><ThemeToggle /></div>
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -66,13 +62,6 @@ import { useTheme }
                 Send Reset Link
               </Button>
             </form>
-          )}
-
-          {!submitted && (
-            <button onClick={onNavigateToLogin} className={`mt-6 flex items-center justify-center gap-2 w-full text-sm font-medium transition-colors ${isDark ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-900'}`}>
-              <ArrowLeft className="w-4 h-4" />
-              Back to Sign In
-            </button>
           )}
         </div>
       </motion.div>
