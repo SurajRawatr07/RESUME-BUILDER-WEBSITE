@@ -12,13 +12,6 @@ import { useTheme }
               </Button>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className={`flex items-start gap-3 p-4 rounded-2xl ${isDark ? 'bg-blue-900/20 border border-blue-700/30' : 'bg-blue-50 border border-blue-100'}`}>
-                <Mail className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Enter your email address and we'll send you a link to reset your password.
-                </p>
-              </div>
               <div className="space-y-1.5">
                 <Label htmlFor="email" className={`font-medium text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Email Address</Label>
                 <Input
