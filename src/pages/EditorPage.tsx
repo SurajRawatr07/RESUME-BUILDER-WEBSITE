@@ -12,12 +12,7 @@ impowATSChecker] = useState(false);
               </div>
               <h1 className={`text-base font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent hidden sm:block`}>
                 Resume Editor
-              </h1>
-            </div>
-          </div>
-
-          {/* Right Actions */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+         ame="flex items-center gap-2 flex-shrink-0">
             {/* User badge */}
             <div className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium border ${isDark ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-indigo-50 border-indigo-100 text-gray-700'}`}>
               <User className="w-3.5 h-3.5 text-indigo-500" />
