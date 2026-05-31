@@ -4,18 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FileText, ArrowLeft, Mail, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
-import { useTheme } from '@/context/ThemeContext';
-import ThemeToggle from '@/components/ui/ThemeToggle';
-
-interface ForgotPasswordPageProps {
-  onNavigateToLogin: () => void;
-}
-
-export default function ForgotPasswordPage({ onNavigateToLogin }: ForgotPasswordPageProps) {
-  const { isDark } = useTheme();
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
+import { useTheme } 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) setSubmitted(true);
