@@ -2,12 +2,82 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Download, Eye, EyeOff, User, LogOut, FileCheck, Layout, FileText, Sun, Moon, FileDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-impowATSChecker] = useState(false);
-  const [showExportMenu, set
-         ame="flex items-center gap-2 flex-shrink-0">
+import { useResumeStore } from '@/stores/resumeStore';
+import { useAuth } from '@/hooks/useAuth';
+import { useTheme } from '@/context/ThemeContext';
+import ResumeForm from '@/components/features/ResumeForm';
+import ResumePreview from '@/components/features/ResumePreview';
+import TemplateSelector from '@/components/features/TemplateSelector';
+import ATSChecker from '@/components/features/forms/ATSChecker';
+import ThemeToggle from '@/components/ui/ThemeToggle';
+import { exportToPDF, exportToDOCX } from '@/lib/utils';
+interface EditorPageProps {
+  onBack: () => void;
+}
+
+export default function EditorPage({ onBack }: EditorPageProps) {
+  const { logout } = useAuth();
+  const { isDark } = useTheme();
+  const resumeData = useResumeStore(state => state.resumeData);
+  const [showPreview, setShowPreview] = useState(true);
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false);
+  const [showATSChecker, setShowATSChecker] = useState(false);
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    setShowExportMenu(false);
+    await exportToPDF('resume-preview-content', `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
+    setIsExporting(false);
+  };
+
+  const handleExportDOCX = async () => {
+    setIsExporting(true);
+    setShowExportMenu(false);
+    await exportToDOCX(resumeData, `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
+    setIsExporting(false);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gray-50'}`}
+    >
+      {/* Header */}
+      <header className={`sticky top-0 z-40 no-print backdrop-blur-xl border-b transition-colors duration-300 ${isDark ? 'bg-gray-900/90 border-gray-800 shadow-gray-900/50' : 'bg-white/90 border-gray-200'} shadow-lg`}>
+        <div className="px-4 py-3 flex items-center justify-between gap-3">
+          {/* Left */}
+          <div className="flex items-center gap-3 min-w-0">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onBack}
+              className={`rounded-xl transition-colors shrink-0 ${isDark ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-indigo-50 hover:text-indigo-600'}`}
+            >
+              <ArrowLeft className="w-4 h-4 mr-1.5" />
+              <span className="hidden sm:inline">Back</span>
+            </Button>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center shadow-md shrink-0">
+                <FileText className="w-4 h-4 text-white" />
+              </div>
+              <h1 className={`text-base font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent hidden sm:block`}>
+                Resume Editor
+              </h1>
+            </div>
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             {/* User badge */}
             <div className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium border ${isDark ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-indigo-50 border-indigo-100 text-gray-700'}`}>
-    oggle />
+              <User className="w-3.5 h-3.5 text-indigo-500" />
+              <span>Account</span>
+            </div>
+
+            <ThemeToggle />
 
             <Button
               variant="outline"
