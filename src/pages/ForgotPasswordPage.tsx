@@ -7,10 +7,7 @@ import { useState } from 'react';
 import { useTheme } 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email)ame={`text-sm mb-6 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                We sent a password reset link to <strong>{email}</strong> (UI demo only)
-              </p>
-              <Button onClick={onNavigateToLogin} className="w-full h-11 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl">
+    if (email)atton onClick={onNavigateToLogin} className="w-full h-11 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl">
                 Back to Sign In
               </Button>
             </motion.div>
