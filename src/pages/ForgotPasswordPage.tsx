@@ -8,12 +8,7 @@ import { useTheme }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email)
-
-      <motion.
-
-        <div className={`rounded-3xl shadow-2xl border p-8 backdrop-blur-xl ${isDark ? 'bg-gray-900/80 border-gray-700/50' : 'bg-white/80 border-white/30'}`}>
-          {submitted ? (
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-6">
+n.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-6">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-8 h-8 text-green-600" />
               </div>
