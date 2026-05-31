@@ -4,12 +4,7 @@ import { ArrowLeft, Download, Eye, EyeOff, User, LogOut, FileCheck, Layout, File
 import { Button } from '@/components/ui/button';
 impowATSChecker] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
-  const [isExporting, setIsExporting] = useState(false);
-
-
-  const handleExportDOCX = async () => {
-    setIsExporting(true);
-    setShowExportMenu(false);
+  consxportMenu(false);
     await exportToDOCX(resumeData, `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
     setIsExporting(false);
   };
