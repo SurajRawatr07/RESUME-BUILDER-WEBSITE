@@ -9,14 +9,7 @@ import { useTheme }
     e.preventDefault();
     if (email)
 
-      <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="relative w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl mb-4 shadow-xl">
-            <FileText className="w-8 h-8 text-white" />
-          </div>
-          <h1 className={`text-3xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>Reset Password</h1>
-          <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>We'll send you a reset link</p>
-        </div>
+      <motion.
 
         <div className={`rounded-3xl shadow-2xl border p-8 backdrop-blur-xl ${isDark ? 'bg-gray-900/80 border-gray-700/50' : 'bg-white/80 border-white/30'}`}>
           {submitted ? (
