@@ -2,26 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Download, Eye, EyeOff, User, LogOut, FileCheck, Layout, FileText, Sun, Moon, FileDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useResumeStore } from '@/stores/resumeStore';
-import { useAuth } from '@/hooks/useAuth';
-import { useTheme } from '@/context/ThemeContext';
-import ResumeForm from '@/components/features/ResumeForm';
-import ResumePreview from '@/components/features/ResumePreview';
-import TemplateSelector from '@/components/features/TemplateSelector';
-import ATSChecker from '@/components/features/forms/ATSChecker';
-import ThemeToggle from '@/components/ui/ThemeToggle';
-import { exportToPDF, exportToDOCX } from '@/lib/utils';
-interface EditorPageProps {
-  onBack: () => void;
-}
-
-export default function EditorPage({ onBack }: EditorPageProps) {
-  const { logout } = useAuth();
-  const { isDark } = useTheme();
-  const resumeData = useResumeStore(state => state.resumeData);
-  const [showPreview, setShowPreview] = useState(true);
-  const [showTemplateSelector, setShowTemplateSelector] = useState(false);
-  const [showATSChecker, setShowATSChecker] = useState(false);
+impowATSChecker] = useState(false);
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
