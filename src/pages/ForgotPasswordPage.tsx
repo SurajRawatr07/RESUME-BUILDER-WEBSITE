@@ -7,13 +7,7 @@ import { useState } from 'react';
 import { useTheme } 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email)
-n.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-6">
-              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className={`text-xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>Check your email!</h3>
-              <p className={`text-sm mb-6 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+    if (email)ame={`text-sm mb-6 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                 We sent a password reset link to <strong>{email}</strong> (UI demo only)
               </p>
               <Button onClick={onNavigateToLogin} className="w-full h-11 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl">
