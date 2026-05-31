@@ -3,15 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Download, Eye, EyeOff, User, LogOut, FileCheck, Layout, FileText, Sun, Moon, FileDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 impowATSChecker] = useState(false);
-  const [showExportMenu, setShowExportMenu] = useState(false);
-  consxportMenu(false);
-    await exportToDOCX(resumeData, `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
-   sName="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center shadow-md shrink-0">
-                <FileText className="w-4 h-4 text-white" />
-              </div>
-              <h1 className={`text-base font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent hidden sm:block`}>
-                Resume Editor
+  const [showExportMenu, set
          ame="flex items-center gap-2 flex-shrink-0">
             {/* User badge */}
             <div className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium border ${isDark ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-indigo-50 border-indigo-100 text-gray-700'}`}>
