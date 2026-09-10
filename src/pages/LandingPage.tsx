@@ -33,10 +33,12 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/context/ThemeContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import ProfileDropdown from '@/components/ui/ProfileDropdown';
 import TemplateGallery from '@/components/features/TemplateGallery';
 
 interface LandingPageProps {
   onStartBuilding: () => void;
+  onNavigateToProfile?: () => void;
 }
 
 /* ========================================
@@ -252,6 +254,7 @@ const ToastSystem = ({
 ======================================== */
 export default function LandingPage({
   onStartBuilding,
+  onNavigateToProfile,
 }: LandingPageProps) {
   const { user } = useAuth();
   const { isDark } = useTheme();
@@ -264,9 +267,6 @@ export default function LandingPage({
   const [toasts, setToasts] = useState<Toast[]>(
     []
   );
-
-  const [showStickyCTA, setShowStickyCTA] =
-    useState(false);
 
   /* ========================================
      PARALLAX
@@ -306,8 +306,6 @@ export default function LandingPage({
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-
-      setShowStickyCTA(window.scrollY > 800);
     };
 
     window.addEventListener(
@@ -365,37 +363,6 @@ export default function LandingPage({
       <ToastSystem toasts={toasts} />
 
       {/* ========================================
-          STICKY CTA
-      ======================================== */}
-      <AnimatePresence>
-        {showStickyCTA && (
-          <motion.div
-            initial={{
-              y: 100,
-              opacity: 0,
-            }}
-            animate={{
-              y: 0,
-              opacity: 1,
-            }}
-            exit={{
-              y: 100,
-              opacity: 0,
-            }}
-            className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50"
-          >
-            <Button
-              onClick={onStartBuilding}
-              className="h-14 px-7 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-2xl"
-            >
-              Build Your Resume
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ========================================
           NAVBAR
       ======================================== */}
       <header
@@ -448,12 +415,18 @@ export default function LandingPage({
           </nav>
 
           {/* RIGHT */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
             <ThemeToggle />
+
+            <ProfileDropdown
+              onNavigateToProfile={onNavigateToProfile}
+              onNavigateToDashboard={() => scrollTo('#home')}
+              onNavigateToEditor={onStartBuilding}
+            />
 
             <Button
               onClick={onStartBuilding}
-              className="hidden sm:flex rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+              className="hidden sm:flex rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm font-semibold"
             >
               Build Resume
             </Button>
@@ -465,12 +438,12 @@ export default function LandingPage({
                   !mobileMenuOpen
                 )
               }
-              className="lg:hidden"
+              className="lg:hidden p-1.5 rounded-xl border border-gray-200 dark:border-gray-800"
             >
               {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-5 h-5" />
               )}
             </button>
           </div>
@@ -510,6 +483,18 @@ export default function LandingPage({
                     {link.label}
                   </button>
                 ))}
+
+                {onNavigateToProfile && (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onNavigateToProfile();
+                    }}
+                    className="block w-full text-left px-4 py-3 rounded-xl font-semibold hover:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
+                  >
+                    My Account Profile
+                  </button>
+                )}
 
                 <Button
                   onClick={onStartBuilding}

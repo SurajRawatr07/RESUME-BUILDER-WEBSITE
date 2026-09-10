@@ -1,4 +1,4 @@
-import { Plus, Trash2, X } from 'lucide-react';
+import { Award, Globe, Trophy, Lightbulb, Plus, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
 import { useResumeStore } from '@/stores/resumeStore';
 import { Certification, Language } from '@/types/resume';
@@ -67,7 +67,10 @@ export default function AdditionalSectionsForm() {
       {/* Certifications */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <span className={sectionTitle}>🏆 Certifications</span>
+          <span className={`${sectionTitle} flex items-center gap-1.5`}>
+            <Award className="w-4 h-4 text-indigo-600" />
+            <span>Certifications</span>
+          </span>
           <button onClick={addCertification} className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 px-2 py-1 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors">
             <Plus className="w-3 h-3" /> Add
           </button>
@@ -98,7 +101,10 @@ export default function AdditionalSectionsForm() {
       {/* Languages */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <span className={sectionTitle}>🌐 Languages</span>
+          <span className={`${sectionTitle} flex items-center gap-1.5`}>
+            <Globe className="w-4 h-4 text-indigo-600" />
+            <span>Languages</span>
+          </span>
           <button onClick={addLanguage} className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 px-2 py-1 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors">
             <Plus className="w-3 h-3" /> Add
           </button>
@@ -120,7 +126,10 @@ export default function AdditionalSectionsForm() {
 
       {/* Achievements */}
       <div>
-        <span className={`${sectionTitle} block mb-3`}>🎯 Achievements</span>
+        <span className={`${sectionTitle} flex items-center gap-1.5 mb-3`}>
+          <Trophy className="w-4 h-4 text-indigo-600" />
+          <span>Achievements</span>
+        </span>
         <div className="flex gap-2 mb-3">
           <Input value={newAchievement} onChange={e => setNewAchievement(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addAchievement())} placeholder="Add achievement and press Enter" className={inputClass} />
           <button onClick={addAchievement} className="flex-shrink-0 w-9 h-9 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center transition-colors">
@@ -143,7 +152,10 @@ export default function AdditionalSectionsForm() {
 
       {/* Interests */}
       <div>
-        <span className={`${sectionTitle} block mb-3`}>💡 Interests</span>
+        <span className={`${sectionTitle} flex items-center gap-1.5 mb-3`}>
+          <Lightbulb className="w-4 h-4 text-indigo-600" />
+          <span>Interests</span>
+        </span>
         <div className="flex gap-2 mb-3">
           <Input value={newInterest} onChange={e => setNewInterest(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addInterest())} placeholder="Add interest and press Enter" className={inputClass} />
           <button onClick={addInterest} className="flex-shrink-0 w-9 h-9 bg-green-600 hover:bg-green-700 text-white rounded-xl flex items-center justify-center transition-colors">

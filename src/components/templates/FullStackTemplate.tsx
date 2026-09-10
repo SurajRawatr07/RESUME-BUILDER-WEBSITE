@@ -1,5 +1,6 @@
 import { ResumeData } from '@/types/resume';
 import { formatDate } from '@/lib/utils';
+import { ExternalLink } from 'lucide-react';
 
 interface FullStackTemplateProps {
   data: ResumeData;
@@ -125,7 +126,10 @@ export default function FullStackTemplate({ data }: FullStackTemplateProps) {
                   </p>
                   <p className="text-sm text-gray-700 leading-relaxed">{proj.description}</p>
                   {proj.link && (
-                    <p className="text-xs text-gray-500 mt-1">🔗 {proj.link}</p>
+                    <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                      <ExternalLink className="w-3 h-3" />
+                      <span>{proj.link}</span>
+                    </p>
                   )}
                 </div>
               ))}

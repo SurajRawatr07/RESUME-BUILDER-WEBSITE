@@ -10,12 +10,15 @@ import ResumePreview from '@/components/features/ResumePreview';
 import TemplateSelector from '@/components/features/TemplateSelector';
 import ATSChecker from '@/components/features/forms/ATSChecker';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import ProfileDropdown from '@/components/ui/ProfileDropdown';
 import { exportToPDF, exportToDOCX } from '@/lib/utils';
+
 interface EditorPageProps {
   onBack: () => void;
+  onNavigateToProfile?: () => void;
 }
 
-export default function EditorPage({ onBack }: EditorPageProps) {
+export default function EditorPage({ onBack, onNavigateToProfile }: EditorPageProps) {
   const { logout } = useAuth();
   const { isDark } = useTheme();
   const resumeData = useResumeStore(state => state.resumeData);
@@ -71,13 +74,13 @@ export default function EditorPage({ onBack }: EditorPageProps) {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            {/* User badge */}
-            <div className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium border ${isDark ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-indigo-50 border-indigo-100 text-gray-700'}`}>
-              <User className="w-3.5 h-3.5 text-indigo-500" />
-              <span>Account</span>
-            </div>
-
             <ThemeToggle />
+
+            <ProfileDropdown
+              onNavigateToProfile={onNavigateToProfile}
+              onNavigateToDashboard={onBack}
+              onNavigateToEditor={() => {}}
+            />
 
             <Button
               variant="outline"

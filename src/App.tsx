@@ -6,9 +6,10 @@ import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import LandingPage from './pages/LandingPage';
 import EditorPage from './pages/EditorPage';
+import ProfilePage from './pages/ProfilePage';
 import { useState, useEffect } from 'react';
 
-type Page = 'login' | 'signup' | 'forgot-password' | 'landing' | 'editor';
+type Page = 'login' | 'signup' | 'forgot-password' | 'landing' | 'editor' | 'profile';
 
 function AppContent() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -52,9 +53,26 @@ function AppContent() {
 
   switch (currentPage) {
     case 'editor':
-      return <EditorPage onBack={() => setCurrentPage('landing')} />;
+      return (
+        <EditorPage
+          onBack={() => setCurrentPage('landing')}
+          onNavigateToProfile={() => setCurrentPage('profile')}
+        />
+      );
+    case 'profile':
+      return (
+        <ProfilePage
+          onBackToDashboard={() => setCurrentPage('landing')}
+          onNavigateToEditor={() => setCurrentPage('editor')}
+        />
+      );
     default:
-      return <LandingPage onStartBuilding={() => setCurrentPage('editor')} />;
+      return (
+        <LandingPage
+          onStartBuilding={() => setCurrentPage('editor')}
+          onNavigateToProfile={() => setCurrentPage('profile')}
+        />
+      );
   }
 }
 

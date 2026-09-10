@@ -20,10 +20,10 @@ import { useState, ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/context/ThemeContext';
 
-interface Section {
+export interface Section {
   id: string;
   label: string;
-  icon: string;
+  icon: ReactNode;
   content: ReactNode;
   required?: boolean;
 }

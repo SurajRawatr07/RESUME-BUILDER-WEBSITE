@@ -232,7 +232,14 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                         : 'bg-gray-900 hover:bg-indigo-600 text-white'
                   }`}
                 >
-                  {isSelected ? '✓ Selected' : 'Use Template'}
+                  {isSelected ? (
+                    <span className="flex items-center justify-center gap-1.5">
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Selected</span>
+                    </span>
+                  ) : (
+                    'Use Template'
+                  )}
                 </Button>
               </motion.div>
             </div>

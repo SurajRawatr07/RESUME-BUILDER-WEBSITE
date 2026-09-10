@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Briefcase, GraduationCap, Folder, Award, Plus, GripVertical } from 'lucide-react';
+import { User, Briefcase, GraduationCap, FolderGit2, Sparkles, Award, Plus, GripVertical } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
 import PersonalInfoForm from './forms/PersonalInfoForm';
 import ExperienceForm from './forms/ExperienceForm';
@@ -12,13 +12,30 @@ import DragDropEditor, { Section } from '@/components/builder/DragDropEditor';
 
 type SectionId = 'personal' | 'experience' | 'education' | 'projects' | 'skills' | 'additional';
 
-const defaultSections: { id: SectionId; label: string; icon: string; required?: boolean }[] = [
-  { id: 'personal', label: 'Personal Info', icon: '👤', required: true },
-  { id: 'experience', label: 'Experience', icon: '💼' },
-  { id: 'education', label: 'Education', icon: '🎓' },
-  { id: 'projects', label: 'Projects', icon: '📁' },
-  { id: 'skills', label: 'Skills & Technologies', icon: '⚡' },
-  { id: 'additional', label: 'Additional Sections', icon: '➕' },
+const getSectionIcon = (id: SectionId) => {
+  switch (id) {
+    case 'personal':
+      return <User className="w-4 h-4 text-indigo-500" />;
+    case 'experience':
+      return <Briefcase className="w-4 h-4 text-blue-500" />;
+    case 'education':
+      return <GraduationCap className="w-4 h-4 text-emerald-500" />;
+    case 'projects':
+      return <FolderGit2 className="w-4 h-4 text-amber-500" />;
+    case 'skills':
+      return <Sparkles className="w-4 h-4 text-purple-500" />;
+    case 'additional':
+      return <Award className="w-4 h-4 text-rose-500" />;
+  }
+};
+
+const defaultSections: { id: SectionId; label: string; required?: boolean }[] = [
+  { id: 'personal', label: 'Personal Info', required: true },
+  { id: 'experience', label: 'Experience' },
+  { id: 'education', label: 'Education' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'skills', label: 'Skills & Technologies' },
+  { id: 'additional', label: 'Additional Sections' },
 ];
 
 const formMap: Record<SectionId, JSX.Element> = {
@@ -39,7 +56,7 @@ export default function ResumeForm() {
   const dragSections: Section[] = sections.map(s => ({
     id: s.id,
     label: s.label,
-    icon: s.icon,
+    icon: getSectionIcon(s.id),
     required: s.required,
     content: formMap[s.id],
   }));
@@ -68,7 +85,6 @@ export default function ResumeForm() {
               setSections(reordered.map(s => ({
                 id: s.id as SectionId,
                 label: s.label,
-                icon: s.icon,
                 required: s.required,
               })));
             }}
@@ -88,14 +104,15 @@ export default function ResumeForm() {
             <button
               key={section.id}
               onClick={() => {
-                // Scroll to section or just show all in drag mode
+                // Scroll to section
+                document.getElementById(`section-${section.id}`)?.scrollIntoView({ behavior: 'smooth' });
               }}
               className={`
                 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap flex items-center gap-1.5
                 ${isDark ? 'text-gray-400 hover:text-gray-200 hover:bg-gray-700' : 'text-gray-600 hover:text-gray-900 hover:bg-white'}
               `}
             >
-              <span>{section.icon}</span>
+              <span className="shrink-0">{getSectionIcon(section.id)}</span>
               {section.label}
             </button>
           ))}
@@ -115,7 +132,7 @@ export default function ResumeForm() {
           {sections.map(section => (
             <div key={section.id} id={`section-${section.id}`}>
               <div className={`flex items-center gap-2 px-4 py-3 ${isDark ? 'bg-gray-800/30' : 'bg-gray-50/60'}`}>
-                <span className="text-base">{section.icon}</span>
+                <span className="shrink-0">{getSectionIcon(section.id)}</span>
                 <span className={`text-sm font-semibold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{section.label}</span>
                 {section.required && (
                   <span className={`text-xs px-2 py-0.5 rounded-full ${isDark ? 'bg-indigo-900/40 text-indigo-400' : 'bg-indigo-50 text-indigo-600'}`}>Required</span>

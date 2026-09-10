@@ -280,9 +280,12 @@ export default function ATSChecker({
 
               {/* WARNINGS */}
               {result.warnings.length > 0 && (
-                <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded-xl space-y-1 text-sm">
+                <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded-xl space-y-1.5 text-sm">
                   {result.warnings.map((w, i) => (
-                    <div key={i}>⚠ {w}</div>
+                    <div key={i} className="flex items-center gap-2">
+                      <AlertTriangle className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                      <span>{w}</span>
+                    </div>
                   ))}
                 </div>
               )}

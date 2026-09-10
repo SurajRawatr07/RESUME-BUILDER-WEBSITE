@@ -94,14 +94,24 @@ export default function AuthPage({
 
     setIsLoading(true);
 
-    // Simulate standard graceful auth processing
-    setTimeout(() => {
-      login();
+    try {
+      const res = await login(trimmedEmail, password);
       setIsLoading(false);
-      if (onLoginSuccess) {
-        onLoginSuccess();
+
+      if (res.success) {
+        setSuccessMessage("Welcome back! Signing you in...");
+        setTimeout(() => {
+          if (onLoginSuccess) {
+            onLoginSuccess();
+          }
+        }, 400);
+      } else {
+        setError(res.message || "Invalid credentials. Please verify and try again.");
       }
-    }, 400);
+    } catch {
+      setIsLoading(false);
+      setError("An unexpected error occurred during sign in. Please try again.");
+    }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -122,8 +132,8 @@ export default function AuthPage({
       return;
     }
 
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long.");
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
       return;
     }
 
@@ -135,20 +145,20 @@ export default function AuthPage({
     setIsLoading(true);
 
     try {
-      const created = await signup(trimmedName, trimmedEmail, password);
+      const res = await signup(trimmedName, trimmedEmail, password);
       setIsLoading(false);
 
-      if (created) {
-        setSuccessMessage("Account created successfully! Redirecting...");
+      if (res.success) {
+        setSuccessMessage("Account created successfully! Taking you to your dashboard...");
         setTimeout(() => {
           if (onSignupSuccess) {
             onSignupSuccess();
           } else if (onLoginSuccess) {
             onLoginSuccess();
           }
-        }, 600);
+        }, 500);
       } else {
-        setError("An account with this email address already exists.");
+        setError(res.message || "An account with this email address already exists.");
       }
     } catch {
       setIsLoading(false);
