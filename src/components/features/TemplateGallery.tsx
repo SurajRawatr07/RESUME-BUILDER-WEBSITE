@@ -212,7 +212,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
 
             {/* Info */}
             <div className="p-4 flex flex-col flex-1">
-              <h3 className={`font-bold text-sm mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`} style={{ fontFamily: "'Poppins', sans-serif" }}>
+              <h3 className={`font-bold text-sm mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 {template.name}
               </h3>
               <p className={`text-xs mb-2 leading-relaxed flex-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>

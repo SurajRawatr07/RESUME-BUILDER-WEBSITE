@@ -223,16 +223,16 @@ export default function ATSChecker({
   }, [analyzed, jobDescription, resumeData]);
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white w-full max-w-3xl rounded-2xl shadow-xl">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 w-full max-w-3xl rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
 
         {/* HEADER */}
-        <div className="p-5 bg-indigo-600 text-white flex justify-between">
+        <div className="p-5 bg-indigo-600 text-white flex justify-between items-center">
           <div className="flex gap-2 items-center">
             <FileText />
             <div>
               <h2 className="font-bold text-lg">
-                FIXED ATS ANALYZER
+                ATS ANALYZER
               </h2>
               <p className="text-xs opacity-80">
                 Domain-aware scoring engine
@@ -240,7 +240,7 @@ export default function ATSChecker({
             </div>
           </div>
 
-          <button onClick={onClose}>
+          <button onClick={onClose} className="text-white hover:opacity-80 transition-opacity">
             <X />
           </button>
         </div>
@@ -248,11 +248,12 @@ export default function ATSChecker({
         {/* BODY */}
         <div className="p-5">
 
-          <Label>Job Description</Label>
+          <Label className="text-gray-700 dark:text-gray-300">Job Description</Label>
           <Textarea
             value={jobDescription}
             onChange={(e) => setJobDescription(e.target.value)}
-            className="min-h-[120px]"
+            className="min-h-[120px] mt-1.5"
+            placeholder="Paste job description here to analyze ATS compatibility..."
           />
 
           <Button
@@ -266,12 +267,12 @@ export default function ATSChecker({
           {result && (
             <div className="mt-6 space-y-4">
 
-              <div className="p-4 border rounded bg-gray-50">
+              <div className="p-4 border rounded-xl bg-gray-50 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700">
                 <h3 className="text-xl font-bold">
                   ATS Score: {result.total}/100
                 </h3>
 
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                   Resume: {result.domain.resumeDomain} → Job:{" "}
                   {result.domain.jobDomain}
                 </p>
@@ -279,7 +280,7 @@ export default function ATSChecker({
 
               {/* WARNINGS */}
               {result.warnings.length > 0 && (
-                <div className="p-3 bg-red-50 border rounded">
+                <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 rounded-xl space-y-1 text-sm">
                   {result.warnings.map((w, i) => (
                     <div key={i}>⚠ {w}</div>
                   ))}
@@ -287,11 +288,11 @@ export default function ATSChecker({
               )}
 
               {/* KEYWORDS */}
-              <div className="p-3 bg-blue-50 border rounded">
-                <h4 className="font-bold">
+              <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 text-blue-800 dark:text-blue-300 rounded-xl">
+                <h4 className="font-bold text-sm">
                   Keyword Match: {result.keyword.score.toFixed(1)}%
                 </h4>
-                <p className="text-xs">
+                <p className="text-xs mt-1">
                   Matched: {result.keyword.matched.slice(0, 10).join(", ")}
                 </p>
               </div>
@@ -299,7 +300,7 @@ export default function ATSChecker({
           )}
         </div>
 
-        <div className="p-4 border-t text-right">
+        <div className="p-4 border-t border-gray-200 dark:border-gray-800 text-right bg-gray-50/50 dark:bg-gray-900/50">
           <Button variant="outline" onClick={onClose}>
             Close
           </Button>

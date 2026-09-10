@@ -22,7 +22,7 @@ export default function ForgotPasswordPage({ onNavigateToLogin }: ForgotPassword
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden flex items-center justify-center p-4 transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100'}`}>
+    <div className={`min-h-screen relative overflow-hidden flex items-center justify-center p-4 transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-slate-50'}`}>
       <div className="absolute top-4 right-4 z-20"><ThemeToggle /></div>
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -39,7 +39,7 @@ export default function ForgotPasswordPage({ onNavigateToLogin }: ForgotPassword
           <p className={isDark ? 'text-gray-400' : 'text-gray-600'}>We'll send you a reset link</p>
         </div>
 
-        <div className={`rounded-3xl shadow-2xl border p-8 backdrop-blur-xl ${isDark ? 'bg-gray-900/80 border-gray-700/50' : 'bg-white/80 border-white/30'}`}>
+        <div className={`rounded-3xl shadow-2xl border p-8 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
           {submitted ? (
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-6">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -69,7 +69,7 @@ export default function ForgotPasswordPage({ onNavigateToLogin }: ForgotPassword
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className={`h-12 rounded-xl ${isDark ? 'bg-gray-800 border-gray-600 text-white placeholder:text-gray-500' : 'bg-white/70 border-gray-200'}`}
+                  className={`h-12 rounded-xl ${isDark ? 'bg-gray-800 border-gray-700 text-white placeholder:text-gray-500' : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-400'}`}
                   required
                 />
               </div>

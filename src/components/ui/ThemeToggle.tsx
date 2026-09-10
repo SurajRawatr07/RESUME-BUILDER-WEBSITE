@@ -1,22 +1,12 @@
-import { Sun, Moon } from "lucide-react";
-import { useTheme } from "@/context/ThemeContext";
-import { Button } from "@/components/ui/button";
+import BlindPullToggle from "./BlindPullToggle";
 
-export default function ThemeToggle() {
-  const { isDark, toggleTheme } = useTheme();
-
-  return (
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={toggleTheme}
-      className="rounded-xl transition-all"
-    >
-      {isDark ? (
-        <Sun className="w-4 h-4" />
-      ) : (
-        <Moon className="w-4 h-4" />
-      )}
-    </Button>
-  );
+export interface ThemeToggleProps {
+  size?: number;
+  className?: string;
 }
+
+export default function ThemeToggle({ size = 34, className = "" }: ThemeToggleProps) {
+  return <BlindPullToggle size={size} className={className} />;
+}
+
+export { BlindPullToggle };

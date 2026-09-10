@@ -85,8 +85,8 @@ const features = [
     icon: Layout,
     title: 'Premium Templates',
     desc: 'Modern layouts for every profession.',
-    color: '#ec4899',
-    bg: 'rgba(236,72,153,0.12)',
+    color: '#6366f1',
+    bg: 'rgba(99,102,241,0.12)',
   },
   {
     icon: Shield,
@@ -165,7 +165,7 @@ const MockResume = ({
           : 'bg-white border-gray-200'
       }`}
     >
-      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 p-5">
+      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-5">
         <div className="h-3 w-3/4 bg-white rounded-full mb-3" />
         <div className="h-2 w-1/2 bg-white/60 rounded-full" />
       </div>
@@ -572,7 +572,7 @@ export default function LandingPage({
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6"
             >
               Build Your{' '}
-              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                 Dream Resume
               </span>
             </motion.h1>
