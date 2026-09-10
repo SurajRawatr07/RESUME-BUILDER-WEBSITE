@@ -1,0 +1,6 @@
+{
+  "name": "Resume Builder",
+  "description": "Professional ATS-friendly resume builder with multiple templates, drag-and-drop sections, and real-time preview.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

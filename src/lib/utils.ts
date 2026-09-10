@@ -54,7 +54,7 @@ export const exportToPDF = async (id: string, fileName: string) => {
 // DOCX EXPORT
 import { Document, Packer, Paragraph, TextRun } from "docx";
 
-export const exportToDOCX = async (data: any, fileName: string) => {
+export const exportToDOCX = async (data: unknown, fileName: string) => {
   const doc = new Document({
     sections: [
       {
