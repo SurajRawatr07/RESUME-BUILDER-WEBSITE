@@ -10,7 +10,7 @@
 
 <br>
 
-<a href="https://surajresumebuilder.netlify.app/">
+<a href="resume-craft-07.vercel.app/">
   <img src="https://img.shields.io/badge/🌐_Live_Demo-Visit_Website-blue?style=for-the-badge" />
 </a>
 
