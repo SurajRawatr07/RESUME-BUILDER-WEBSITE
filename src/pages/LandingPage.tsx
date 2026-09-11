@@ -35,6 +35,7 @@ import { useTheme } from '@/context/ThemeContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import ProfileDropdown from '@/components/ui/ProfileDropdown';
 import TemplateGallery from '@/components/features/TemplateGallery';
+import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
 
 interface LandingPageProps {
   onStartBuilding: () => void;
@@ -872,171 +873,14 @@ export default function LandingPage({
       </section>
 
       {/* ========================================
-          FOOTER
+          STACKED CIRCULAR FOOTER
       ======================================== */}
-      <footer
-        className={`relative overflow-hidden border-t ${
-          isDark
-            ? 'bg-gray-950 border-gray-800'
-            : 'bg-white border-gray-200'
-        }`}
-      >
-        <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-indigo-500/10 blur-3xl rounded-full" />
-
-        <div className="relative max-w-7xl mx-auto px-4 py-16">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
-            {/* BRAND */}
-            <div>
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg">
-                  <FileText className="w-6 h-6 text-white" />
-                </div>
-
-                <div>
-                  <h2 className="text-2xl font-extrabold">
-                    SmartResume
-                  </h2>
-
-                  <p className="text-xs text-indigo-500 font-semibold">
-                    Resume Builder Platform
-                  </p>
-                </div>
-              </div>
-
-              <p
-                className={`text-sm leading-relaxed ${
-                  isDark
-                    ? 'text-gray-400'
-                    : 'text-gray-600'
-                }`}
-              >
-                Create modern ATS-friendly resumes
-                and boost your hiring chances with
-                beautiful templates.
-              </p>
-            </div>
-
-            {/* QUICK LINKS */}
-            <div>
-              <h3 className="font-bold text-lg mb-5">
-                Quick Links
-              </h3>
-
-              <div className="space-y-3">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.label}
-                    onClick={() =>
-                      scrollTo(link.href)
-                    }
-                    className={`block transition hover:translate-x-1 ${
-                      isDark
-                        ? 'text-gray-400 hover:text-indigo-400'
-                        : 'text-gray-600 hover:text-indigo-600'
-                    }`}
-                  >
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* CONTACT */}
-            <div>
-              <h3 className="font-bold text-lg mb-5">
-                Contact Info
-              </h3>
-
-              <div className="space-y-4 text-sm">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-indigo-500" />
-
-                  <span>
-                    rawatsuraj80627@gmail.com
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-indigo-500" />
-
-                  <span>+91 9675219087</span>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-4 h-4 text-indigo-500" />
-
-                  <span>India</span>
-                </div>
-              </div>
-            </div>
-
-            {/* SOCIAL */}
-            <div>
-              <h3 className="font-bold text-lg mb-5">
-                Follow Us
-              </h3>
-
-              <div className="flex gap-4">
-                <motion.a
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  href="https://github.com/SurajRawatr07"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 ${
-                    isDark
-                      ? 'bg-gray-900 border border-gray-800 hover:border-indigo-500'
-                      : 'bg-gray-100 border border-gray-200 hover:border-indigo-500'
-                  }`}
-                >
-                  <Github className="w-5 h-5" />
-                </motion.a>
-
-                <motion.a
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  href="https://www.linkedin.com/in/suraj-rawat-30513b340"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center"
-                >
-                  <Linkedin className="w-5 h-5" />
-                </motion.a>
-              </div>
-            </div>
-          </div>
-
-          {/* COPYRIGHT */}
-          <div
-            className={`mt-14 pt-7 border-t flex flex-col md:flex-row items-center justify-between gap-4 text-sm ${
-              isDark
-                ? 'border-gray-800 text-gray-500'
-                : 'border-gray-200 text-gray-500'
-            }`}
-          >
-            <p className="text-center md:text-left">
-              © 2026 SmartResume. Made by Suraj
-              Rawat.
-            </p>
-
-            <div className="flex items-center gap-5 flex-wrap justify-center">
-              <button className="hover:text-indigo-500 transition">
-                Privacy Policy
-              </button>
-
-              <button className="hover:text-indigo-500 transition">
-                Terms & Conditions
-              </button>
-
-              <button className="hover:text-indigo-500 transition">
-                Support
-              </button>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <StackedCircularFooter
+        isDark={isDark}
+        scrollTo={scrollTo}
+        onStartBuilding={onStartBuilding}
+        onShowToast={showToast}
+      />
     </div>
   );
 }
