@@ -50,7 +50,6 @@ const navLinks = [
   { label: 'How It Works', href: '#how-it-works' },
   { label: 'Templates', href: '#templates' },
   { label: 'Features', href: '#features' },
-  { label: 'FAQ', href: '#faq' },
 ];
 
 /* ========================================
@@ -61,71 +60,71 @@ const steps = [
     step: '01',
     icon: Layout,
     title: 'Choose a Template',
-    desc: 'Select from 9 role-oriented professional resume templates inspired by Overleaf and LaTeX designs.',
+    desc: 'Select a professional resume format designed for your career path.',
   },
   {
     step: '02',
     icon: MousePointerClick,
-    title: 'Enter Your Details',
-    desc: 'Fill in your experience, education, skills, projects, and achievements in our clean, focused editor.',
+    title: 'Add Your Information',
+    desc: 'Enter your education, experience, skills, projects and other relevant information.',
   },
   {
     step: '03',
     icon: Eye,
-    title: 'Preview & Customize',
-    desc: 'See your changes in real-time with instant ATS-friendly formatting, typography adjustments, and structural layout.',
+    title: 'Customize Your Resume',
+    desc: 'Edit sections and adjust your content while keeping the professional document structure.',
   },
   {
     step: '04',
     icon: Download,
-    title: 'Export as PDF',
-    desc: 'Download your print-ready, high-resolution resume formatted specifically for job applications and recruiter systems.',
+    title: 'Export',
+    desc: 'Generate your final resume as a clean, print-ready PDF.',
   },
 ];
 
 /* ========================================
-   FEATURES (6 Requested Core Features)
+   FEATURES (6 Core Features)
 ======================================== */
 const features = [
   {
     icon: Layout,
     title: 'Professional Templates',
-    desc: '9 role-oriented designs modeled after established Overleaf and LaTeX resumes for software, tech, engineering, and general roles.',
+    desc: 'Real resume structures designed for different career paths.',
     accent: 'text-indigo-600 dark:text-indigo-400',
     bg: 'bg-indigo-50 dark:bg-indigo-950/50',
   },
   {
     icon: Zap,
     title: 'ATS-Friendly Structure',
-    desc: 'Machine-readable single-column layouts engineered to pass recruiter screening software without parsing errors.',
+    desc: 'Clean semantic formatting designed to remain readable by applicant tracking systems.',
     accent: 'text-emerald-600 dark:text-emerald-400',
     bg: 'bg-emerald-50 dark:bg-emerald-950/50',
   },
   {
     icon: Eye,
-    title: 'Live Real-Time Preview',
-    desc: 'Instant dynamic preview as you type your experience, projects, and technical skills with zero delay.',
+    title: 'Live Resume Editing',
+    desc: 'Update resume information and see changes immediately.',
     accent: 'text-purple-600 dark:text-purple-400',
     bg: 'bg-purple-50 dark:bg-purple-950/50',
   },
   {
     icon: Download,
-    title: 'Print-Ready PDF Export',
-    desc: 'High-resolution A4 PDF downloads with exact typesetting, sharp borders, and standard print margins.',
+    title: 'PDF Export',
+    desc: 'Generate a clean printable PDF.',
     accent: 'text-blue-600 dark:text-blue-400',
     bg: 'bg-blue-50 dark:bg-blue-950/50',
   },
   {
     icon: RefreshCw,
-    title: 'Seamless Template Switching',
-    desc: 'Change layouts instantly without re-typing or losing any of your saved resume data across all 9 styles.',
+    title: 'Template Switching',
+    desc: 'Change resume templates without losing your entered information.',
     accent: 'text-amber-600 dark:text-amber-400',
     bg: 'bg-amber-50 dark:bg-amber-950/50',
   },
   {
     icon: Smartphone,
-    title: 'Responsive & Accessible',
-    desc: 'Fully optimized across desktop, tablet, and mobile devices with complete light and dark theme support.',
+    title: 'Responsive Experience',
+    desc: 'Create and manage resumes across desktop, tablet and mobile.',
     accent: 'text-rose-600 dark:text-rose-400',
     bg: 'bg-rose-50 dark:bg-rose-950/50',
   },
@@ -136,24 +135,24 @@ const features = [
 ======================================== */
 const faqItems = [
   {
-    question: 'Is Resume Craft completely free to use?',
+    question: 'Is Resume Craft free to use?',
     answer:
-      'Yes, Resume Craft is 100% free with unrestricted access to all 9 professional resume templates, live editing, and high-quality PDF downloads without hidden paywalls or subscription requirements.',
+      'Yes. Resume Craft is free to use with full access to all 9 professional templates, live editing, and high-quality PDF exports without subscriptions or fees.',
   },
   {
-    question: 'Are these templates ATS-friendly?',
+    question: 'Are the resume templates ATS-friendly?',
     answer:
-      'Yes. Every template is engineered strictly following modern Applicant Tracking System (ATS) guidelines—clean single-column layouts, standard semantic typography, machine-readable text structures, and zero unreadable graphic elements.',
+      'Yes. The templates use clean, single-column semantic structures and standard section headings designed to remain readable by applicant tracking systems, without confusing visual graphics.',
   },
   {
-    question: 'Can I switch templates without losing my data?',
+    question: 'Can I change my resume template after entering my information?',
     answer:
-      'Yes! All your resume content, work history, projects, and skills are preserved across templates so you can switch and compare layouts seamlessly at any time without re-entering information.',
+      'Yes. You can switch between any of the 9 supported templates at any time in the editor. Your entered information is preserved across layouts without having to re-enter anything.',
   },
   {
-    question: 'How do I download my resume as a PDF?',
+    question: 'Can I download my resume as a PDF?',
     answer:
-      "Click the 'Export PDF' or 'Download PDF' button in the editor toolbar. Your resume will be formatted to exact A4 print specifications ready for employer and recruiter submission.",
+      'Yes. You can export and download your resume as a clean, print-ready A4 PDF directly from the editor toolbar whenever you are ready.',
   },
 ];
 
@@ -171,66 +170,66 @@ const RealisticOverleafResume = ({ isDark }: { isDark: boolean }) => {
           : 'bg-white text-gray-900 border-gray-200'
       }`}
       style={{
-        fontFamily: 'serif',
+        fontFamily: '"Times New Roman", Times, serif',
       }}
     >
       {/* Header */}
       <div className="text-center pb-2.5 border-b border-gray-900 mb-3">
         <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-gray-950">
-          SURAJ RAWAT
+          YOUR NAME
         </h3>
-        <p className="text-[11px] text-gray-600 font-sans mt-0.5">
-          Software Engineer • Haldwani, India
+        <p className="text-[11px] text-gray-600 mt-0.5 tracking-wide">
+          Software Engineer
         </p>
-        <p className="text-[10px] text-gray-500 font-sans mt-0.5">
-          rawatsuraj80627@gmail.com • github.com/SurajRawatr07 • linkedin.com/in/suraj-rawat
+        <p className="text-[10px] text-gray-500 mt-0.5">
+          email@example.com • linkedin.com/in/profile • github.com/profile
         </p>
       </div>
 
       {/* Education */}
       <div className="mb-3">
         <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950 font-sans">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950">
             Education
           </span>
-          <span className="text-[9px] text-gray-500 font-sans">Overleaf LaTeX</span>
+          <span className="text-[9px] text-gray-500">Overleaf LaTeX</span>
         </div>
         <div className="flex justify-between items-baseline text-[11px] font-semibold text-gray-900">
-          <span>Uttarakhand Technical University</span>
+          <span>University Institute of Technology</span>
           <span className="text-[10px] text-gray-600 font-normal">2019 – 2023</span>
         </div>
         <p className="text-[10px] text-gray-700 italic">
-          B.Tech in Computer Science & Engineering (8.6 GPA)
+          B.S. in Computer Science & Engineering
         </p>
       </div>
 
       {/* Experience */}
       <div className="mb-3">
         <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950 font-sans">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950">
             Experience
           </span>
-          <span className="text-[9px] text-gray-500 font-sans">Single-Column ATS</span>
+          <span className="text-[9px] text-gray-500">Single-Column ATS</span>
         </div>
         <div className="flex justify-between items-baseline text-[11px] font-semibold text-gray-900">
-          <span>Software Engineer • Tech Solutions</span>
+          <span>Software Engineer • Tech Systems</span>
           <span className="text-[10px] text-gray-600 font-normal">2021 – Present</span>
         </div>
-        <ul className="list-disc list-outside ml-3 text-[10px] text-gray-700 space-y-1 mt-1 font-sans">
-          <li>Architected distributed microservices handling 2.5M+ requests daily.</li>
-          <li>Optimized PostgreSQL queries & Redis caching, slashing p99 latency by 42%.</li>
+        <ul className="list-disc list-outside ml-3 text-[10px] text-gray-700 space-y-1 mt-1">
+          <li>Architected distributed microservices and streamlined API response pipelines.</li>
+          <li>Optimized relational database queries and data caching mechanisms.</li>
         </ul>
       </div>
 
       {/* Technical Skills */}
       <div>
         <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950 font-sans">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950">
             Technical Skills
           </span>
-          <span className="text-[9px] text-emerald-700 font-sans font-medium">ATS Verified</span>
+          <span className="text-[9px] text-emerald-700 font-medium">ATS-Friendly</span>
         </div>
-        <div className="text-[10px] text-gray-800 font-sans leading-relaxed">
+        <div className="text-[10px] text-gray-800 leading-relaxed">
           <span className="font-semibold">Languages:</span> TypeScript, JavaScript, Python, SQL<br />
           <span className="font-semibold">Frameworks & Tools:</span> React, Node.js, Docker, Git, PostgreSQL
         </div>
@@ -334,19 +333,11 @@ export default function LandingPage({
 
             {/* Authentication / Profile controls according to current login state */}
             {isAuthenticated ? (
-              <>
-                <ProfileDropdown
-                  onNavigateToProfile={onNavigateToProfile}
-                  onNavigateToDashboard={() => scrollTo('#home')}
-                  onNavigateToEditor={() => onStartBuilding()}
-                />
-                <Button
-                  onClick={() => onStartBuilding()}
-                  className="hidden sm:flex rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm h-10 px-4 shadow-sm"
-                >
-                  Create Resume
-                </Button>
-              </>
+              <ProfileDropdown
+                onNavigateToProfile={onNavigateToProfile}
+                onNavigateToDashboard={() => scrollTo('#home')}
+                onNavigateToEditor={() => onStartBuilding()}
+              />
             ) : (
               <div className="flex items-center gap-2">
                 <Button
@@ -437,16 +428,13 @@ export default function LandingPage({
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Left Column */}
           <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60 mb-6">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Real Overleaf & LaTeX Professional Standards</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 mb-6">
+              <FileText className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+              <span>Resume Craft</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-              Professional Resumes.{' '}
-              <span className="text-indigo-600 dark:text-indigo-400">
-                Built for Real Jobs.
-              </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900 dark:text-white">
+              Build a professional resume that gets noticed.
             </h1>
 
             <p
@@ -454,16 +442,16 @@ export default function LandingPage({
                 isDark ? 'text-gray-400' : 'text-gray-600'
               }`}
             >
-              Craft ATS-optimized, single-column resumes inspired by proven Overleaf LaTeX conventions. Free to use, instant live preview, and one-click print-ready PDF export.
+              Create clean, ATS-friendly resumes using professionally structured templates for different career paths.
             </p>
 
             {/* CTAs */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-3.5">
               <Button
                 onClick={() => onStartBuilding()}
-                className="h-12 px-7 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md flex items-center gap-2"
+                className="h-12 px-7 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm flex items-center gap-2"
               >
-                <span>Start Building</span>
+                <span>Create Resume</span>
                 <ArrowRight className="w-4 h-4" />
               </Button>
 
@@ -476,24 +464,8 @@ export default function LandingPage({
                     : 'border-gray-300 hover:bg-gray-50 text-gray-700'
                 }`}
               >
-                Browse 9 Templates
+                Explore Templates
               </Button>
-            </div>
-
-            {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-gray-100 dark:border-gray-800/70 max-w-md mx-auto lg:mx-0 text-left">
-              <div>
-                <p className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">9</p>
-                <p className="text-xs text-gray-500 mt-0.5">Role Templates</p>
-              </div>
-              <div>
-                <p className="text-2xl font-extrabold text-gray-900 dark:text-white">100%</p>
-                <p className="text-xs text-gray-500 mt-0.5">ATS-Readable</p>
-              </div>
-              <div>
-                <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">A4</p>
-                <p className="text-xs text-gray-500 mt-0.5">Print-Ready PDF</p>
-              </div>
             </div>
           </div>
 
@@ -739,32 +711,6 @@ export default function LandingPage({
                 </div>
               );
             })}
-          </div>
-
-          {/* Quick Start Card */}
-          <div
-            className={`mt-12 p-6 sm:p-8 rounded-2xl border text-center ${
-              isDark
-                ? 'bg-indigo-950/30 border-indigo-900/50'
-                : 'bg-indigo-50/60 border-indigo-100'
-            }`}
-          >
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">
-              Ready to create your professional resume?
-            </h3>
-            <p
-              className={`text-xs sm:text-sm max-w-md mx-auto mb-5 ${
-                isDark ? 'text-gray-400' : 'text-gray-600'
-              }`}
-            >
-              Choose any of our 9 role-tested templates and export your print-ready PDF in minutes.
-            </p>
-            <Button
-              onClick={() => onStartBuilding()}
-              className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 h-11 shadow-sm"
-            >
-              Build My Resume Now
-            </Button>
           </div>
         </div>
       </section>

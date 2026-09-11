@@ -72,7 +72,7 @@ export const TemplatePreviewModal: React.FC<TemplatePreviewModalProps> = ({
               >
                 <ZoomOut className="w-4 h-4" />
               </button>
-              <span className="text-xs font-mono px-2 text-gray-700 min-w-[42px] text-center">
+              <span className="text-xs font-medium tracking-wide px-2 text-gray-700 min-w-[42px] text-center">
                 {zoom}%
               </span>
               <button

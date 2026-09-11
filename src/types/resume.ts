@@ -11,6 +11,7 @@ export interface ResumeData {
   github?: string;
   portfolio?: string;
   website?: string;
+  leetcode?: string;
   
   // Profile
   aboutMe: string;
@@ -57,6 +58,7 @@ export interface Education {
   graduationDate: string;
   gpa?: string;
   description: string;
+  coursework?: string;
 }
 
 export interface Project {

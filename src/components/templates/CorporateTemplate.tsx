@@ -7,12 +7,12 @@ interface CorporateTemplateProps {
 
 export default function CorporateTemplate({ data }: CorporateTemplateProps) {
   return (
-    <div className="w-full bg-white text-gray-900 font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="w-full bg-white text-gray-900" style={{ fontFamily: '"Times New Roman", Times, serif' }}>
       {/* Header Band */}
       <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%)' }} className="px-10 py-8">
         <div className="flex items-end justify-between">
           <div>
-            <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '32px', fontWeight: 700, color: 'white', letterSpacing: '-0.5px', marginBottom: '4px' }}>
+            <h1 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '32px', fontWeight: 700, color: 'white', letterSpacing: '-0.5px', marginBottom: '4px' }}>
               {data.fullName}
             </h1>
             <p style={{ fontSize: '15px', color: '#94a3b8', fontWeight: 500, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
@@ -38,7 +38,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Summary */}
           {data.summary && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '10px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '10px' }}>
                 Executive Summary
               </h2>
               <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.7' }}>{data.summary}</p>
@@ -48,7 +48,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Experience */}
           {data.experiences.length > 0 && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '12px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '12px' }}>
                 Professional Experience
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -75,7 +75,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Projects */}
           {data.projects.length > 0 && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '12px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '12px' }}>
                 Key Projects
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -96,7 +96,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Achievements */}
           {data.achievements.length > 0 && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '10px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '11px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', borderBottom: '2px solid #f59e0b', paddingBottom: '6px', marginBottom: '10px' }}>
                 Key Achievements
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -117,7 +117,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Education */}
           {data.education.length > 0 && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
                 Education
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -135,7 +135,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Skills */}
           {data.skills.length > 0 && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
                 Core Skills
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
@@ -152,7 +152,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Technologies */}
           {data.technologies.length > 0 && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
                 Technologies
               </h2>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
@@ -168,7 +168,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Certifications */}
           {data.certifications.length > 0 && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
                 Certifications
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -185,7 +185,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           {/* Languages */}
           {data.languages.length > 0 && (
             <section>
-              <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
+              <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
                 Languages
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>

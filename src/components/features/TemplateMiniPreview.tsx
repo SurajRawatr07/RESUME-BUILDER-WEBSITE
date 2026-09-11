@@ -6,31 +6,28 @@ interface TemplateMiniPreviewProps {
 }
 
 export const TemplateMiniPreview: React.FC<TemplateMiniPreviewProps> = ({ template }) => {
-  const isModern = template.id === 'modern-simple-cv';
-
   return (
     <div
-      className={`w-full aspect-[210/297] bg-white border border-gray-300 rounded-xs p-3.5 text-[7px] text-gray-900 shadow-sm flex flex-col justify-between select-none overflow-hidden ${
-        isModern ? 'font-sans' : 'font-serif'
-      }`}
+      className="w-full aspect-[210/297] bg-white border border-gray-300 rounded-xs p-3.5 text-[7px] text-gray-900 shadow-sm flex flex-col justify-between select-none overflow-hidden"
       style={{
         backgroundColor: '#ffffff',
+        fontFamily: '"Times New Roman", Times, serif',
       }}
     >
       {/* Top Header Simulation */}
       <div className="border-b border-gray-900 pb-1 mb-1.5 text-center">
         <div className="font-bold text-[8.5px] tracking-tight uppercase text-gray-950">
-          SURAJ RAWAT
+          YOUR NAME
         </div>
-        <div className="text-[6px] text-gray-600 mb-0.5 font-sans">
+        <div className="text-[6px] text-gray-600 mb-0.5 tracking-wide">
           {template.role}
         </div>
-        <div className="flex items-center justify-center gap-1 text-[5px] text-gray-500 font-sans">
-          <span>Haldwani, India</span>
-          <span>•</span>
+        <div className="flex items-center justify-center gap-1 text-[5px] text-gray-500">
           <span>email@example.com</span>
           <span>•</span>
-          <span>linkedin.com/in/suraj</span>
+          <span>LinkedIn</span>
+          <span>•</span>
+          <span>GitHub</span>
         </div>
       </div>
 
@@ -39,14 +36,14 @@ export const TemplateMiniPreview: React.FC<TemplateMiniPreviewProps> = ({ templa
         {template.sectionHierarchy.slice(1, 5).map((sectionName, idx) => (
           <div key={idx} className="space-y-0.5">
             <div className="flex items-center justify-between border-b border-gray-800 pb-0.5">
-              <span className="font-bold uppercase tracking-wider text-[6px] text-gray-950 font-sans">
+              <span className="font-bold uppercase tracking-wider text-[6px] text-gray-950">
                 {sectionName}
               </span>
-              <span className="text-[4.5px] text-gray-400 font-sans">Overleaf / LaTeX</span>
+              <span className="text-[4.5px] text-gray-400">Overleaf / LaTeX</span>
             </div>
 
             {/* Simulated bullet lines */}
-            <div className="space-y-0.5 pt-0.5 font-sans">
+            <div className="space-y-0.5 pt-0.5">
               <div className="flex justify-between items-center text-[5px] font-semibold text-gray-800">
                 <span className="truncate max-w-[110px]">
                   {idx === 0 && template.id === 'undergraduate-cv'
@@ -68,8 +65,8 @@ export const TemplateMiniPreview: React.FC<TemplateMiniPreviewProps> = ({ templa
       </div>
 
       {/* Bottom Footer stamp */}
-      <div className="mt-1 pt-1 border-t border-gray-200 flex items-center justify-between text-[5px] text-gray-500 font-sans">
-        <span className="font-mono uppercase font-semibold text-gray-700">
+      <div className="mt-1 pt-1 border-t border-gray-200 flex items-center justify-between text-[5px] text-gray-500">
+        <span className="uppercase font-semibold text-gray-700 tracking-wider">
           {template.tag}
         </span>
         <span className="text-emerald-700 font-medium">ATS Verified • A4</span>

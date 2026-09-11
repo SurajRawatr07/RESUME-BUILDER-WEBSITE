@@ -42,7 +42,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
         <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-none">
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-xs font-semibold text-gray-700 dark:text-gray-300 shrink-0">
             <Filter className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-            <span>Role Filter</span>
+            <span>Category</span>
           </div>
           {TEMPLATE_CATEGORIES.map((category) => {
             const isActive = activeCategory === category;
@@ -52,7 +52,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                 onClick={() => setActiveCategory(category)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-sm font-semibold'
+                    ? 'bg-indigo-600 text-white shadow-xs font-semibold'
                     : isDark
                     ? 'text-gray-400 hover:text-white hover:bg-gray-800'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -64,9 +64,8 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
           })}
         </div>
 
-        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 shrink-0">
-          <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-          <span>All 9 Templates are 100% ATS-Compliant & Printable</span>
+        <div className="text-xs text-gray-500 dark:text-gray-400 shrink-0">
+          Showing {filteredTemplates.length} of 9 Templates
         </div>
       </div>
 
@@ -83,23 +82,23 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ delay: i * 0.05, duration: 0.35, ease: 'easeOut' }}
+                transition={{ delay: i * 0.04, duration: 0.3, ease: 'easeOut' }}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className={`group rounded-xl overflow-hidden border-2 transition-all duration-300 flex flex-col ${
+                className={`group rounded-xl overflow-hidden border transition-all duration-200 flex flex-col ${
                   isSelected
-                    ? 'border-indigo-600 shadow-xl ring-2 ring-indigo-500/20'
+                    ? 'border-indigo-600 shadow-md ring-2 ring-indigo-500/20'
                     : isDark
-                    ? 'border-gray-800 hover:border-gray-600 bg-gray-900 shadow-md'
-                    : 'border-gray-200 hover:border-indigo-300 bg-white shadow-sm hover:shadow-md'
+                    ? 'border-gray-800 hover:border-gray-700 bg-gray-900 shadow-xs'
+                    : 'border-gray-200 hover:border-gray-300 bg-white shadow-xs hover:shadow-sm'
                 }`}
               >
                 {/* Visual Mini Preview Container */}
                 <div
-                  className="relative p-4 bg-gray-100 dark:bg-gray-950 flex justify-center items-center cursor-pointer overflow-hidden border-b border-gray-200 dark:border-gray-800"
+                  className="relative p-4 bg-gray-50 dark:bg-gray-950 flex justify-center items-center cursor-pointer overflow-hidden border-b border-gray-200 dark:border-gray-800"
                   onClick={() => setPreviewingTemplate(template)}
                 >
                   {/* Miniature Overleaf LaTeX preview */}
-                  <div className="w-full max-w-[240px] shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                  <div className="w-full max-w-[220px] shadow-sm group-hover:shadow-md transition-shadow duration-200">
                     <TemplateMiniPreview template={template} />
                   </div>
 
@@ -110,71 +109,49 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                         e.stopPropagation();
                         setPreviewingTemplate(template);
                       }}
-                      className="px-3 py-1.5 bg-white text-gray-900 text-xs font-semibold rounded-lg shadow-lg hover:bg-gray-100 flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-all"
+                      className="px-3 py-1.5 bg-white text-gray-900 text-xs font-semibold rounded-lg shadow-md hover:bg-gray-100 flex items-center gap-1.5 transition-all"
                     >
                       <Eye className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>Full A4 Preview</span>
+                      <span>Preview</span>
                     </button>
                   </div>
 
                   {/* Selected Indicator Ribbon */}
                   {isSelected && (
-                    <div className="absolute top-3 right-3 w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shadow-md z-10">
+                    <div className="absolute top-3 right-3 w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shadow-xs z-10">
                       <Check className="w-3.5 h-3.5 text-white" />
                     </div>
                   )}
-
-                  {/* Role Category Badge */}
-                  <div className="absolute top-3 left-3 px-2 py-0.5 rounded-md text-[10px] font-bold z-10 bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-xs">
-                    {template.category}
-                  </div>
                 </div>
 
-                {/* Template Info Card */}
-                <div className="p-4 flex flex-col flex-1">
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <div>
-                      <h3
-                        className={`font-bold text-base leading-snug ${
-                          isDark ? 'text-white' : 'text-gray-900'
-                        }`}
-                      >
-                        {template.name}
-                      </h3>
-                      <p className="text-[11px] font-medium text-indigo-600 dark:text-indigo-400">
-                        {template.tag}
-                      </p>
-                    </div>
+                {/* Extremely Simple Template Card (Requirement 7) */}
+                <div className="p-4 flex flex-col flex-1 justify-between gap-3">
+                  <div>
+                    <h3
+                      className={`font-bold text-base leading-snug ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}
+                    >
+                      {template.name}
+                    </h3>
+                    <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                      <span className="font-semibold text-gray-700 dark:text-gray-300">Best for:</span> {template.bestFor}
+                    </p>
                   </div>
 
-                  <p
-                    className={`text-xs mb-3 leading-relaxed flex-1 line-clamp-2 ${
-                      isDark ? 'text-gray-400' : 'text-gray-600'
-                    }`}
-                  >
-                    {template.description}
-                  </p>
-
-                  <div className="text-[11px] text-gray-500 dark:text-gray-400 mb-3.5 pb-3 border-b border-gray-100 dark:border-gray-800">
-                    <span className="font-semibold text-gray-700 dark:text-gray-300">
-                      Hierarchy:{' '}
-                    </span>
-                    <span className="italic">{template.structureNote}</span>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="grid grid-cols-2 gap-2 mt-auto">
+                  {/* Action Buttons: Preview and Use This Template */}
+                  <div className="grid grid-cols-2 gap-2 pt-1">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => setPreviewingTemplate(template)}
                       className={`text-xs h-9 rounded-lg font-medium ${
                         isDark
-                          ? 'border-gray-700 hover:bg-gray-800 text-gray-300'
+                          ? 'border-gray-800 hover:bg-gray-800 text-gray-300'
                           : 'border-gray-300 hover:bg-gray-50 text-gray-700'
                       }`}
                     >
-                      <Eye className="w-3.5 h-3.5 mr-1" />
+                      <Eye className="w-3.5 h-3.5 mr-1 text-gray-500" />
                       Preview
                     </Button>
 
@@ -193,7 +170,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                           Selected
                         </span>
                       ) : (
-                        'Use Template'
+                        'Use This Template'
                       )}
                     </Button>
                   </div>

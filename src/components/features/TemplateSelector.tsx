@@ -144,14 +144,10 @@ export default function TemplateSelector({ onClose }: TemplateSelectorProps) {
                       <Check className="w-3.5 h-3.5 text-white" />
                     </div>
                   )}
-
-                  <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded text-[9px] font-bold z-10 bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
-                    {template.category}
-                  </div>
                 </div>
 
-                {/* Details */}
-                <div className="p-3.5 flex flex-col flex-1 justify-between">
+                {/* Extremely Simple Template Card (Requirement 7) */}
+                <div className="p-3.5 flex flex-col flex-1 justify-between gap-2">
                   <div>
                     <h3
                       className={`font-bold text-sm leading-snug ${
@@ -161,18 +157,15 @@ export default function TemplateSelector({ onClose }: TemplateSelectorProps) {
                       {template.name}
                     </h3>
                     <p
-                      className={`text-[11px] mt-0.5 line-clamp-2 ${
-                        isDark ? 'text-gray-400' : 'text-gray-500'
+                      className={`text-xs mt-1 ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
                       }`}
                     >
-                      {template.description}
+                      <span className="font-semibold text-gray-700 dark:text-gray-300">Best for:</span> {template.bestFor}
                     </p>
                   </div>
 
-                  <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400 font-mono">
-                      {template.tag}
-                    </span>
+                  <div className="pt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-end">
                     <span
                       className={`text-xs font-semibold ${
                         isSelected
@@ -180,7 +173,7 @@ export default function TemplateSelector({ onClose }: TemplateSelectorProps) {
                           : 'text-gray-600 dark:text-gray-300 group-hover:text-indigo-600'
                       }`}
                     >
-                      {isSelected ? 'Active' : 'Apply'} →
+                      {isSelected ? 'Selected' : 'Use This Template'} →
                     </span>
                   </div>
                 </div>
