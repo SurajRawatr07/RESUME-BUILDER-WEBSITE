@@ -16,8 +16,7 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
-  // Categorize tech stack if available
+export default function UndergraduateCVTemplate({ data }: TemplateProps) {
   const hasTech = data.technologies && data.technologies.length > 0;
   const hasSkills = data.skills && data.skills.length > 0;
 
@@ -30,33 +29,19 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. COMPACT LATEX HEADER */}
+      {/* 1. ACADEMIC / OVERLEAF HEADER */}
       <ResumeHeader data={data} variant="latex" />
 
-      {/* 2. EDUCATION */}
+      {/* 2. EDUCATION AT TOP (Academic priority for undergraduates) */}
       {data.education && data.education.length > 0 && (
         <ResumeSection title="Education" variant="latex">
           <EducationSection education={data.education} variant="latex" />
         </ResumeSection>
       )}
 
-      {/* 3. EXPERIENCE */}
-      {data.experiences && data.experiences.length > 0 && (
-        <ResumeSection title="Experience" variant="latex">
-          <ExperienceSection experiences={data.experiences} variant="latex" />
-        </ResumeSection>
-      )}
-
-      {/* 4. PROJECTS */}
-      {data.projects && data.projects.length > 0 && (
-        <ResumeSection title="Projects" variant="latex">
-          <ProjectsSection projects={data.projects} variant="latex" />
-        </ResumeSection>
-      )}
-
-      {/* 5. TECHNICAL SKILLS */}
+      {/* 3. TECHNICAL SKILLS & COURSEWORK */}
       {(hasTech || hasSkills) && (
-        <ResumeSection title="Technical Skills" variant="latex">
+        <ResumeSection title="Technical Skills & Coursework" variant="latex">
           <SkillsSection
             skills={data.skills}
             technologies={data.technologies}
@@ -65,24 +50,50 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         </ResumeSection>
       )}
 
-      {/* 6. CERTIFICATIONS */}
-      {data.certifications && data.certifications.length > 0 && (
-        <CertificationsSection
-          certifications={data.certifications}
-          variant="latex"
-        />
+      {/* 4. ACADEMIC & TECHNICAL PROJECTS */}
+      {data.projects && data.projects.length > 0 && (
+        <ResumeSection title="Projects" variant="latex">
+          <ProjectsSection projects={data.projects} variant="latex" />
+        </ResumeSection>
       )}
 
-      {/* 7. ACHIEVEMENTS */}
+      {/* 5. EXPERIENCE & INTERNSHIPS (If provided) */}
+      {data.experiences && data.experiences.length > 0 && (
+        <ResumeSection title="Experience & Internships" variant="latex">
+          <ExperienceSection experiences={data.experiences} variant="latex" />
+        </ResumeSection>
+      )}
+
+      {/* 6. PUBLICATIONS / RESEARCH (If present) */}
+      {data.publications && data.publications.length > 0 && (
+        <ResumeSection title="Publications & Research" variant="latex">
+          <ul className="list-disc list-outside ml-4 space-y-1 text-xs text-gray-800">
+            {data.publications.map((pub, idx) => (
+              <li key={idx} className="leading-relaxed">{pub}</li>
+            ))}
+          </ul>
+        </ResumeSection>
+      )}
+
+      {/* 7. HONORS, AWARDS & HACKATHONS */}
       {data.achievements && data.achievements.length > 0 && (
         <AchievementsSection
           achievements={data.achievements}
           variant="latex"
-          title="Honors & Achievements"
+          title="Honors, Hackathons & Awards"
         />
       )}
 
-      {/* 8. LANGUAGES */}
+      {/* 8. CERTIFICATIONS */}
+      {data.certifications && data.certifications.length > 0 && (
+        <CertificationsSection
+          certifications={data.certifications}
+          variant="latex"
+          title="Certifications & Training"
+        />
+      )}
+
+      {/* 9. LANGUAGES & ACTIVITIES */}
       {data.languages && data.languages.length > 0 && (
         <LanguagesSection languages={data.languages} variant="latex" />
       )}

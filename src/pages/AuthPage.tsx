@@ -9,6 +9,7 @@ import {
   Eye,
   EyeOff,
   ArrowRight,
+  ArrowLeft,
   ShieldCheck,
   AlertCircle,
   CheckCircle2,
@@ -22,6 +23,7 @@ export interface AuthPageProps {
   onNavigateToSignup?: () => void;
   onNavigateToLogin?: () => void;
   onNavigateToForgotPassword?: () => void;
+  onBackToHome?: () => void;
 }
 
 export default function AuthPage({
@@ -31,6 +33,7 @@ export default function AuthPage({
   onNavigateToSignup,
   onNavigateToLogin,
   onNavigateToForgotPassword,
+  onBackToHome,
 }: AuthPageProps) {
   const { login, signup } = useAuth();
 
@@ -167,11 +170,20 @@ export default function AuthPage({
   };
 
   return (
-    <div
-      className="min-h-screen w-full flex flex-col justify-center items-center px-4 py-8 sm:px-6 lg:px-8 bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-gray-100 transition-colors duration-200"
-      style={{ fontFamily: '"Times New Roman", Times, serif' }}
-    >
-      {/* Top Controls: Theme Switcher */}
+    <div className="min-h-screen w-full flex flex-col justify-center items-center px-4 py-8 sm:px-6 lg:px-8 bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-gray-100 transition-colors duration-200 relative">
+      {/* Top Controls: Back to Home & Theme Switcher */}
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
+        {onBackToHome && (
+          <button
+            onClick={onBackToHome}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 text-xs font-semibold text-slate-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Back to Home</span>
+          </button>
+        )}
+      </div>
+
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-20">
         <ThemeToggle />
       </div>
@@ -180,11 +192,11 @@ export default function AuthPage({
       <div className="w-full max-w-md mx-auto">
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800/60 text-indigo-600 dark:text-indigo-400 mb-3 shadow-sm">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-600 text-white mb-3 shadow-sm">
             <FileText className="w-6 h-6" />
           </div>
-          <p className="text-xs uppercase tracking-wider font-bold text-indigo-700 dark:text-indigo-400">
-            Resume Builder
+          <p className="text-xs uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">
+            Resume Craft
           </p>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
             {mode === "signin" ? "Welcome Back" : "Create Your Account"}

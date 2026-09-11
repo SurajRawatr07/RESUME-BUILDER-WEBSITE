@@ -63,11 +63,11 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
               <span className="hidden sm:inline">Back</span>
             </Button>
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center shadow-md shrink-0">
+              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-xs shrink-0">
                 <FileText className="w-4 h-4 text-white" />
               </div>
-              <h1 className={`text-base font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent hidden sm:block`}>
-                Resume Editor
+              <h1 className="text-base font-bold text-gray-900 dark:text-white hidden sm:block">
+                Resume Craft
               </h1>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
                 onClick={() => setShowExportMenu(!showExportMenu)}
                 size="sm"
                 disabled={isExporting}
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all rounded-xl"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition-all rounded-xl"
               >
                 {isExporting ? (
                   <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>

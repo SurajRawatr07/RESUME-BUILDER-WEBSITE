@@ -5,28 +5,25 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-
 import {
   FileText,
   Zap,
   Download,
   Eye,
-  FileCheck,
   Layout,
   Menu,
   X,
   ArrowRight,
-  Sparkles,
   Shield,
-  Linkedin,
-  Github,
-  Mail,
-  Phone,
-  MapPin,
+  RefreshCw,
+  HelpCircle,
+  ChevronDown,
   CheckCircle2,
-  Share2,
   MousePointerClick,
-  BadgeCheck,
+  Sparkles,
+  Smartphone,
+  LogIn,
+  UserPlus,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -36,217 +33,209 @@ import ThemeToggle from '@/components/ui/ThemeToggle';
 import ProfileDropdown from '@/components/ui/ProfileDropdown';
 import TemplateGallery from '@/components/features/TemplateGallery';
 import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
+import { TemplateType } from '@/types/resume';
 
 interface LandingPageProps {
-  onStartBuilding: () => void;
+  onStartBuilding: (templateId?: TemplateType) => void;
   onNavigateToProfile?: () => void;
+  onNavigateToLogin?: () => void;
 }
 
 /* ========================================
-   NAVIGATION
+   NAVIGATION (Strict requested order)
+   Home → How It Works → Templates → Features
 ======================================== */
 const navLinks = [
   { label: 'Home', href: '#home' },
+  { label: 'How It Works', href: '#how-it-works' },
   { label: 'Templates', href: '#templates' },
   { label: 'Features', href: '#features' },
-  { label: 'How It Works', href: '#how-it-works' },
+  { label: 'FAQ', href: '#faq' },
 ];
 
 /* ========================================
-   FEATURES
-======================================== */
-const features = [
-  {
-    icon: Zap,
-    title: 'ATS Optimized',
-    desc: 'Professional ATS-friendly resume templates.',
-    color: '#f59e0b',
-    bg: 'rgba(245,158,11,0.12)',
-  },
-  {
-    icon: Eye,
-    title: 'Live Preview',
-    desc: 'See changes instantly while editing.',
-    color: '#8b5cf6',
-    bg: 'rgba(139,92,246,0.12)',
-  },
-  {
-    icon: Download,
-    title: 'PDF Export',
-    desc: 'Export high-quality resumes in one click.',
-    color: '#3b82f6',
-    bg: 'rgba(59,130,246,0.12)',
-  },
-  {
-    icon: FileCheck,
-    title: 'ATS Checker',
-    desc: 'Improve resume keyword matching score.',
-    color: '#10b981',
-    bg: 'rgba(16,185,129,0.12)',
-  },
-  {
-    icon: Layout,
-    title: 'Premium Templates',
-    desc: 'Modern layouts for every profession.',
-    color: '#6366f1',
-    bg: 'rgba(99,102,241,0.12)',
-  },
-  {
-    icon: Shield,
-    title: 'Privacy Secure',
-    desc: 'Your resume data stays safe & protected.',
-    color: '#14b8a6',
-    bg: 'rgba(20,184,166,0.12)',
-  },
-];
-
-/* ========================================
-   HOW IT WORKS
+   HOW IT WORKS (4-Step Process)
 ======================================== */
 const steps = [
   {
+    step: '01',
     icon: Layout,
-    title: 'Choose Template',
-    desc: 'Pick a modern ATS-friendly design.',
+    title: 'Choose a Template',
+    desc: 'Select from 9 role-oriented professional resume templates inspired by Overleaf and LaTeX designs.',
   },
   {
+    step: '02',
     icon: MousePointerClick,
-    title: 'Fill Your Details',
-    desc: 'Add skills, projects and experience.',
+    title: 'Enter Your Details',
+    desc: 'Fill in your experience, education, skills, projects, and achievements in our clean, focused editor.',
   },
   {
-    icon: BadgeCheck,
-    title: 'Optimize Resume',
-    desc: 'Improve ATS score with smart tips.',
+    step: '03',
+    icon: Eye,
+    title: 'Preview & Customize',
+    desc: 'See your changes in real-time with instant ATS-friendly formatting, typography adjustments, and structural layout.',
+  },
+  {
+    step: '04',
+    icon: Download,
+    title: 'Export as PDF',
+    desc: 'Download your print-ready, high-resolution resume formatted specifically for job applications and recruiter systems.',
+  },
+];
+
+/* ========================================
+   FEATURES (6 Requested Core Features)
+======================================== */
+const features = [
+  {
+    icon: Layout,
+    title: 'Professional Templates',
+    desc: '9 role-oriented designs modeled after established Overleaf and LaTeX resumes for software, tech, engineering, and general roles.',
+    accent: 'text-indigo-600 dark:text-indigo-400',
+    bg: 'bg-indigo-50 dark:bg-indigo-950/50',
+  },
+  {
+    icon: Zap,
+    title: 'ATS-Friendly Structure',
+    desc: 'Machine-readable single-column layouts engineered to pass recruiter screening software without parsing errors.',
+    accent: 'text-emerald-600 dark:text-emerald-400',
+    bg: 'bg-emerald-50 dark:bg-emerald-950/50',
+  },
+  {
+    icon: Eye,
+    title: 'Live Real-Time Preview',
+    desc: 'Instant dynamic preview as you type your experience, projects, and technical skills with zero delay.',
+    accent: 'text-purple-600 dark:text-purple-400',
+    bg: 'bg-purple-50 dark:bg-purple-950/50',
   },
   {
     icon: Download,
-    title: 'Download & Share',
-    desc: 'Export PDF and share instantly.',
+    title: 'Print-Ready PDF Export',
+    desc: 'High-resolution A4 PDF downloads with exact typesetting, sharp borders, and standard print margins.',
+    accent: 'text-blue-600 dark:text-blue-400',
+    bg: 'bg-blue-50 dark:bg-blue-950/50',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Seamless Template Switching',
+    desc: 'Change layouts instantly without re-typing or losing any of your saved resume data across all 9 styles.',
+    accent: 'text-amber-600 dark:text-amber-400',
+    bg: 'bg-amber-50 dark:bg-amber-950/50',
+  },
+  {
+    icon: Smartphone,
+    title: 'Responsive & Accessible',
+    desc: 'Fully optimized across desktop, tablet, and mobile devices with complete light and dark theme support.',
+    accent: 'text-rose-600 dark:text-rose-400',
+    bg: 'bg-rose-50 dark:bg-rose-950/50',
   },
 ];
 
 /* ========================================
-   STATS
+   FAQ (4 Requested Questions & Answers)
 ======================================== */
-const stats = [
-  { value: '9', label: 'Role-Specific Templates' },
-  { value: '100%', label: 'ATS Compliant' },
-  { value: 'Overleaf', label: 'LaTeX Quality' },
-  { value: 'Free', label: 'PDF Export' },
+const faqItems = [
+  {
+    question: 'Is Resume Craft completely free to use?',
+    answer:
+      'Yes, Resume Craft is 100% free with unrestricted access to all 9 professional resume templates, live editing, and high-quality PDF downloads without hidden paywalls or subscription requirements.',
+  },
+  {
+    question: 'Are these templates ATS-friendly?',
+    answer:
+      'Yes. Every template is engineered strictly following modern Applicant Tracking System (ATS) guidelines—clean single-column layouts, standard semantic typography, machine-readable text structures, and zero unreadable graphic elements.',
+  },
+  {
+    question: 'Can I switch templates without losing my data?',
+    answer:
+      'Yes! All your resume content, work history, projects, and skills are preserved across templates so you can switch and compare layouts seamlessly at any time without re-entering information.',
+  },
+  {
+    question: 'How do I download my resume as a PDF?',
+    answer:
+      "Click the 'Export PDF' or 'Download PDF' button in the editor toolbar. Your resume will be formatted to exact A4 print specifications ready for employer and recruiter submission.",
+  },
 ];
 
 /* ========================================
-   TOAST TYPES
+   REALISTIC OVERLEAF MOCK RESUME
 ======================================== */
-interface Toast {
-  id: number;
-  message: string;
-}
-
-/* ========================================
-   MOCK RESUME
-======================================== */
-const MockResume = ({
-  isDark,
-}: {
-  isDark: boolean;
-}) => {
+const RealisticOverleafResume = ({ isDark }: { isDark: boolean }) => {
   return (
     <motion.div
-      whileHover={{
-        rotate: -1,
-        scale: 1.02,
-      }}
-      transition={{
-        type: 'spring',
-        stiffness: 200,
-      }}
-      className={`w-[280px] sm:w-[330px] rounded-[34px] overflow-hidden border shadow-2xl ${
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3 }}
+      className={`w-full max-w-[340px] sm:max-w-[390px] rounded-lg border shadow-xl p-5 sm:p-6 select-none ${
         isDark
-          ? 'bg-gray-900 border-gray-800'
-          : 'bg-white border-gray-200'
+          ? 'bg-white text-gray-900 border-gray-700'
+          : 'bg-white text-gray-900 border-gray-200'
       }`}
+      style={{
+        fontFamily: 'serif',
+      }}
     >
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-5">
-        <div className="h-3 w-3/4 bg-white rounded-full mb-3" />
-        <div className="h-2 w-1/2 bg-white/60 rounded-full" />
+      {/* Header */}
+      <div className="text-center pb-2.5 border-b border-gray-900 mb-3">
+        <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-gray-950">
+          SURAJ RAWAT
+        </h3>
+        <p className="text-[11px] text-gray-600 font-sans mt-0.5">
+          Software Engineer • Haldwani, India
+        </p>
+        <p className="text-[10px] text-gray-500 font-sans mt-0.5">
+          rawatsuraj80627@gmail.com • github.com/SurajRawatr07 • linkedin.com/in/suraj-rawat
+        </p>
       </div>
 
-      <div className="flex">
-        <div className="w-[35%] bg-indigo-600 p-4 space-y-3">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <motion.div
-              key={i}
-              initial={{ width: 0 }}
-              animate={{ width: '100%' }}
-              transition={{
-                delay: i * 0.1,
-              }}
-              className="h-2 bg-white/40 rounded-full"
-            />
-          ))}
+      {/* Education */}
+      <div className="mb-3">
+        <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950 font-sans">
+            Education
+          </span>
+          <span className="text-[9px] text-gray-500 font-sans">Overleaf LaTeX</span>
         </div>
+        <div className="flex justify-between items-baseline text-[11px] font-semibold text-gray-900">
+          <span>Uttarakhand Technical University</span>
+          <span className="text-[10px] text-gray-600 font-normal">2019 – 2023</span>
+        </div>
+        <p className="text-[10px] text-gray-700 italic">
+          B.Tech in Computer Science & Engineering (8.6 GPA)
+        </p>
+      </div>
 
-        <div className="flex-1 p-4 space-y-3">
-          {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                delay: i * 0.08,
-              }}
-              className={`rounded-full ${
-                i % 2 === 0
-                  ? 'h-2 bg-gray-200'
-                  : 'h-3 bg-gray-300'
-              }`}
-            />
-          ))}
+      {/* Experience */}
+      <div className="mb-3">
+        <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950 font-sans">
+            Experience
+          </span>
+          <span className="text-[9px] text-gray-500 font-sans">Single-Column ATS</span>
+        </div>
+        <div className="flex justify-between items-baseline text-[11px] font-semibold text-gray-900">
+          <span>Software Engineer • Tech Solutions</span>
+          <span className="text-[10px] text-gray-600 font-normal">2021 – Present</span>
+        </div>
+        <ul className="list-disc list-outside ml-3 text-[10px] text-gray-700 space-y-1 mt-1 font-sans">
+          <li>Architected distributed microservices handling 2.5M+ requests daily.</li>
+          <li>Optimized PostgreSQL queries & Redis caching, slashing p99 latency by 42%.</li>
+        </ul>
+      </div>
+
+      {/* Technical Skills */}
+      <div>
+        <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950 font-sans">
+            Technical Skills
+          </span>
+          <span className="text-[9px] text-emerald-700 font-sans font-medium">ATS Verified</span>
+        </div>
+        <div className="text-[10px] text-gray-800 font-sans leading-relaxed">
+          <span className="font-semibold">Languages:</span> TypeScript, JavaScript, Python, SQL<br />
+          <span className="font-semibold">Frameworks & Tools:</span> React, Node.js, Docker, Git, PostgreSQL
         </div>
       </div>
     </motion.div>
-  );
-};
-
-/* ========================================
-   TOAST COMPONENT
-======================================== */
-const ToastSystem = ({
-  toasts,
-}: {
-  toasts: Toast[];
-}) => {
-  return (
-    <div className="fixed top-5 right-5 z-[100] space-y-3">
-      <AnimatePresence>
-        {toasts.map((toast) => (
-          <motion.div
-            key={toast.id}
-            initial={{
-              opacity: 0,
-              x: 50,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
-            exit={{
-              opacity: 0,
-              x: 50,
-            }}
-            className="bg-gray-900 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-gray-700"
-          >
-            <CheckCircle2 className="w-5 h-5 text-green-400" />
-
-            <span className="text-sm font-medium">
-              {toast.message}
-            </span>
-          </motion.div>
-        ))}
-      </AnimatePresence>
-    </div>
   );
 };
 
@@ -256,113 +245,45 @@ const ToastSystem = ({
 export default function LandingPage({
   onStartBuilding,
   onNavigateToProfile,
+  onNavigateToLogin,
 }: LandingPageProps) {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { isDark } = useTheme();
 
-  const [mobileMenuOpen, setMobileMenuOpen] =
-    useState(false);
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
-  const [toasts, setToasts] = useState<Toast[]>(
-    []
-  );
-
-  /* ========================================
-     PARALLAX
-  ======================================== */
   const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, 80]);
 
-  const heroY = useTransform(
-    scrollY,
-    [0, 500],
-    [0, 120]
-  );
-
-  /* ========================================
-     TOAST
-  ======================================== */
-  const showToast = (message: string) => {
-    const id = Date.now();
-
-    setToasts((prev) => [
-      ...prev,
-      {
-        id,
-        message,
-      },
-    ]);
-
-    setTimeout(() => {
-      setToasts((prev) =>
-        prev.filter((t) => t.id !== id)
-      );
-    }, 3000);
-  };
-
-  /* ========================================
-     EFFECTS
-  ======================================== */
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener(
-      'scroll',
-      handleScroll
-    );
-
-    return () =>
-      window.removeEventListener(
-        'scroll',
-        handleScroll
-      );
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  /* ========================================
-     SCROLL
-  ======================================== */
   const scrollTo = (id: string) => {
-    document
-      .getElementById(id.replace('#', ''))
-      ?.scrollIntoView({
-        behavior: 'smooth',
-      });
-
+    document.getElementById(id.replace('#', ''))?.scrollIntoView({
+      behavior: 'smooth',
+    });
     setMobileMenuOpen(false);
   };
 
-  /* ========================================
-     DOWNLOAD
-  ======================================== */
-  const simulateDownload = () => {
-    showToast('Resume Downloaded!');
-  };
-
-  /* ========================================
-     SHARE
-  ======================================== */
-  const simulateShare = () => {
-    showToast('Share link copied!');
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
   return (
     <div
       id="home"
-      style={{
-        fontFamily: '"Times New Roman", serif',
-      }}
       className={`min-h-screen overflow-x-hidden transition-all duration-300 ${
-        isDark
-          ? 'bg-gray-950 text-white'
-          : 'bg-white text-gray-900'
+        isDark ? 'bg-gray-950 text-white' : 'bg-white text-gray-900'
       }`}
     >
-      {/* TOASTS */}
-      <ToastSystem toasts={toasts} />
-
       {/* ========================================
           NAVBAR
       ======================================== */}
@@ -370,138 +291,138 @@ export default function LandingPage({
         className={`sticky top-0 z-40 backdrop-blur-xl transition-all duration-300 ${
           scrolled
             ? isDark
-              ? 'bg-gray-900/90 border-b border-gray-800'
-              : 'bg-white/90 border-b border-gray-200 shadow-sm'
+              ? 'bg-gray-900/90 border-b border-gray-800 shadow-lg'
+              : 'bg-white/95 border-b border-gray-200 shadow-sm'
             : 'bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 h-[74px] flex items-center justify-between">
-          {/* LOGO */}
-          <motion.div
-            whileHover={{
-              scale: 1.04,
-            }}
-            className="flex items-center gap-3"
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between">
+          {/* Brand Wordmark */}
+          <div
+            onClick={() => scrollTo('#home')}
+            className="flex items-center gap-2.5 cursor-pointer select-none group"
           >
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg">
-              <FileText className="w-5 h-5 text-white" />
+            <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
+              <FileText className="w-5 h-5" />
             </div>
+            <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Resume Craft
+            </span>
+          </div>
 
-            <h1 className="text-2xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              SmartResume
-            </h1>
-          </motion.div>
-
-          {/* NAV */}
-          <nav className="hidden lg:flex items-center gap-2">
+          {/* Desktop Nav - Exact Order: Home → How It Works → Templates → Features → FAQ */}
+          <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                }}
-                whileTap={{
-                  scale: 0.96,
-                }}
+              <button
                 key={link.label}
                 onClick={() => scrollTo(link.href)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isDark
-                    ? 'hover:bg-gray-800 text-gray-300'
-                    : 'hover:bg-gray-100 text-gray-700'
+                    ? 'hover:bg-gray-800 text-gray-300 hover:text-white'
+                    : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
                 }`}
               >
                 {link.label}
-              </motion.button>
+              </button>
             ))}
           </nav>
 
-          {/* RIGHT */}
+          {/* Right Controls */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Blind Pull Theme Toggle */}
             <ThemeToggle />
 
-            <ProfileDropdown
-              onNavigateToProfile={onNavigateToProfile}
-              onNavigateToDashboard={() => scrollTo('#home')}
-              onNavigateToEditor={onStartBuilding}
-            />
+            {/* Authentication / Profile controls according to current login state */}
+            {isAuthenticated ? (
+              <>
+                <ProfileDropdown
+                  onNavigateToProfile={onNavigateToProfile}
+                  onNavigateToDashboard={() => scrollTo('#home')}
+                  onNavigateToEditor={() => onStartBuilding()}
+                />
+                <Button
+                  onClick={() => onStartBuilding()}
+                  className="hidden sm:flex rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm h-10 px-4 shadow-sm"
+                >
+                  Create Resume
+                </Button>
+              </>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onNavigateToLogin || (() => onStartBuilding())}
+                  className={`rounded-xl text-sm font-medium ${
+                    isDark ? 'text-gray-300 hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  <LogIn className="w-4 h-4 mr-1.5" />
+                  <span>Sign In</span>
+                </Button>
 
-            <Button
-              onClick={onStartBuilding}
-              className="hidden sm:flex rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm font-semibold"
-            >
-              Build Resume
-            </Button>
+                <Button
+                  onClick={() => onStartBuilding()}
+                  className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm h-10 px-4 shadow-sm"
+                >
+                  Create Resume
+                </Button>
+              </div>
+            )}
 
-            {/* MOBILE MENU */}
+            {/* Mobile Menu Button */}
             <button
-              onClick={() =>
-                setMobileMenuOpen(
-                  !mobileMenuOpen
-                )
-              }
-              className="lg:hidden p-1.5 rounded-xl border border-gray-200 dark:border-gray-800"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 rounded-xl border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300"
+              aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* MOBILE NAV */}
+        {/* Mobile Dropdown Nav */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              initial={{
-                opacity: 0,
-                height: 0,
-              }}
-              animate={{
-                opacity: 1,
-                height: 'auto',
-              }}
-              exit={{
-                opacity: 0,
-                height: 0,
-              }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
               className={`lg:hidden border-t ${
-                isDark
-                  ? 'bg-gray-900 border-gray-800'
-                  : 'bg-white border-gray-200'
+                isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'
               }`}
             >
               <div className="p-4 space-y-2">
                 {navLinks.map((link) => (
                   <button
                     key={link.label}
-                    onClick={() =>
-                      scrollTo(link.href)
-                    }
-                    className="block w-full text-left px-4 py-3 rounded-xl hover:bg-indigo-500/10"
+                    onClick={() => scrollTo(link.href)}
+                    className="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-indigo-500/10"
                   >
                     {link.label}
                   </button>
                 ))}
 
-                {onNavigateToProfile && (
+                {isAuthenticated && onNavigateToProfile && (
                   <button
                     onClick={() => {
                       setMobileMenuOpen(false);
                       onNavigateToProfile();
                     }}
-                    className="block w-full text-left px-4 py-3 rounded-xl font-semibold hover:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
+                    className="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10"
                   >
                     My Account Profile
                   </button>
                 )}
 
                 <Button
-                  onClick={onStartBuilding}
-                  className="w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onStartBuilding();
+                  }}
+                  className="w-full mt-2 rounded-xl bg-indigo-600 text-white font-semibold"
                 >
-                  Start Building
+                  Create Resume
                 </Button>
               </div>
             </motion.div>
@@ -510,375 +431,351 @@ export default function LandingPage({
       </header>
 
       {/* ========================================
-          HERO SECTION
+          1. HOME (HERO SECTION)
       ======================================== */}
-      <section className="relative py-20 sm:py-28 overflow-hidden">
-        {/* BG */}
-        <motion.div
-          style={{
-            y: heroY,
-          }}
-          className="absolute inset-0 overflow-hidden"
-        >
-          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-indigo-500/20 blur-3xl rounded-full" />
-
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-500/20 blur-3xl rounded-full" />
-        </motion.div>
-
-        <div className="relative max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16">
-          {/* LEFT */}
+      <section className="relative py-16 sm:py-24 overflow-hidden border-b border-gray-100 dark:border-gray-900">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+          {/* Left Column */}
           <div className="flex-1 text-center lg:text-left">
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 30,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold mb-6"
-            >
-              <Sparkles className="w-4 h-4" />
-              Welcome {user?.name || 'User'}
-            </motion.div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60 mb-6">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Real Overleaf & LaTeX Professional Standards</span>
+            </div>
 
-            <motion.h1
-              initial={{
-                opacity: 0,
-                y: 40,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.1,
-              }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6"
-            >
-              Build Your{' '}
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Dream Resume
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+              Professional Resumes.{' '}
+              <span className="text-indigo-600 dark:text-indigo-400">
+                Built for Real Jobs.
               </span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: 40,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.2,
-              }}
-              className={`text-lg leading-relaxed mb-8 max-w-2xl ${
-                isDark
-                  ? 'text-gray-400'
-                  : 'text-gray-600'
+            <p
+              className={`text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0 ${
+                isDark ? 'text-gray-400' : 'text-gray-600'
               }`}
             >
-              Create modern ATS-friendly resumes
-              with premium templates, live preview
-              and one-click PDF export.
-            </motion.p>
+              Craft ATS-optimized, single-column resumes inspired by proven Overleaf LaTeX conventions. Free to use, instant live preview, and one-click print-ready PDF export.
+            </p>
 
-            {/* CTA */}
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 40,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.3,
-              }}
-              className="flex flex-wrap justify-center lg:justify-start gap-4"
-            >
+            {/* CTAs */}
+            <div className="flex flex-wrap justify-center lg:justify-start gap-3.5">
               <Button
-                onClick={onStartBuilding}
-                className="h-12 px-8 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
+                onClick={() => onStartBuilding()}
+                className="h-12 px-7 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md flex items-center gap-2"
               >
-                Start Building
-                <ArrowRight className="ml-2 w-4 h-4" />
+                <span>Start Building</span>
+                <ArrowRight className="w-4 h-4" />
               </Button>
-            </motion.div>
 
-            {/* STATS */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{
-                    opacity: 0,
-                    y: 40,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    delay: index * 0.1,
-                  }}
-                  whileHover={{
-                    y: -6,
-                  }}
-                  className={`p-5 rounded-3xl border backdrop-blur-sm ${
-                    isDark
-                      ? 'bg-gray-900/70 border-gray-800'
-                      : 'bg-white/80 border-gray-200 shadow-sm'
-                  }`}
-                >
-                  <h3 className="text-2xl font-extrabold text-indigo-600">
-                    {stat.value}
-                  </h3>
+              <Button
+                variant="outline"
+                onClick={() => scrollTo('#templates')}
+                className={`h-12 px-6 rounded-xl font-medium ${
+                  isDark
+                    ? 'border-gray-800 hover:bg-gray-800 text-gray-300'
+                    : 'border-gray-300 hover:bg-gray-50 text-gray-700'
+                }`}
+              >
+                Browse 9 Templates
+              </Button>
+            </div>
 
-                  <p className="text-sm text-gray-500 mt-1">
-                    {stat.label}
-                  </p>
-                </motion.div>
-              ))}
+            {/* Quick Metrics Bar */}
+            <div className="grid grid-cols-3 gap-4 mt-10 pt-8 border-t border-gray-100 dark:border-gray-800/70 max-w-md mx-auto lg:mx-0 text-left">
+              <div>
+                <p className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">9</p>
+                <p className="text-xs text-gray-500 mt-0.5">Role Templates</p>
+              </div>
+              <div>
+                <p className="text-2xl font-extrabold text-gray-900 dark:text-white">100%</p>
+                <p className="text-xs text-gray-500 mt-0.5">ATS-Readable</p>
+              </div>
+              <div>
+                <p className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">A4</p>
+                <p className="text-xs text-gray-500 mt-0.5">Print-Ready PDF</p>
+              </div>
             </div>
           </div>
 
-          {/* RIGHT */}
-          <div className="flex-1 flex justify-center">
-            <motion.div
-              animate={{
-                y: [0, -12, 0],
-              }}
-              transition={{
-                repeat: Infinity,
-                duration: 4,
-              }}
-              className="relative"
-            >
-              <MockResume isDark={isDark} />
+          {/* Right Column: Realistic Overleaf Document Mock */}
+          <div className="flex-1 flex justify-center w-full">
+            <div className="relative">
+              <RealisticOverleafResume isDark={isDark} />
 
-              {/* BADGES */}
-              <motion.div
-                whileHover={{
-                  scale: 1.08,
-                }}
-                className="absolute -top-5 -right-4 bg-white px-4 py-2 rounded-2xl shadow-xl border text-sm font-semibold text-gray-800"
-              >
-                ⭐ ATS Score 98%
-              </motion.div>
-
-              <motion.div
-                whileHover={{
-                  scale: 1.08,
-                }}
-                className="absolute -bottom-5 -left-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-2xl shadow-xl text-sm font-semibold"
-              >
-                PDF Export
-              </motion.div>
-            </motion.div>
+              {/* Verified Tag */}
+              <div className="absolute -top-3 -right-3 bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>Overleaf LaTeX Standard</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ========================================
-          HOW IT WORKS
+          2. HOW IT WORKS
       ======================================== */}
       <section
         id="how-it-works"
-        className={`py-24 ${
-          isDark ? 'bg-gray-900' : 'bg-gray-50'
+        className={`py-20 sm:py-24 border-b ${
+          isDark ? 'bg-gray-900/40 border-gray-800' : 'bg-gray-50/70 border-gray-200'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-extrabold mb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              Simple 4-Step Process
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
               How It Works
             </h2>
-
             <p
-              className={`max-w-2xl mx-auto ${
-                isDark
-                  ? 'text-gray-400'
-                  : 'text-gray-600'
+              className={`text-sm sm:text-base ${
+                isDark ? 'text-gray-400' : 'text-gray-600'
               }`}
             >
-              Create your professional resume in
-              minutes.
+              Create a recruiter-ready, ATS-compliant resume in minutes without design friction.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.title}
-                initial={{
-                  opacity: 0,
-                  y: 40,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                transition={{
-                  delay: index * 0.1,
-                }}
-                whileHover={{
-                  y: -8,
-                }}
-                className={`relative p-7 rounded-[30px] border ${
-                  isDark
-                    ? 'bg-gray-950 border-gray-800'
-                    : 'bg-white border-gray-200 shadow-sm'
-                }`}
-              >
-                <div className="absolute top-5 right-5 text-5xl font-black opacity-10">
-                  0{index + 1}
-                </div>
-
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mb-5 text-white">
-                  <step.icon className="w-7 h-7" />
-                </div>
-
-                <h3 className="text-xl font-bold mb-3">
-                  {step.title}
-                </h3>
-
-                <p
-                  className={
+            {steps.map((step) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.step}
+                  className={`p-6 rounded-2xl border transition-all ${
                     isDark
-                      ? 'text-gray-400'
-                      : 'text-gray-600'
-                  }
+                      ? 'bg-gray-900 border-gray-800 hover:border-gray-700'
+                      : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
+                  }`}
                 >
-                  {step.desc}
-                </p>
-              </motion.div>
-            ))}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-2xl font-black text-gray-300 dark:text-gray-700">
+                      {step.step}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-bold mb-2 text-gray-900 dark:text-white">
+                    {step.title}
+                  </h3>
+
+                  <p
+                    className={`text-xs sm:text-sm leading-relaxed ${
+                      isDark ? 'text-gray-400' : 'text-gray-600'
+                    }`}
+                  >
+                    {step.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ========================================
-          TEMPLATES
+          3. TEMPLATES
       ======================================== */}
-      <section
-        id="templates"
-        className="py-24"
-      >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-4xl font-extrabold mb-4">
-              9 Professional Role-Specific Templates
+      <section id="templates" className="py-20 sm:py-24 border-b border-gray-100 dark:border-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              Role-Specific Designs
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
+              9 Professional Resume Templates
             </h2>
-
             <p
-              className={`max-w-2xl mx-auto text-base ${
-                isDark
-                  ? 'text-gray-400'
-                  : 'text-gray-600'
+              className={`text-sm sm:text-base ${
+                isDark ? 'text-gray-400' : 'text-gray-600'
               }`}
             >
-              Modeled after established Overleaf and LaTeX standards. Single-column, ATS-verified, print-ready, and tailored to industry hiring expectations.
+              Engineered with single-column layouts, strict semantic hierarchy, and verified ATS compatibility. Filter by role and preview in full A4 resolution.
             </p>
           </div>
 
+          {/* Template Gallery with Filtering */}
           <TemplateGallery
-            onSelectTemplate={
-              onStartBuilding
-            }
+            onSelectTemplate={() => onStartBuilding()}
           />
         </div>
       </section>
 
       {/* ========================================
-          FEATURES
+          4. FEATURES
       ======================================== */}
       <section
         id="features"
-        className={`py-24 ${
-          isDark ? 'bg-gray-900' : 'bg-gray-50'
+        className={`py-20 sm:py-24 border-b ${
+          isDark ? 'bg-gray-900/40 border-gray-800' : 'bg-gray-50/70 border-gray-200'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <h2 className="text-4xl font-extrabold mb-4">
-              Powerful Features
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              Built For Precision
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
+              Engineered for Job Seekers & Recruiters
             </h2>
-
             <p
-              className={`max-w-2xl mx-auto ${
-                isDark
-                  ? 'text-gray-400'
-                  : 'text-gray-600'
+              className={`text-sm sm:text-base ${
+                isDark ? 'text-gray-400' : 'text-gray-600'
               }`}
             >
-              Everything you need to create a winning
-              resume.
+              Every tool and structure you need to deliver an error-free, high-conversion resume.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature) => (
-              <motion.div
-                key={feature.title}
-                whileHover={{
-                  y: -8,
-                  scale: 1.02,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
-                className={`p-7 rounded-[28px] border transition-all duration-300 ${
-                  isDark
-                    ? 'bg-gray-950 border-gray-800 hover:border-indigo-500'
-                    : 'bg-white border-gray-200 shadow-sm hover:shadow-xl'
-                }`}
-              >
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
                 <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5"
-                  style={{
-                    background: feature.bg,
-                  }}
-                >
-                  <feature.icon
-                    className="w-7 h-7"
-                    style={{
-                      color: feature.color,
-                    }}
-                  />
-                </div>
-
-                <h3 className="text-xl font-bold mb-3">
-                  {feature.title}
-                </h3>
-
-                <p
-                  className={
+                  key={feature.title}
+                  className={`p-6 sm:p-7 rounded-2xl border transition-all ${
                     isDark
-                      ? 'text-gray-400'
-                      : 'text-gray-600'
-                  }
+                      ? 'bg-gray-900 border-gray-800 hover:border-gray-700'
+                      : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
+                  }`}
                 >
-                  {feature.desc}
-                </p>
-              </motion.div>
-            ))}
+                  <div
+                    className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${feature.bg} ${feature.accent}`}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </div>
+
+                  <h3 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white">
+                    {feature.title}
+                  </h3>
+
+                  <p
+                    className={`text-xs sm:text-sm leading-relaxed ${
+                      isDark ? 'text-gray-400' : 'text-gray-600'
+                    }`}
+                  >
+                    {feature.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ========================================
-          STACKED CIRCULAR FOOTER
+          5. FAQ
+      ======================================== */}
+      <section id="faq" className="py-20 sm:py-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-xl mx-auto mb-12">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+              Frequently Asked Questions
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
+              Questions & Answers
+            </h2>
+            <p
+              className={`text-sm sm:text-base ${
+                isDark ? 'text-gray-400' : 'text-gray-600'
+              }`}
+            >
+              Clear answers to common questions about Resume Craft and our ATS templates.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqItems.map((item, index) => {
+              const isOpen = openFaqIndex === index;
+              return (
+                <div
+                  key={item.question}
+                  className={`rounded-2xl border transition-colors ${
+                    isDark
+                      ? 'bg-gray-900/70 border-gray-800'
+                      : 'bg-white border-gray-200 shadow-xs'
+                  }`}
+                >
+                  <button
+                    onClick={() => toggleFaq(index)}
+                    aria-expanded={isOpen}
+                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left cursor-pointer"
+                  >
+                    <span className="font-bold text-sm sm:text-base text-gray-900 dark:text-gray-100 pr-4">
+                      {item.question}
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 ${
+                        isOpen ? 'rotate-180' : 'rotate-0'
+                      }`}
+                    />
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                      >
+                        <div
+                          className={`px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm leading-relaxed border-t pt-4 ${
+                            isDark
+                              ? 'text-gray-400 border-gray-800'
+                              : 'text-gray-600 border-gray-100'
+                          }`}
+                        >
+                          {item.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Quick Start Card */}
+          <div
+            className={`mt-12 p-6 sm:p-8 rounded-2xl border text-center ${
+              isDark
+                ? 'bg-indigo-950/30 border-indigo-900/50'
+                : 'bg-indigo-50/60 border-indigo-100'
+            }`}
+          >
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2">
+              Ready to create your professional resume?
+            </h3>
+            <p
+              className={`text-xs sm:text-sm max-w-md mx-auto mb-5 ${
+                isDark ? 'text-gray-400' : 'text-gray-600'
+              }`}
+            >
+              Choose any of our 9 role-tested templates and export your print-ready PDF in minutes.
+            </p>
+            <Button
+              onClick={() => onStartBuilding()}
+              className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 h-11 shadow-sm"
+            >
+              Build My Resume Now
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================
+          6. FOOTER
       ======================================== */}
       <StackedCircularFooter
         isDark={isDark}
         scrollTo={scrollTo}
-        onStartBuilding={onStartBuilding}
-        onShowToast={showToast}
+        onStartBuilding={() => onStartBuilding()}
       />
     </div>
   );

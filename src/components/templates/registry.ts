@@ -1,25 +1,21 @@
 import React from 'react';
 import { ResumeData, TemplateType, normalizeTemplateId } from '@/types/resume';
 import SoftwareEngineerTemplate from './SoftwareEngineerTemplate';
-import DataAnalystTemplate from './DataAnalystTemplate';
-import AIMLEngineerTemplate from './AIMLEngineerTemplate';
-import UIUXDesignerTemplate from './UIUXDesignerTemplate';
-import ProductManagerTemplate from './ProductManagerTemplate';
-import BusinessMarketingTemplate from './BusinessMarketingTemplate';
-import FinanceConsultingTemplate from './FinanceConsultingTemplate';
-import StudentFresherTemplate from './StudentFresherTemplate';
-import CreativeGeneralTemplate from './CreativeGeneralTemplate';
+import SWEResumeTemplate from './SWEResumeTemplate';
+import FAANGPathTemplate from './FAANGPathTemplate';
+import CSITSweTemplate from './CSITSweTemplate';
+import SoftwareEngineeringResumeTemplate from './SoftwareEngineeringResumeTemplate';
+import ResumeProfessionalSWETemplate from './ResumeProfessionalSWETemplate';
+import UndergraduateCVTemplate from './UndergraduateCVTemplate';
+import ModernSimpleCVTemplate from './ModernSimpleCVTemplate';
+import ResumeCVTemplate from './ResumeCVTemplate';
 
 export type TemplateCategory =
   | 'All'
-  | 'Tech'
-  | 'Data & AI'
-  | 'Design'
-  | 'Product'
-  | 'Business'
-  | 'Finance'
+  | 'Software / IT'
   | 'Student'
-  | 'Creative';
+  | 'Engineering'
+  | 'General';
 
 export interface TemplateDefinition {
   id: TemplateType;
@@ -36,124 +32,120 @@ export interface TemplateDefinition {
 
 export const TEMPLATE_CATEGORIES: TemplateCategory[] = [
   'All',
-  'Tech',
-  'Data & AI',
-  'Design',
-  'Product',
-  'Business',
-  'Finance',
+  'Software / IT',
   'Student',
-  'Creative',
+  'Engineering',
+  'General',
 ];
 
 export const TEMPLATES: TemplateDefinition[] = [
   {
     id: 'software-engineer',
-    name: 'Software Engineer',
+    name: 'Software Engineer Resume',
     role: 'Software Engineer',
-    category: 'Tech',
-    description: 'ATS-optimized, high-density LaTeX single-column format modeled after standard Overleaf SWE engineering resumes.',
-    bestFor: 'Software Engineer, Full-Stack, Backend, Frontend, SDE I/II/III',
-    tag: 'ATS Standard',
-    structureNote: 'Skills → Experience → Projects → Education → Certifications',
+    category: 'Software / IT',
+    description: 'Compact single-column ATS format based on standard Overleaf software engineering resumes. Clean horizontal rules with zero decorative graphics.',
+    bestFor: 'Software Engineers, Full-Stack Developers, Backend / Frontend Engineers, SDE I/II/III',
+    tag: 'Overleaf SWE',
+    structureNote: 'Contact → Education → Experience → Projects → Programming/Technical Skills',
     component: SoftwareEngineerTemplate,
-    sectionHierarchy: ['Contact & Links', 'Technical Skills', 'Experience', 'Projects', 'Education', 'Achievements'],
+    sectionHierarchy: ['Contact & Links', 'Education', 'Experience', 'Projects', 'Technical Skills'],
   },
   {
-    id: 'data-analyst',
-    name: 'Data Analyst / Scientist',
-    role: 'Data Analyst / Data Scientist',
-    category: 'Data & AI',
-    description: 'Structured analytical hierarchy highlighting querying (SQL), statistical modeling, data visualization, and quantifiable business impact.',
-    bestFor: 'Data Analyst, Data Scientist, BI Engineer, Analytics Consultant',
-    tag: 'Analytical',
-    structureNote: 'Summary → Analytical Skills → Experience → Data Projects → Education',
-    component: DataAnalystTemplate,
-    sectionHierarchy: ['Summary', 'Analytical & BI Skills', 'Experience', 'Data/ML Projects', 'Education'],
+    id: 'swe-resume',
+    name: 'SWE Resume Template',
+    role: 'Software Engineer / Full-Stack',
+    category: 'Software / IT',
+    description: 'Clean ATS-oriented software developer structure inspired by Overleaf SWE templates. Compact typography with right-aligned dates and metrics.',
+    bestFor: 'Full-Stack Developers, Software Engineers, Systems Programmers',
+    tag: 'ATS Developer',
+    structureNote: 'Contact → Education → Experience → Projects → Technical Skills → Achievements',
+    component: SWEResumeTemplate,
+    sectionHierarchy: ['Contact', 'Education', 'Experience', 'Projects', 'Technical Skills', 'Achievements'],
   },
   {
-    id: 'ai-ml-engineer',
-    name: 'AI / ML Engineer',
-    role: 'AI / Machine Learning Engineer',
-    category: 'Data & AI',
-    description: 'Technical, research-grounded format prioritizing model architectures (LLMs, RAG, PyTorch), MLOps, datasets, benchmarks, and publications.',
-    bestFor: 'ML Engineer, AI Researcher, Deep Learning Engineer, NLP/Computer Vision',
-    tag: 'Research & ML',
-    structureNote: 'Summary → AI/ML Skills → Experience/Research → Projects → Publications → Education',
-    component: AIMLEngineerTemplate,
-    sectionHierarchy: ['Technical Summary', 'AI/ML Competencies', 'Experience & Research', 'AI Projects', 'Publications', 'Education'],
+    id: 'faangpath-simple',
+    name: 'FAANGPath Simple Template',
+    role: 'SWE / Tech Specialist',
+    category: 'Software / IT',
+    description: 'Minimal, clean, compact ATS-readable hierarchy based on the popular FAANGPath template. Engineered for top tech screening systems.',
+    bestFor: 'Tech Candidates, New Grads, FAANG / Big Tech Applicants',
+    tag: 'FAANGPath',
+    structureNote: 'Header → Education → Experience → Projects → Categorized Skills',
+    component: FAANGPathTemplate,
+    sectionHierarchy: ['Header', 'Education', 'Experience', 'Projects', 'Technical Skills'],
   },
   {
-    id: 'ui-ux-designer',
-    name: 'UI / UX / Product Designer',
-    role: 'UI / UX / Product Designer',
-    category: 'Design',
-    description: 'Refined typographic hierarchy with prominent portfolio visibility, design systems focus, UX process case studies, and tool proficiencies.',
-    bestFor: 'Product Designer, UX/UI Designer, UX Researcher, Interaction Designer',
-    tag: 'Design & UX',
-    structureNote: 'Portfolio/Contact → Philosophy → Design Experience → Case Studies → Skills & Tools → Education',
-    component: UIUXDesignerTemplate,
-    sectionHierarchy: ['Portfolio Link', 'Design Philosophy', 'Experience', 'Case Studies', 'Skills & Tools', 'Education'],
+    id: 'cs-it-swe',
+    name: 'CS/IT/SWE Resume Template',
+    role: 'Computer Science & IT',
+    category: 'Engineering',
+    description: 'Computer Science & Information Technology resume structure prioritizing technical competencies, followed by Education, Experience, and Certifications.',
+    bestFor: 'Computer Science Majors, IT Specialists, Software Engineers, DevOps',
+    tag: 'CS / IT Standard',
+    structureNote: 'Technical Skills (Top) → Education → Experience → Projects → Certifications',
+    component: CSITSweTemplate,
+    sectionHierarchy: ['Technical Skills', 'Education', 'Experience', 'Projects', 'Certifications'],
   },
   {
-    id: 'product-manager',
-    name: 'Product Manager',
-    role: 'Product Manager',
-    category: 'Product',
-    description: 'Authoritative, executive layout emphasizing 0-to-1 product launches, growth metrics, revenue milestones, cross-functional leadership, and strategy.',
-    bestFor: 'Product Manager, Group PM, Technical PM, Head of Product, Founder',
-    tag: 'Executive',
-    structureNote: 'Executive Summary → Product Experience → Achievements & Metrics → Core Competencies → Education',
-    component: ProductManagerTemplate,
-    sectionHierarchy: ['Executive Summary', 'Product Experience', 'Key Milestones', 'Initiatives', 'Competencies', 'Education'],
+    id: 'software-engineering',
+    name: 'Software Engineering Resume',
+    role: 'Software Engineer',
+    category: 'Engineering',
+    description: 'Clean software-engineering-oriented structure with summary statement, production experience, technical skills, and academic qualifications.',
+    bestFor: 'Experienced Software Engineers, Backend Architects, Engineering Leads',
+    tag: 'Software Eng.',
+    structureNote: 'Contact → Summary → Experience → Projects → Skills → Education',
+    component: SoftwareEngineeringResumeTemplate,
+    sectionHierarchy: ['Contact', 'Summary', 'Experience', 'Projects', 'Skills', 'Education'],
   },
   {
-    id: 'business-marketing',
-    name: 'Business / Marketing',
-    role: 'Business / Marketing',
-    category: 'Business',
-    description: 'Commercial, campaign-focused document highlighting CAC/LTV improvements, revenue pipelines, growth marketing channels, and strategic wins.',
-    bestFor: 'Growth Marketer, Business Development, Marketing Director, Sales Executive',
-    tag: 'Business Impact',
-    structureNote: 'Executive Profile → Experience → Quantified Achievements → Strategic Campaigns → Competencies',
-    component: BusinessMarketingTemplate,
-    sectionHierarchy: ['Executive Profile', 'Experience', 'Quantified Wins', 'Campaigns', 'Core Competencies', 'Education'],
+    id: 'resume-professional-swe',
+    name: 'Resume Professional Template - Software Engineer',
+    role: 'Senior Software Engineer / Architect',
+    category: 'Engineering',
+    description: 'Restrained, authoritative engineering hierarchy with clear title distinction, verified ATS formatting, and prominent architectural achievements.',
+    bestFor: 'Senior Engineers, Tech Leads, Solutions Architects, Engineering Managers',
+    tag: 'Professional SWE',
+    structureNote: 'Strong Header → Education → Technical Skills → Experience → Projects → Certifications',
+    component: ResumeProfessionalSWETemplate,
+    sectionHierarchy: ['Header', 'Education', 'Technical Skills', 'Experience', 'Projects', 'Certifications'],
   },
   {
-    id: 'finance-consulting',
-    name: 'Finance / Consulting',
-    role: 'Finance / Consulting',
-    category: 'Finance',
-    description: 'Conservative Wall Street / Ivy League format with Education at top, classic serif typography, financial modeling focus, and zero decorative noise.',
-    bestFor: 'Investment Banking, Management Consulting, Private Equity, Corporate Finance',
-    tag: 'Wall St. Classic',
-    structureNote: 'Education (Top) → Professional Experience → Engagements/Deals → Honors → Skills & Certifications',
-    component: FinanceConsultingTemplate,
-    sectionHierarchy: ['Education (Top)', 'Experience (Deals)', 'Engagements', 'Honors & Awards', 'Skills & CFA'],
-  },
-  {
-    id: 'student-fresher',
-    name: 'Student / Fresher',
-    role: 'Student / Fresher',
+    id: 'undergraduate-cv',
+    name: 'Undergraduate CV Template',
+    role: 'Student / Fresher / Researcher',
     category: 'Student',
-    description: 'Balanced academic and project-first layout designed to highlight coursework, CGPA, hackathons, and technical projects without looking empty.',
-    bestFor: 'College Students, Recent Grads, Tech Interns, Entry-Level Candidates',
-    tag: 'Academic First',
-    structureNote: 'Education (Top) → Skills & Coursework → Academic Projects → Internships → Hackathons & Honors',
-    component: StudentFresherTemplate,
-    sectionHierarchy: ['Education (Top)', 'Technical Skills', 'Academic Projects', 'Internships', 'Hackathons & Awards'],
+    description: 'Academic-first CV template for undergraduates, interns, freshers, and research candidates. Features prominent coursework, GPA, and projects.',
+    bestFor: 'College Students, Freshers, Tech Internships, Research & Graduate Admissions',
+    tag: 'Undergraduate CV',
+    structureNote: 'Education (Top) → Skills & Coursework → Projects → Experience → Publications → Honors',
+    component: UndergraduateCVTemplate,
+    sectionHierarchy: ['Education (Top)', 'Skills & Coursework', 'Projects', 'Experience', 'Honors & Awards'],
   },
   {
-    id: 'creative-general',
-    name: 'Creative / General Professional',
-    role: 'Creative / General Professional',
-    category: 'Creative',
-    description: 'Versatile typographic document with clean editorial layout suited for Operations, HR, Media, Communications, and General Corporate leadership.',
-    bestFor: 'HR, Operations, Communications, Media, Corporate Leadership, Content',
-    tag: 'Versatile',
-    structureNote: 'Summary → Experience → Core Competencies → Key Projects → Education → Additional Info',
-    component: CreativeGeneralTemplate,
-    sectionHierarchy: ['Summary', 'Experience', 'Competencies & Tools', 'Key Projects', 'Education', 'Achievements'],
+    id: 'modern-simple-cv',
+    name: 'Modern Simple CV',
+    role: 'General Professional / Tech',
+    category: 'General',
+    description: 'Typography-focused, minimal, clean, spacious layout with zero decorative noise or arbitrary charts. Maximum cross-industry readability.',
+    bestFor: 'General Tech, UI/UX, Product, Operations, Cross-Disciplinary Roles',
+    tag: 'Modern Simple',
+    structureNote: 'Clean Header → Summary → Experience → Skills → Projects → Education',
+    component: ModernSimpleCVTemplate,
+    sectionHierarchy: ['Header', 'Summary', 'Experience', 'Skills', 'Projects', 'Education'],
+  },
+  {
+    id: 'resume-cv',
+    name: 'Resume / CV',
+    role: 'General Professional / Experienced',
+    category: 'General',
+    description: 'Standard Overleaf-inspired multi-purpose CV. Suitable for experienced candidates, career switchers, and general business or technical specialists.',
+    bestFor: 'Career Switchers, Experienced Professionals, Multi-Disciplinary Specialists',
+    tag: 'Standard CV',
+    structureNote: 'Professional Header → Summary → Experience → Skills → Projects → Education → Certifications',
+    component: ResumeCVTemplate,
+    sectionHierarchy: ['Header', 'Summary', 'Experience', 'Skills', 'Projects', 'Education'],
   },
 ];
 

@@ -16,8 +16,7 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
-  // Categorize tech stack if available
+export default function FAANGPathTemplate({ data }: TemplateProps) {
   const hasTech = data.technologies && data.technologies.length > 0;
   const hasSkills = data.skills && data.skills.length > 0;
 
@@ -30,61 +29,61 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. COMPACT LATEX HEADER */}
-      <ResumeHeader data={data} variant="latex" />
+      {/* 1. FAANGPATH CENTERED COMPACT HEADER */}
+      <ResumeHeader data={data} variant="faangpath" />
 
       {/* 2. EDUCATION */}
       {data.education && data.education.length > 0 && (
-        <ResumeSection title="Education" variant="latex">
-          <EducationSection education={data.education} variant="latex" />
+        <ResumeSection title="Education" variant="faangpath">
+          <EducationSection education={data.education} variant="faangpath" />
         </ResumeSection>
       )}
 
       {/* 3. EXPERIENCE */}
       {data.experiences && data.experiences.length > 0 && (
-        <ResumeSection title="Experience" variant="latex">
-          <ExperienceSection experiences={data.experiences} variant="latex" />
+        <ResumeSection title="Experience" variant="faangpath">
+          <ExperienceSection experiences={data.experiences} variant="faangpath" />
         </ResumeSection>
       )}
 
       {/* 4. PROJECTS */}
       {data.projects && data.projects.length > 0 && (
-        <ResumeSection title="Projects" variant="latex">
-          <ProjectsSection projects={data.projects} variant="latex" />
+        <ResumeSection title="Projects" variant="faangpath">
+          <ProjectsSection projects={data.projects} variant="faangpath" />
         </ResumeSection>
       )}
 
       {/* 5. TECHNICAL SKILLS */}
       {(hasTech || hasSkills) && (
-        <ResumeSection title="Technical Skills" variant="latex">
+        <ResumeSection title="Technical Skills" variant="faangpath">
           <SkillsSection
             skills={data.skills}
             technologies={data.technologies}
-            variant="latex"
+            variant="faangpath"
           />
         </ResumeSection>
       )}
 
-      {/* 6. CERTIFICATIONS */}
-      {data.certifications && data.certifications.length > 0 && (
-        <CertificationsSection
-          certifications={data.certifications}
-          variant="latex"
-        />
-      )}
-
-      {/* 7. ACHIEVEMENTS */}
+      {/* 6. ACHIEVEMENTS & LEADERSHIP */}
       {data.achievements && data.achievements.length > 0 && (
         <AchievementsSection
           achievements={data.achievements}
-          variant="latex"
-          title="Honors & Achievements"
+          variant="faangpath"
+          title="Leadership & Extracurricular"
+        />
+      )}
+
+      {/* 7. CERTIFICATIONS */}
+      {data.certifications && data.certifications.length > 0 && (
+        <CertificationsSection
+          certifications={data.certifications}
+          variant="faangpath"
         />
       )}
 
       {/* 8. LANGUAGES */}
       {data.languages && data.languages.length > 0 && (
-        <LanguagesSection languages={data.languages} variant="latex" />
+        <LanguagesSection languages={data.languages} variant="faangpath" />
       )}
     </div>
   );

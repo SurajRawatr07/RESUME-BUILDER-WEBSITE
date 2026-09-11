@@ -16,8 +16,7 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
-  // Categorize tech stack if available
+export default function SWEResumeTemplate({ data }: TemplateProps) {
   const hasTech = data.technologies && data.technologies.length > 0;
   const hasSkills = data.skills && data.skills.length > 0;
 
@@ -30,7 +29,7 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. COMPACT LATEX HEADER */}
+      {/* 1. COMPACT OVERLEAF SWE HEADER */}
       <ResumeHeader data={data} variant="latex" />
 
       {/* 2. EDUCATION */}
@@ -65,20 +64,20 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         </ResumeSection>
       )}
 
-      {/* 6. CERTIFICATIONS */}
-      {data.certifications && data.certifications.length > 0 && (
-        <CertificationsSection
-          certifications={data.certifications}
-          variant="latex"
-        />
-      )}
-
-      {/* 7. ACHIEVEMENTS */}
+      {/* 6. ACHIEVEMENTS */}
       {data.achievements && data.achievements.length > 0 && (
         <AchievementsSection
           achievements={data.achievements}
           variant="latex"
-          title="Honors & Achievements"
+          title="Achievements & Honors"
+        />
+      )}
+
+      {/* 7. CERTIFICATIONS */}
+      {data.certifications && data.certifications.length > 0 && (
+        <CertificationsSection
+          certifications={data.certifications}
+          variant="latex"
         />
       )}
 

@@ -6,32 +6,31 @@ interface TemplateMiniPreviewProps {
 }
 
 export const TemplateMiniPreview: React.FC<TemplateMiniPreviewProps> = ({ template }) => {
-  const isSerif = template.id === 'finance-consulting';
-  const isDesigner = template.id === 'ui-ux-designer' || template.id === 'creative-general';
+  const isModern = template.id === 'modern-simple-cv';
 
   return (
     <div
-      className={`w-full aspect-[210/297] bg-white border border-gray-200 rounded-sm p-4 text-[7px] text-gray-800 shadow-inner flex flex-col justify-between select-none overflow-hidden ${
-        isSerif ? 'font-serif' : 'font-sans'
+      className={`w-full aspect-[210/297] bg-white border border-gray-300 rounded-xs p-3.5 text-[7px] text-gray-900 shadow-sm flex flex-col justify-between select-none overflow-hidden ${
+        isModern ? 'font-sans' : 'font-serif'
       }`}
       style={{
         backgroundColor: '#ffffff',
       }}
     >
       {/* Top Header Simulation */}
-      <div className="border-b border-gray-900 pb-1.5 mb-2 text-center">
-        <div className="font-bold text-[9px] tracking-tight uppercase text-gray-950">
-          SURAAJ RAWAT
+      <div className="border-b border-gray-900 pb-1 mb-1.5 text-center">
+        <div className="font-bold text-[8.5px] tracking-tight uppercase text-gray-950">
+          SURAJ RAWAT
         </div>
-        <div className="text-[6.5px] text-gray-600 mb-0.5">
+        <div className="text-[6px] text-gray-600 mb-0.5 font-sans">
           {template.role}
         </div>
-        <div className="flex items-center justify-center gap-1 text-[5.5px] text-gray-500">
-          <span>haldwani, india</span>
+        <div className="flex items-center justify-center gap-1 text-[5px] text-gray-500 font-sans">
+          <span>Haldwani, India</span>
           <span>•</span>
           <span>email@example.com</span>
           <span>•</span>
-          <span>linkedin/in/suraj</span>
+          <span>linkedin.com/in/suraj</span>
         </div>
       </div>
 
@@ -40,38 +39,40 @@ export const TemplateMiniPreview: React.FC<TemplateMiniPreviewProps> = ({ templa
         {template.sectionHierarchy.slice(1, 5).map((sectionName, idx) => (
           <div key={idx} className="space-y-0.5">
             <div className="flex items-center justify-between border-b border-gray-800 pb-0.5">
-              <span className="font-bold uppercase tracking-wider text-[6.5px] text-gray-900">
+              <span className="font-bold uppercase tracking-wider text-[6px] text-gray-950 font-sans">
                 {sectionName}
               </span>
-              <span className="text-[5px] text-gray-400">Overleaf / LaTeX</span>
+              <span className="text-[4.5px] text-gray-400 font-sans">Overleaf / LaTeX</span>
             </div>
 
             {/* Simulated bullet lines */}
-            <div className="space-y-0.5 pt-0.5">
-              <div className="flex justify-between items-center text-[5.5px] font-semibold text-gray-800">
-                <span className="truncate max-w-[100px]">
-                  {idx === 0 && template.id === 'finance-consulting'
-                    ? 'B.S. in Computer Science & Finance'
-                    : idx === 0 && template.id === 'software-engineer'
-                    ? 'Languages: TypeScript, Python, SQL, C++'
-                    : 'Senior Professional Specialist'}
+            <div className="space-y-0.5 pt-0.5 font-sans">
+              <div className="flex justify-between items-center text-[5px] font-semibold text-gray-800">
+                <span className="truncate max-w-[110px]">
+                  {idx === 0 && template.id === 'undergraduate-cv'
+                    ? 'B.Tech in Computer Science (8.6 GPA)'
+                    : idx === 0 && (template.id === 'software-engineer' || template.id === 'swe-resume')
+                    ? 'B.Tech in Computer Science & Engineering'
+                    : idx === 0 && template.id === 'cs-it-swe'
+                    ? 'Languages: TypeScript, Python, C++, SQL'
+                    : 'Software Engineer • Tech Solutions Inc.'}
                 </span>
-                <span className="text-gray-500 text-[5px]">2021 – Present</span>
+                <span className="text-gray-500 text-[4.5px]">2021 – Present</span>
               </div>
-              <div className="w-full h-1 bg-gray-200 rounded-xs" />
-              <div className="w-5/6 h-1 bg-gray-200 rounded-xs" />
-              <div className="w-4/6 h-1 bg-gray-100 rounded-xs" />
+              <div className="w-full h-0.5 bg-gray-300 rounded-xs" />
+              <div className="w-5/6 h-0.5 bg-gray-300 rounded-xs" />
+              <div className="w-4/6 h-0.5 bg-gray-200 rounded-xs" />
             </div>
           </div>
         ))}
       </div>
 
       {/* Bottom Footer stamp */}
-      <div className="mt-1 pt-1 border-t border-gray-200 flex items-center justify-between text-[5.5px] text-gray-500">
-        <span className="font-mono uppercase font-medium tracking-wider">
+      <div className="mt-1 pt-1 border-t border-gray-200 flex items-center justify-between text-[5px] text-gray-500 font-sans">
+        <span className="font-mono uppercase font-semibold text-gray-700">
           {template.tag}
         </span>
-        <span>A4 ATS-Ready</span>
+        <span className="text-emerald-700 font-medium">ATS Verified • A4</span>
       </div>
     </div>
   );

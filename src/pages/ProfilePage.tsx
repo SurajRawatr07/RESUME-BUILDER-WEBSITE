@@ -141,11 +141,11 @@ export default function ProfilePage({
             </button>
 
             <div className="hidden sm:flex items-center gap-2 border-l border-gray-200 dark:border-gray-800 pl-3">
-              <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-indigo-700 to-indigo-900 text-white flex items-center justify-center">
+              <div className="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
                 <FileText className="w-3.5 h-3.5" />
               </div>
               <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-white">
-                Resume Builder Profile
+                Resume Craft Profile
               </span>
             </div>
           </div>

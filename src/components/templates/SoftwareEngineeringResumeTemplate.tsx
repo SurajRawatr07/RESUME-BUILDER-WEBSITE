@@ -16,10 +16,10 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
-  // Categorize tech stack if available
+export default function SoftwareEngineeringResumeTemplate({ data }: TemplateProps) {
   const hasTech = data.technologies && data.technologies.length > 0;
   const hasSkills = data.skills && data.skills.length > 0;
+  const summaryText = data.summary || data.aboutMe;
 
   return (
     <div
@@ -30,13 +30,15 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. COMPACT LATEX HEADER */}
+      {/* 1. CONTACT & HEADER */}
       <ResumeHeader data={data} variant="latex" />
 
-      {/* 2. EDUCATION */}
-      {data.education && data.education.length > 0 && (
-        <ResumeSection title="Education" variant="latex">
-          <EducationSection education={data.education} variant="latex" />
+      {/* 2. SUMMARY / OBJECTIVE (If provided) */}
+      {summaryText && (
+        <ResumeSection title="Professional Summary" variant="latex">
+          <p className="text-xs sm:text-[13px] leading-relaxed text-gray-800 text-justify">
+            {summaryText}
+          </p>
         </ResumeSection>
       )}
 
@@ -54,7 +56,7 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         </ResumeSection>
       )}
 
-      {/* 5. TECHNICAL SKILLS */}
+      {/* 5. SKILLS */}
       {(hasTech || hasSkills) && (
         <ResumeSection title="Technical Skills" variant="latex">
           <SkillsSection
@@ -65,7 +67,14 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         </ResumeSection>
       )}
 
-      {/* 6. CERTIFICATIONS */}
+      {/* 6. EDUCATION */}
+      {data.education && data.education.length > 0 && (
+        <ResumeSection title="Education" variant="latex">
+          <EducationSection education={data.education} variant="latex" />
+        </ResumeSection>
+      )}
+
+      {/* 7. CERTIFICATIONS & ACHIEVEMENTS */}
       {data.certifications && data.certifications.length > 0 && (
         <CertificationsSection
           certifications={data.certifications}
@@ -73,12 +82,11 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         />
       )}
 
-      {/* 7. ACHIEVEMENTS */}
       {data.achievements && data.achievements.length > 0 && (
         <AchievementsSection
           achievements={data.achievements}
           variant="latex"
-          title="Honors & Achievements"
+          title="Achievements"
         />
       )}
 

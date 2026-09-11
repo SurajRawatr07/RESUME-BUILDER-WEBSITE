@@ -16,8 +16,7 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
-  // Categorize tech stack if available
+export default function CSITSweTemplate({ data }: TemplateProps) {
   const hasTech = data.technologies && data.technologies.length > 0;
   const hasSkills = data.skills && data.skills.length > 0;
 
@@ -30,31 +29,10 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. COMPACT LATEX HEADER */}
+      {/* 1. CS/IT HEADER */}
       <ResumeHeader data={data} variant="latex" />
 
-      {/* 2. EDUCATION */}
-      {data.education && data.education.length > 0 && (
-        <ResumeSection title="Education" variant="latex">
-          <EducationSection education={data.education} variant="latex" />
-        </ResumeSection>
-      )}
-
-      {/* 3. EXPERIENCE */}
-      {data.experiences && data.experiences.length > 0 && (
-        <ResumeSection title="Experience" variant="latex">
-          <ExperienceSection experiences={data.experiences} variant="latex" />
-        </ResumeSection>
-      )}
-
-      {/* 4. PROJECTS */}
-      {data.projects && data.projects.length > 0 && (
-        <ResumeSection title="Projects" variant="latex">
-          <ProjectsSection projects={data.projects} variant="latex" />
-        </ResumeSection>
-      )}
-
-      {/* 5. TECHNICAL SKILLS */}
+      {/* 2. TECHNICAL SKILLS FIRST (CS/IT/SWE priority) */}
       {(hasTech || hasSkills) && (
         <ResumeSection title="Technical Skills" variant="latex">
           <SkillsSection
@@ -65,20 +43,41 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
         </ResumeSection>
       )}
 
-      {/* 6. CERTIFICATIONS */}
-      {data.certifications && data.certifications.length > 0 && (
-        <CertificationsSection
-          certifications={data.certifications}
-          variant="latex"
-        />
+      {/* 3. EDUCATION */}
+      {data.education && data.education.length > 0 && (
+        <ResumeSection title="Education" variant="latex">
+          <EducationSection education={data.education} variant="latex" />
+        </ResumeSection>
       )}
 
-      {/* 7. ACHIEVEMENTS */}
+      {/* 4. EXPERIENCE */}
+      {data.experiences && data.experiences.length > 0 && (
+        <ResumeSection title="Professional Experience" variant="latex">
+          <ExperienceSection experiences={data.experiences} variant="latex" />
+        </ResumeSection>
+      )}
+
+      {/* 5. PROJECTS */}
+      {data.projects && data.projects.length > 0 && (
+        <ResumeSection title="Key Technical Projects" variant="latex">
+          <ProjectsSection projects={data.projects} variant="latex" />
+        </ResumeSection>
+      )}
+
+      {/* 6. ACHIEVEMENTS & AWARDS */}
       {data.achievements && data.achievements.length > 0 && (
         <AchievementsSection
           achievements={data.achievements}
           variant="latex"
-          title="Honors & Achievements"
+          title="Achievements & Honors"
+        />
+      )}
+
+      {/* 7. CERTIFICATIONS */}
+      {data.certifications && data.certifications.length > 0 && (
+        <CertificationsSection
+          certifications={data.certifications}
+          variant="latex"
         />
       )}
 
