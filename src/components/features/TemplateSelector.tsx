@@ -1,28 +1,29 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { X, Check, CheckCircle2, Filter } from 'lucide-react';
 import { useResumeStore } from '@/stores/resumeStore';
 import { TemplateType } from '@/types/resume';
 import { useTheme } from '@/context/ThemeContext';
+import {
+  TEMPLATES,
+  TEMPLATE_CATEGORIES,
+  TemplateCategory,
+} from '../templates/registry';
+import { TemplateMiniPreview } from './TemplateMiniPreview';
 
 interface TemplateSelectorProps {
   onClose: () => void;
 }
 
-const templates: { id: TemplateType; name: string; description: string; color: string; tag: string }[] = [
-  { id: 'modern', name: 'Modern Professional', description: 'Clean two-column with indigo sidebar', color: 'from-indigo-500 to-indigo-700', tag: 'Popular' },
-  { id: 'minimal', name: 'Minimal Clean', description: 'Single-column, strong typography', color: 'from-gray-600 to-gray-900', tag: 'ATS-Safe' },
-  { id: 'creative', name: 'Creative Designer', description: 'Gradient header with teal accents', color: 'from-blue-500 to-teal-500', tag: 'Creative' },
-  { id: 'corporate', name: 'Corporate Elite', description: 'Dark header with gold accents', color: 'from-slate-700 to-amber-600', tag: 'Executive' },
-  { id: 'frontend', name: 'Frontend Developer', description: 'UI-focused project highlights', color: 'from-indigo-600 to-blue-500', tag: 'Tech' },
-  { id: 'backend', name: 'Backend Developer', description: 'Logic-focused architecture layout', color: 'from-gray-700 to-gray-900', tag: 'Tech' },
-  { id: 'software-engineer', name: 'Software Engineer', description: 'Balanced corporate dark header', color: 'from-slate-700 to-slate-900', tag: 'Versatile' },
-  { id: 'fullstack', name: 'Full Stack Developer', description: 'Dual-stack project-centric', color: 'from-blue-600 to-teal-600', tag: 'Full Stack' },
-];
-
 export default function TemplateSelector({ onClose }: TemplateSelectorProps) {
   const { selectedTemplate, setSelectedTemplate } = useResumeStore();
   const { isDark } = useTheme();
+  const [activeCategory, setActiveCategory] = useState<TemplateCategory>('All');
+
+  const filteredTemplates =
+    activeCategory === 'All'
+      ? TEMPLATES
+      : TEMPLATES.filter((t) => t.category === activeCategory);
 
   const handleSelect = (templateId: TemplateType) => {
     setSelectedTemplate(templateId);
@@ -34,84 +35,156 @@ export default function TemplateSelector({ onClose }: TemplateSelectorProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-      onClick={e => e.target === e.currentTarget && onClose()}
+      className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-6"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        initial={{ opacity: 0, scale: 0.96, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        transition={{ duration: 0.25 }}
-        className={`rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl border ${isDark ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'}`}
+        exit={{ opacity: 0, scale: 0.96, y: 16 }}
+        transition={{ duration: 0.2 }}
+        className={`rounded-2xl max-w-5xl w-full max-h-[88vh] flex flex-col overflow-hidden shadow-2xl border ${
+          isDark ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200'
+        }`}
       >
         {/* Header */}
-        <div className={`sticky top-0 border-b px-6 py-4 flex items-center justify-between backdrop-blur-xl ${isDark ? 'bg-gray-900/95 border-gray-700' : 'bg-white/95 border-gray-100'}`}>
+        <div
+          className={`px-6 py-4 border-b flex items-center justify-between shrink-0 ${
+            isDark ? 'bg-gray-900/95 border-gray-800' : 'bg-white/95 border-gray-200'
+          }`}
+        >
           <div>
-            <h2 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Choose Template</h2>
-            <p className={`text-sm mt-0.5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Your data is preserved when switching</p>
+            <div className="flex items-center gap-2">
+              <h2
+                className={`text-xl font-bold ${
+                  isDark ? 'text-white' : 'text-gray-900'
+                }`}
+              >
+                Select Resume Template
+              </h2>
+              <span className="hidden sm:inline-flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-400 font-medium bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                <CheckCircle2 className="w-3 h-3" /> Zero Data Loss
+              </span>
+            </div>
+            <p
+              className={`text-xs mt-0.5 ${
+                isDark ? 'text-gray-400' : 'text-gray-500'
+              }`}
+            >
+              Choose from 9 role-vetted LaTeX layouts. Your resume data is automatically preserved.
+            </p>
           </div>
           <button
             onClick={onClose}
-            className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${isDark ? 'hover:bg-gray-800 text-gray-400 hover:text-white' : 'hover:bg-gray-100 text-gray-500 hover:text-gray-900'}`}
+            className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+              isDark
+                ? 'hover:bg-gray-800 text-gray-400 hover:text-white'
+                : 'hover:bg-gray-100 text-gray-500 hover:text-gray-900'
+            }`}
             aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Grid */}
-        <div className="p-6 overflow-y-auto grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {templates.map((template, i) => {
-            const isSelected = selectedTemplate === template.id;
+        {/* Categories Bar */}
+        <div
+          className={`px-6 py-2.5 border-b flex items-center gap-1.5 overflow-x-auto shrink-0 ${
+            isDark ? 'bg-gray-950/50 border-gray-800' : 'bg-gray-50/70 border-gray-200'
+          }`}
+        >
+          <div className="flex items-center gap-1 text-xs font-semibold text-gray-500 dark:text-gray-400 mr-1 shrink-0">
+            <Filter className="w-3 h-3" />
+          </div>
+          {TEMPLATE_CATEGORIES.map((category) => {
+            const isActive = activeCategory === category;
             return (
-              <motion.button
-                key={template.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                whileHover={{ y: -4 }}
-                onClick={() => handleSelect(template.id)}
-                className={`
-                  text-left rounded-2xl overflow-hidden border-2 transition-all duration-200
-                  ${isSelected
-                    ? 'border-indigo-500 shadow-lg shadow-indigo-100 dark:shadow-indigo-900/30'
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`px-3 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-all ${
+                  isActive
+                    ? 'bg-indigo-600 text-white font-semibold shadow-xs'
                     : isDark
-                      ? 'border-gray-700 hover:border-gray-500'
-                      : 'border-gray-200 hover:border-gray-300 hover:shadow-md'
-                  }
-                  ${isDark ? 'bg-gray-800' : 'bg-white'}
-                `}
+                    ? 'text-gray-400 hover:text-white hover:bg-gray-800'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
+                }`}
               >
-                {/* Preview */}
-                <div className={`h-28 bg-gradient-to-br ${template.color} relative overflow-hidden`}>
-                  <div className="absolute top-2 left-2 z-10">
-                    <span className="text-[9px] font-bold text-white/90 bg-black/20 px-2 py-0.5 rounded-full">{template.tag}</span>
+                {category}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Grid of 9 Templates */}
+        <div className="p-6 overflow-y-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
+          {filteredTemplates.map((template) => {
+            const isSelected = selectedTemplate === template.id;
+
+            return (
+              <div
+                key={template.id}
+                onClick={() => handleSelect(template.id)}
+                className={`group rounded-xl overflow-hidden border-2 transition-all duration-200 cursor-pointer flex flex-col ${
+                  isSelected
+                    ? 'border-indigo-600 shadow-md ring-1 ring-indigo-500/30'
+                    : isDark
+                    ? 'border-gray-800 hover:border-gray-600 bg-gray-850'
+                    : 'border-gray-200 hover:border-indigo-200 bg-white hover:shadow-sm'
+                }`}
+              >
+                {/* Mini LaTeX Sheet Preview */}
+                <div className="relative p-3 bg-gray-100 dark:bg-gray-950 flex justify-center items-center border-b border-gray-200 dark:border-gray-800">
+                  <div className="w-full max-w-[190px]">
+                    <TemplateMiniPreview template={template} />
                   </div>
-                  <div className="absolute inset-3 opacity-15 space-y-1.5">
-                    <div className="h-3 bg-white rounded w-2/3" />
-                    <div className="h-2 bg-white/70 rounded w-1/2" />
-                    <div className="space-y-1 mt-2">
-                      {[1, 0.8, 0.7].map((w, j) => (
-                        <div key={j} className="h-1.5 bg-white/40 rounded" style={{ width: `${w * 100}%` }} />
-                      ))}
-                    </div>
-                  </div>
+
                   {isSelected && (
-                    <div className="absolute top-2 right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow">
-                      <Check className="w-3.5 h-3.5 text-indigo-600" />
+                    <div className="absolute top-2 right-2 w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shadow-md z-10">
+                      <Check className="w-3.5 h-3.5 text-white" />
                     </div>
                   )}
+
+                  <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded text-[9px] font-bold z-10 bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
+                    {template.category}
+                  </div>
                 </div>
 
-                {/* Info */}
-                <div className="p-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className={`font-bold text-sm ${isDark ? 'text-white' : 'text-gray-900'}`}>{template.name}</h3>
-                    {isSelected && <span className="text-xs bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-full font-medium flex-shrink-0">Active</span>}
+                {/* Details */}
+                <div className="p-3.5 flex flex-col flex-1 justify-between">
+                  <div>
+                    <h3
+                      className={`font-bold text-sm leading-snug ${
+                        isDark ? 'text-white' : 'text-gray-900'
+                      }`}
+                    >
+                      {template.name}
+                    </h3>
+                    <p
+                      className={`text-[11px] mt-0.5 line-clamp-2 ${
+                        isDark ? 'text-gray-400' : 'text-gray-500'
+                      }`}
+                    >
+                      {template.description}
+                    </p>
                   </div>
-                  <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{template.description}</p>
+
+                  <div className="mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                    <span className="text-[10px] text-gray-500 dark:text-gray-400 font-mono">
+                      {template.tag}
+                    </span>
+                    <span
+                      className={`text-xs font-semibold ${
+                        isSelected
+                          ? 'text-indigo-600 dark:text-indigo-400'
+                          : 'text-gray-600 dark:text-gray-300 group-hover:text-indigo-600'
+                      }`}
+                    >
+                      {isSelected ? 'Active' : 'Apply'} →
+                    </span>
+                  </div>
                 </div>
-              </motion.button>
+              </div>
             );
           })}
         </div>
@@ -119,4 +192,3 @@ export default function TemplateSelector({ onClose }: TemplateSelectorProps) {
     </motion.div>
   );
 }
-

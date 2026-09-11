@@ -1,6 +1,6 @@
 {
   "name": "Resume Builder",
-  "description": "Professional ATS-friendly resume builder with multiple templates, drag-and-drop sections, and real-time preview.",
+  "description": "Professional ATS-friendly resume builder with 9 LaTeX-style role-specific templates, real-time preview, and PDF export.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

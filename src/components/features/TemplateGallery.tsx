@@ -1,118 +1,34 @@
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useResumeStore } from '@/stores/resumeStore';
 import { TemplateType } from '@/types/resume';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/context/ThemeContext';
-import { Check } from 'lucide-react';
+import { Check, Eye, CheckCircle2, Sparkles, Filter } from 'lucide-react';
+import {
+  TEMPLATES,
+  TEMPLATE_CATEGORIES,
+  TemplateCategory,
+  TemplateDefinition,
+} from '../templates/registry';
+import { TemplateMiniPreview } from './TemplateMiniPreview';
+import { TemplatePreviewModal } from './TemplatePreviewModal';
 
 interface TemplateGalleryProps {
   onSelectTemplate: () => void;
 }
 
-const templates: {
-  id: TemplateType;
-  name: string;
-  description: string;
-  gradient: string;
-  accentColor: string;
-  bestFor: string;
-  tag: string;
-  tagColor: string;
-  preview: { sidebar?: string; header?: string; lines: string[] };
-}[] = [
-  {
-    id: 'modern',
-    name: 'Modern Professional',
-    description: 'Two-column layout with an elegant indigo sidebar',
-    gradient: 'from-indigo-500 to-indigo-700',
-    accentColor: '#6366f1',
-    bestFor: 'Corporate, IT, Management',
-    tag: 'Popular',
-    tagColor: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300',
-    preview: { sidebar: '#6366f1', lines: ['75%', '60%', '85%', '50%', '70%'] },
-  },
-  {
-    id: 'minimal',
-    name: 'Minimal Clean',
-    description: 'Single-column, typography-first ATS design',
-    gradient: 'from-gray-600 to-gray-900',
-    accentColor: '#374151',
-    bestFor: 'Freshers, Academics, Government',
-    tag: 'ATS-Safe',
-    tagColor: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
-    preview: { lines: ['80%', '55%', '90%', '65%', '45%'] },
-  },
-  {
-    id: 'creative',
-    name: 'Creative Designer',
-    description: 'Stylish gradient header with teal accents',
-    gradient: 'from-blue-500 to-teal-400',
-    accentColor: '#0ea5e9',
-    bestFor: 'Designers, Marketers, Content',
-    tag: 'Creative',
-    tagColor: 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300',
-    preview: { header: 'linear-gradient(135deg, #3b82f6, #14b8a6)', lines: ['70%', '85%', '60%', '75%'] },
-  },
-  {
-    id: 'corporate',
-    name: 'Corporate Elite',
-    description: 'Dark header with gold accents — executive presence',
-    gradient: 'from-slate-700 to-amber-600',
-    accentColor: '#f59e0b',
-    bestFor: 'Executives, C-Suite, Directors',
-    tag: 'Executive',
-    tagColor: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
-    preview: { header: 'linear-gradient(135deg, #0f172a, #1e293b)', lines: ['80%', '65%', '90%', '55%'] },
-  },
-  {
-    id: 'frontend',
-    name: 'Frontend Developer',
-    description: 'UI-focused with project card highlights',
-    gradient: 'from-indigo-600 to-blue-500',
-    accentColor: '#4f46e5',
-    bestFor: 'Frontend Devs, UI Engineers',
-    tag: 'Tech',
-    tagColor: 'bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-300',
-    preview: { header: 'linear-gradient(135deg, #4f46e5, #3b82f6)', lines: ['75%', '88%', '62%', '80%'] },
-  },
-  {
-    id: 'backend',
-    name: 'Backend Developer',
-    description: 'Architecture-focused, structured, text-heavy',
-    gradient: 'from-gray-700 to-gray-900',
-    accentColor: '#1f2937',
-    bestFor: 'Backend Devs, API Engineers',
-    tag: 'Tech',
-    tagColor: 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
-    preview: { sidebar: '#1f2937', lines: ['70%', '85%', '60%', '75%', '55%'] },
-  },
-  {
-    id: 'software-engineer',
-    name: 'Software Engineer',
-    description: 'Balanced corporate layout, dark header',
-    gradient: 'from-slate-700 to-slate-900',
-    accentColor: '#334155',
-    bestFor: 'SDE Roles, Tech Companies',
-    tag: 'Versatile',
-    tagColor: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
-    preview: { header: 'linear-gradient(135deg, #1e293b, #334155)', lines: ['80%', '68%', '90%', '60%'] },
-  },
-  {
-    id: 'fullstack',
-    name: 'Full Stack Developer',
-    description: 'Dual-stack skills with project showcase',
-    gradient: 'from-blue-600 to-teal-500',
-    accentColor: '#2563eb',
-    bestFor: 'Full Stack, MERN/MEAN Stack',
-    tag: 'Full Stack',
-    tagColor: 'bg-teal-100 text-teal-700 dark:bg-teal-900/50 dark:text-teal-300',
-    preview: { header: 'linear-gradient(135deg, #2563eb, #0d9488)', lines: ['75%', '85%', '65%', '78%'] },
-  },
-];
-
 export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryProps) {
-  const { setSelectedTemplate, selectedTemplate } = useResumeStore();
+  const { setSelectedTemplate, selectedTemplate, resumeData } = useResumeStore();
   const { isDark } = useTheme();
+
+  const [activeCategory, setActiveCategory] = useState<TemplateCategory>('All');
+  const [previewingTemplate, setPreviewingTemplate] = useState<TemplateDefinition | null>(null);
+
+  const filteredTemplates =
+    activeCategory === 'All'
+      ? TEMPLATES
+      : TEMPLATES.filter((t) => t.category === activeCategory);
 
   const handleSelect = (templateId: TemplateType) => {
     setSelectedTemplate(templateId);
@@ -120,132 +36,185 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
   };
 
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-      {templates.map((template, i) => {
-        const isSelected = selectedTemplate === template.id;
-        return (
-          <motion.div
-            key={template.id}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.07, duration: 0.45, ease: 'easeOut' }}
-            whileHover={{ y: -6, transition: { duration: 0.2 } }}
-            onClick={() => handleSelect(template.id)}
-            className={`group rounded-2xl overflow-hidden border-2 transition-all duration-300 cursor-pointer flex flex-col
-              ${isSelected
-                ? 'border-indigo-500 shadow-2xl shadow-indigo-200/50 dark:shadow-indigo-900/40'
-                : isDark
-                  ? 'border-gray-700/60 hover:border-gray-500 shadow-lg hover:shadow-xl'
-                  : 'border-gray-200 hover:border-indigo-300 shadow-md hover:shadow-xl'
-              }
-              ${isDark ? 'bg-gray-800' : 'bg-white'}
-            `}
-          >
-            {/* Template Preview Mockup */}
-            <div className="relative h-44 overflow-hidden bg-gray-100 dark:bg-gray-900">
+    <div className="space-y-8 max-w-7xl mx-auto">
+      {/* Category Filter Bar */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b pb-4 border-gray-200 dark:border-gray-800">
+        <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-none">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-xs font-semibold text-gray-700 dark:text-gray-300 shrink-0">
+            <Filter className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+            <span>Role Filter</span>
+          </div>
+          {TEMPLATE_CATEGORIES.map((category) => {
+            const isActive = activeCategory === category;
+            return (
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                  isActive
+                    ? 'bg-indigo-600 text-white shadow-sm font-semibold'
+                    : isDark
+                    ? 'text-gray-400 hover:text-white hover:bg-gray-800'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
 
-              {/* Resume Mockup */}
-              <div className="absolute inset-3 rounded-lg overflow-hidden shadow-lg" style={{ background: 'white' }}>
-                {/* Header bar or sidebar */}
-                {template.preview.header ? (
-                  <div style={{ background: template.preview.header, height: '36px', width: '100%' }}>
-                    <div style={{ paddingLeft: '10px', paddingTop: '10px' }}>
-                      <div style={{ background: 'rgba(255,255,255,0.9)', height: '6px', borderRadius: '3px', width: '55%', marginBottom: '4px' }} />
-                      <div style={{ background: 'rgba(255,255,255,0.5)', height: '4px', borderRadius: '3px', width: '35%' }} />
-                    </div>
-                  </div>
-                ) : template.preview.sidebar ? (
-                  <div style={{ display: 'flex', height: '100%' }}>
-                    <div style={{ background: template.preview.sidebar, width: '35%', padding: '8px 6px' }}>
-                      <div style={{ background: 'rgba(255,255,255,0.9)', height: '5px', borderRadius: '2px', marginBottom: '4px', width: '80%' }} />
-                      <div style={{ background: 'rgba(255,255,255,0.5)', height: '3px', borderRadius: '2px', marginBottom: '8px', width: '60%' }} />
-                      {[1, 0.7, 0.9, 0.6].map((w, j) => (
-                        <div key={j} style={{ background: 'rgba(255,255,255,0.35)', height: '3px', borderRadius: '2px', marginBottom: '3px', width: `${w * 90}%` }} />
-                      ))}
-                    </div>
-                    <div style={{ flex: 1, padding: '8px 8px' }}>
-                      {template.preview.lines.map((w, j) => (
-                        <div key={j} style={{ background: j === 0 ? '#e5e7eb' : '#f3f4f6', height: j === 0 ? '5px' : '3px', borderRadius: '2px', marginBottom: '4px', width: w }} />
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div style={{ padding: '10px 10px' }}>
-                    <div style={{ height: '6px', background: '#1f2937', borderRadius: '3px', width: '60%', marginBottom: '4px' }} />
-                    <div style={{ height: '3px', background: '#9ca3af', borderRadius: '2px', width: '40%', marginBottom: '10px' }} />
-                    {template.preview.lines.map((w, j) => (
-                      <div key={j} style={{ background: j % 2 === 0 ? '#e5e7eb' : '#f3f4f6', height: j === 0 ? '4px' : '3px', borderRadius: '2px', marginBottom: '4px', width: w }} />
-                    ))}
-                  </div>
-                )}
+        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 shrink-0">
+          <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+          <span>All 9 Templates are 100% ATS-Compliant & Printable</span>
+        </div>
+      </div>
 
-                {/* After header: content lines when header layout */}
-                {template.preview.header && (
-                  <div style={{ padding: '8px 10px' }}>
-                    {template.preview.lines.map((w, j) => (
-                      <div key={j} style={{ background: j === 0 ? '#e5e7eb' : '#f3f4f6', height: j === 0 ? '4px' : '3px', borderRadius: '2px', marginBottom: '4px', width: w }} />
-                    ))}
-                  </div>
-                )}
-              </div>
+      {/* Templates Grid */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <AnimatePresence mode="popLayout">
+          {filteredTemplates.map((template, i) => {
+            const isSelected = selectedTemplate === template.id;
 
-              {/* Gradient overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${template.gradient} opacity-10 group-hover:opacity-5 transition-opacity duration-300`} />
-
-              {/* Selected badge */}
-              {isSelected && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute top-3 right-3 w-7 h-7 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg z-10"
+            return (
+              <motion.div
+                layout
+                key={template.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ delay: i * 0.05, duration: 0.35, ease: 'easeOut' }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className={`group rounded-xl overflow-hidden border-2 transition-all duration-300 flex flex-col ${
+                  isSelected
+                    ? 'border-indigo-600 shadow-xl ring-2 ring-indigo-500/20'
+                    : isDark
+                    ? 'border-gray-800 hover:border-gray-600 bg-gray-900 shadow-md'
+                    : 'border-gray-200 hover:border-indigo-300 bg-white shadow-sm hover:shadow-md'
+                }`}
+              >
+                {/* Visual Mini Preview Container */}
+                <div
+                  className="relative p-4 bg-gray-100 dark:bg-gray-950 flex justify-center items-center cursor-pointer overflow-hidden border-b border-gray-200 dark:border-gray-800"
+                  onClick={() => setPreviewingTemplate(template)}
                 >
-                  <Check className="w-4 h-4 text-white" />
-                </motion.div>
-              )}
+                  {/* Miniature Overleaf LaTeX preview */}
+                  <div className="w-full max-w-[240px] shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                    <TemplateMiniPreview template={template} />
+                  </div>
 
-              {/* Tag badge */}
-              <div className={`absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold z-10 ${template.tagColor}`}>
-                {template.tag}
-              </div>
-            </div>
+                  {/* Hover Overlay with Quick Preview */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 backdrop-blur-[1px]">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPreviewingTemplate(template);
+                      }}
+                      className="px-3 py-1.5 bg-white text-gray-900 text-xs font-semibold rounded-lg shadow-lg hover:bg-gray-100 flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-all"
+                    >
+                      <Eye className="w-3.5 h-3.5 text-indigo-600" />
+                      <span>Full A4 Preview</span>
+                    </button>
+                  </div>
 
-            {/* Info */}
-            <div className="p-4 flex flex-col flex-1">
-              <h3 className={`font-bold text-sm mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                {template.name}
-              </h3>
-              <p className={`text-xs mb-2 leading-relaxed flex-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                {template.description}
-              </p>
-              <p className={`text-[10px] font-medium mb-3 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-                Best for: {template.bestFor}
-              </p>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
-                <Button
-                  onClick={e => { e.stopPropagation(); handleSelect(template.id); }}
-                  className={`w-full text-xs h-8 rounded-xl font-semibold transition-all ${
-                    isSelected
-                      ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/30'
-                      : isDark
-                        ? 'bg-gray-700 hover:bg-indigo-600 text-gray-200 hover:text-white border border-gray-600 hover:border-indigo-500'
-                        : 'bg-gray-900 hover:bg-indigo-600 text-white'
-                  }`}
-                >
-                  {isSelected ? (
-                    <span className="flex items-center justify-center gap-1.5">
-                      <Check className="w-3.5 h-3.5" />
-                      <span>Selected</span>
-                    </span>
-                  ) : (
-                    'Use Template'
+                  {/* Selected Indicator Ribbon */}
+                  {isSelected && (
+                    <div className="absolute top-3 right-3 w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center shadow-md z-10">
+                      <Check className="w-3.5 h-3.5 text-white" />
+                    </div>
                   )}
-                </Button>
+
+                  {/* Role Category Badge */}
+                  <div className="absolute top-3 left-3 px-2 py-0.5 rounded-md text-[10px] font-bold z-10 bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-xs">
+                    {template.category}
+                  </div>
+                </div>
+
+                {/* Template Info Card */}
+                <div className="p-4 flex flex-col flex-1">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <div>
+                      <h3
+                        className={`font-bold text-base leading-snug ${
+                          isDark ? 'text-white' : 'text-gray-900'
+                        }`}
+                      >
+                        {template.name}
+                      </h3>
+                      <p className="text-[11px] font-medium text-indigo-600 dark:text-indigo-400">
+                        {template.tag}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p
+                    className={`text-xs mb-3 leading-relaxed flex-1 line-clamp-2 ${
+                      isDark ? 'text-gray-400' : 'text-gray-600'
+                    }`}
+                  >
+                    {template.description}
+                  </p>
+
+                  <div className="text-[11px] text-gray-500 dark:text-gray-400 mb-3.5 pb-3 border-b border-gray-100 dark:border-gray-800">
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">
+                      Hierarchy:{' '}
+                    </span>
+                    <span className="italic">{template.structureNote}</span>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="grid grid-cols-2 gap-2 mt-auto">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPreviewingTemplate(template)}
+                      className={`text-xs h-9 rounded-lg font-medium ${
+                        isDark
+                          ? 'border-gray-700 hover:bg-gray-800 text-gray-300'
+                          : 'border-gray-300 hover:bg-gray-50 text-gray-700'
+                      }`}
+                    >
+                      <Eye className="w-3.5 h-3.5 mr-1" />
+                      Preview
+                    </Button>
+
+                    <Button
+                      size="sm"
+                      onClick={() => handleSelect(template.id)}
+                      className={`text-xs h-9 rounded-lg font-semibold transition-all ${
+                        isSelected
+                          ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                          : 'bg-gray-900 hover:bg-indigo-600 text-white dark:bg-indigo-600 dark:hover:bg-indigo-700'
+                      }`}
+                    >
+                      {isSelected ? (
+                        <span className="flex items-center gap-1">
+                          <Check className="w-3.5 h-3.5" />
+                          Selected
+                        </span>
+                      ) : (
+                        'Use Template'
+                      )}
+                    </Button>
+                  </div>
+                </div>
               </motion.div>
-            </div>
-          </motion.div>
-        );
-      })}
+            );
+          })}
+        </AnimatePresence>
+      </div>
+
+      {/* Full Screen A4 Preview Modal */}
+      <TemplatePreviewModal
+        template={previewingTemplate}
+        isOpen={!!previewingTemplate}
+        onClose={() => setPreviewingTemplate(null)}
+        onSelect={(templateId) => {
+          setSelectedTemplate(templateId as TemplateType);
+          onSelectTemplate();
+        }}
+        resumeData={resumeData}
+      />
     </div>
   );
 }

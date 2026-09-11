@@ -84,15 +84,12 @@
 @layer base {
   * {
     @apply border-border;
-    font-family: "Times New Roman", Times, serif;
-  }
-  body, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
-    font-family: "Times New Roman", Times, serif !important;
   }
   body {
     @apply bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 16px;
     line-height: 1.6;
   }
@@ -120,17 +117,30 @@
 
 /* ─── Print styles ─── */
 @media print {
-  body { margin: 0; padding: 0; background: white; color: black; }
-  .no-print { display: none !important; }
-  .resume-preview {
-    width: 100%;
-    max-width: 100%;
-    box-shadow: none !important;
-    border: none !important;
+  body {
     margin: 0;
     padding: 0;
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
-  @page { size: A4; margin: 0; }
+  .no-print, header, nav, button {
+    display: none !important;
+  }
+  #resume-preview-content, .resume-preview {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 10mm 8mm;
+  }
 }
 
 /* ─── Focus visible ─── */

@@ -130,10 +130,10 @@ const steps = [
    STATS
 ======================================== */
 const stats = [
-  { value: '8', label: 'Templates' },
-  { value: '100%', label: 'ATS Friendly' },
-  { value: '24/7', label: 'Access' },
-  { value: 'Free', label: 'To Start' },
+  { value: '9', label: 'Role-Specific Templates' },
+  { value: '100%', label: 'ATS Compliant' },
+  { value: 'Overleaf', label: 'LaTeX Quality' },
+  { value: 'Free', label: 'PDF Export' },
 ];
 
 /* ========================================
@@ -772,18 +772,17 @@ export default function LandingPage({
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-14">
             <h2 className="text-4xl font-extrabold mb-4">
-              Resume Templates
+              9 Professional Role-Specific Templates
             </h2>
 
             <p
-              className={`max-w-2xl mx-auto ${
+              className={`max-w-2xl mx-auto text-base ${
                 isDark
                   ? 'text-gray-400'
                   : 'text-gray-600'
               }`}
             >
-              Choose from beautiful professional
-              resume templates.
+              Modeled after established Overleaf and LaTeX standards. Single-column, ATS-verified, print-ready, and tailored to industry hiring expectations.
             </p>
           </div>
 
