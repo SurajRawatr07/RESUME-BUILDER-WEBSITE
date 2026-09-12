@@ -14,7 +14,6 @@ import {
   Shield,
   RefreshCw,
   HelpCircle,
-  ChevronDown,
   CheckCircle2,
   MousePointerClick,
   Sparkles,
@@ -30,6 +29,13 @@ import FloatingNavbar from '@/components/ui/FloatingNavbar';
 import BrandWordmark from '@/components/ui/BrandWordmark';
 import TemplateGallery from '@/components/features/TemplateGallery';
 import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
+import {
+  DisclosureGroup,
+  Disclosure,
+  DisclosureTrigger,
+  DisclosureIndicator,
+  DisclosurePanel,
+} from '@/components/ui/DisclosureGroup';
 import { TemplateType } from '@/types/resume';
 
 interface LandingPageProps {
@@ -128,28 +134,32 @@ const features = [
 ];
 
 /* ========================================
-   FAQ (4 Requested Questions & Answers)
+   FAQ (Exactly 4 Requested Questions & Answers)
 ======================================== */
 const faqItems = [
   {
-    question: 'Is Resume Craft free to use?',
+    id: 'faq-1',
+    question: 'What is Resume Craft?',
     answer:
-      'Yes. Resume Craft is free to use with full access to all 9 professional templates, live editing, and high-quality PDF exports without subscriptions or fees.',
+      'Resume Craft is a modern resume builder that helps you create professional, ATS-friendly resumes using structured templates, live previews, and resume optimization tools.',
   },
   {
+    id: 'faq-2',
     question: 'Are the resume templates ATS-friendly?',
     answer:
-      'Yes. The templates use clean, single-column semantic structures and standard section headings designed to remain readable by applicant tracking systems, without confusing visual graphics.',
+      'Yes. Resume Craft templates are designed with clean structure, readable typography, consistent sections, and ATS-friendly formatting to make resume content easier for applicant tracking systems to parse.',
   },
   {
-    question: 'Can I change my resume template after entering my information?',
+    id: 'faq-3',
+    question: 'Can I check my resume ATS score?',
     answer:
-      'Yes. You can switch between any of the 9 supported templates at any time in the editor. Your entered information is preserved across layouts without having to re-enter anything.',
+      'Yes. The ATS checker analyzes your resume against relevant criteria such as keywords, skills, experience, projects, structure, and ATS formatting to provide a role-aware score.',
   },
   {
-    question: 'Can I download my resume as a PDF?',
+    id: 'faq-4',
+    question: 'Can I create a resume for different job roles?',
     answer:
-      'Yes. You can export and download your resume as a clean, print-ready A4 PDF directly from the editor toolbar whenever you are ready.',
+      'Yes. Resume Craft provides templates and role-focused resume options for areas such as Software Engineering, Full Stack Development, Frontend Development, CS/IT, internships, fresher roles, and other professional positions.',
   },
 ];
 
@@ -246,8 +256,6 @@ export default function LandingPage({
   const { user, isAuthenticated } = useAuth();
   const { isDark } = useTheme();
 
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, 80]);
 
@@ -255,10 +263,6 @@ export default function LandingPage({
     document.getElementById(id.replace('#', ''))?.scrollIntoView({
       behavior: 'smooth',
     });
-  };
-
-  const toggleFaq = (index: number) => {
-    setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
   return (
@@ -517,58 +521,23 @@ export default function LandingPage({
             </p>
           </div>
 
-          <div className="space-y-4">
-            {faqItems.map((item, index) => {
-              const isOpen = openFaqIndex === index;
-              return (
-                <div
-                  key={item.question}
-                  className={`rounded-2xl border transition-colors ${
-                    isDark
-                      ? 'bg-gray-900/70 border-gray-800'
-                      : 'bg-white border-gray-200 shadow-xs'
-                  }`}
-                >
-                  <button
-                    onClick={() => toggleFaq(index)}
-                    aria-expanded={isOpen}
-                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left cursor-pointer"
-                  >
-                    <span className="font-bold text-sm sm:text-base text-gray-900 dark:text-gray-100 pr-4">
-                      {item.question}
-                    </span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 ${
-                        isOpen ? 'rotate-180' : 'rotate-0'
-                      }`}
-                    />
-                  </button>
-
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div
-                          className={`px-5 pb-5 sm:px-6 sm:pb-6 text-xs sm:text-sm leading-relaxed border-t pt-4 ${
-                            isDark
-                              ? 'text-gray-400 border-gray-800'
-                              : 'text-gray-600 border-gray-100'
-                          }`}
-                        >
-                          {item.answer}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
+          <DisclosureGroup defaultExpandedKeys={['faq-1']} allowsMultipleExpanded={false}>
+            {faqItems.map((item) => (
+              <Disclosure key={item.id} id={item.id}>
+                <DisclosureTrigger>
+                  <span className="font-bold text-base sm:text-lg text-gray-900 dark:text-gray-100 pr-4 leading-snug">
+                    {item.question}
+                  </span>
+                  <DisclosureIndicator />
+                </DisclosureTrigger>
+                <DisclosurePanel>
+                  <p className="text-sm sm:text-base leading-relaxed text-gray-600 dark:text-gray-300">
+                    {item.answer}
+                  </p>
+                </DisclosurePanel>
+              </Disclosure>
+            ))}
+          </DisclosureGroup>
         </div>
       </section>
 
