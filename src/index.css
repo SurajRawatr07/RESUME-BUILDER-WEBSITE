@@ -282,3 +282,49 @@
       0 0 20px rgba(99, 102, 241, 0.16) !important;
   }
 }
+
+/* ─── Hero Heading Subtle Shimmer & Breathing ─── */
+@keyframes hero-shimmer-light {
+  0%, 100% {
+    text-shadow:
+      0 0 1px rgba(15, 23, 42, 0.08),
+      0 0 12px rgba(99, 102, 241, 0.04);
+  }
+  50% {
+    text-shadow:
+      0 0 1.5px rgba(15, 23, 42, 0.14),
+      0 0 20px rgba(99, 102, 241, 0.10);
+  }
+}
+
+@keyframes hero-shimmer-dark {
+  0%, 100% {
+    text-shadow:
+      0 0 1px rgba(255, 255, 255, 0.15),
+      0 0 16px rgba(129, 140, 248, 0.10);
+  }
+  50% {
+    text-shadow:
+      0 0 2px rgba(255, 255, 255, 0.25),
+      0 0 24px rgba(165, 180, 252, 0.22);
+  }
+}
+
+.hero-heading-shimmer {
+  animation: hero-shimmer-light 3.5s ease-in-out infinite;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark .hero-heading-shimmer {
+  animation: hero-shimmer-dark 3.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-heading-shimmer,
+  .dark .hero-heading-shimmer {
+    animation: none !important;
+    text-shadow: none !important;
+  }
+}
+

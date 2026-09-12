@@ -2,8 +2,7 @@ import { useState } from 'react';
 import {
   motion,
   AnimatePresence,
-  useScroll,
-  useTransform,
+  useReducedMotion,
 } from 'framer-motion';
 import {
   Zap,
@@ -14,7 +13,6 @@ import {
   Shield,
   RefreshCw,
   HelpCircle,
-  CheckCircle2,
   MousePointerClick,
   Sparkles,
   Smartphone,
@@ -26,7 +24,6 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/context/ThemeContext';
 import FloatingNavbar from '@/components/ui/FloatingNavbar';
-import BrandWordmark from '@/components/ui/BrandWordmark';
 import TemplateGallery from '@/components/features/TemplateGallery';
 import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
 import {
@@ -164,88 +161,6 @@ const faqItems = [
 ];
 
 /* ========================================
-   REALISTIC OVERLEAF MOCK RESUME
-======================================== */
-const RealisticOverleafResume = ({ isDark }: { isDark: boolean }) => {
-  return (
-    <motion.div
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3 }}
-      className={`w-full max-w-[340px] sm:max-w-[390px] rounded-lg border shadow-xl p-5 sm:p-6 select-none ${
-        isDark
-          ? 'bg-white text-gray-900 border-gray-700'
-          : 'bg-white text-gray-900 border-gray-200'
-      }`}
-      style={{
-        fontFamily: '"Times New Roman", Times, serif',
-      }}
-    >
-      {/* Header */}
-      <div className="text-center pb-2.5 border-b border-gray-900 mb-3">
-        <h3 className="text-base sm:text-lg font-bold uppercase tracking-wider text-gray-950">
-          YOUR NAME
-        </h3>
-        <p className="text-[11px] text-gray-600 mt-0.5 tracking-wide">
-          Software Engineer
-        </p>
-        <p className="text-[10px] text-gray-500 mt-0.5">
-          email@example.com • linkedin.com/in/profile • github.com/profile
-        </p>
-      </div>
-
-      {/* Education */}
-      <div className="mb-3">
-        <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950">
-            Education
-          </span>
-          <span className="text-[9px] text-gray-500">Overleaf LaTeX</span>
-        </div>
-        <div className="flex justify-between items-baseline text-[11px] font-semibold text-gray-900">
-          <span>University Institute of Technology</span>
-          <span className="text-[10px] text-gray-600 font-normal">2019 – 2023</span>
-        </div>
-        <p className="text-[10px] text-gray-700 italic">
-          B.S. in Computer Science & Engineering
-        </p>
-      </div>
-
-      {/* Experience */}
-      <div className="mb-3">
-        <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950">
-            Experience
-          </span>
-          <span className="text-[9px] text-gray-500">Single-Column ATS</span>
-        </div>
-        <div className="flex justify-between items-baseline text-[11px] font-semibold text-gray-900">
-          <span>Software Engineer • Tech Systems</span>
-          <span className="text-[10px] text-gray-600 font-normal">2021 – Present</span>
-        </div>
-        <ul className="list-disc list-outside ml-3 text-[10px] text-gray-700 space-y-1 mt-1">
-          <li>Architected distributed microservices and streamlined API response pipelines.</li>
-          <li>Optimized relational database queries and data caching mechanisms.</li>
-        </ul>
-      </div>
-
-      {/* Technical Skills */}
-      <div>
-        <div className="flex items-center justify-between border-b border-gray-800 pb-0.5 mb-1.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-gray-950">
-            Technical Skills
-          </span>
-          <span className="text-[9px] text-emerald-700 font-medium">ATS-Friendly</span>
-        </div>
-        <div className="text-[10px] text-gray-800 leading-relaxed">
-          <span className="font-semibold">Languages:</span> TypeScript, JavaScript, Python, SQL<br />
-          <span className="font-semibold">Frameworks & Tools:</span> React, Node.js, Docker, Git, PostgreSQL
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-/* ========================================
    MAIN COMPONENT
 ======================================== */
 export default function LandingPage({
@@ -255,9 +170,7 @@ export default function LandingPage({
 }: LandingPageProps) {
   const { user, isAuthenticated } = useAuth();
   const { isDark } = useTheme();
-
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 500], [0, 80]);
+  const shouldReduceMotion = useReducedMotion();
 
   const scrollTo = (id: string) => {
     document.getElementById(id.replace('#', ''))?.scrollIntoView({
@@ -284,64 +197,61 @@ export default function LandingPage({
       />
 
       {/* ========================================
-          1. HOME (HERO SECTION)
+          1. HOME (HERO SECTION - CENTERED PREMIUM)
       ======================================== */}
-      <section className="relative pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 overflow-hidden border-b border-gray-100 dark:border-gray-900">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          {/* Left Column */}
-          <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 mb-6">
-              <BrandWordmark size="xs" />
-            </div>
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-20 sm:pb-28 lg:pb-32 overflow-hidden border-b border-gray-100 dark:border-gray-900">
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+          {/* Main Heading */}
+          <motion.h1
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-heading-shimmer text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.12] sm:leading-[1.1] text-gray-900 dark:text-white max-w-4xl mx-auto mb-6 select-none"
+            style={{ fontFamily: '"Times New Roman", Times, serif' }}
+          >
+            Build a professional resume that gets noticed.
+          </motion.h1>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900 dark:text-white">
-              Build a professional resume that gets noticed.
-            </h1>
+          {/* Subtitle */}
+          <motion.p
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl sm:max-w-3xl mx-auto mb-10 text-gray-600 dark:text-gray-300 font-normal select-none"
+            style={{ fontFamily: '"Times New Roman", Times, serif' }}
+          >
+            Create clean, ATS-friendly resumes using professionally structured templates for different career paths.
+          </motion.p>
 
-            <p
-              className={`text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0 ${
-                isDark ? 'text-gray-400' : 'text-gray-600'
+          {/* Existing Hero Actions / Buttons */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4"
+          >
+            <Button
+              id="hero-create-resume-btn"
+              onClick={() => onStartBuilding()}
+              className="h-12 sm:h-13 px-7 sm:px-8 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm flex items-center gap-2 text-sm sm:text-base transition-all cursor-pointer"
+            >
+              <span>Create Resume</span>
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+
+            <Button
+              id="hero-explore-templates-btn"
+              variant="outline"
+              onClick={() => scrollTo('#templates')}
+              className={`h-12 sm:h-13 px-6 sm:px-7 rounded-xl font-medium text-sm sm:text-base transition-all cursor-pointer ${
+                isDark
+                  ? 'border-gray-800 hover:bg-gray-800 text-gray-300'
+                  : 'border-gray-300 hover:bg-gray-50 text-gray-700'
               }`}
             >
-              Create clean, ATS-friendly resumes using professionally structured templates for different career paths.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-3.5">
-              <Button
-                onClick={() => onStartBuilding()}
-                className="h-12 px-7 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm flex items-center gap-2"
-              >
-                <span>Create Resume</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-
-              <Button
-                variant="outline"
-                onClick={() => scrollTo('#templates')}
-                className={`h-12 px-6 rounded-xl font-medium ${
-                  isDark
-                    ? 'border-gray-800 hover:bg-gray-800 text-gray-300'
-                    : 'border-gray-300 hover:bg-gray-50 text-gray-700'
-                }`}
-              >
-                Explore Templates
-              </Button>
-            </div>
-          </div>
-
-          {/* Right Column: Realistic Overleaf Document Mock */}
-          <div className="flex-1 flex justify-center w-full">
-            <div className="relative">
-              <RealisticOverleafResume isDark={isDark} />
-
-              {/* Verified Tag */}
-              <div className="absolute -top-3 -right-3 bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Overleaf LaTeX Standard</span>
-              </div>
-            </div>
-          </div>
+              Explore Templates
+            </Button>
+          </motion.div>
         </div>
       </section>
 
