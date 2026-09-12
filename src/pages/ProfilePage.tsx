@@ -140,12 +140,12 @@ export default function ProfilePage({
               <span>Back to Dashboard</span>
             </button>
 
-            <div className="hidden sm:flex items-center gap-2 border-l border-gray-200 dark:border-gray-800 pl-3">
-              <div className="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
-                <FileText className="w-3.5 h-3.5" />
-              </div>
-              <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-white">
-                Resume Craft Profile
+            <div className="hidden sm:flex items-center border-l border-gray-200 dark:border-gray-800 pl-3">
+              <span className="brand-wordmark text-sm font-bold tracking-[0.075em] text-gray-900 dark:text-white">
+                Resume Craft
+              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1.5 font-medium">
+                Profile
               </span>
             </div>
           </div>

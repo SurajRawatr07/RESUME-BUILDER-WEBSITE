@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Download, Eye, EyeOff, User, LogOut, FileCheck, Layout, FileText, Sun, Moon, FileDown } from 'lucide-react';
+import { ArrowLeft, Download, Eye, EyeOff, User, LogOut, FileCheck, Layout, FileText, Sun, Moon, FileDown, Printer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useResumeStore } from '@/stores/resumeStore';
 import { useAuth } from '@/hooks/useAuth';
@@ -62,11 +62,8 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
               <ArrowLeft className="w-4 h-4 mr-1.5" />
               <span className="hidden sm:inline">Back</span>
             </Button>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-xs shrink-0">
-                <FileText className="w-4 h-4 text-white" />
-              </div>
-              <h1 className="text-base font-bold text-gray-900 dark:text-white hidden sm:block">
+            <div className="flex items-center">
+              <h1 className="brand-wordmark text-base sm:text-lg font-bold tracking-[0.075em] text-gray-900 dark:text-white select-none hidden sm:block">
                 Resume Craft
               </h1>
             </div>
@@ -143,7 +140,18 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
                       className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${isDark ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-indigo-50'}`}
                     >
                       <FileText className="w-4 h-4 text-red-500" />
-                      Export as PDF
+                      Download PDF
+                    </button>
+                    <div className={`h-px mx-4 ${isDark ? 'bg-gray-700' : 'bg-gray-100'}`} />
+                    <button
+                      onClick={() => {
+                        setShowExportMenu(false);
+                        window.print();
+                      }}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors ${isDark ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-emerald-50'}`}
+                    >
+                      <Printer className="w-4 h-4 text-emerald-500" />
+                      Print / Vector PDF
                     </button>
                     <div className={`h-px mx-4 ${isDark ? 'bg-gray-700' : 'bg-gray-100'}`} />
                     <button

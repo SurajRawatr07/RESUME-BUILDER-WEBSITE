@@ -37,7 +37,7 @@ export default function PersonalInfoForm() {
           <Label htmlFor="location" className={labelClass}>Location *</Label>
           <Input id="location" value={resumeData.location} onChange={e => setResumeData({ location: e.target.value })} placeholder="San Francisco, CA" className={inputClass} />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div>
             <Label htmlFor="linkedin" className={labelClass}>LinkedIn</Label>
             <Input id="linkedin" value={resumeData.linkedin || ''} onChange={e => setResumeData({ linkedin: e.target.value })} placeholder="linkedin.com/in/username" className={inputClass} />
@@ -47,7 +47,11 @@ export default function PersonalInfoForm() {
             <Input id="github" value={resumeData.github || ''} onChange={e => setResumeData({ github: e.target.value })} placeholder="github.com/username" className={inputClass} />
           </div>
           <div>
-            <Label htmlFor="portfolio" className={labelClass}>Portfolio / Website</Label>
+            <Label htmlFor="leetcode" className={labelClass}>LeetCode</Label>
+            <Input id="leetcode" value={resumeData.leetcode || ''} onChange={e => setResumeData({ leetcode: e.target.value })} placeholder="leetcode.com/username" className={inputClass} />
+          </div>
+          <div>
+            <Label htmlFor="portfolio" className={labelClass}>Portfolio / Web</Label>
             <Input id="portfolio" value={resumeData.portfolio || ''} onChange={e => setResumeData({ portfolio: e.target.value })} placeholder="yourportfolio.com" className={inputClass} />
           </div>
         </div>

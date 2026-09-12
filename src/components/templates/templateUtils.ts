@@ -62,7 +62,7 @@ export function parseBullets(text?: string): string[] {
   if (!text) return [];
   return text
     .split('\n')
-    .map((line) => line.trim().replace(/^[•\-\*]\s*/, ''))
+    .map((line) => line.trim().replace(/^[•\-*]\s*/, ''))
     .filter((line) => line.length > 0);
 }
 

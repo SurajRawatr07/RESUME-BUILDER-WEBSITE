@@ -70,8 +70,12 @@ export default function EducationForm() {
               </div>
             </div>
             <div>
+              <Label className={labelClass}>Relevant Coursework</Label>
+              <Input value={edu.coursework || ''} onChange={e => updateEducation(edu.id, { coursework: e.target.value })} placeholder="Data Structures & Algorithms, DBMS, Operating Systems, Computer Networks..." className={inputClass} />
+            </div>
+            <div>
               <Label className={labelClass}>Description</Label>
-              <Textarea value={edu.description} onChange={e => updateEducation(edu.id, { description: e.target.value })} placeholder="Relevant coursework, honors..." rows={2} className={inputClass} />
+              <Textarea value={edu.description} onChange={e => updateEducation(edu.id, { description: e.target.value })} placeholder="Honors, thesis, special achievements..." rows={2} className={inputClass} />
             </div>
           </div>
         ))}

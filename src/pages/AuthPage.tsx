@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import {
-  FileText,
   Mail,
   Lock,
   User,
@@ -192,12 +191,9 @@ export default function AuthPage({
       <div className="w-full max-w-md mx-auto">
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-600 text-white mb-3 shadow-sm">
-            <FileText className="w-6 h-6" />
-          </div>
-          <p className="text-xs uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">
+          <span className="brand-wordmark text-2xl sm:text-3xl font-bold tracking-[0.075em] text-gray-900 dark:text-white block mb-2">
             Resume Craft
-          </p>
+          </span>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
             {mode === "signin" ? "Welcome Back" : "Create Your Account"}
           </h1>

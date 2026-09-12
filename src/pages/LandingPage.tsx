@@ -6,7 +6,6 @@ import {
   useTransform,
 } from 'framer-motion';
 import {
-  FileText,
   Zap,
   Download,
   Eye,
@@ -299,12 +298,9 @@ export default function LandingPage({
           {/* Brand Wordmark */}
           <div
             onClick={() => scrollTo('#home')}
-            className="flex items-center gap-2.5 cursor-pointer select-none group"
+            className="cursor-pointer select-none group flex items-center min-w-0"
           >
-            <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
-              <FileText className="w-5 h-5" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+            <span className="brand-wordmark text-xl sm:text-2xl font-bold tracking-[0.075em] text-gray-900 dark:text-white select-none whitespace-nowrap">
               Resume Craft
             </span>
           </div>
@@ -428,9 +424,8 @@ export default function LandingPage({
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Left Column */}
           <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 mb-6">
-              <FileText className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-              <span>Resume Craft</span>
+            <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 mb-6">
+              <span className="brand-wordmark text-xs font-bold tracking-[0.075em]">Resume Craft</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900 dark:text-white">

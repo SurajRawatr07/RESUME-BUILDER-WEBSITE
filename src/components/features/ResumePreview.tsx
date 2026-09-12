@@ -11,6 +11,7 @@ export default function ResumePreview() {
     <AnimatePresence mode="wait">
       <motion.div
         key={templateDef.id}
+        id="resume-preview-content"
         initial={{ opacity: 0, scale: 0.98, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.98, y: -8 }}

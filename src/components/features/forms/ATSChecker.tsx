@@ -113,17 +113,19 @@ function keywordMatch(resume: string, jd: string) {
 function structureScore(resume: ResumeData) {
   let score = 0;
 
-  if (resume.summary) score += 20;
-  if (resume.experiences.length > 0) score += 25;
+  if (resume.summary) score += 15;
+  if (resume.experiences.length > 0) score += 20;
   if (resume.education.length > 0) score += 15;
-  if (resume.skills.length > 3) score += 20;
-  if (resume.technologies.length > 3) score += 20;
+  const hasTech = resume.skills.length > 0 || (resume.technicalSkills && Object.values(resume.technicalSkills).some(arr => arr && arr.length > 0));
+  if (hasTech) score += 20;
+  if (resume.projects && resume.projects.length > 0) score += 15;
+  if (resume.github || resume.linkedin || resume.leetcode) score += 15;
 
-  return score;
+  return Math.min(score, 100);
 }
 
 /* =========================================================
-   EXPERIENCE DEPTH
+   EXPERIENCE & IMPACT DEPTH
 ========================================================= */
 
 function experienceScore(resume: ResumeData) {
@@ -139,6 +141,11 @@ function experienceScore(resume: ResumeData) {
     }
   });
 
+  (resume.projects || []).forEach(proj => {
+    if (proj.description && proj.description.length > 50) score += 5;
+    if (proj.technologies && proj.technologies.length > 0) score += 5;
+  });
+
   return Math.min(score, 100);
 }
 
@@ -147,12 +154,38 @@ function experienceScore(resume: ResumeData) {
 ========================================================= */
 
 function calculateATS(resume: ResumeData, jd: string) {
+  const techSkillsText = resume.technicalSkills
+    ? [
+        ...(resume.technicalSkills.languages || []),
+        ...(resume.technicalSkills.frameworks || []),
+        ...(resume.technicalSkills.developerTools || []),
+        ...(resume.technicalSkills.libraries || []),
+        ...(resume.technicalSkills.databases || []),
+        ...(resume.technicalSkills.coreSubjects || []),
+      ].join(" ")
+    : "";
+
+  const projectsText = (resume.projects || [])
+    .map(p => `${p.title} ${p.technologies.join(" ")} ${p.description}`)
+    .join(" ");
+
+  const educationText = (resume.education || [])
+    .map(e => `${e.degree} ${e.institution} ${e.coursework || ""} ${e.description}`)
+    .join(" ");
+
   const resumeText = `
+    ${resume.fullName}
     ${resume.jobTitle}
     ${resume.summary}
+    ${resume.aboutMe || ""}
     ${resume.skills.join(" ")}
     ${resume.technologies.join(" ")}
-    ${resume.experiences.map(e => e.description).join(" ")}
+    ${techSkillsText}
+    ${resume.experiences.map(e => `${e.title} ${e.company} ${e.description}`).join(" ")}
+    ${projectsText}
+    ${educationText}
+    ${(resume.certifications || []).map(c => typeof c === 'string' ? c : `${c.name} ${c.issuer}`).join(" ")}
+    ${(resume.achievements || []).join(" ")}
   `;
 
   const jobDomain = detectDomain(jd);

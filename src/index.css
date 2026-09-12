@@ -207,3 +207,68 @@
 .dark .card-glow:hover {
   box-shadow: 0 0 30px rgba(99, 102, 241, 0.25);
 }
+
+/* ─── Premium Resume Craft Wordmark & Luminous Glow ─── */
+@keyframes wordmark-glow-light {
+  0%, 100% {
+    text-shadow:
+      0 0 8px rgba(79, 70, 229, 0.14),
+      0 0 16px rgba(99, 102, 241, 0.08);
+  }
+  50% {
+    text-shadow:
+      0 0 14px rgba(79, 70, 229, 0.26),
+      0 0 24px rgba(99, 102, 241, 0.16);
+  }
+}
+
+@keyframes wordmark-glow-dark {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(129, 140, 248, 0.32),
+      0 0 20px rgba(99, 102, 241, 0.20),
+      0 0 30px rgba(99, 102, 241, 0.08);
+  }
+  50% {
+    text-shadow:
+      0 0 18px rgba(165, 180, 252, 0.50),
+      0 0 28px rgba(129, 140, 248, 0.32),
+      0 0 40px rgba(99, 102, 241, 0.16);
+  }
+}
+
+.brand-wordmark {
+  font-family: "Times New Roman", Times, serif !important;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  display: inline-block;
+  white-space: nowrap;
+  transition: text-shadow 0.4s ease, color 0.3s ease, transform 0.2s ease;
+  animation: wordmark-glow-light 3.5s ease-in-out infinite;
+  color: #0f172a;
+}
+
+.brand-wordmark:hover {
+  text-shadow:
+    0 0 14px rgba(79, 70, 229, 0.38),
+    0 0 26px rgba(99, 102, 241, 0.24);
+}
+
+.dark .brand-wordmark {
+  animation: wordmark-glow-dark 3.5s ease-in-out infinite;
+  color: #ffffff;
+}
+
+.dark .brand-wordmark:hover {
+  text-shadow:
+    0 0 20px rgba(165, 180, 252, 0.65),
+    0 0 34px rgba(129, 140, 248, 0.45),
+    0 0 46px rgba(99, 102, 241, 0.26);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-wordmark,
+  .dark .brand-wordmark {
+    animation: none !important;
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Linkedin, FileText } from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
 
 interface FooterProps {
   isDark: boolean;
@@ -26,18 +26,13 @@ export default function StackedCircularFooter({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand Identity */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shrink-0">
-              <FileText className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Resume Craft
-              </span>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                Overleaf and LaTeX-inspired professional resume platform.
-              </p>
-            </div>
+          <div className="flex flex-col">
+            <span className="brand-wordmark text-xl sm:text-2xl font-bold tracking-[0.075em] text-gray-900 dark:text-white">
+              Resume Craft
+            </span>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-sm">
+              Overleaf and LaTeX-inspired professional resume platform.
+            </p>
           </div>
 
           {/* Social Links (GitHub and LinkedIn Only) */}

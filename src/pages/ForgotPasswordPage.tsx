@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { FileText, ArrowLeft, Mail, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Mail, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -45,12 +45,9 @@ export default function ForgotPasswordPage({
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="relative w-full max-w-md">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-indigo-600 rounded-xl mb-3 shadow-sm text-white">
-            <FileText className="w-6 h-6" />
-          </div>
-          <p className="text-xs uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">
+          <span className="brand-wordmark text-2xl sm:text-3xl font-bold tracking-[0.075em] text-gray-900 dark:text-white block mb-2">
             Resume Craft
-          </p>
+          </span>
           <h1 className={`text-2xl font-bold mt-1 mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             Reset Password
           </h1>
