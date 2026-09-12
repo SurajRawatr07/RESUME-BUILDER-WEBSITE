@@ -212,46 +212,48 @@
 @keyframes wordmark-glow-light {
   0%, 100% {
     text-shadow:
-      0 0 8px rgba(79, 70, 229, 0.14),
-      0 0 16px rgba(99, 102, 241, 0.08);
+      0 0 6px rgba(79, 70, 229, 0.12),
+      0 0 14px rgba(99, 102, 241, 0.06);
   }
   50% {
     text-shadow:
-      0 0 14px rgba(79, 70, 229, 0.26),
-      0 0 24px rgba(99, 102, 241, 0.16);
+      0 0 10px rgba(79, 70, 229, 0.22),
+      0 0 20px rgba(99, 102, 241, 0.12);
   }
 }
 
 @keyframes wordmark-glow-dark {
   0%, 100% {
     text-shadow:
-      0 0 10px rgba(129, 140, 248, 0.32),
-      0 0 20px rgba(99, 102, 241, 0.20),
-      0 0 30px rgba(99, 102, 241, 0.08);
+      0 0 8px rgba(129, 140, 248, 0.28),
+      0 0 16px rgba(99, 102, 241, 0.16),
+      0 0 24px rgba(99, 102, 241, 0.06);
   }
   50% {
     text-shadow:
-      0 0 18px rgba(165, 180, 252, 0.50),
-      0 0 28px rgba(129, 140, 248, 0.32),
-      0 0 40px rgba(99, 102, 241, 0.16);
+      0 0 14px rgba(165, 180, 252, 0.42),
+      0 0 24px rgba(129, 140, 248, 0.26),
+      0 0 32px rgba(99, 102, 241, 0.12);
   }
 }
 
 .brand-wordmark {
   font-family: "Times New Roman", Times, serif !important;
   font-weight: 700;
-  letter-spacing: 0.075em;
+  letter-spacing: 0.07em;
   display: inline-block;
   white-space: nowrap;
-  transition: text-shadow 0.4s ease, color 0.3s ease, transform 0.2s ease;
+  transition: text-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease, transform 0.2s ease;
   animation: wordmark-glow-light 3.5s ease-in-out infinite;
   color: #0f172a;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .brand-wordmark:hover {
   text-shadow:
-    0 0 14px rgba(79, 70, 229, 0.38),
-    0 0 26px rgba(99, 102, 241, 0.24);
+    0 0 12px rgba(79, 70, 229, 0.32),
+    0 0 22px rgba(99, 102, 241, 0.18);
 }
 
 .dark .brand-wordmark {
@@ -261,14 +263,22 @@
 
 .dark .brand-wordmark:hover {
   text-shadow:
-    0 0 20px rgba(165, 180, 252, 0.65),
-    0 0 34px rgba(129, 140, 248, 0.45),
-    0 0 46px rgba(99, 102, 241, 0.26);
+    0 0 16px rgba(165, 180, 252, 0.55),
+    0 0 28px rgba(129, 140, 248, 0.38),
+    0 0 38px rgba(99, 102, 241, 0.20);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .brand-wordmark,
+  .brand-wordmark {
+    animation: none !important;
+    text-shadow:
+      0 0 8px rgba(79, 70, 229, 0.14),
+      0 0 16px rgba(99, 102, 241, 0.08) !important;
+  }
   .dark .brand-wordmark {
     animation: none !important;
+    text-shadow:
+      0 0 10px rgba(129, 140, 248, 0.30),
+      0 0 20px rgba(99, 102, 241, 0.16) !important;
   }
 }

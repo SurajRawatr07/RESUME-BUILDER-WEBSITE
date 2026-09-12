@@ -6,6 +6,7 @@ import { ArrowLeft, Mail, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import BrandWordmark from '@/components/ui/BrandWordmark';
 
 interface ForgotPasswordPageProps {
   onNavigateToLogin: () => void;
@@ -45,9 +46,9 @@ export default function ForgotPasswordPage({
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="relative w-full max-w-md">
         <div className="text-center mb-6">
-          <span className="brand-wordmark text-2xl sm:text-3xl font-bold tracking-[0.075em] text-gray-900 dark:text-white block mb-2">
-            Resume Craft
-          </span>
+          <div className="mb-2">
+            <BrandWordmark size="xl" />
+          </div>
           <h1 className={`text-2xl font-bold mt-1 mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             Reset Password
           </h1>

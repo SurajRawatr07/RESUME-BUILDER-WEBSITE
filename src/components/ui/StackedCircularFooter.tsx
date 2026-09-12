@@ -1,5 +1,6 @@
 import React from 'react';
 import { Github, Linkedin } from 'lucide-react';
+import BrandWordmark from '@/components/ui/BrandWordmark';
 
 interface FooterProps {
   isDark: boolean;
@@ -27,9 +28,10 @@ export default function StackedCircularFooter({
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand Identity */}
           <div className="flex flex-col">
-            <span className="brand-wordmark text-xl sm:text-2xl font-bold tracking-[0.075em] text-gray-900 dark:text-white">
-              Resume Craft
-            </span>
+            <BrandWordmark
+              size="lg"
+              onClick={scrollTo ? () => scrollTo('#home') : undefined}
+            />
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-sm">
               Overleaf and LaTeX-inspired professional resume platform.
             </p>

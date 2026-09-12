@@ -27,6 +27,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/context/ThemeContext';
 import FloatingNavbar from '@/components/ui/FloatingNavbar';
+import BrandWordmark from '@/components/ui/BrandWordmark';
 import TemplateGallery from '@/components/features/TemplateGallery';
 import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
 import { TemplateType } from '@/types/resume';
@@ -286,7 +287,7 @@ export default function LandingPage({
           {/* Left Column */}
           <div className="flex-1 text-center lg:text-left">
             <div className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 mb-6">
-              <span className="brand-wordmark text-xs font-bold tracking-[0.075em]">Resume Craft</span>
+              <BrandWordmark size="xs" />
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6 text-gray-900 dark:text-white">

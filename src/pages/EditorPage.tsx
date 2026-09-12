@@ -11,6 +11,7 @@ import TemplateSelector from '@/components/features/TemplateSelector';
 import ATSChecker from '@/components/features/forms/ATSChecker';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import ProfileDropdown from '@/components/ui/ProfileDropdown';
+import BrandWordmark from '@/components/ui/BrandWordmark';
 import { exportToPDF, exportToDOCX } from '@/lib/utils';
 
 interface EditorPageProps {
@@ -63,9 +64,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
               <span className="hidden sm:inline">Back</span>
             </Button>
             <div className="flex items-center">
-              <h1 className="brand-wordmark text-base sm:text-lg font-bold tracking-[0.075em] text-gray-900 dark:text-white select-none hidden sm:block">
-                Resume Craft
-              </h1>
+              <BrandWordmark size="md" className="hidden sm:inline-block" />
             </div>
           </div>
 

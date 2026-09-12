@@ -5,6 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/hooks/useAuth";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import ProfileDropdown from "@/components/ui/ProfileDropdown";
+import BrandWordmark from "@/components/ui/BrandWordmark";
 import { TemplateType } from "@/types/resume";
 
 export interface NavLinkItem {
@@ -135,19 +136,12 @@ export default function FloatingNavbar({
         aria-label="Main Navigation"
       >
         {/* ─── 1. Brand Wordmark (TEXT ONLY, NO ICON) ─── */}
-        <div
-          onClick={() => handleNavClick("#home")}
-          className="cursor-pointer select-none group flex items-center shrink-0 pr-1.5 sm:pr-3"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") handleNavClick("#home");
-          }}
-          aria-label="Resume Craft Home"
-        >
-          <span className="brand-wordmark text-base sm:text-lg md:text-xl font-bold tracking-[0.075em] text-gray-900 dark:text-white select-none whitespace-nowrap">
-            Resume Craft
-          </span>
+        <div className="flex items-center shrink-0 pr-1.5 sm:pr-3">
+          <BrandWordmark
+            size="md"
+            onClick={() => handleNavClick("#home")}
+            ariaLabel="Resume Craft Home"
+          />
         </div>
 
         {/* ─── 2. Desktop Navigation Links (Exact order: Home → How It Works → Templates → Features) ─── */}

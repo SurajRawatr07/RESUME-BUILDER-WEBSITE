@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import BrandWordmark from "@/components/ui/BrandWordmark";
 import {
   Mail,
   Lock,
@@ -191,9 +192,9 @@ export default function AuthPage({
       <div className="w-full max-w-md mx-auto">
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <span className="brand-wordmark text-2xl sm:text-3xl font-bold tracking-[0.075em] text-gray-900 dark:text-white block mb-2">
-            Resume Craft
-          </span>
+          <div className="mb-2">
+            <BrandWordmark size="xl" />
+          </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
             {mode === "signin" ? "Welcome Back" : "Create Your Account"}
           </h1>
