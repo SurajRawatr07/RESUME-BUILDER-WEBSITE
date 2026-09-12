@@ -126,11 +126,11 @@ export default function FloatingNavbar({
         className={`pointer-events-auto relative isolate w-full max-w-5xl rounded-full transition-all duration-300 ease-out flex items-center justify-between px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 ${
           scrolled
             ? isDark
-              ? "bg-gray-950/90 border border-white/[0.14] shadow-[0_12px_35px_-4px_rgba(0,0,0,0.7)] backdrop-blur-2xl"
-              : "bg-white/95 border border-black/[0.12] shadow-[0_10px_30px_-6px_rgba(0,0,0,0.12)] backdrop-blur-2xl"
+              ? "bg-[#141412]/95 border border-white/[0.12] shadow-[0_12px_35px_-4px_rgba(0,0,0,0.7)] backdrop-blur-2xl"
+              : "bg-[#FAF8F5]/95 border border-black/[0.1] shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] backdrop-blur-2xl"
             : isDark
-            ? "bg-gray-900/80 border border-white/[0.09] shadow-[0_4px_25px_-4px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-            : "bg-white/80 border border-black/[0.07] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] backdrop-blur-xl"
+            ? "bg-[#141412]/85 border border-white/[0.08] shadow-[0_4px_25px_-4px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+            : "bg-[#FAF8F5]/85 border border-black/[0.06] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] backdrop-blur-xl"
         }`}
         style={{ fontFamily: '"Times New Roman", Times, serif' }}
         aria-label="Main Navigation"
@@ -138,7 +138,7 @@ export default function FloatingNavbar({
         {/* Restrained Static Warm Glow Layer (No rotating colors per requirement) */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -inset-0.5 sm:-inset-1 -z-10 rounded-full filter blur-lg sm:blur-xl opacity-35 dark:opacity-45 transition-opacity duration-300"
+          className="pointer-events-none absolute -inset-0.5 sm:-inset-1 -z-10 rounded-full filter blur-md sm:blur-lg opacity-30 dark:opacity-40 transition-opacity duration-300"
         >
           <div className="absolute inset-0 overflow-hidden rounded-full">
             <div className="w-full h-full glowing-static-bg" />

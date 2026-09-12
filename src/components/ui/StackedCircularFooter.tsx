@@ -18,10 +18,10 @@ export default function StackedCircularFooter({
   return (
     <footer
       id="site-footer"
-      className={`border-t py-12 transition-colors duration-300 ${
+      className={`border-t py-12 transition-colors duration-200 ${
         isDark
-          ? 'bg-gray-950 border-gray-800 text-gray-300'
-          : 'bg-white border-gray-200 text-gray-700'
+          ? 'bg-[#11110F] border-white/[0.08] text-gray-300'
+          : 'bg-[#F7F4EE] border-black/[0.08] text-gray-700'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

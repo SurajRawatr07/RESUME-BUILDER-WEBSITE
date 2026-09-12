@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Blob animation ─── */
-@keyframes blob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-}
-.animate-blob { animation: blob 7s infinite; }
-.animation-delay-2000 { animation-delay: 2s; }
-.animation-delay-4000 { animation-delay: 4s; }
-
 /* ─── Shimmer ─── */
 @keyframes shimmer {
   0% { background-position: -1000px 0; }
@@ -27,24 +17,25 @@
 @layer base {
   :root {
     font-family: "Times New Roman", Times, serif;
-    --background: 0 0% 100%;
+    /* Static warm ivory background #F7F4EE */
+    --background: 40 36% 95.1%;
     --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
+    --card: 40 30% 98%;
     --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
+    --popover: 40 30% 98%;
     --popover-foreground: 222.2 84% 4.9%;
     --primary: 238 72% 55%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
+    --secondary: 40 20% 92%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
+    --muted: 40 18% 90%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
+    --accent: 40 20% 92%;
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    --border: 40 16% 86%;
+    --input: 40 16% 86%;
     --ring: 238 72% 55%;
     --radius: 0.75rem;
     --chart-1: 12 76% 61%;
@@ -55,24 +46,25 @@
   }
 
   .dark {
-    --background: 222 47% 5%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 98%;
+    /* Static deep charcoal background #11110F */
+    --background: 60 6.2% 6.3%;
+    --foreground: 40 15% 94%;
+    --card: 60 5% 9%;
+    --card-foreground: 40 15% 94%;
+    --popover: 60 5% 9%;
+    --popover-foreground: 40 15% 94%;
     --primary: 238 72% 65%;
     --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --secondary: 60 4% 13%;
+    --secondary-foreground: 40 15% 94%;
+    --muted: 60 4% 13%;
+    --muted-foreground: 40 10% 62%;
+    --accent: 60 4% 13%;
+    --accent-foreground: 40 15% 94%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
+    --border: 60 4% 18%;
+    --input: 60 4% 18%;
     --ring: 238 72% 65%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -93,16 +85,30 @@
   html {
     font-family: "Times New Roman", Times, serif !important;
     text-rendering: optimizeLegibility;
+    background-color: #F7F4EE;
+  }
+
+  html.dark,
+  .dark html {
+    background-color: #11110F;
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: #F7F4EE;
+    color: #11110F;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Times New Roman", Times, serif !important;
     font-size: 16px;
     line-height: 1.6;
     letter-spacing: 0.01em;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  body.dark,
+  .dark body {
+    background-color: #11110F;
+    color: #F7F4EE;
   }
 
   /* Universal element overrides to guarantee Times New Roman on all tags & portals */

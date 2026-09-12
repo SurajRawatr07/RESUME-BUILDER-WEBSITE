@@ -182,8 +182,8 @@ export default function LandingPage({
   return (
     <div
       id="home"
-      className={`min-h-screen overflow-x-hidden transition-all duration-300 ${
-        isDark ? 'bg-gray-950 text-white' : 'bg-white text-gray-900'
+      className={`min-h-screen overflow-x-hidden transition-colors duration-200 ${
+        isDark ? 'bg-[#11110F] text-[#F3F3EE]' : 'bg-[#F7F4EE] text-gray-900'
       }`}
     >
       {/* ========================================
@@ -200,7 +200,7 @@ export default function LandingPage({
       {/* ========================================
           1. HOME (HERO SECTION - CENTERED PREMIUM)
       ======================================== */}
-      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-20 sm:pb-28 lg:pb-32 overflow-hidden border-b border-gray-100 dark:border-gray-900">
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-20 sm:pb-28 lg:pb-32 overflow-hidden border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent">
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
           {/* Main Heading */}
           <motion.h1
@@ -263,8 +263,8 @@ export default function LandingPage({
       ======================================== */}
       <section
         id="how-it-works"
-        className={`py-20 sm:py-24 border-b ${
-          isDark ? 'bg-gray-900/40 border-gray-800' : 'bg-gray-50/70 border-gray-200'
+        className={`py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] ${
+          isDark ? 'bg-[#151513]' : 'bg-[#EFECE5]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -297,8 +297,8 @@ export default function LandingPage({
                   <div
                     className={`h-full p-6 rounded-2xl border transition-all ${
                       isDark
-                        ? 'bg-gray-900 border-gray-800 hover:border-gray-700'
-                        : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
+                        ? 'bg-[#181816] border-white/[0.08] hover:border-amber-400/30'
+                        : 'bg-[#FCFAF7] border-black/[0.08] shadow-xs hover:shadow-sm'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-4">
@@ -332,7 +332,7 @@ export default function LandingPage({
       {/* ========================================
           3. TEMPLATES
       ======================================== */}
-      <section id="templates" className="py-20 sm:py-24 border-b border-gray-100 dark:border-gray-900">
+      <section id="templates" className="py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
@@ -362,8 +362,8 @@ export default function LandingPage({
       ======================================== */}
       <section
         id="features"
-        className={`py-20 sm:py-24 border-b ${
-          isDark ? 'bg-gray-900/40 border-gray-800' : 'bg-gray-50/70 border-gray-200'
+        className={`py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] ${
+          isDark ? 'bg-[#151513]' : 'bg-[#EFECE5]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -396,8 +396,8 @@ export default function LandingPage({
                   <div
                     className={`h-full p-6 sm:p-7 rounded-2xl border transition-all ${
                       isDark
-                        ? 'bg-gray-900 border-gray-800 hover:border-gray-700'
-                        : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
+                        ? 'bg-[#181816] border-white/[0.08] hover:border-amber-400/30'
+                        : 'bg-[#FCFAF7] border-black/[0.08] shadow-xs hover:shadow-sm'
                     }`}
                   >
                     <div
@@ -428,7 +428,7 @@ export default function LandingPage({
       {/* ========================================
           5. FAQ
       ======================================== */}
-      <section id="faq" className="py-20 sm:py-24">
+      <section id="faq" className="py-20 sm:py-24 bg-transparent">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">

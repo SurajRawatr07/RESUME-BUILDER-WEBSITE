@@ -109,8 +109,8 @@ export const GlowingShadow = React.forwardRef<HTMLDivElement, GlowingShadowProps
             'glowing-shadow-layer pointer-events-none absolute -z-10 transition-opacity duration-400 ease-out',
             rounded,
             isButton
-              ? '-inset-0.5 filter blur-md sm:blur-lg'
-              : '-inset-1 sm:-inset-1.5 filter blur-lg sm:blur-xl md:blur-2xl',
+              ? '-inset-0.5 filter blur-sm sm:blur-md'
+              : '-inset-1 sm:-inset-1.5 filter blur-md sm:blur-lg',
             opacityClasses,
             glowClassName
           )}
