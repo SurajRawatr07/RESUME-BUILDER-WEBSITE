@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   motion,
   AnimatePresence,
@@ -10,8 +10,6 @@ import {
   Download,
   Eye,
   Layout,
-  Menu,
-  X,
   ArrowRight,
   Shield,
   RefreshCw,
@@ -28,8 +26,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/context/ThemeContext';
-import ThemeToggle from '@/components/ui/ThemeToggle';
-import ProfileDropdown from '@/components/ui/ProfileDropdown';
+import FloatingNavbar from '@/components/ui/FloatingNavbar';
 import TemplateGallery from '@/components/features/TemplateGallery';
 import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
 import { TemplateType } from '@/types/resume';
@@ -248,27 +245,15 @@ export default function LandingPage({
   const { user, isAuthenticated } = useAuth();
   const { isDark } = useTheme();
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, 80]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const scrollTo = (id: string) => {
     document.getElementById(id.replace('#', ''))?.scrollIntoView({
       behavior: 'smooth',
     });
-    setMobileMenuOpen(false);
   };
 
   const toggleFaq = (index: number) => {
@@ -283,144 +268,20 @@ export default function LandingPage({
       }`}
     >
       {/* ========================================
-          NAVBAR
+          FLOATING NAVBAR (21st.dev inspired)
       ======================================== */}
-      <header
-        className={`sticky top-0 z-40 backdrop-blur-xl transition-all duration-300 ${
-          scrolled
-            ? isDark
-              ? 'bg-gray-900/90 border-b border-gray-800 shadow-lg'
-              : 'bg-white/95 border-b border-gray-200 shadow-sm'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between">
-          {/* Brand Wordmark */}
-          <div
-            onClick={() => scrollTo('#home')}
-            className="cursor-pointer select-none group flex items-center min-w-0"
-          >
-            <span className="brand-wordmark text-xl sm:text-2xl font-bold tracking-[0.075em] text-gray-900 dark:text-white select-none whitespace-nowrap">
-              Resume Craft
-            </span>
-          </div>
-
-          {/* Desktop Nav - Exact Order: Home → How It Works → Templates → Features → FAQ */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => scrollTo(link.href)}
-                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isDark
-                    ? 'hover:bg-gray-800 text-gray-300 hover:text-white'
-                    : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
-                }`}
-              >
-                {link.label}
-              </button>
-            ))}
-          </nav>
-
-          {/* Right Controls */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Blind Pull Theme Toggle */}
-            <ThemeToggle />
-
-            {/* Authentication / Profile controls according to current login state */}
-            {isAuthenticated ? (
-              <ProfileDropdown
-                onNavigateToProfile={onNavigateToProfile}
-                onNavigateToDashboard={() => scrollTo('#home')}
-                onNavigateToEditor={() => onStartBuilding()}
-              />
-            ) : (
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onNavigateToLogin || (() => onStartBuilding())}
-                  className={`rounded-xl text-sm font-medium ${
-                    isDark ? 'text-gray-300 hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  <LogIn className="w-4 h-4 mr-1.5" />
-                  <span>Sign In</span>
-                </Button>
-
-                <Button
-                  onClick={() => onStartBuilding()}
-                  className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm h-10 px-4 shadow-sm"
-                >
-                  Create Resume
-                </Button>
-              </div>
-            )}
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Dropdown Nav */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className={`lg:hidden border-t ${
-                isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'
-              }`}
-            >
-              <div className="p-4 space-y-2">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.label}
-                    onClick={() => scrollTo(link.href)}
-                    className="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-indigo-500/10"
-                  >
-                    {link.label}
-                  </button>
-                ))}
-
-                {isAuthenticated && onNavigateToProfile && (
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onNavigateToProfile();
-                    }}
-                    className="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10"
-                  >
-                    My Account Profile
-                  </button>
-                )}
-
-                <Button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onStartBuilding();
-                  }}
-                  className="w-full mt-2 rounded-xl bg-indigo-600 text-white font-semibold"
-                >
-                  Create Resume
-                </Button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
+      <FloatingNavbar
+        navLinks={navLinks}
+        onStartBuilding={onStartBuilding}
+        onNavigateToProfile={onNavigateToProfile}
+        onNavigateToLogin={onNavigateToLogin}
+        onScrollTo={scrollTo}
+      />
 
       {/* ========================================
           1. HOME (HERO SECTION)
       ======================================== */}
-      <section className="relative py-16 sm:py-24 overflow-hidden border-b border-gray-100 dark:border-gray-900">
+      <section className="relative pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 overflow-hidden border-b border-gray-100 dark:border-gray-900">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Left Column */}
           <div className="flex-1 text-center lg:text-left">
