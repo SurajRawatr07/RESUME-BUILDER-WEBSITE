@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TemplateDefinition } from '../templates/registry';
 import { ResumeData } from '@/types/resume';
 import { X, Check, ZoomIn, ZoomOut, RotateCcw, FileText, CheckCircle2 } from 'lucide-react';
+import GlowingShadow from '@/components/ui/GlowingShadow';
 
 interface TemplatePreviewModalProps {
   template: TemplateDefinition | null;
@@ -33,10 +34,16 @@ export const TemplatePreviewModal: React.FC<TemplatePreviewModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4 md:p-6 animate-in fade-in duration-200"
       onClick={onClose}
     >
-      <div
-        className="relative bg-white rounded-xl shadow-2xl flex flex-col w-full max-w-5xl h-[92vh] max-h-[1000px] overflow-hidden border border-gray-200"
-        onClick={(e) => e.stopPropagation()}
+      <GlowingShadow
+        variant="panel"
+        interactive={false}
+        rounded="rounded-xl"
+        className="w-full max-w-5xl h-[92vh] max-h-[1000px]"
       >
+        <div
+          className="relative bg-white rounded-xl shadow-2xl flex flex-col w-full h-full overflow-hidden border border-gray-200"
+          onClick={(e) => e.stopPropagation()}
+        >
         {/* Modal Top Bar */}
         <div className="flex flex-wrap items-center justify-between px-4 sm:px-6 py-3 border-b border-gray-200 bg-gray-50/80 gap-2 shrink-0">
           <div className="flex items-center gap-3">
@@ -139,6 +146,7 @@ export const TemplatePreviewModal: React.FC<TemplatePreviewModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </GlowingShadow>
+  </div>
   );
 };

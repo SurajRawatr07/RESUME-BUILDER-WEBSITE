@@ -13,6 +13,7 @@ import {
 } from '../templates/registry';
 import { TemplateMiniPreview } from './TemplateMiniPreview';
 import { TemplatePreviewModal } from './TemplatePreviewModal';
+import GlowingShadow from '@/components/ui/GlowingShadow';
 
 interface TemplateGalleryProps {
   onSelectTemplate: () => void;
@@ -83,15 +84,23 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: i * 0.04, duration: 0.3, ease: 'easeOut' }}
-                whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className={`group rounded-xl overflow-hidden border transition-all duration-200 flex flex-col ${
-                  isSelected
-                    ? 'border-indigo-600 shadow-md ring-2 ring-indigo-500/20'
-                    : isDark
-                    ? 'border-gray-800 hover:border-gray-700 bg-gray-900 shadow-xs'
-                    : 'border-gray-200 hover:border-gray-300 bg-white shadow-xs hover:shadow-sm'
-                }`}
+                className="h-full"
               >
+                <GlowingShadow
+                  variant="primary"
+                  active={isSelected}
+                  rounded="rounded-xl"
+                  className="h-full"
+                >
+                  <div
+                    className={`group h-full rounded-xl overflow-hidden border transition-all duration-300 flex flex-col ${
+                      isSelected
+                        ? 'border-indigo-600 shadow-md ring-2 ring-indigo-500/20'
+                        : isDark
+                        ? 'border-gray-800 hover:border-amber-400/40 bg-gray-900 shadow-xs'
+                        : 'border-gray-200 hover:border-amber-600/30 bg-white shadow-xs hover:shadow-sm'
+                    }`}
+                  >
                 {/* Visual Mini Preview Container */}
                 <div
                   className="relative p-4 bg-gray-50 dark:bg-gray-950 flex justify-center items-center cursor-pointer overflow-hidden border-b border-gray-200 dark:border-gray-800"
@@ -155,27 +164,31 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                       Preview
                     </Button>
 
-                    <Button
-                      size="sm"
-                      onClick={() => handleSelect(template.id)}
-                      className={`text-xs h-9 rounded-lg font-semibold transition-all ${
-                        isSelected
-                          ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                          : 'bg-gray-900 hover:bg-indigo-600 text-white dark:bg-indigo-600 dark:hover:bg-indigo-700'
-                      }`}
-                    >
-                      {isSelected ? (
-                        <span className="flex items-center gap-1">
-                          <Check className="w-3.5 h-3.5" />
-                          Selected
-                        </span>
-                      ) : (
-                        'Use This Template'
-                      )}
-                    </Button>
+                    <GlowingShadow variant="button" rounded="rounded-lg">
+                      <Button
+                        size="sm"
+                        onClick={() => handleSelect(template.id)}
+                        className={`w-full text-xs h-9 rounded-lg font-semibold transition-all ${
+                          isSelected
+                            ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                            : 'bg-gray-900 hover:bg-indigo-600 text-white dark:bg-indigo-600 dark:hover:bg-indigo-700'
+                        }`}
+                      >
+                        {isSelected ? (
+                          <span className="flex items-center gap-1">
+                            <Check className="w-3.5 h-3.5" />
+                            Selected
+                          </span>
+                        ) : (
+                          'Use This Template'
+                        )}
+                      </Button>
+                    </GlowingShadow>
                   </div>
                 </div>
-              </motion.div>
+              </div>
+            </GlowingShadow>
+          </motion.div>
             );
           })}
         </AnimatePresence>

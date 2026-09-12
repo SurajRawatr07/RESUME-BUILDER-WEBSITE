@@ -119,14 +119,31 @@ export function Disclosure({ id: propId, className, children }: DisclosureProps)
     >
       <div
         className={cn(
-          'rounded-2xl border transition-all duration-200 overflow-hidden',
+          'relative isolate rounded-2xl transition-all duration-300 group',
           isExpanded
-            ? 'bg-white dark:bg-gray-900 border-indigo-200/80 dark:border-indigo-900/60 shadow-sm'
-            : 'bg-white/80 dark:bg-gray-900/60 border-gray-200/90 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 shadow-2xs',
+            ? 'bg-white dark:bg-gray-900 border border-amber-500/30 dark:border-amber-400/25 shadow-sm'
+            : 'bg-white/80 dark:bg-gray-900/60 border border-gray-200/90 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 shadow-2xs',
           className
         )}
       >
-        {typeof children === 'function' ? children({ isExpanded }) : children}
+        {/* ─── Glowing Shadow Layer (Active item receives strongest treatment) ─── */}
+        <div
+          aria-hidden="true"
+          className={cn(
+            'pointer-events-none absolute -inset-0.5 sm:-inset-1 -z-10 rounded-2xl filter blur-lg sm:blur-xl transition-opacity duration-400 ease-out',
+            isExpanded
+              ? 'opacity-70 dark:opacity-85'
+              : 'opacity-0 group-hover:opacity-35 dark:group-hover:opacity-45'
+          )}
+        >
+          <div className="absolute inset-0 overflow-hidden rounded-2xl">
+            <div className="absolute -inset-[50%] w-[200%] h-[200%] m-auto glowing-conic-bg glowing-shadow-spin" />
+          </div>
+        </div>
+
+        <div className="rounded-2xl overflow-hidden">
+          {typeof children === 'function' ? children({ isExpanded }) : children}
+        </div>
       </div>
     </DisclosureContext.Provider>
   );

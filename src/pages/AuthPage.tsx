@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import BrandWordmark from "@/components/ui/BrandWordmark";
+import GlowingShadow from "@/components/ui/GlowingShadow";
 import {
   Mail,
   Lock,
@@ -205,9 +206,10 @@ export default function AuthPage({
           </p>
         </div>
 
-        {/* Authentication Card */}
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 shadow-xl shadow-slate-200/50 dark:shadow-black/40 p-6 sm:p-8">
-          {/* Segmented Mode Switcher */}
+        {/* Authentication Card with GlowingShadow */}
+        <GlowingShadow variant="primary" interactive={false} rounded="rounded-2xl">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 shadow-xl shadow-slate-200/50 dark:shadow-black/40 p-6 sm:p-8">
+            {/* Segmented Mode Switcher */}
           <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-gray-800/80 rounded-xl mb-6 border border-slate-200/60 dark:border-gray-700/60">
             <button
               type="button"
@@ -603,8 +605,9 @@ export default function AuthPage({
             )}
           </div>
         </div>
+      </GlowingShadow>
 
-        {/* Security / Quality Indicator */}
+      {/* Security / Quality Indicator */}
         <div className="flex items-center justify-center gap-2 mt-5 text-xs text-slate-500 dark:text-slate-400">
           <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           <span>Secure client-side authenticated session</span>

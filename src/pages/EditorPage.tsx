@@ -12,6 +12,7 @@ import ATSChecker from '@/components/features/forms/ATSChecker';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import ProfileDropdown from '@/components/ui/ProfileDropdown';
 import BrandWordmark from '@/components/ui/BrandWordmark';
+import GlowingShadow from '@/components/ui/GlowingShadow';
 import { exportToPDF, exportToDOCX } from '@/lib/utils';
 
 interface EditorPageProps {
@@ -232,9 +233,16 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
             </div>
           </div>
           <div className="flex-1 p-4 lg:p-8 overflow-y-auto">
-            <div className="max-w-[900px] mx-auto" id="resume-preview-content">
-              <ResumePreview />
-            </div>
+            <GlowingShadow
+              variant="subtle"
+              interactive={false}
+              rounded="rounded-lg"
+              className="max-w-[900px] mx-auto"
+            >
+              <div id="resume-preview-content">
+                <ResumePreview />
+              </div>
+            </GlowingShadow>
           </div>
         </div>
       </div>

@@ -26,6 +26,7 @@ import { useTheme } from '@/context/ThemeContext';
 import FloatingNavbar from '@/components/ui/FloatingNavbar';
 import TemplateGallery from '@/components/features/TemplateGallery';
 import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
+import GlowingShadow from '@/components/ui/GlowingShadow';
 import {
   DisclosureGroup,
   Disclosure,
@@ -230,14 +231,16 @@ export default function LandingPage({
             transition={{ duration: 0.8, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4"
           >
-            <Button
-              id="hero-create-resume-btn"
-              onClick={() => onStartBuilding()}
-              className="h-12 sm:h-13 px-7 sm:px-8 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm flex items-center gap-2 text-sm sm:text-base transition-all cursor-pointer"
-            >
-              <span>Create Resume</span>
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+            <GlowingShadow variant="button" rounded="rounded-xl">
+              <Button
+                id="hero-create-resume-btn"
+                onClick={() => onStartBuilding()}
+                className="h-12 sm:h-13 px-7 sm:px-8 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm flex items-center gap-2 text-sm sm:text-base transition-all cursor-pointer"
+              >
+                <span>Create Resume</span>
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </GlowingShadow>
 
             <Button
               id="hero-explore-templates-btn"
@@ -285,35 +288,41 @@ export default function LandingPage({
             {steps.map((step) => {
               const Icon = step.icon;
               return (
-                <div
+                <GlowingShadow
                   key={step.step}
-                  className={`p-6 rounded-2xl border transition-all ${
-                    isDark
-                      ? 'bg-gray-900 border-gray-800 hover:border-gray-700'
-                      : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
-                  }`}
+                  variant="subtle"
+                  rounded="rounded-2xl"
+                  className="h-full"
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-2xl font-black text-gray-300 dark:text-gray-700">
-                      {step.step}
-                    </span>
-                  </div>
-
-                  <h3 className="text-base font-bold mb-2 text-gray-900 dark:text-white">
-                    {step.title}
-                  </h3>
-
-                  <p
-                    className={`text-xs sm:text-sm leading-relaxed ${
-                      isDark ? 'text-gray-400' : 'text-gray-600'
+                  <div
+                    className={`h-full p-6 rounded-2xl border transition-all ${
+                      isDark
+                        ? 'bg-gray-900 border-gray-800 hover:border-gray-700'
+                        : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
                     }`}
                   >
-                    {step.desc}
-                  </p>
-                </div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className="text-2xl font-black text-gray-300 dark:text-gray-700">
+                        {step.step}
+                      </span>
+                    </div>
+
+                    <h3 className="text-base font-bold mb-2 text-gray-900 dark:text-white">
+                      {step.title}
+                    </h3>
+
+                    <p
+                      className={`text-xs sm:text-sm leading-relaxed ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}
+                    >
+                      {step.desc}
+                    </p>
+                  </div>
+                </GlowingShadow>
               );
             })}
           </div>
@@ -378,32 +387,38 @@ export default function LandingPage({
             {features.map((feature) => {
               const Icon = feature.icon;
               return (
-                <div
+                <GlowingShadow
                   key={feature.title}
-                  className={`p-6 sm:p-7 rounded-2xl border transition-all ${
-                    isDark
-                      ? 'bg-gray-900 border-gray-800 hover:border-gray-700'
-                      : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
-                  }`}
+                  variant="subtle"
+                  rounded="rounded-2xl"
+                  className="h-full"
                 >
                   <div
-                    className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${feature.bg} ${feature.accent}`}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </div>
-
-                  <h3 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white">
-                    {feature.title}
-                  </h3>
-
-                  <p
-                    className={`text-xs sm:text-sm leading-relaxed ${
-                      isDark ? 'text-gray-400' : 'text-gray-600'
+                    className={`h-full p-6 sm:p-7 rounded-2xl border transition-all ${
+                      isDark
+                        ? 'bg-gray-900 border-gray-800 hover:border-gray-700'
+                        : 'bg-white border-gray-200 shadow-sm hover:shadow-md'
                     }`}
                   >
-                    {feature.desc}
-                  </p>
-                </div>
+                    <div
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${feature.bg} ${feature.accent}`}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white">
+                      {feature.title}
+                    </h3>
+
+                    <p
+                      className={`text-xs sm:text-sm leading-relaxed ${
+                        isDark ? 'text-gray-400' : 'text-gray-600'
+                      }`}
+                    >
+                      {feature.desc}
+                    </p>
+                  </div>
+                </GlowingShadow>
               );
             })}
           </div>

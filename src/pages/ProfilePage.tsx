@@ -23,6 +23,7 @@ import { useAuth } from "@/hooks/useAuth";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import ProfileDropdown from "@/components/ui/ProfileDropdown";
 import BrandWordmark from "@/components/ui/BrandWordmark";
+import GlowingShadow from "@/components/ui/GlowingShadow";
 import { getInitials } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -190,9 +191,10 @@ export default function ProfilePage({
           </div>
         )}
 
-        {/* Profile Card Header */}
-        <div className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-200 dark:border-gray-800 p-6 sm:p-8 shadow-sm mb-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        {/* Profile Card Header with GlowingShadow */}
+        <GlowingShadow variant="subtle" rounded="rounded-3xl" className="mb-8">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-200 dark:border-gray-800 p-6 sm:p-8 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
               {/* Avatar */}
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden flex items-center justify-center font-bold text-2xl bg-gradient-to-tr from-indigo-700 to-indigo-900 text-white shadow-md ring-4 ring-indigo-500/20 shrink-0">
@@ -270,6 +272,7 @@ export default function ProfilePage({
             </div>
           </div>
         </div>
+      </GlowingShadow>
 
         {/* Editing Mode Form */}
         {isEditing ? (

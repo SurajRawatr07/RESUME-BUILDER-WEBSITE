@@ -328,3 +328,72 @@
   }
 }
 
+/* ─── Glowing Shadow Visual System (21st.dev Inspired for Resume Craft) ─── */
+@keyframes glowing-shadow-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.glowing-shadow-spin {
+  animation: glowing-shadow-rotate 11s linear infinite;
+  will-change: transform;
+}
+
+/* Light mode conic gradient: warm brown, muted gold, soft beige, restrained neutral accent */
+.glowing-conic-bg {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(217, 119, 6, 0.42) 0deg,
+    rgba(180, 83, 9, 0.28) 72deg,
+    rgba(245, 158, 11, 0.40) 144deg,
+    rgba(146, 64, 14, 0.24) 216deg,
+    rgba(217, 119, 6, 0.35) 288deg,
+    rgba(217, 119, 6, 0.42) 360deg
+  );
+}
+
+/* Dark mode conic gradient: warm white, muted gold, soft amber, restrained neutral glow */
+.dark .glowing-conic-bg {
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(251, 191, 36, 0.45) 0deg,
+    rgba(245, 158, 11, 0.32) 72deg,
+    rgba(255, 255, 255, 0.24) 144deg,
+    rgba(217, 119, 6, 0.32) 216deg,
+    rgba(253, 230, 138, 0.38) 288deg,
+    rgba(251, 191, 36, 0.45) 360deg
+  );
+}
+
+/* Static gradient for Navbar / non-rotating elements */
+.glowing-static-bg {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(217, 119, 6, 0.28) 0%,
+    rgba(245, 158, 11, 0.16) 45%,
+    rgba(180, 83, 9, 0.06) 75%,
+    transparent 100%
+  );
+}
+
+.dark .glowing-static-bg {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(251, 191, 36, 0.32) 0%,
+    rgba(245, 158, 11, 0.18) 45%,
+    rgba(255, 255, 255, 0.08) 70%,
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glowing-shadow-spin {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
