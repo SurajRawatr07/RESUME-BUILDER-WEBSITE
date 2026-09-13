@@ -1,6 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, LogIn, ArrowRight, LogOut, User } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import {
+  Home,
+  Layers,
+  LayoutTemplate,
+  Sparkles,
+  Menu,
+  X,
+  LogIn,
+  ArrowRight,
+  LogOut,
+  User,
+  type LucideIcon,
+} from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/hooks/useAuth";
 import CinematicThemeSwitcher from "@/components/ui/CinematicThemeSwitcher";
@@ -21,6 +33,25 @@ interface FloatingNavbarProps {
   onScrollTo?: (id: string) => void;
 }
 
+/**
+ * Resolves a semantic Lucide icon for each navigation section
+ */
+const getNavIcon = (href: string): LucideIcon => {
+  const id = href.replace("#", "").toLowerCase();
+  switch (id) {
+    case "home":
+      return Home;
+    case "how-it-works":
+      return Layers;
+    case "templates":
+      return LayoutTemplate;
+    case "features":
+      return Sparkles;
+    default:
+      return Home;
+  }
+};
+
 export default function FloatingNavbar({
   navLinks,
   onStartBuilding,
@@ -30,6 +61,7 @@ export default function FloatingNavbar({
 }: FloatingNavbarProps) {
   const { isDark } = useTheme();
   const { user, isAuthenticated, logout } = useAuth();
+  const shouldReduceMotion = useReducedMotion();
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -118,19 +150,19 @@ export default function FloatingNavbar({
       ref={navRef}
       className="fixed top-2.5 sm:top-4 md:top-5 inset-x-0 z-50 flex flex-col items-center px-2.5 sm:px-4 md:px-6 pointer-events-none"
     >
-      {/* ─── Main Floating Navbar Pill Container (21st.dev inspired) ─── */}
+      {/* ─── Main Floating Navbar Pill Container (Tubelight Navbar Design) ─── */}
       <motion.nav
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
-        className={`pointer-events-auto relative isolate w-full max-w-5xl rounded-full transition-all duration-300 ease-out flex items-center justify-between px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 ${
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className={`pointer-events-auto relative isolate w-full max-w-5xl rounded-full transition-all duration-300 ease-out flex items-center justify-between px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 ${
           scrolled
             ? isDark
-              ? "bg-[#111111]/95 border border-white/[0.12] shadow-[0_12px_35px_-4px_rgba(0,0,0,0.7)] backdrop-blur-2xl"
-              : "bg-white/95 border border-black/[0.08] shadow-[0_10px_30px_-6px_rgba(0,0,0,0.08)] backdrop-blur-2xl"
+              ? "bg-[#111111]/92 border border-white/[0.12] shadow-[0_12px_32px_-4px_rgba(0,0,0,0.65)] backdrop-blur-xl"
+              : "bg-white/92 border border-black/[0.08] shadow-[0_10px_28px_-4px_rgba(0,0,0,0.07)] backdrop-blur-xl"
             : isDark
-            ? "bg-[#111111]/85 border border-white/[0.08] shadow-[0_4px_25px_-4px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-            : "bg-white/85 border border-black/[0.06] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] backdrop-blur-xl"
+            ? "bg-[#111111]/85 border border-white/[0.09] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.45)] backdrop-blur-lg"
+            : "bg-white/85 border border-black/[0.06] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] backdrop-blur-lg"
         }`}
         style={{ fontFamily: '"Times New Roman", Times, serif' }}
         aria-label="Main Navigation"
@@ -144,41 +176,87 @@ export default function FloatingNavbar({
           />
         </div>
 
-        {/* ─── 2. Desktop Navigation Links (Exact order: Home → How It Works → Templates → Features) ─── */}
-        <div className="hidden lg:flex items-center gap-1 md:gap-1.5 mx-2">
+        {/* ─── 2. Center Tubelight Navigation Items (Desktop & Tablet) ─── */}
+        <div className="hidden md:flex items-center gap-1 lg:gap-1.5 relative">
           {navLinks.map((link) => {
             const sectionId = link.href.replace("#", "");
             const isActive = activeSection === sectionId;
+            const Icon = getNavIcon(link.href);
 
             return (
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link.href)}
-                className={`relative px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ease-out select-none cursor-pointer ${
+                className={`relative px-3 sm:px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 flex items-center gap-1.5 select-none cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 ${
                   isActive
                     ? isDark
-                      ? "text-white bg-white/[0.14] shadow-xs"
-                      : "text-gray-950 bg-black/[0.07] shadow-xs"
+                      ? "text-white font-semibold"
+                      : "text-neutral-950 font-semibold"
                     : isDark
-                    ? "text-gray-300 hover:text-white hover:bg-white/[0.06] hover:-translate-y-0.5 active:translate-y-0"
-                    : "text-gray-600 hover:text-gray-950 hover:bg-black/[0.04] hover:-translate-y-0.5 active:translate-y-0"
+                    ? "text-neutral-400 hover:text-white"
+                    : "text-neutral-600 hover:text-neutral-950"
                 }`}
                 aria-current={isActive ? "page" : undefined}
               >
-                {link.label}
+                <Icon className="w-3.5 h-3.5 shrink-0 opacity-80" />
+                <span>{link.label}</span>
+
+                {/* Tubelight Lamp Active Indicator */}
+                {isActive && (
+                  <motion.div
+                    layoutId="tubelightLamp"
+                    initial={false}
+                    transition={
+                      shouldReduceMotion
+                        ? { duration: 0 }
+                        : {
+                            type: "spring",
+                            stiffness: 320,
+                            damping: 28,
+                          }
+                    }
+                    className={`absolute inset-0 w-full rounded-full -z-10 ${
+                      isDark ? "bg-white/[0.12]" : "bg-black/[0.06]"
+                    }`}
+                  >
+                    {/* Small Lamp Bar at Top of Active Tab */}
+                    <div
+                      className={`absolute -top-1.5 left-1/2 -translate-x-1/2 w-8 h-1 rounded-t-full ${
+                        isDark ? "bg-white" : "bg-neutral-900"
+                      }`}
+                    >
+                      {/* Subtle Soft Glow Layers (Strictly neutral monochrome, no yellow/gold) */}
+                      <div
+                        className={`absolute w-12 h-5 rounded-full blur-md -top-2 -left-2 pointer-events-none ${
+                          isDark ? "bg-white/20" : "bg-neutral-900/15"
+                        }`}
+                      />
+                      <div
+                        className={`absolute w-8 h-4 rounded-full blur-sm -top-1 pointer-events-none ${
+                          isDark ? "bg-white/25" : "bg-neutral-900/20"
+                        }`}
+                      />
+                      <div
+                        className={`absolute w-4 h-3 rounded-full blur-xs top-0 left-2 pointer-events-none ${
+                          isDark ? "bg-white/30" : "bg-neutral-900/25"
+                        }`}
+                      />
+                    </div>
+                  </motion.div>
+                )}
               </button>
             );
           })}
         </div>
 
-        {/* ─── 3. Right Controls: Theme Toggle + Auth / Profile + Create Resume ─── */}
-        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 shrink-0">
-          {/* Theme Toggle (Cinematic Theme Switcher) */}
+        {/* ─── 3. Right Controls: Sized Theme Switcher + Auth / Profile + CTA ─── */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Theme Toggle (Cinematic Switcher, resized specifically for navbar) */}
           <div className="flex items-center shrink-0">
             <CinematicThemeSwitcher size="navbar" />
           </div>
 
-          {/* Authentication State */}
+          {/* Desktop Authentication & Action Buttons */}
           {isAuthenticated ? (
             <div className="hidden sm:flex items-center gap-2">
               <ProfileDropdown
@@ -188,7 +266,7 @@ export default function FloatingNavbar({
               />
               <button
                 onClick={() => onStartBuilding()}
-                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-semibold text-xs sm:text-sm px-3.5 sm:px-4 py-1.5 sm:py-2 shadow-xs hover:shadow-indigo-500/25 transition-all duration-200 whitespace-nowrap cursor-pointer"
+                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 shadow-xs transition-colors whitespace-nowrap cursor-pointer"
               >
                 Create Resume
               </button>
@@ -197,10 +275,10 @@ export default function FloatingNavbar({
             <div className="hidden sm:flex items-center gap-1.5">
               <button
                 onClick={onNavigateToLogin || (() => onStartBuilding())}
-                className={`rounded-full px-3 sm:px-3.5 py-1.5 sm:py-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
+                className={`rounded-full px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
                   isDark
-                    ? "text-gray-300 hover:text-white hover:bg-white/[0.08]"
-                    : "text-gray-700 hover:text-gray-950 hover:bg-black/[0.05]"
+                    ? "text-neutral-300 hover:text-white hover:bg-white/[0.08]"
+                    : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.05]"
                 }`}
               >
                 <LogIn className="w-3.5 h-3.5" />
@@ -209,41 +287,41 @@ export default function FloatingNavbar({
 
               <button
                 onClick={() => onStartBuilding()}
-                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-semibold text-xs sm:text-sm px-3.5 sm:px-4.5 py-1.5 sm:py-2 shadow-xs hover:shadow-indigo-500/25 transition-all duration-200 whitespace-nowrap cursor-pointer flex items-center gap-1"
+                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-xs sm:text-sm px-3.5 sm:px-4 py-1.5 sm:py-2 shadow-xs transition-colors whitespace-nowrap cursor-pointer flex items-center gap-1"
               >
                 <span>Create Resume</span>
               </button>
             </div>
           )}
 
-          {/* Mobile Menu Trigger Button */}
+          {/* Mobile Menu Trigger Button (Clean, compact, no horizontal overflow) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`lg:hidden p-1.5 sm:p-2 rounded-full border transition-colors cursor-pointer ${
+            className={`md:hidden p-1.5 sm:p-2 rounded-full border transition-colors cursor-pointer ${
               isDark
-                ? "border-gray-800 text-gray-200 hover:bg-gray-800/60"
-                : "border-gray-200 text-gray-700 hover:bg-gray-100"
+                ? "border-white/[0.12] text-neutral-200 hover:bg-white/[0.08]"
+                : "border-black/[0.08] text-neutral-700 hover:bg-black/[0.05]"
             }`}
             aria-label="Toggle navigation menu"
             aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </motion.nav>
 
-      {/* ─── Mobile Floating Dropdown Sheet ─── */}
+      {/* ─── Mobile Glass Dropdown Sheet (With Tubelight Style Items) ─── */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.97 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
             className={`pointer-events-auto w-full max-w-5xl mt-2 rounded-2xl p-3 sm:p-4 border transition-colors shadow-2xl backdrop-blur-2xl ${
               isDark
                 ? "bg-[#111111]/95 border-white/[0.12] text-white"
-                : "bg-white/95 border-black/[0.08] text-gray-900"
+                : "bg-white/95 border-black/[0.08] text-neutral-900"
             }`}
             style={{ fontFamily: '"Times New Roman", Times, serif' }}
           >
@@ -251,28 +329,41 @@ export default function FloatingNavbar({
               {navLinks.map((link) => {
                 const sectionId = link.href.replace("#", "");
                 const isActive = activeSection === sectionId;
+                const Icon = getNavIcon(link.href);
 
                 return (
                   <button
                     key={link.label}
                     onClick={() => handleNavClick(link.href)}
-                    className={`text-left px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-between cursor-pointer ${
+                    className={`relative text-left px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-between cursor-pointer ${
                       isActive
                         ? isDark
                           ? "bg-white/10 text-white font-semibold"
-                          : "bg-black/5 text-gray-950 font-semibold"
+                          : "bg-black/[0.06] text-neutral-950 font-semibold"
                         : isDark
-                        ? "text-gray-300 hover:bg-white/5 hover:text-white"
-                        : "text-gray-700 hover:bg-black/5 hover:text-gray-950"
+                        ? "text-neutral-400 hover:bg-white/5 hover:text-white"
+                        : "text-neutral-600 hover:bg-black/[0.04] hover:text-neutral-950"
                     }`}
                   >
-                    <span>{link.label}</span>
-                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400" />}
+                    <div className="flex items-center gap-2.5">
+                      <Icon className="w-4 h-4 opacity-80" />
+                      <span>{link.label}</span>
+                    </div>
+
+                    {isActive && (
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className={`w-2 h-1 rounded-full ${
+                            isDark ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)]" : "bg-neutral-900 shadow-[0_0_8px_rgba(0,0,0,0.4)]"
+                          }`}
+                        />
+                      </div>
+                    )}
                   </button>
                 );
               })}
 
-              <div className={`my-2 h-px ${isDark ? "bg-gray-800" : "bg-gray-100"}`} />
+              <div className={`my-2 h-px ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`} />
 
               {/* Mobile Auth Actions */}
               {isAuthenticated ? (
@@ -283,7 +374,7 @@ export default function FloatingNavbar({
                         setMobileMenuOpen(false);
                         onNavigateToProfile();
                       }}
-                      className="w-full text-left px-3.5 py-2 rounded-xl text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10 transition-colors flex items-center gap-2 cursor-pointer"
+                      className="w-full text-left px-3.5 py-2 rounded-xl text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10 transition-colors flex items-center gap-2 cursor-pointer"
                     >
                       <User className="w-4 h-4" />
                       <span>{user?.name ? `${user.name} — Profile` : "My Account Profile"}</span>
@@ -308,7 +399,7 @@ export default function FloatingNavbar({
                     else onStartBuilding();
                   }}
                   className={`text-left px-3.5 py-2 rounded-xl text-sm font-medium flex items-center gap-2 transition-colors cursor-pointer ${
-                    isDark ? "text-gray-300 hover:bg-white/5" : "text-gray-700 hover:bg-black/5"
+                    isDark ? "text-neutral-300 hover:bg-white/5" : "text-neutral-700 hover:bg-black/5"
                   }`}
                 >
                   <LogIn className="w-4 h-4" />
@@ -322,7 +413,7 @@ export default function FloatingNavbar({
                   setMobileMenuOpen(false);
                   onStartBuilding();
                 }}
-                className="w-full mt-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-semibold text-sm py-2.5 px-4 shadow-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                className="w-full mt-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-medium text-sm py-2.5 px-4 shadow-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 <span>Create Resume</span>
                 <ArrowRight className="w-4 h-4" />

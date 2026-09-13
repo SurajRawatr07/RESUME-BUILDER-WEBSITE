@@ -49,31 +49,24 @@ export default function CinematicThemeSwitcher({
       };
 
   // Responsive sizing configurations matching user specifications:
-  // Mobile: ~76–84px wide × 44–50px high
-  // Desktop: ~104px × 64px maximum
+  // Desktop: 44–52px wide × 28–34px high (e.g. 48px × 30px)
+  // Mobile: 38–44px wide × 26–30px high (e.g. 40px × 26px)
   const sizeClasses = {
-    navbar: "w-[76px] h-[44px] sm:w-[84px] sm:h-[46px] md:w-[94px] md:h-[48px] p-[4px] sm:p-[4.5px] md:p-[5px]",
-    sm: "w-[68px] h-[36px] p-[3.5px]",
-    md: "w-[80px] h-[44px] p-[4px]",
-    lg: "w-[96px] h-[52px] p-[5px]",
+    navbar: "w-[40px] h-[26px] p-[2.5px] sm:w-[48px] sm:h-[30px] sm:p-[3px]",
+    sm: "w-[38px] h-[26px] p-[2.5px]",
+    md: "w-[46px] h-[29px] p-[2.5px]",
+    lg: "w-[54px] h-[32px] p-[3px]",
   }[size];
 
   const thumbSizeClasses = {
-    navbar: "w-[36px] h-[36px] sm:w-[37px] sm:h-[37px] md:w-[38px] md:h-[38px]",
-    sm: "w-[29px] h-[29px]",
-    md: "w-[36px] h-[36px]",
-    lg: "w-[42px] h-[42px]",
+    navbar: "w-[21px] h-[21px] sm:w-[24px] sm:h-[24px]",
+    sm: "w-[21px] h-[21px]",
+    md: "w-[24px] h-[24px]",
+    lg: "w-[26px] h-[26px]",
   }[size];
 
   const iconSizeClasses = {
-    navbar: "w-4 h-4 sm:w-[17px] sm:h-[17px] md:w-[18px] md:h-[18px]",
-    sm: "w-3.5 h-3.5",
-    md: "w-4 h-4",
-    lg: "w-5 h-5",
-  }[size];
-
-  const trackIconSizeClasses = {
-    navbar: "w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4",
+    navbar: "w-3 h-3 sm:w-3.5 sm:h-3.5",
     sm: "w-3 h-3",
     md: "w-3.5 h-3.5",
     lg: "w-4 h-4",
@@ -95,7 +88,7 @@ export default function CinematicThemeSwitcher({
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center select-none min-h-[44px] ${className}`}
+      className={`relative inline-flex items-center justify-center select-none ${className}`}
     >
       <motion.button
         type="button"
@@ -106,77 +99,56 @@ export default function CinematicThemeSwitcher({
         tabIndex={0}
         onClick={toggleTheme}
         onKeyDown={handleKeyDown}
-        whileTap={{ scale: 0.95 }}
+        whileTap={{ scale: 0.94 }}
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.15 }}
-        className={`relative rounded-full cursor-pointer transition-colors duration-300 flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-950 ${sizeClasses} ${
+        className={`relative rounded-full cursor-pointer transition-colors duration-200 flex items-center focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 ${sizeClasses} ${
           isDark
-            ? "justify-end bg-[#171717] border border-white/[0.12]"
-            : "justify-start bg-neutral-200/80 border border-black/[0.09]"
+            ? "justify-end bg-[#1a1a1a] border border-white/[0.12]"
+            : "justify-start bg-neutral-200/90 border border-black/[0.08]"
         }`}
         style={{
           boxShadow: isDark
-            ? "inset 0 2px 4px rgba(0, 0, 0, 0.65), inset 0 -1px 1px rgba(255, 255, 255, 0.07), 0 2px 5px rgba(0, 0, 0, 0.35)"
-            : "inset 0 2px 4px rgba(0, 0, 0, 0.08), inset 0 -1px 2px rgba(255, 255, 255, 0.85), 0 1px 3px rgba(0, 0, 0, 0.05)",
+            ? "inset 0 1px 3px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.3)"
+            : "inset 0 1px 2px rgba(0, 0, 0, 0.08), inset 0 -1px 1px rgba(255, 255, 255, 0.75), 0 1px 2px rgba(0, 0, 0, 0.04)",
         }}
       >
-        {/* Track Ambient Icons (Cinematic stationary indicators in background) */}
-        <div className="absolute inset-0 px-2 sm:px-2.5 flex items-center justify-between pointer-events-none">
-          {/* Sun icon on light side (visible when dark) */}
-          <span
-            className={`transition-opacity duration-300 flex items-center justify-center ${
-              isDark ? "opacity-35 text-neutral-400" : "opacity-0 text-neutral-700"
-            }`}
-          >
-            <Sun className={trackIconSizeClasses} />
-          </span>
-
-          {/* Moon icon on dark side (visible when light) */}
-          <span
-            className={`transition-opacity duration-300 flex items-center justify-center ${
-              isDark ? "opacity-0 text-slate-300" : "opacity-30 text-stone-600"
-            }`}
-          >
-            <Moon className={trackIconSizeClasses} />
-          </span>
-        </div>
-
         {/* Glossy Sliding Thumb with spring physics */}
         <motion.div
           layout
           transition={springTransition}
           className={`relative z-10 rounded-full flex items-center justify-center shrink-0 ${thumbSizeClasses} ${
             isDark
-              ? "bg-gradient-to-b from-[#2a2a2a] to-[#171717] text-slate-100 border border-white/[0.16]"
-              : "bg-gradient-to-b from-[#FFFFFF] to-[#F2F2F2] text-neutral-800 border border-black/[0.08]"
+              ? "bg-gradient-to-b from-[#2d2d2d] to-[#1a1a1a] text-neutral-100 border border-white/[0.18]"
+              : "bg-gradient-to-b from-[#FFFFFF] to-[#F4F4F4] text-neutral-800 border border-black/[0.08]"
           }`}
           style={{
             boxShadow: isDark
-              ? "0 3px 8px -1px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.22)"
-              : "0 3px 8px -1px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.95)",
+              ? "0 2px 5px -1px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.18)"
+              : "0 2px 4px -1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.95)",
           }}
         >
           {isDark ? (
             <motion.div
               key="dark-icon"
-              initial={{ rotate: -25, scale: 0.8, opacity: 0 }}
+              initial={{ rotate: -20, scale: 0.85, opacity: 0 }}
               animate={{ rotate: 0, scale: 1, opacity: 1 }}
-              exit={{ rotate: 25, scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              exit={{ rotate: 20, scale: 0.85, opacity: 0 }}
+              transition={{ duration: 0.15 }}
               className="flex items-center justify-center"
             >
-              <Moon className={`${iconSizeClasses} stroke-[2.2]`} />
+              <Moon className={`${iconSizeClasses} stroke-[2]`} />
             </motion.div>
           ) : (
             <motion.div
               key="light-icon"
-              initial={{ rotate: 25, scale: 0.8, opacity: 0 }}
+              initial={{ rotate: 20, scale: 0.85, opacity: 0 }}
               animate={{ rotate: 0, scale: 1, opacity: 1 }}
-              exit={{ rotate: -25, scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              exit={{ rotate: -20, scale: 0.85, opacity: 0 }}
+              transition={{ duration: 0.15 }}
               className="flex items-center justify-center"
             >
-              <Sun className={`${iconSizeClasses} stroke-[2.2]`} />
+              <Sun className={`${iconSizeClasses} stroke-[2]`} />
             </motion.div>
           )}
         </motion.div>
