@@ -387,7 +387,7 @@ export default function AuthPage({
                     autoComplete="name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Jane Doe"
+                    placeholder="Suraj Rawat "
                     disabled={isLoading}
                     required
                     className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-white dark:bg-gray-800 border border-slate-300 dark:border-gray-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-colors"
