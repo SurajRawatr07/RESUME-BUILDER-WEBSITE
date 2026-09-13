@@ -70,3 +70,46 @@ export function cleanUrl(url?: string): string {
   if (!url) return '';
   return url.replace(/^https?:\/\//i, '').replace(/\/$/, '');
 }
+
+export function ensureHttp(url?: string): string {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
+export function getContactHref(
+  type: 'email' | 'phone' | 'github' | 'linkedin' | 'portfolio' | 'leetcode' | 'website',
+  value?: string
+): string {
+  if (!value) return '';
+  const trimmed = value.trim();
+  if (type === 'email') return `mailto:${trimmed}`;
+  if (type === 'phone') return `tel:${trimmed.replace(/[^\d+]/g, '')}`;
+  if (type === 'github') {
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    if (trimmed.startsWith('github.com/')) return `https://${trimmed}`;
+    return `https://github.com/${trimmed}`;
+  }
+  if (type === 'linkedin') {
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    if (trimmed.startsWith('linkedin.com/')) return `https://${trimmed}`;
+    return `https://linkedin.com/in/${trimmed}`;
+  }
+  if (type === 'leetcode') {
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    if (trimmed.startsWith('leetcode.com/')) return `https://${trimmed}`;
+    return `https://leetcode.com/u/${trimmed}`;
+  }
+  return ensureHttp(trimmed);
+}
+
+export function formatContactLabel(
+  type: 'email' | 'phone' | 'github' | 'linkedin' | 'portfolio' | 'leetcode' | 'website',
+  value?: string
+): string {
+  if (!value) return '';
+  const trimmed = value.trim();
+  if (type === 'email' || type === 'phone') return trimmed;
+  return cleanUrl(trimmed);
+}

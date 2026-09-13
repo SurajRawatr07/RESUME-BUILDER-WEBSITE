@@ -34,17 +34,17 @@ export type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const DEFAULT_USER: UserProfile = {
-  name: "Suraj Rawat",
-  email: "rawatsuraj80627@gmail.com",
+  name: "Alex Morgan",
+  email: "alex.morgan@email.com",
   password: "password123",
-  title: "Full Stack Engineer",
-  phone: "+91 9675219087",
-  location: "Haldwani, Uttarakhand, India",
+  title: "Software Engineer",
+  phone: "+1 (555) 123-4567",
+  location: "New York, NY",
   bio: "Passionate software engineer crafting high-impact digital experiences and modern web applications with React, TypeScript, and cloud technologies.",
   skills: ["React", "TypeScript", "Node.js", "Tailwind CSS", "Next.js", "GraphQL", "PostgreSQL"],
-  linkedin: "https://linkedin.com/in/suraj-rawat-30513b340",
-  github: "https://github.com/SurajRawatr07",
-  portfolio: "https://surajrawat.dev",
+  linkedin: "https://linkedin.com/in/alex-morgan",
+  github: "https://github.com/alexmorgan",
+  portfolio: "https://alexmorgan.dev",
   totalResumes: 1,
   latestResume: "Software_Engineer_Resume.pdf",
   lastUpdated: "Today",
@@ -65,6 +65,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       let users: UserProfile[] = [];
       if (storedUsersRaw) {
         users = JSON.parse(storedUsersRaw);
+        let changed = false;
+        users = users.map((u) => {
+          if (u.name === 'Suraj Rawat' || (u.email && u.email.includes('rawatsuraj'))) {
+            changed = true;
+            return { ...DEFAULT_USER };
+          }
+          return u;
+        });
+        if (changed) {
+          localStorage.setItem('users', JSON.stringify(users));
+        }
       } else {
         users = [DEFAULT_USER];
         localStorage.setItem("users", JSON.stringify(users));

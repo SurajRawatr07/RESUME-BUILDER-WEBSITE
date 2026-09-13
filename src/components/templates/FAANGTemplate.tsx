@@ -7,7 +7,7 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function BackendTemplate({ data }: TemplateProps) {
+export default function FAANGTemplate({ data }: TemplateProps) {
   const cat = categorizeSkills(data);
 
   return (
@@ -18,57 +18,47 @@ export default function BackendTemplate({ data }: TemplateProps) {
         minHeight: '297mm',
         fontFamily: '"Times New Roman", Times, serif',
         fontSize: '9.5pt',
-        lineHeight: '1.32',
+        lineHeight: '1.30',
         color: '#000000',
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. CENTERED DENSE BACKEND HEADER (LaTeX \hrule style) */}
-      <header className="text-center pb-2 mb-2 border-b border-black">
-        <h1 className="text-[21pt] font-bold tracking-normal uppercase text-black leading-tight mb-0.5">
+      {/* 1. FAANGPATH ULTRA-DENSE RECRUITER HEADER */}
+      <header className="text-center pb-1 mb-2">
+        <h1 className="text-[22pt] font-bold tracking-tight uppercase text-black leading-tight">
           {data.fullName || 'Alex Morgan'}
         </h1>
-        <div className="text-[9.5pt] font-semibold tracking-wider text-gray-800 uppercase mb-1">
-          {data.jobTitle || 'Backend Developer / API Engineer'}
-        </div>
-
-        {/* Dense Contact Row */}
-        <div className="text-[8.5pt] text-gray-800 flex flex-wrap justify-center items-center gap-x-2 gap-y-0.5">
-          <ContactItem type="location" value={data.location} />
-          {data.location && data.phone && <span>|</span>}
-          <ContactItem type="phone" value={data.phone} />
-          {data.phone && data.email && <span>|</span>}
-          <ContactItem type="email" value={data.email} />
-          {data.email && data.github && <span>|</span>}
-          <ContactItem type="github" value={data.github} />
-          {data.github && data.linkedin && <span>|</span>}
-          <ContactItem type="linkedin" value={data.linkedin} />
-          {data.linkedin && data.leetcode && <span>|</span>}
-          <ContactItem type="leetcode" value={data.leetcode} />
-          {data.leetcode && (data.portfolio || data.website) && <span>|</span>}
-          <ContactItem type="portfolio" value={data.portfolio || data.website} />
+        <div className="text-[8.5pt] text-gray-800 flex flex-wrap justify-center items-center gap-x-2 gap-y-0.5 mt-0.5 font-medium">
+          <ContactItem type="location" value={data.location} showIcon={false} />
+          {data.location && data.phone && <span>•</span>}
+          <ContactItem type="phone" value={data.phone} showIcon={false} />
+          {data.phone && data.email && <span>•</span>}
+          <ContactItem type="email" value={data.email} showIcon={false} />
+          {data.email && data.linkedin && <span>•</span>}
+          <ContactItem type="linkedin" value={data.linkedin} showIcon={false} />
+          {data.linkedin && data.github && <span>•</span>}
+          <ContactItem type="github" value={data.github} showIcon={false} />
+          {data.github && data.leetcode && <span>•</span>}
+          <ContactItem type="leetcode" value={data.leetcode} showIcon={false} />
         </div>
       </header>
 
-      {/* 2. TECHNICAL COMPETENCIES (Backend & Database prioritized) */}
+      {/* 2. TECHNICAL SKILLS */}
       <section className="mb-2">
-        <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black flex items-center justify-between">
-          <span>Technical Competencies</span>
-          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">Backend • APIs • Databases</span>
+        <h2 className="text-[9.5pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+          Technical Skills
         </h2>
         <div className="space-y-0.5 text-[9pt] leading-snug">
-          {(cat.backend.length > 0 || cat.languages.length > 0) && (
+          {cat.languages.length > 0 && (
             <div>
-              <span className="font-bold text-black">Backend & APIs: </span>
-              <span className="text-gray-900">
-                {[...cat.backend, ...cat.languages.filter((l) => ['go', 'python', 'java', 'c++', 'c#', 'sql', 'typescript'].some((t) => l.toLowerCase().includes(t)))].join(', ')}
-              </span>
+              <span className="font-bold text-black">Languages: </span>
+              <span className="text-gray-900">{cat.languages.join(', ')}</span>
             </div>
           )}
-          {cat.databases.length > 0 && (
+          {(cat.backend.length > 0 || cat.frontend.length > 0) && (
             <div>
-              <span className="font-bold text-black">Databases & Storage: </span>
-              <span className="text-gray-900">{cat.databases.join(', ')}</span>
+              <span className="font-bold text-black">Frameworks & Libraries: </span>
+              <span className="text-gray-900">{[...cat.frontend, ...cat.backend].join(', ')}</span>
             </div>
           )}
           {cat.tools.length > 0 && (
@@ -77,20 +67,20 @@ export default function BackendTemplate({ data }: TemplateProps) {
               <span className="text-gray-900">{cat.tools.join(', ')}</span>
             </div>
           )}
-          {cat.coreCS.length > 0 && (
+          {cat.databases.length > 0 && (
             <div>
-              <span className="font-bold text-black">Architecture & Core: </span>
-              <span className="text-gray-900">{cat.coreCS.join(', ')}</span>
+              <span className="font-bold text-black">Databases & Storage: </span>
+              <span className="text-gray-900">{cat.databases.join(', ')}</span>
             </div>
           )}
         </div>
       </section>
 
-      {/* 3. PROFESSIONAL EXPERIENCE (Dominant section) */}
+      {/* 3. WORK EXPERIENCE */}
       {data.experiences && data.experiences.length > 0 && (
         <section className="mb-2.5">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Work Experience
+          <h2 className="text-[9.5pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+            Experience
           </h2>
           <div className="space-y-2">
             {data.experiences.map((exp) => {
@@ -102,7 +92,7 @@ export default function BackendTemplate({ data }: TemplateProps) {
                       {exp.company}
                     </span>
                     <span className="text-[8.5pt] font-medium text-gray-700">
-                      {exp.location}
+                      {exp.startDate} – {exp.current ? 'Present' : exp.endDate || 'Present'}
                     </span>
                   </div>
                   <div className="flex justify-between items-baseline mb-0.5">
@@ -110,7 +100,7 @@ export default function BackendTemplate({ data }: TemplateProps) {
                       {exp.jobTitle}
                     </span>
                     <span className="text-[8.5pt] italic text-gray-700">
-                      {exp.startDate} – {exp.current ? 'Present' : exp.endDate || 'Present'}
+                      {exp.location}
                     </span>
                   </div>
                   {bullets.length > 0 ? (
@@ -131,11 +121,11 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 4. SYSTEMS & BACKEND PROJECTS */}
+      {/* 4. KEY PROJECTS */}
       {data.projects && data.projects.length > 0 && (
         <section className="mb-2">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Systems & Engineering Projects
+          <h2 className="text-[9.5pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+            Projects
           </h2>
           <div className="space-y-1.5">
             {data.projects.map((proj) => {
@@ -143,11 +133,11 @@ export default function BackendTemplate({ data }: TemplateProps) {
               return (
                 <div key={proj.id}>
                   <div className="flex justify-between items-baseline">
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                    <div>
                       <span className="font-bold text-[9.5pt] text-black">{proj.title}</span>
                       {proj.technologies && (
                         <span className="text-[8.5pt] text-gray-700 italic">
-                          | {proj.technologies}
+                          {' '}| {proj.technologies}
                         </span>
                       )}
                     </div>
@@ -156,6 +146,7 @@ export default function BackendTemplate({ data }: TemplateProps) {
                         type="github"
                         value={proj.link}
                         className="text-[8pt] text-gray-800 hover:underline"
+                        showIcon={false}
                       />
                     )}
                   </div>
@@ -180,7 +171,7 @@ export default function BackendTemplate({ data }: TemplateProps) {
       {/* 5. EDUCATION */}
       {data.education && data.education.length > 0 && (
         <section className="mb-2">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+          <h2 className="text-[9.5pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
             Education
           </h2>
           <div className="space-y-1">
@@ -192,9 +183,9 @@ export default function BackendTemplate({ data }: TemplateProps) {
                 </div>
                 <div className="flex justify-between items-baseline">
                   <span className="italic text-[9pt] text-gray-900">
-                    {edu.degree} {edu.gpa ? `• GPA: ${edu.gpa}` : ''}
+                    {edu.degree} {edu.gpa ? `| GPA: ${edu.gpa}` : ''}
                   </span>
-                  <span className="text-[8.5pt] italic text-gray-700">{edu.graduationDate}</span>
+                  <span className="text-[8.5pt] text-gray-700">{edu.graduationDate}</span>
                 </div>
               </div>
             ))}
@@ -202,23 +193,17 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 6. CERTIFICATIONS & ACHIEVEMENTS */}
-      {((data.certifications && data.certifications.length > 0) || (data.achievements && data.achievements.length > 0)) && (
+      {/* 6. COMPETITIVE PROGRAMMING & ACHIEVEMENTS */}
+      {data.achievements && data.achievements.length > 0 && (
         <section>
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Certifications & Key Achievements
+          <h2 className="text-[9.5pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+            Honors & Competitive Programming
           </h2>
-          <div className="space-y-0.5 text-[8.5pt] text-gray-900">
-            {data.certifications?.map((c) => (
-              <div key={c.id} className="flex justify-between">
-                <span>• <span className="font-semibold">{c.name}</span> — {c.issuer}</span>
-                <span className="text-gray-600">{c.date}</span>
-              </div>
+          <ul className="list-disc ml-4 space-y-0.5 text-[8.5pt] text-gray-900">
+            {data.achievements.map((item, idx) => (
+              <li key={idx} className="leading-snug">{item}</li>
             ))}
-            {data.achievements?.map((ach, i) => (
-              <div key={i}>• {ach}</div>
-            ))}
-          </div>
+          </ul>
         </section>
       )}
     </div>

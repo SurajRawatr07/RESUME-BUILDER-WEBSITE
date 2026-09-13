@@ -71,7 +71,7 @@ export default function TemplateSelector({ onClose }: TemplateSelectorProps) {
                 isDark ? 'text-gray-400' : 'text-gray-500'
               }`}
             >
-              Choose from 9 role-vetted LaTeX layouts. Your resume data is automatically preserved.
+              Choose from 12 role-vetted LaTeX layouts. Your resume data is automatically preserved.
             </p>
           </div>
           <button

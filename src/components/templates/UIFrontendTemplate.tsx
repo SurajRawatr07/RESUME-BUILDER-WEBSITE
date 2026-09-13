@@ -7,7 +7,7 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function BackendTemplate({ data }: TemplateProps) {
+export default function UIFrontendTemplate({ data }: TemplateProps) {
   const cat = categorizeSkills(data);
 
   return (
@@ -18,79 +18,90 @@ export default function BackendTemplate({ data }: TemplateProps) {
         minHeight: '297mm',
         fontFamily: '"Times New Roman", Times, serif',
         fontSize: '9.5pt',
-        lineHeight: '1.32',
+        lineHeight: '1.34',
         color: '#000000',
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. CENTERED DENSE BACKEND HEADER (LaTeX \hrule style) */}
-      <header className="text-center pb-2 mb-2 border-b border-black">
-        <h1 className="text-[21pt] font-bold tracking-normal uppercase text-black leading-tight mb-0.5">
-          {data.fullName || 'Alex Morgan'}
-        </h1>
-        <div className="text-[9.5pt] font-semibold tracking-wider text-gray-800 uppercase mb-1">
-          {data.jobTitle || 'Backend Developer / API Engineer'}
-        </div>
-
-        {/* Dense Contact Row */}
-        <div className="text-[8.5pt] text-gray-800 flex flex-wrap justify-center items-center gap-x-2 gap-y-0.5">
-          <ContactItem type="location" value={data.location} />
-          {data.location && data.phone && <span>|</span>}
-          <ContactItem type="phone" value={data.phone} />
-          {data.phone && data.email && <span>|</span>}
-          <ContactItem type="email" value={data.email} />
-          {data.email && data.github && <span>|</span>}
-          <ContactItem type="github" value={data.github} />
-          {data.github && data.linkedin && <span>|</span>}
-          <ContactItem type="linkedin" value={data.linkedin} />
-          {data.linkedin && data.leetcode && <span>|</span>}
-          <ContactItem type="leetcode" value={data.leetcode} />
-          {data.leetcode && (data.portfolio || data.website) && <span>|</span>}
-          <ContactItem type="portfolio" value={data.portfolio || data.website} />
+      {/* 1. UI ENGINEER MODERN HEADER */}
+      <header className="border-b-2 border-black pb-2.5 mb-2.5">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-1.5">
+          <div>
+            <h1 className="text-[23pt] font-bold tracking-tight uppercase text-black leading-none">
+              {data.fullName || 'Alex Morgan'}
+            </h1>
+            <p className="text-[10pt] font-bold text-gray-800 tracking-wide mt-1">
+              {data.jobTitle || 'UI Engineer & Design Systems Specialist'}
+            </p>
+          </div>
+          <div className="text-[8.5pt] text-gray-800 flex flex-col items-start sm:items-end gap-0.5">
+            <div className="flex items-center gap-2">
+              <ContactItem type="portfolio" value={data.portfolio || data.website} />
+              {(data.portfolio || data.website) && data.github && <span>•</span>}
+              <ContactItem type="github" value={data.github} />
+            </div>
+            <div className="flex items-center gap-2">
+              <ContactItem type="email" value={data.email} />
+              {data.email && data.linkedin && <span>•</span>}
+              <ContactItem type="linkedin" value={data.linkedin} />
+            </div>
+            <div className="flex items-center gap-2">
+              <ContactItem type="location" value={data.location} />
+              {data.location && data.phone && <span>•</span>}
+              <ContactItem type="phone" value={data.phone} />
+            </div>
+          </div>
         </div>
       </header>
 
-      {/* 2. TECHNICAL COMPETENCIES (Backend & Database prioritized) */}
+      {/* 2. SUMMARY / FOCUS */}
+      {(data.summary || data.aboutMe) && (
+        <section className="mb-2">
+          <p className="text-[9pt] text-gray-900 leading-relaxed text-justify">
+            {data.summary || data.aboutMe}
+          </p>
+        </section>
+      )}
+
+      {/* 3. DESIGN SYSTEMS & UI SKILLS */}
       <section className="mb-2">
         <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black flex items-center justify-between">
-          <span>Technical Competencies</span>
-          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">Backend • APIs • Databases</span>
+          <span>Design Systems & Frontend Architecture</span>
+          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">UI Systems • WCAG 2.1 • Animation • CSS</span>
         </h2>
         <div className="space-y-0.5 text-[9pt] leading-snug">
-          {(cat.backend.length > 0 || cat.languages.length > 0) && (
-            <div>
-              <span className="font-bold text-black">Backend & APIs: </span>
-              <span className="text-gray-900">
-                {[...cat.backend, ...cat.languages.filter((l) => ['go', 'python', 'java', 'c++', 'c#', 'sql', 'typescript'].some((t) => l.toLowerCase().includes(t)))].join(', ')}
-              </span>
-            </div>
-          )}
-          {cat.databases.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Databases & Storage: </span>
-              <span className="text-gray-900">{cat.databases.join(', ')}</span>
-            </div>
-          )}
-          {cat.tools.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Cloud & Infrastructure: </span>
-              <span className="text-gray-900">{cat.tools.join(', ')}</span>
-            </div>
-          )}
-          {cat.coreCS.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Architecture & Core: </span>
-              <span className="text-gray-900">{cat.coreCS.join(', ')}</span>
-            </div>
-          )}
+          <div>
+            <span className="font-bold text-black">UI Architecture & Systems: </span>
+            <span className="text-gray-900">
+              {cat.frontend.length > 0 ? cat.frontend.join(', ') : 'React, Next.js, Tailwind CSS, Radix UI, Storybook, CSS Modules'}
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-black">Languages & Standards: </span>
+            <span className="text-gray-900">
+              {cat.languages.length > 0 ? cat.languages.join(', ') : 'TypeScript, JavaScript, HTML5 Semantics, CSS3 / Modern CSS'}
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-black">Accessibility & Interaction: </span>
+            <span className="text-gray-900">
+              WCAG 2.1 AA Compliance, WAI-ARIA, Micro-Interactions, Framer Motion, Responsive Design
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-black">Developer Tools: </span>
+            <span className="text-gray-900">
+              {cat.tools.length > 0 ? cat.tools.join(', ') : 'Figma, Storybook, Jest, Playwright, Git, Vite'}
+            </span>
+          </div>
         </div>
       </section>
 
-      {/* 3. PROFESSIONAL EXPERIENCE (Dominant section) */}
+      {/* 4. EXPERIENCE */}
       {data.experiences && data.experiences.length > 0 && (
         <section className="mb-2.5">
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Work Experience
+            UI & Frontend Experience
           </h2>
           <div className="space-y-2">
             {data.experiences.map((exp) => {
@@ -131,11 +142,11 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 4. SYSTEMS & BACKEND PROJECTS */}
+      {/* 5. DESIGN & COMPONENT PROJECTS */}
       {data.projects && data.projects.length > 0 && (
         <section className="mb-2">
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Systems & Engineering Projects
+            Design Systems & Component Libraries
           </h2>
           <div className="space-y-1.5">
             {data.projects.map((proj) => {
@@ -147,7 +158,7 @@ export default function BackendTemplate({ data }: TemplateProps) {
                       <span className="font-bold text-[9.5pt] text-black">{proj.title}</span>
                       {proj.technologies && (
                         <span className="text-[8.5pt] text-gray-700 italic">
-                          | {proj.technologies}
+                          {' '}| {proj.technologies}
                         </span>
                       )}
                     </div>
@@ -177,7 +188,7 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 5. EDUCATION */}
+      {/* 6. EDUCATION */}
       {data.education && data.education.length > 0 && (
         <section className="mb-2">
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
@@ -202,23 +213,17 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 6. CERTIFICATIONS & ACHIEVEMENTS */}
-      {((data.certifications && data.certifications.length > 0) || (data.achievements && data.achievements.length > 0)) && (
+      {/* 7. ACHIEVEMENTS & DESIGN RECOGNITION */}
+      {data.achievements && data.achievements.length > 0 && (
         <section>
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Certifications & Key Achievements
+            Awards & Design Recognition
           </h2>
-          <div className="space-y-0.5 text-[8.5pt] text-gray-900">
-            {data.certifications?.map((c) => (
-              <div key={c.id} className="flex justify-between">
-                <span>• <span className="font-semibold">{c.name}</span> — {c.issuer}</span>
-                <span className="text-gray-600">{c.date}</span>
-              </div>
+          <ul className="list-disc ml-4 space-y-0.5 text-[8.5pt] text-gray-900">
+            {data.achievements.map((item, idx) => (
+              <li key={idx} className="leading-snug">{item}</li>
             ))}
-            {data.achievements?.map((ach, i) => (
-              <div key={i}>• {ach}</div>
-            ))}
-          </div>
+          </ul>
         </section>
       )}
     </div>

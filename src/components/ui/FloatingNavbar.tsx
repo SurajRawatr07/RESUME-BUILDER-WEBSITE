@@ -251,8 +251,8 @@ export default function FloatingNavbar({
             transition={{ duration: 0.2, ease: "easeOut" }}
             className={`pointer-events-auto w-full max-w-5xl mt-2 rounded-2xl p-3 sm:p-4 border transition-colors shadow-2xl backdrop-blur-2xl ${
               isDark
-                ? "bg-gray-950/95 border-white/[0.12] text-white"
-                : "bg-white/95 border-black/[0.1] text-gray-900"
+                ? "bg-[#141412]/95 border-white/[0.12] text-white"
+                : "bg-[#FAF8F5]/95 border-black/[0.1] text-gray-900"
             }`}
             style={{ fontFamily: '"Times New Roman", Times, serif' }}
           >

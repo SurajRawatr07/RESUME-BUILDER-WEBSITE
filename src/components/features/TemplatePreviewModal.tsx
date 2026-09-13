@@ -3,13 +3,15 @@ import { TemplateDefinition } from '../templates/registry';
 import { ResumeData } from '@/types/resume';
 import { X, Check, ZoomIn, ZoomOut, RotateCcw, FileText, CheckCircle2 } from 'lucide-react';
 import GlowingShadow from '@/components/ui/GlowingShadow';
+import { getDemoDataForTemplate } from '@/data/demoResumeData';
 
 interface TemplatePreviewModalProps {
   template: TemplateDefinition | null;
   isOpen: boolean;
   onClose: () => void;
   onSelect: (templateId: string) => void;
-  resumeData: ResumeData;
+  resumeData?: ResumeData;
+  useDemoData?: boolean;
 }
 
 export const TemplatePreviewModal: React.FC<TemplatePreviewModalProps> = ({
@@ -18,12 +20,16 @@ export const TemplatePreviewModal: React.FC<TemplatePreviewModalProps> = ({
   onClose,
   onSelect,
   resumeData,
+  useDemoData = true,
 }) => {
   const [zoom, setZoom] = useState<number>(100);
 
   if (!isOpen || !template) return null;
 
   const TemplateComponent = template.component;
+  const displayData = useDemoData
+    ? getDemoDataForTemplate(template.id)
+    : (resumeData || getDemoDataForTemplate(template.id));
 
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 15, 140));
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 15, 60));
@@ -131,7 +137,7 @@ export const TemplatePreviewModal: React.FC<TemplatePreviewModalProps> = ({
             }}
             className="shadow-xl rounded-sm overflow-hidden bg-white w-full max-w-[210mm] min-h-[297mm]"
           >
-            <TemplateComponent data={resumeData} />
+            <TemplateComponent data={displayData} />
           </div>
         </div>
 

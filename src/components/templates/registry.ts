@@ -1,21 +1,25 @@
 import React from 'react';
 import { ResumeData, TemplateType, normalizeTemplateId } from '@/types/resume';
-import SoftwareEngineerTemplate from './SoftwareEngineerTemplate';
-import SWEResumeTemplate from './SWEResumeTemplate';
-import FAANGPathTemplate from './FAANGPathTemplate';
-import CSITSweTemplate from './CSITSweTemplate';
-import SoftwareEngineeringResumeTemplate from './SoftwareEngineeringResumeTemplate';
-import ResumeProfessionalSWETemplate from './ResumeProfessionalSWETemplate';
-import UndergraduateCVTemplate from './UndergraduateCVTemplate';
-import ModernSimpleCVTemplate from './ModernSimpleCVTemplate';
-import ResumeCVTemplate from './ResumeCVTemplate';
+import FrontendTemplate from './FrontendTemplate';
+import BackendTemplate from './BackendTemplate';
+import FullStackTemplate from './FullStackTemplate';
+import SDETemplate from './SDETemplate';
+import FAANGTemplate from './FAANGTemplate';
+import CSITTemplate from './CSITTemplate';
+import DevOpsTemplate from './DevOpsTemplate';
+import DataPythonTemplate from './DataPythonTemplate';
+import MobileTemplate from './MobileTemplate';
+import FresherTemplate from './FresherTemplate';
+import OpenSourceTemplate from './OpenSourceTemplate';
+import UIFrontendTemplate from './UIFrontendTemplate';
 
 export type TemplateCategory =
   | 'All'
-  | 'Software / IT'
-  | 'Student'
-  | 'Engineering'
-  | 'General';
+  | 'Frontend & UI'
+  | 'Backend & Cloud'
+  | 'Full Stack & SDE'
+  | 'Student & Fresher'
+  | 'Data & Mobile';
 
 export interface TemplateDefinition {
   id: TemplateType;
@@ -32,120 +36,157 @@ export interface TemplateDefinition {
 
 export const TEMPLATE_CATEGORIES: TemplateCategory[] = [
   'All',
-  'Software / IT',
-  'Student',
-  'Engineering',
-  'General',
+  'Frontend & UI',
+  'Backend & Cloud',
+  'Full Stack & SDE',
+  'Student & Fresher',
+  'Data & Mobile',
 ];
 
 export const TEMPLATES: TemplateDefinition[] = [
   {
-    id: 'software-engineer',
-    name: 'Software Engineer Resume',
-    role: 'Backend & Systems Developer',
-    category: 'Software / IT',
-    description: 'Single-column ATS format with structured summary, technical competencies, backend engineering, and systems experience.',
-    bestFor: 'Software Engineer / Backend Developer',
-    tag: 'Overleaf SWE',
-    structureNote: 'Contact → Summary → Technical Skills → Experience → Projects → Education → Achievements',
-    component: SoftwareEngineerTemplate,
-    sectionHierarchy: ['Contact', 'Summary', 'Technical Skills', 'Experience', 'Projects', 'Education', 'Achievements'],
+    id: 'frontend',
+    name: 'Frontend Developer',
+    role: 'Frontend Developer / React Engineer',
+    category: 'Frontend & UI',
+    description: 'Modern clean one-page format with left-aligned header, prominent frontend ecosystem, web vitals, and component architectures.',
+    bestFor: 'Frontend Engineers, React / Next.js Developers, Web Specialists',
+    tag: 'Frontend / React',
+    structureNote: 'Header → Skills & Ecosystem (Top) → Experience → Key Projects → Education → Achievements',
+    component: FrontendTemplate,
+    sectionHierarchy: ['Header', 'Frontend Ecosystem', 'Experience', 'Projects', 'Education', 'Achievements'],
   },
   {
-    id: 'swe-resume',
-    name: 'SWE Resume Template',
-    role: 'Full Stack Engineer',
-    category: 'Software / IT',
-    description: 'Compact ATS-oriented structure emphasizing full-stack proficiency, React, Node.js, databases, and high-impact metrics.',
-    bestFor: 'Software Engineer / Full Stack Developer',
-    tag: 'Full Stack SWE',
-    structureNote: 'Header → Skills (Top) → Experience → Projects → Education → Achievements',
-    component: SWEResumeTemplate,
-    sectionHierarchy: ['Header', 'Technical Skills', 'Experience', 'Projects', 'Education', 'Achievements'],
+    id: 'backend',
+    name: 'Backend Developer',
+    role: 'Backend Developer / API Engineer',
+    category: 'Backend & Cloud',
+    description: 'Technical, structured layout with double-ruled header, emphasizing REST/GraphQL APIs, microservices, databases, and low latency.',
+    bestFor: 'Backend Engineers, API Architects, Database Engineers',
+    tag: 'Backend / APIs',
+    structureNote: 'Centered Header → Competencies → Experience (Dominant) → Systems Projects → Education',
+    component: BackendTemplate,
+    sectionHierarchy: ['Header', 'Competencies', 'Work Experience', 'Systems Projects', 'Education'],
   },
   {
-    id: 'faangpath-simple',
-    name: 'FAANGPath Simple Template',
-    role: 'SDE / Tech Specialist',
-    category: 'Software / IT',
-    description: 'High-density, minimal styling with clear section hierarchy engineered for high-bar technical screening systems.',
-    bestFor: 'SDE / FAANG / New Grad',
-    tag: 'FAANGPath',
-    structureNote: 'Header → Education → Technical Skills → Experience → Projects → Achievements',
-    component: FAANGPathTemplate,
-    sectionHierarchy: ['Header', 'Education', 'Technical Skills', 'Experience', 'Projects', 'Achievements'],
+    id: 'fullstack',
+    name: 'Full Stack Developer',
+    role: 'Full Stack Engineer / MERN Specialist',
+    category: 'Full Stack & SDE',
+    description: 'Balanced full-stack structure with 4-quadrant skill matrix, end-to-end web platforms, and complete product delivery.',
+    bestFor: 'Full Stack Developers, MERN / Next.js Engineers, Product Engineers',
+    tag: 'Full Stack',
+    structureNote: 'Header → Full Stack Matrix → Work Experience → Full-Stack Projects → Education',
+    component: FullStackTemplate,
+    sectionHierarchy: ['Header', 'Full Stack Stack', 'Experience', 'End-to-End Projects', 'Education'],
   },
   {
-    id: 'cs-it-swe',
-    name: 'CS/IT/SWE Resume Template',
-    role: 'Computer Science & IT Developer',
-    category: 'Engineering',
-    description: 'Technical competencies prioritized at the very top, followed by academic background, engineering experience, and projects.',
-    bestFor: 'CS / IT / Software Developer',
-    tag: 'CS / IT Standard',
-    structureNote: 'Technical Skills (Top) → Education → Experience → Projects → Certifications / Achievements',
-    component: CSITSweTemplate,
-    sectionHierarchy: ['Technical Skills', 'Education', 'Experience', 'Projects', 'Certifications / Achievements'],
+    id: 'sde',
+    name: 'Software Engineer / SDE',
+    role: 'Software Development Engineer',
+    category: 'Full Stack & SDE',
+    description: 'Classic Overleaf SWE 1-column layout with compact pipe contact row, balanced section weights, and clean algorithmic bullets.',
+    bestFor: 'SDEs, Software Engineers, Generalist Developers',
+    tag: 'Overleaf Classic',
+    structureNote: 'Centered Name → Education → Experience → Technical Projects → Skills',
+    component: SDETemplate,
+    sectionHierarchy: ['Contact Header', 'Education', 'Experience', 'Projects', 'Technical Skills'],
   },
   {
-    id: 'software-engineering',
-    name: 'Software Engineering Resume',
-    role: 'Software Engineer / Systems Developer',
-    category: 'Engineering',
-    description: 'Structured layout emphasizing engineering fundamentals, backend microservices, databases, and architectural delivery.',
-    bestFor: 'Software Engineer / Systems Developer',
-    tag: 'Systems Eng.',
-    structureNote: 'Header → Summary → Experience → Technical Skills → Projects → Education → Achievements',
-    component: SoftwareEngineeringResumeTemplate,
-    sectionHierarchy: ['Header', 'Summary', 'Experience', 'Technical Skills', 'Projects', 'Education', 'Achievements'],
+    id: 'faang',
+    name: 'FAANG / Big Tech',
+    role: 'FAANG / Tier-1 Software Engineer',
+    category: 'Full Stack & SDE',
+    description: 'Ultra-dense recruiter-scanning layout with zero fluff, quantitative bullet points, distributed systems, and competitive programming.',
+    bestFor: 'FAANG Applicants, High-Growth Tech, LeetCode / ICPC Competitors',
+    tag: 'FAANG / Big Tech',
+    structureNote: 'Compact Header → Technical Skills → Experience → Projects → Education → Honors',
+    component: FAANGTemplate,
+    sectionHierarchy: ['Header', 'Technical Skills', 'Experience', 'Projects', 'Education', 'Honors'],
   },
   {
-    id: 'resume-professional-swe',
-    name: 'Resume Professional Template — Software Engineer',
-    role: 'Experienced Software Engineer',
-    category: 'Engineering',
-    description: 'Authoritative engineering hierarchy with experience as the dominant section, production ownership, and technical leadership.',
-    bestFor: 'Experienced Software Engineer',
-    tag: 'Professional SWE',
-    structureNote: 'Header → Summary → Experience (Dominant) → Skills → Projects → Education → Achievements',
-    component: ResumeProfessionalSWETemplate,
-    sectionHierarchy: ['Header', 'Summary', 'Experience', 'Skills', 'Projects', 'Education', 'Achievements'],
+    id: 'cs-it',
+    name: 'Computer Science / IT',
+    role: 'CS & IT Software Engineer',
+    category: 'Student & Fresher',
+    description: 'Rigorous engineering layout prioritizing academic foundations, Core CS coursework (DSA, OS, DBMS, Networks), and lab projects.',
+    bestFor: 'B.Tech / BCA / CS / IT Graduates, Computer Science Engineers',
+    tag: 'CS / IT Core',
+    structureNote: 'Header → Education & Coursework → Technical Competencies → Projects → Experience',
+    component: CSITTemplate,
+    sectionHierarchy: ['Header', 'Education & Coursework', 'Competencies', 'Projects', 'Experience'],
   },
   {
-    id: 'undergraduate-cv',
-    name: 'Undergraduate CV Template',
-    role: 'Student / Fresher / Internship',
-    category: 'Student',
-    description: 'Academic-first CV template for undergraduates and freshers highlighting coursework, CGPA, projects, hackathons, and leadership.',
-    bestFor: 'Student / Fresher / Internship',
-    tag: 'Undergraduate CV',
-    structureNote: 'Education (Top) → Technical Skills → Projects → Experience → Achievements → Leadership',
-    component: UndergraduateCVTemplate,
-    sectionHierarchy: ['Education', 'Technical Skills', 'Projects', 'Experience', 'Achievements', 'Leadership'],
+    id: 'devops',
+    name: 'DevOps / Cloud Engineer',
+    role: 'DevOps & Cloud Infrastructure Engineer',
+    category: 'Backend & Cloud',
+    description: 'Infrastructure and systems engineering layout emphasizing AWS, Kubernetes, Terraform IaC, CI/CD pipelines, and 99.99% uptime.',
+    bestFor: 'DevOps Engineers, SREs, Cloud Architects, Platform Engineers',
+    tag: 'DevOps / Cloud',
+    structureNote: 'Header → Infrastructure & Tooling → Experience → Automation Projects → Certifications',
+    component: DevOpsTemplate,
+    sectionHierarchy: ['Header', 'Infrastructure & Tools', 'Experience', 'Projects', 'Certifications'],
   },
   {
-    id: 'modern-simple-cv',
-    name: 'Modern Simple CV',
-    role: 'Frontend Developer / UI Developer',
-    category: 'General',
-    description: 'Refined modern header and typography with clear focus on React, TypeScript, UI engineering, and responsive web platforms.',
-    bestFor: 'Frontend Developer / UI Developer',
-    tag: 'Frontend / UI',
-    structureNote: 'Header → Summary → Skills → Experience → Projects → Education → Achievements',
-    component: ModernSimpleCVTemplate,
-    sectionHierarchy: ['Header', 'Summary', 'Skills', 'Experience', 'Projects', 'Education', 'Achievements'],
+    id: 'data-python',
+    name: 'Data / Python Developer',
+    role: 'Data Engineer & Python Developer',
+    category: 'Data & Mobile',
+    description: 'Analytical layout focusing on Python, SQL, ETL data pipelines, Apache Spark, Airflow, and high-throughput data warehouses.',
+    bestFor: 'Data Engineers, Python Developers, Data Platform Specialists',
+    tag: 'Data / Python',
+    structureNote: 'Centered Header → Competencies → Experience → Data Engineering Projects → Education',
+    component: DataPythonTemplate,
+    sectionHierarchy: ['Header', 'Data Competencies', 'Experience', 'Data Projects', 'Education'],
   },
   {
-    id: 'resume-cv',
-    name: 'Resume / CV',
-    role: 'General Technology / Graduate',
-    category: 'General',
-    description: 'Balanced, flexible single-page structure suitable for diverse engineering, software developer, and technical roles.',
-    bestFor: 'General Professional / Graduate',
-    tag: 'General CV',
-    structureNote: 'Header → Summary → Skills → Experience → Projects → Education → Achievements',
-    component: ResumeCVTemplate,
-    sectionHierarchy: ['Header', 'Summary', 'Skills', 'Experience', 'Projects', 'Education', 'Achievements'],
+    id: 'mobile',
+    name: 'Mobile App Developer',
+    role: 'Mobile Developer (iOS & Android)',
+    category: 'Data & Mobile',
+    description: 'Mobile engineer hierarchy emphasizing React Native, native module bridging, offline synchronization, and App Store metrics.',
+    bestFor: 'Mobile Engineers, React Native Developers, iOS/Android Developers',
+    tag: 'Mobile / React Native',
+    structureNote: 'Header → Mobile Stack → Experience → App Projects → Education → Achievements',
+    component: MobileTemplate,
+    sectionHierarchy: ['Header', 'Mobile Stack', 'Experience', 'App Projects', 'Education'],
+  },
+  {
+    id: 'fresher',
+    name: 'Student / Fresher',
+    role: 'College Graduate / Intern',
+    category: 'Student & Fresher',
+    description: 'Academic & project-first CV for students and entry-level engineers with Education and CGPA at top, followed by hackathons and projects.',
+    bestFor: 'College Students, Fresh Graduates, Entry-Level SWE, Interns',
+    tag: 'Campus / Fresher',
+    structureNote: 'Header → Education (Top) → Skills → Projects → Internships → Honors',
+    component: FresherTemplate,
+    sectionHierarchy: ['Header', 'Education', 'Technical Skills', 'Featured Projects', 'Internships', 'Honors'],
+  },
+  {
+    id: 'opensource',
+    name: 'Open Source Developer',
+    role: 'Open Source Contributor & Maintainer',
+    category: 'Full Stack & SDE',
+    description: 'Open source maintainer layout featuring GitHub handles, published NPM packages, weekly download metrics, and merged PRs.',
+    bestFor: 'Open Source Maintainers, Developer Advocates, Systems Tool Authors',
+    tag: 'Open Source',
+    structureNote: 'Header → Open Source Packages (Top) → Experience → Technical Stack → Education',
+    component: OpenSourceTemplate,
+    sectionHierarchy: ['Header', 'Open Source Projects', 'Experience', 'Technical Stack', 'Education'],
+  },
+  {
+    id: 'ui-frontend',
+    name: 'UI / Frontend Engineer',
+    role: 'UI Engineer & Design Systems Specialist',
+    category: 'Frontend & UI',
+    description: 'Design systems and UI engineering layout highlighting component architectures, WCAG accessibility, micro-interactions, and Storybook.',
+    bestFor: 'UI Engineers, Design System Specialists, Frontend Developers',
+    tag: 'UI & Design Systems',
+    structureNote: 'Header → UI Architecture & Systems → Experience → Design Systems → Education',
+    component: UIFrontendTemplate,
+    sectionHierarchy: ['Header', 'UI Systems', 'Experience', 'Component Projects', 'Education'],
   },
 ];
 

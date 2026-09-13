@@ -66,7 +66,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
         </div>
 
         <div className="text-xs text-gray-500 dark:text-gray-400 shrink-0">
-          Showing {filteredTemplates.length} of 9 Templates
+          Showing {filteredTemplates.length} of {TEMPLATES.length} Templates
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ delay: i * 0.04, duration: 0.3, ease: 'easeOut' }}
+                transition={{ delay: i * 0.03, duration: 0.25, ease: 'easeOut' }}
                 className="h-full"
               >
                 <GlowingShadow
@@ -97,8 +97,8 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                       isSelected
                         ? 'border-indigo-600 shadow-md ring-2 ring-indigo-500/20'
                         : isDark
-                        ? 'border-gray-800 hover:border-amber-400/40 bg-gray-900 shadow-xs'
-                        : 'border-gray-200 hover:border-amber-600/30 bg-white shadow-xs hover:shadow-sm'
+                        ? 'border-gray-800 hover:border-indigo-500/40 bg-gray-900 shadow-xs'
+                        : 'border-gray-200 hover:border-indigo-500/30 bg-white shadow-xs hover:shadow-sm'
                     }`}
                   >
                 {/* Visual Mini Preview Container */}
@@ -107,7 +107,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                   onClick={() => setPreviewingTemplate(template)}
                 >
                   {/* Miniature Overleaf LaTeX preview */}
-                  <div className="w-full max-w-[220px] shadow-sm group-hover:shadow-md transition-shadow duration-200">
+                  <div className="w-full max-w-[220px] shadow-xs group-hover:shadow-md transition-shadow duration-200">
                     <TemplateMiniPreview template={template} />
                   </div>
 
@@ -133,18 +133,18 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                   )}
                 </div>
 
-                {/* Extremely Simple Template Card (Requirement 7) */}
+                {/* Simple Template Card (Requirement 7: Name, Role, Actions) */}
                 <div className="p-4 flex flex-col flex-1 justify-between gap-3">
                   <div>
                     <h3
-                      className={`font-bold text-base leading-snug ${
+                      className={`font-bold text-base leading-tight ${
                         isDark ? 'text-white' : 'text-gray-900'
                       }`}
                     >
                       {template.name}
                     </h3>
-                    <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                      <span className="font-semibold text-gray-700 dark:text-gray-300">Best for:</span> {template.bestFor}
+                    <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mt-1">
+                      {template.role}
                     </p>
                   </div>
 

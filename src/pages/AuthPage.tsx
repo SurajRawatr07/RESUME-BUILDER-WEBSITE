@@ -171,7 +171,7 @@ export default function AuthPage({
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col justify-center items-center px-4 py-8 sm:px-6 lg:px-8 bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-gray-100 transition-colors duration-200 relative">
+    <div className="min-h-screen w-full flex flex-col justify-center items-center px-4 py-8 sm:px-6 lg:px-8 bg-[#F7F4EE] dark:bg-[#11110F] text-slate-900 dark:text-gray-100 transition-colors duration-200 relative">
       {/* Top Controls: Back to Home & Theme Switcher */}
       <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20">
         {onBackToHome && (

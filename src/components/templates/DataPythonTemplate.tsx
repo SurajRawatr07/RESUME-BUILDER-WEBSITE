@@ -7,7 +7,7 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function BackendTemplate({ data }: TemplateProps) {
+export default function DataPythonTemplate({ data }: TemplateProps) {
   const cat = categorizeSkills(data);
 
   return (
@@ -18,21 +18,20 @@ export default function BackendTemplate({ data }: TemplateProps) {
         minHeight: '297mm',
         fontFamily: '"Times New Roman", Times, serif',
         fontSize: '9.5pt',
-        lineHeight: '1.32',
+        lineHeight: '1.34',
         color: '#000000',
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. CENTERED DENSE BACKEND HEADER (LaTeX \hrule style) */}
+      {/* 1. DATA/PYTHON ANALYTICAL HEADER */}
       <header className="text-center pb-2 mb-2 border-b border-black">
-        <h1 className="text-[21pt] font-bold tracking-normal uppercase text-black leading-tight mb-0.5">
+        <h1 className="text-[22pt] font-bold tracking-normal uppercase text-black leading-tight mb-0.5">
           {data.fullName || 'Alex Morgan'}
         </h1>
-        <div className="text-[9.5pt] font-semibold tracking-wider text-gray-800 uppercase mb-1">
-          {data.jobTitle || 'Backend Developer / API Engineer'}
+        <div className="text-[9.5pt] font-bold tracking-wider text-gray-800 uppercase mb-1">
+          {data.jobTitle || 'Data Engineer & Python Developer'}
         </div>
 
-        {/* Dense Contact Row */}
         <div className="text-[8.5pt] text-gray-800 flex flex-wrap justify-center items-center gap-x-2 gap-y-0.5">
           <ContactItem type="location" value={data.location} />
           {data.location && data.phone && <span>|</span>}
@@ -43,54 +42,50 @@ export default function BackendTemplate({ data }: TemplateProps) {
           <ContactItem type="github" value={data.github} />
           {data.github && data.linkedin && <span>|</span>}
           <ContactItem type="linkedin" value={data.linkedin} />
-          {data.linkedin && data.leetcode && <span>|</span>}
-          <ContactItem type="leetcode" value={data.leetcode} />
-          {data.leetcode && (data.portfolio || data.website) && <span>|</span>}
+          {data.linkedin && (data.portfolio || data.website) && <span>|</span>}
           <ContactItem type="portfolio" value={data.portfolio || data.website} />
         </div>
       </header>
 
-      {/* 2. TECHNICAL COMPETENCIES (Backend & Database prioritized) */}
+      {/* 2. TECHNICAL COMPETENCIES (Data & Python first) */}
       <section className="mb-2">
         <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black flex items-center justify-between">
           <span>Technical Competencies</span>
-          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">Backend • APIs • Databases</span>
+          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">Python • SQL • ETL Pipelines • Big Data</span>
         </h2>
         <div className="space-y-0.5 text-[9pt] leading-snug">
-          {(cat.backend.length > 0 || cat.languages.length > 0) && (
-            <div>
-              <span className="font-bold text-black">Backend & APIs: </span>
-              <span className="text-gray-900">
-                {[...cat.backend, ...cat.languages.filter((l) => ['go', 'python', 'java', 'c++', 'c#', 'sql', 'typescript'].some((t) => l.toLowerCase().includes(t)))].join(', ')}
-              </span>
-            </div>
-          )}
-          {cat.databases.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Databases & Storage: </span>
-              <span className="text-gray-900">{cat.databases.join(', ')}</span>
-            </div>
-          )}
-          {cat.tools.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Cloud & Infrastructure: </span>
-              <span className="text-gray-900">{cat.tools.join(', ')}</span>
-            </div>
-          )}
-          {cat.coreCS.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Architecture & Core: </span>
-              <span className="text-gray-900">{cat.coreCS.join(', ')}</span>
-            </div>
-          )}
+          <div>
+            <span className="font-bold text-black">Languages & Core: </span>
+            <span className="text-gray-900">
+              {cat.languages.length > 0 ? cat.languages.join(', ') : 'Python, SQL, Bash, Go, TypeScript'}
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-black">Data Engineering & Frameworks: </span>
+            <span className="text-gray-900">
+              {cat.backend.length > 0 ? cat.backend.join(', ') : 'Apache Spark, Apache Airflow, Kafka, FastAPI, Pandas, NumPy, dbt'}
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-black">Databases & Warehouses: </span>
+            <span className="text-gray-900">
+              {cat.databases.length > 0 ? cat.databases.join(', ') : 'PostgreSQL, Snowflake, BigQuery, Redis, MongoDB'}
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-black">Tools & Cloud: </span>
+            <span className="text-gray-900">
+              {cat.tools.length > 0 ? cat.tools.join(', ') : 'AWS (S3, Redshift), Docker, Git, Linux, CI/CD'}
+            </span>
+          </div>
         </div>
       </section>
 
-      {/* 3. PROFESSIONAL EXPERIENCE (Dominant section) */}
+      {/* 3. EXPERIENCE */}
       {data.experiences && data.experiences.length > 0 && (
         <section className="mb-2.5">
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Work Experience
+            Professional Experience
           </h2>
           <div className="space-y-2">
             {data.experiences.map((exp) => {
@@ -131,11 +126,11 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 4. SYSTEMS & BACKEND PROJECTS */}
+      {/* 4. DATA & ENGINEERING PROJECTS */}
       {data.projects && data.projects.length > 0 && (
         <section className="mb-2">
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Systems & Engineering Projects
+            Data Engineering Projects
           </h2>
           <div className="space-y-1.5">
             {data.projects.map((proj) => {
@@ -147,7 +142,7 @@ export default function BackendTemplate({ data }: TemplateProps) {
                       <span className="font-bold text-[9.5pt] text-black">{proj.title}</span>
                       {proj.technologies && (
                         <span className="text-[8.5pt] text-gray-700 italic">
-                          | {proj.technologies}
+                          {' '}| {proj.technologies}
                         </span>
                       )}
                     </div>
@@ -202,23 +197,17 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 6. CERTIFICATIONS & ACHIEVEMENTS */}
-      {((data.certifications && data.certifications.length > 0) || (data.achievements && data.achievements.length > 0)) && (
+      {/* 6. ACHIEVEMENTS & CERTIFICATIONS */}
+      {data.achievements && data.achievements.length > 0 && (
         <section>
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Certifications & Key Achievements
+            Key Achievements & Recognition
           </h2>
-          <div className="space-y-0.5 text-[8.5pt] text-gray-900">
-            {data.certifications?.map((c) => (
-              <div key={c.id} className="flex justify-between">
-                <span>• <span className="font-semibold">{c.name}</span> — {c.issuer}</span>
-                <span className="text-gray-600">{c.date}</span>
-              </div>
+          <ul className="list-disc ml-4 space-y-0.5 text-[8.5pt] text-gray-900">
+            {data.achievements.map((item, idx) => (
+              <li key={idx} className="leading-snug">{item}</li>
             ))}
-            {data.achievements?.map((ach, i) => (
-              <div key={i}>• {ach}</div>
-            ))}
-          </div>
+          </ul>
         </section>
       )}
     </div>

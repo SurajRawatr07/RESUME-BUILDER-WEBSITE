@@ -86,7 +86,20 @@ export interface Language {
 }
 
 export type TemplateType =
-  // 9 Real Overleaf/LaTeX Professional Templates
+  // 12 Core Role-Vetted Technology Templates
+  | 'frontend'
+  | 'backend'
+  | 'fullstack'
+  | 'sde'
+  | 'faang'
+  | 'cs-it'
+  | 'devops'
+  | 'data-python'
+  | 'mobile'
+  | 'fresher'
+  | 'opensource'
+  | 'ui-frontend'
+  // Legacy Aliases for Seamless Backward Compatibility
   | 'software-engineer'
   | 'swe-resume'
   | 'faangpath-simple'
@@ -96,7 +109,6 @@ export type TemplateType =
   | 'undergraduate-cv'
   | 'modern-simple-cv'
   | 'resume-cv'
-  // Legacy Aliases for Seamless Backward Compatibility
   | 'data-analyst'
   | 'ai-ml-engineer'
   | 'ui-ux-designer'
@@ -108,58 +120,60 @@ export type TemplateType =
   | 'modern'
   | 'minimal'
   | 'creative'
-  | 'frontend'
-  | 'backend'
-  | 'fullstack'
   | 'corporate';
 
 export function normalizeTemplateId(id: TemplateType | string): TemplateType {
   switch (id) {
-    case 'software-engineer':
+    case 'frontend':
+      return 'frontend';
+    case 'backend':
+      return 'backend';
+    case 'fullstack':
     case 'swe-resume':
-    case 'faangpath-simple':
-    case 'cs-it-swe':
-    case 'software-engineering':
-    case 'resume-professional-swe':
-    case 'undergraduate-cv':
-    case 'modern-simple-cv':
-    case 'resume-cv':
-      return id as TemplateType;
-    case 'modern':
-      return 'software-engineer';
     case 'swe-resume-template':
-      return 'swe-resume';
-    case 'faangpath-simple-template':
-      return 'faangpath-simple';
-    case 'cs-it-swe-resume':
-      return 'cs-it-swe';
+      return 'fullstack';
+    case 'sde':
+    case 'software-engineer':
+    case 'software-engineering':
     case 'software-engineering-resume':
-      return 'software-engineering';
+    case 'resume-professional-swe':
+    case 'corporate':
+      return 'sde';
+    case 'faang':
+    case 'faangpath-simple':
+    case 'faangpath-simple-template':
+      return 'faang';
+    case 'cs-it':
+    case 'cs-it-swe':
+    case 'cs-it-swe-resume':
+      return 'cs-it';
+    case 'devops':
+      return 'devops';
+    case 'data-python':
     case 'data-analyst':
-      return 'cs-it-swe';
     case 'ai-ml-engineer':
-      return 'faangpath-simple';
-    case 'ui-ux-designer':
-      return 'modern-simple-cv';
-    case 'product-manager':
-      return 'resume-professional-swe';
-    case 'business-marketing':
-      return 'resume-cv';
-    case 'finance-consulting':
-      return 'swe-resume';
+      return 'data-python';
+    case 'mobile':
+      return 'mobile';
+    case 'fresher':
     case 'student-fresher':
-      return 'undergraduate-cv';
+    case 'undergraduate-cv':
+      return 'fresher';
+    case 'opensource':
     case 'creative-general':
+    case 'resume-cv':
+      return 'opensource';
+    case 'ui-frontend':
+    case 'modern-simple-cv':
+    case 'ui-ux-designer':
+    case 'modern':
     case 'minimal':
     case 'creative':
-      return 'modern-simple-cv';
-    case 'frontend':
-    case 'backend':
-    case 'fullstack':
-      return 'software-engineer';
-    case 'corporate':
-      return 'resume-professional-swe';
+    case 'product-manager':
+    case 'business-marketing':
+    case 'finance-consulting':
+      return 'ui-frontend';
     default:
-      return 'software-engineer';
+      return 'frontend';
   }
 }

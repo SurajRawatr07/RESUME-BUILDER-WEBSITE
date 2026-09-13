@@ -125,11 +125,11 @@ export default function ProfilePage({
 
   return (
     <div
-      className="min-h-screen bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-gray-100 transition-colors duration-200"
+      className="min-h-screen bg-[#F7F4EE] dark:bg-[#11110F] text-slate-900 dark:text-gray-100 transition-colors duration-200"
       style={{ fontFamily: '"Times New Roman", Times, serif' }}
     >
       {/* Top Navbar */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/85 dark:bg-gray-900/85 border-b border-gray-200 dark:border-gray-800 transition-colors">
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-[#FAF8F5]/90 dark:bg-[#141412]/90 border-b border-black/[0.08] dark:border-white/[0.08] transition-colors">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button

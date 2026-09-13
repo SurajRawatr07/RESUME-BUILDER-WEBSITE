@@ -7,7 +7,7 @@ interface TemplateProps {
   data: ResumeData;
 }
 
-export default function BackendTemplate({ data }: TemplateProps) {
+export default function DevOpsTemplate({ data }: TemplateProps) {
   const cat = categorizeSkills(data);
 
   return (
@@ -23,74 +23,74 @@ export default function BackendTemplate({ data }: TemplateProps) {
         backgroundColor: '#ffffff',
       }}
     >
-      {/* 1. CENTERED DENSE BACKEND HEADER (LaTeX \hrule style) */}
-      <header className="text-center pb-2 mb-2 border-b border-black">
-        <h1 className="text-[21pt] font-bold tracking-normal uppercase text-black leading-tight mb-0.5">
-          {data.fullName || 'Alex Morgan'}
-        </h1>
-        <div className="text-[9.5pt] font-semibold tracking-wider text-gray-800 uppercase mb-1">
-          {data.jobTitle || 'Backend Developer / API Engineer'}
+      {/* 1. DEVOPS SYSTEMS HEADER */}
+      <header className="border-b-2 border-black pb-2 mb-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-1.5">
+          <div>
+            <h1 className="text-[21pt] font-bold tracking-tight uppercase text-black leading-none">
+              {data.fullName || 'Alex Morgan'}
+            </h1>
+            <p className="text-[10pt] font-semibold text-gray-800 tracking-wide mt-1">
+              {data.jobTitle || 'DevOps & Cloud Platform Engineer'}
+            </p>
+          </div>
+          <div className="text-[8.5pt] text-gray-800 flex flex-wrap items-center gap-x-2 sm:justify-end">
+            <ContactItem type="location" value={data.location} />
+            {data.location && data.phone && <span>|</span>}
+            <ContactItem type="phone" value={data.phone} />
+            {data.phone && data.email && <span>|</span>}
+            <ContactItem type="email" value={data.email} />
+          </div>
         </div>
 
-        {/* Dense Contact Row */}
-        <div className="text-[8.5pt] text-gray-800 flex flex-wrap justify-center items-center gap-x-2 gap-y-0.5">
-          <ContactItem type="location" value={data.location} />
-          {data.location && data.phone && <span>|</span>}
-          <ContactItem type="phone" value={data.phone} />
-          {data.phone && data.email && <span>|</span>}
-          <ContactItem type="email" value={data.email} />
-          {data.email && data.github && <span>|</span>}
+        <div className="flex flex-wrap items-center gap-x-2.5 mt-1 pt-1 border-t border-gray-200 text-[8.5pt] text-gray-800">
           <ContactItem type="github" value={data.github} />
-          {data.github && data.linkedin && <span>|</span>}
+          {data.github && data.linkedin && <span>•</span>}
           <ContactItem type="linkedin" value={data.linkedin} />
-          {data.linkedin && data.leetcode && <span>|</span>}
-          <ContactItem type="leetcode" value={data.leetcode} />
-          {data.leetcode && (data.portfolio || data.website) && <span>|</span>}
+          {data.linkedin && (data.portfolio || data.website) && <span>•</span>}
           <ContactItem type="portfolio" value={data.portfolio || data.website} />
         </div>
       </header>
 
-      {/* 2. TECHNICAL COMPETENCIES (Backend & Database prioritized) */}
+      {/* 2. CLOUD & INFRASTRUCTURE SKILLS (First for DevOps) */}
       <section className="mb-2">
         <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black flex items-center justify-between">
-          <span>Technical Competencies</span>
-          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">Backend • APIs • Databases</span>
+          <span>Infrastructure & Tooling</span>
+          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">Cloud • Containers • CI/CD • Observability</span>
         </h2>
         <div className="space-y-0.5 text-[9pt] leading-snug">
-          {(cat.backend.length > 0 || cat.languages.length > 0) && (
-            <div>
-              <span className="font-bold text-black">Backend & APIs: </span>
-              <span className="text-gray-900">
-                {[...cat.backend, ...cat.languages.filter((l) => ['go', 'python', 'java', 'c++', 'c#', 'sql', 'typescript'].some((t) => l.toLowerCase().includes(t)))].join(', ')}
-              </span>
-            </div>
-          )}
+          <div>
+            <span className="font-bold text-black">Cloud & Containers: </span>
+            <span className="text-gray-900">
+              {cat.tools.filter((t) => ['aws', 'docker', 'kubernetes', 'linux'].some((k) => t.toLowerCase().includes(k))).join(', ') || 'AWS, Kubernetes, Docker, Linux, Helm'}
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-black">IaC & CI/CD: </span>
+            <span className="text-gray-900">
+              {cat.tools.filter((t) => ['ci/cd', 'git', 'github', 'terraform'].some((k) => t.toLowerCase().includes(k))).join(', ') || 'Terraform, GitHub Actions, GitLab CI, ArgoCD, Ansible'}
+            </span>
+          </div>
+          <div>
+            <span className="font-bold text-black">Scripting & Languages: </span>
+            <span className="text-gray-900">
+              {cat.languages.length > 0 ? cat.languages.join(', ') : 'Python, Go, Bash, TypeScript, SQL'}
+            </span>
+          </div>
           {cat.databases.length > 0 && (
             <div>
               <span className="font-bold text-black">Databases & Storage: </span>
               <span className="text-gray-900">{cat.databases.join(', ')}</span>
             </div>
           )}
-          {cat.tools.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Cloud & Infrastructure: </span>
-              <span className="text-gray-900">{cat.tools.join(', ')}</span>
-            </div>
-          )}
-          {cat.coreCS.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Architecture & Core: </span>
-              <span className="text-gray-900">{cat.coreCS.join(', ')}</span>
-            </div>
-          )}
         </div>
       </section>
 
-      {/* 3. PROFESSIONAL EXPERIENCE (Dominant section) */}
+      {/* 3. EXPERIENCE */}
       {data.experiences && data.experiences.length > 0 && (
         <section className="mb-2.5">
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Work Experience
+            Infrastructure & Engineering Experience
           </h2>
           <div className="space-y-2">
             {data.experiences.map((exp) => {
@@ -131,11 +131,11 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 4. SYSTEMS & BACKEND PROJECTS */}
+      {/* 4. CLOUD PROJECTS & AUTOMATION */}
       {data.projects && data.projects.length > 0 && (
         <section className="mb-2">
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Systems & Engineering Projects
+            Cloud & Automation Projects
           </h2>
           <div className="space-y-1.5">
             {data.projects.map((proj) => {
@@ -147,7 +147,7 @@ export default function BackendTemplate({ data }: TemplateProps) {
                       <span className="font-bold text-[9.5pt] text-black">{proj.title}</span>
                       {proj.technologies && (
                         <span className="text-[8.5pt] text-gray-700 italic">
-                          | {proj.technologies}
+                          {' '}| {proj.technologies}
                         </span>
                       )}
                     </div>
@@ -177,9 +177,26 @@ export default function BackendTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 5. EDUCATION */}
-      {data.education && data.education.length > 0 && (
+      {/* 5. CERTIFICATIONS */}
+      {data.certifications && data.certifications.length > 0 && (
         <section className="mb-2">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+            Cloud Certifications & Credentials
+          </h2>
+          <div className="space-y-0.5 text-[8.5pt] text-gray-900">
+            {data.certifications.map((c) => (
+              <div key={c.id} className="flex justify-between">
+                <span>• <span className="font-semibold">{c.name}</span> — {c.issuer}</span>
+                <span className="text-gray-600">{c.date}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 6. EDUCATION */}
+      {data.education && data.education.length > 0 && (
+        <section>
           <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
             Education
           </h2>
@@ -197,26 +214,6 @@ export default function BackendTemplate({ data }: TemplateProps) {
                   <span className="text-[8.5pt] italic text-gray-700">{edu.graduationDate}</span>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* 6. CERTIFICATIONS & ACHIEVEMENTS */}
-      {((data.certifications && data.certifications.length > 0) || (data.achievements && data.achievements.length > 0)) && (
-        <section>
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Certifications & Key Achievements
-          </h2>
-          <div className="space-y-0.5 text-[8.5pt] text-gray-900">
-            {data.certifications?.map((c) => (
-              <div key={c.id} className="flex justify-between">
-                <span>• <span className="font-semibold">{c.name}</span> — {c.issuer}</span>
-                <span className="text-gray-600">{c.date}</span>
-              </div>
-            ))}
-            {data.achievements?.map((ach, i) => (
-              <div key={i}>• {ach}</div>
             ))}
           </div>
         </section>

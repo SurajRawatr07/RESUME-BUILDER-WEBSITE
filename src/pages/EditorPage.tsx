@@ -48,10 +48,10 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-gray-50'}`}
+      className={`min-h-screen transition-colors duration-200 ${isDark ? 'bg-[#11110F]' : 'bg-[#F7F4EE]'}`}
     >
       {/* Header */}
-      <header className={`sticky top-0 z-40 no-print backdrop-blur-xl border-b transition-colors duration-300 ${isDark ? 'bg-gray-900/90 border-gray-800 shadow-gray-900/50' : 'bg-white/90 border-gray-200'} shadow-lg`}>
+      <header className={`sticky top-0 z-40 no-print backdrop-blur-xl border-b transition-colors duration-200 ${isDark ? 'bg-[#141412]/90 border-white/[0.08] shadow-black/40' : 'bg-[#FAF8F5]/90 border-black/[0.08]'} shadow-sm`}>
         <div className="px-4 py-3 flex items-center justify-between gap-3">
           {/* Left */}
           <div className="flex items-center gap-3 min-w-0">
@@ -223,9 +223,9 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
         <div className={`
           ${showPreview ? 'flex' : 'hidden lg:flex'}
           flex-1 overflow-y-auto flex-col
-          ${isDark ? 'bg-gray-950' : 'bg-gray-100'}
+          ${isDark ? 'bg-[#11110F]' : 'bg-[#EFECE5]'}
         `}>
-          <div className={`px-4 py-3 flex items-center justify-between border-b no-print ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-200'}`}>
+          <div className={`px-4 py-3 flex items-center justify-between border-b no-print ${isDark ? 'bg-[#141412] border-white/[0.08]' : 'bg-[#FAF8F5] border-black/[0.08]'}`}>
             <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Live Preview</span>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
