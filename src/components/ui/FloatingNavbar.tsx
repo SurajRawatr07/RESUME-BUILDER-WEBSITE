@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, LogIn, ArrowRight, LogOut, User } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/hooks/useAuth";
-import ThemeToggle from "@/components/ui/ThemeToggle";
+import CinematicThemeSwitcher from "@/components/ui/CinematicThemeSwitcher";
 import ProfileDropdown from "@/components/ui/ProfileDropdown";
 import BrandWordmark from "@/components/ui/BrandWordmark";
 import { TemplateType } from "@/types/resume";
@@ -181,10 +181,10 @@ export default function FloatingNavbar({
         </div>
 
         {/* ─── 3. Right Controls: Theme Toggle + Auth / Profile + Create Resume ─── */}
-        <div className="flex items-center gap-1 sm:gap-2 md:gap-2.5 shrink-0">
-          {/* Theme Toggle (integrated directly into the floating navbar) */}
-          <div className="flex items-center">
-            <ThemeToggle size={28} className="scale-90 sm:scale-95 md:scale-100" />
+        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 shrink-0">
+          {/* Theme Toggle (Cinematic Theme Switcher) */}
+          <div className="flex items-center shrink-0">
+            <CinematicThemeSwitcher size="navbar" />
           </div>
 
           {/* Authentication State */}

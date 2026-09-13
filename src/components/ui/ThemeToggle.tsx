@@ -1,12 +1,17 @@
-import BlindPullToggle from "./BlindPullToggle";
+import CinematicThemeSwitcher, { CinematicThemeSwitcherProps } from "./CinematicThemeSwitcher";
 
 export interface ThemeToggleProps {
-  size?: number;
+  size?: number | "sm" | "md" | "lg" | "navbar";
   className?: string;
 }
 
-export default function ThemeToggle({ size = 34, className = "" }: ThemeToggleProps) {
-  return <BlindPullToggle size={size} className={className} />;
+export default function ThemeToggle({
+  size = "navbar",
+  className = "",
+}: ThemeToggleProps) {
+  const mappedSize = typeof size === "number" ? "navbar" : size;
+  return <CinematicThemeSwitcher size={mappedSize} className={className} />;
 }
 
-export { BlindPullToggle };
+export { CinematicThemeSwitcher };
+
