@@ -46,8 +46,8 @@ export default function StackedCircularFooter({
               aria-label="GitHub profile of Suraj Rawat"
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
                 isDark
-                  ? 'bg-gray-900 border-gray-800 text-gray-300 hover:text-white hover:border-gray-700'
-                  : 'bg-gray-50 border-gray-200 text-gray-700 hover:text-black hover:border-gray-300'
+                  ? 'bg-[#171717] border-white/[0.09] text-gray-300 hover:text-white hover:border-white/[0.18]'
+                  : 'bg-white border-black/[0.08] text-gray-700 hover:text-black hover:border-black/[0.16]'
               }`}
             >
               <Github className="w-4 h-4 text-indigo-500" />
@@ -61,8 +61,8 @@ export default function StackedCircularFooter({
               aria-label="LinkedIn profile of Suraj Rawat"
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
                 isDark
-                  ? 'bg-gray-900 border-gray-800 text-gray-300 hover:text-white hover:border-gray-700'
-                  : 'bg-gray-50 border-gray-200 text-gray-700 hover:text-black hover:border-gray-300'
+                  ? 'bg-[#171717] border-white/[0.09] text-gray-300 hover:text-white hover:border-white/[0.18]'
+                  : 'bg-white border-black/[0.08] text-gray-700 hover:text-black hover:border-black/[0.16]'
               }`}
             >
               <Linkedin className="w-4 h-4 text-blue-500" />

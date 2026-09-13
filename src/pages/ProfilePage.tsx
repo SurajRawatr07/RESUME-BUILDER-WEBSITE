@@ -129,7 +129,7 @@ export default function ProfilePage({
       style={{ fontFamily: '"Times New Roman", Times, serif' }}
     >
       {/* Top Navbar */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-[#FAF8F5]/90 dark:bg-[#141412]/90 border-b border-black/[0.08] dark:border-white/[0.08] transition-colors">
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 dark:bg-[#111111]/90 border-b border-black/[0.08] dark:border-white/[0.09] transition-colors">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button

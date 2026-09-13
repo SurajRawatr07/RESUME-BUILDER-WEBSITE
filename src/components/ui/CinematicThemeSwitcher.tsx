@@ -87,7 +87,7 @@ export default function CinematicThemeSwitcher({
         aria-hidden="true"
       >
         <div
-          className={`rounded-full border border-black/10 dark:border-white/10 bg-[#E8E3D8] dark:bg-[#161614] ${sizeClasses} opacity-60`}
+          className={`rounded-full border border-black/10 dark:border-white/10 bg-neutral-200 dark:bg-[#171717] ${sizeClasses} opacity-60`}
         />
       </div>
     );
@@ -111,8 +111,8 @@ export default function CinematicThemeSwitcher({
         transition={{ duration: 0.15 }}
         className={`relative rounded-full cursor-pointer transition-colors duration-300 flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-950 ${sizeClasses} ${
           isDark
-            ? "justify-end bg-[#131311] border border-white/[0.12]"
-            : "justify-start bg-[#EAE5DC] border border-black/[0.09]"
+            ? "justify-end bg-[#171717] border border-white/[0.12]"
+            : "justify-start bg-neutral-200/80 border border-black/[0.09]"
         }`}
         style={{
           boxShadow: isDark
@@ -125,7 +125,7 @@ export default function CinematicThemeSwitcher({
           {/* Sun icon on light side (visible when dark) */}
           <span
             className={`transition-opacity duration-300 flex items-center justify-center ${
-              isDark ? "opacity-35 text-amber-200/60" : "opacity-0 text-amber-700"
+              isDark ? "opacity-35 text-neutral-400" : "opacity-0 text-neutral-700"
             }`}
           >
             <Sun className={trackIconSizeClasses} />
@@ -147,8 +147,8 @@ export default function CinematicThemeSwitcher({
           transition={springTransition}
           className={`relative z-10 rounded-full flex items-center justify-center shrink-0 ${thumbSizeClasses} ${
             isDark
-              ? "bg-gradient-to-b from-[#2d2d29] to-[#1a1a17] text-slate-100 border border-white/[0.16]"
-              : "bg-gradient-to-b from-[#FFFFFF] to-[#F5F2EB] text-amber-600 border border-black/[0.08]"
+              ? "bg-gradient-to-b from-[#2a2a2a] to-[#171717] text-slate-100 border border-white/[0.16]"
+              : "bg-gradient-to-b from-[#FFFFFF] to-[#F2F2F2] text-neutral-800 border border-black/[0.08]"
           }`}
           style={{
             boxShadow: isDark

@@ -97,13 +97,13 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
                       isSelected
                         ? 'border-indigo-600 shadow-md ring-2 ring-indigo-500/20'
                         : isDark
-                        ? 'border-gray-800 hover:border-indigo-500/40 bg-gray-900 shadow-xs'
-                        : 'border-gray-200 hover:border-indigo-500/30 bg-white shadow-xs hover:shadow-sm'
+                        ? 'border-white/[0.09] hover:border-indigo-500/40 bg-[#171717] shadow-xs'
+                        : 'border-black/[0.08] hover:border-indigo-500/30 bg-white shadow-xs hover:shadow-sm'
                     }`}
                   >
                 {/* Visual Mini Preview Container */}
                 <div
-                  className="relative p-4 bg-gray-50 dark:bg-gray-950 flex justify-center items-center cursor-pointer overflow-hidden border-b border-gray-200 dark:border-gray-800"
+                  className="relative p-4 bg-gray-50/70 dark:bg-[#111111] flex justify-center items-center cursor-pointer overflow-hidden border-b border-black/[0.08] dark:border-white/[0.09]"
                   onClick={() => setPreviewingTemplate(template)}
                 >
                   {/* Miniature Overleaf LaTeX preview */}

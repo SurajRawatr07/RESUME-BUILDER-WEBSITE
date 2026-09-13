@@ -22,10 +22,10 @@ export interface GlowingShadowProps
 
 /**
  * GlowingShadow component inspired by 21st.dev's glowing-shadow.
- * Adapted specifically for Resume Craft's editorial palette:
- * - Light mode: warm brown, muted gold, soft beige, restrained neutral accent
- * - Dark mode: warm white, muted gold, soft amber, restrained neutral glow
- * - Slow ambient 11s rotation, soft blurred outer depth, and smooth hover response.
+ * Adapted specifically for Resume Craft's restrained monochrome aesthetic:
+ * - Light mode: subtle neutral dark/gray shadow (rgba(0, 0, 0, 0.045))
+ * - Dark mode: subtle neutral white/gray shadow (rgba(255, 255, 255, 0.065))
+ * - Soft ambient depth and smooth hover response.
  * - Respects prefers-reduced-motion: reduce.
  */
 export const GlowingShadow = React.forwardRef<HTMLDivElement, GlowingShadowProps>(
@@ -119,10 +119,7 @@ export const GlowingShadow = React.forwardRef<HTMLDivElement, GlowingShadowProps
           <div className={cn('absolute inset-0 overflow-hidden', rounded)}>
             <div
               className={cn(
-                'absolute -inset-[50%] w-[200%] h-[200%] m-auto',
-                isStatic
-                  ? 'glowing-static-bg'
-                  : 'glowing-conic-bg glowing-shadow-spin'
+                'absolute -inset-[50%] w-[200%] h-[200%] m-auto glowing-static-bg'
               )}
             />
           </div>

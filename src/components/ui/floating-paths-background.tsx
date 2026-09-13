@@ -47,21 +47,23 @@ export default function FloatingPathsBackground({
   const { isDark } = useTheme();
   const shouldReduceMotion = useReducedMotion();
 
-  // Subtle stroke color palette strictly adhering to user specifications
+  // Subtle stroke color palette strictly adhering to user specifications:
+  // Light Mode: rgba(0, 0, 0, 0.06) & secondary rgba(0, 0, 0, 0.035)
+  // Dark Mode: rgba(255, 255, 255, 0.055) & secondary rgba(255, 255, 255, 0.03)
   const lightColors = useMemo(
     () => [
-      "rgba(17, 17, 15, 0.055)",
-      "rgba(17, 17, 15, 0.075)",
-      "rgba(17, 17, 15, 0.035)",
+      "rgba(0, 0, 0, 0.06)",
+      "rgba(0, 0, 0, 0.045)",
+      "rgba(0, 0, 0, 0.035)",
     ],
     []
   );
 
   const darkColors = useMemo(
     () => [
-      "rgba(247, 244, 238, 0.045)",
-      "rgba(247, 244, 238, 0.065)",
-      "rgba(247, 244, 238, 0.025)",
+      "rgba(255, 255, 255, 0.055)",
+      "rgba(255, 255, 255, 0.04)",
+      "rgba(255, 255, 255, 0.03)",
     ],
     []
   );
@@ -138,7 +140,7 @@ export default function FloatingPathsBackground({
     <div
       aria-hidden="true"
       className={`fixed inset-0 z-0 pointer-events-none overflow-hidden select-none print:hidden transition-colors duration-300 ${
-        isDark ? "bg-[#11110F]" : "bg-[#F7F4EE]"
+        isDark ? "bg-[#111111]" : "bg-[#FFFFFF]"
       } ${className}`}
       style={{
         // Soft vignette mask: preserves clean readability over hero heading & central text

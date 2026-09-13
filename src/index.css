@@ -17,25 +17,25 @@
 @layer base {
   :root {
     font-family: "Times New Roman", Times, serif;
-    /* Static warm ivory background #F7F4EE */
-    --background: 40 36% 95.1%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 40 30% 98%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 40 30% 98%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Static clean white background #FFFFFF */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 6.7%; /* #111111 */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 6.7%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 6.7%;
     --primary: 238 72% 55%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 40 20% 92%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 40 18% 90%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 40 20% 92%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 33.3%; /* #555555 */
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 40 16% 86%;
-    --input: 40 16% 86%;
+    --border: 0 0% 92%;
+    --input: 0 0% 92%;
     --ring: 238 72% 55%;
     --radius: 0.75rem;
     --chart-1: 12 76% 61%;
@@ -46,25 +46,25 @@
   }
 
   .dark {
-    /* Static deep charcoal background #11110F */
-    --background: 60 6.2% 6.3%;
-    --foreground: 40 15% 94%;
-    --card: 60 5% 9%;
-    --card-foreground: 40 15% 94%;
-    --popover: 60 5% 9%;
-    --popover-foreground: 40 15% 94%;
+    /* Static deep charcoal/black background #111111 */
+    --background: 0 0% 6.7%; /* #111111 */
+    --foreground: 0 0% 100%; /* #FFFFFF */
+    --card: 0 0% 9%; /* #171717 */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 100%;
     --primary: 238 72% 65%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 60 4% 13%;
-    --secondary-foreground: 40 15% 94%;
-    --muted: 60 4% 13%;
-    --muted-foreground: 40 10% 62%;
-    --accent: 60 4% 13%;
-    --accent-foreground: 40 15% 94%;
+    --primary-foreground: 0 0% 6.7%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 65.9%; /* #A8A8A8 */
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 60 4% 18%;
-    --input: 60 4% 18%;
+    --border: 0 0% 16.9%;
+    --input: 0 0% 16.9%;
     --ring: 238 72% 65%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
@@ -85,17 +85,17 @@
   html {
     font-family: "Times New Roman", Times, serif !important;
     text-rendering: optimizeLegibility;
-    background-color: #F7F4EE;
+    background-color: #FFFFFF;
   }
 
   html.dark,
   .dark html {
-    background-color: #11110F;
+    background-color: #111111;
   }
 
   body {
-    background-color: #F7F4EE;
-    color: #11110F;
+    background-color: #FFFFFF;
+    color: #111111;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "Times New Roman", Times, serif !important;
@@ -107,8 +107,8 @@
 
   body.dark,
   .dark body {
-    background-color: #11110F;
-    color: #F7F4EE;
+    background-color: #111111;
+    color: #FFFFFF;
   }
 
   /* Universal element overrides to guarantee Times New Roman on all tags & portals */
@@ -192,10 +192,18 @@
   }
 }
 
-/* ─── Focus visible ─── */
+/* ─── Focus visible: accessible neutral focus styles (No yellow focus rings) ─── */
 :focus-visible {
-  outline: 2px solid hsl(var(--ring));
+  outline: 1px solid rgba(0, 0, 0, 0.25);
   outline-offset: 2px;
+}
+.dark :focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ─── Neutral Subtle Interaction Transitions ─── */
+button, a, input, [role="button"] {
+  transition-timing-function: ease-out;
 }
 
 /* ─── Gradient text utility ─── */
@@ -334,72 +342,30 @@
   }
 }
 
-/* ─── Glowing Shadow Visual System (21st.dev Inspired for Resume Craft) ─── */
-@keyframes glowing-shadow-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.glowing-shadow-spin {
-  animation: glowing-shadow-rotate 11s linear infinite;
-  will-change: transform;
-}
-
-/* Light mode conic gradient: warm brown, muted gold, soft beige, restrained neutral accent */
-.glowing-conic-bg {
-  background: conic-gradient(
-    from 0deg at 50% 50%,
-    rgba(217, 119, 6, 0.42) 0deg,
-    rgba(180, 83, 9, 0.28) 72deg,
-    rgba(245, 158, 11, 0.40) 144deg,
-    rgba(146, 64, 14, 0.24) 216deg,
-    rgba(217, 119, 6, 0.35) 288deg,
-    rgba(217, 119, 6, 0.42) 360deg
-  );
-}
-
-/* Dark mode conic gradient: warm white, muted gold, soft amber, restrained neutral glow */
-.dark .glowing-conic-bg {
-  background: conic-gradient(
-    from 0deg at 50% 50%,
-    rgba(251, 191, 36, 0.45) 0deg,
-    rgba(245, 158, 11, 0.32) 72deg,
-    rgba(255, 255, 255, 0.24) 144deg,
-    rgba(217, 119, 6, 0.32) 216deg,
-    rgba(253, 230, 138, 0.38) 288deg,
-    rgba(251, 191, 36, 0.45) 360deg
-  );
-}
-
-/* Static gradient for Navbar / non-rotating elements */
+/* ─── Glowing Shadow Visual System (Restrained Neutral Theme-Aware Depth) ─── */
+/* Neutral theme-aware shadow layers: subtle dark/gray in light mode, subtle white/gray in dark mode */
+.glowing-conic-bg,
 .glowing-static-bg {
   background: radial-gradient(
     ellipse at center,
-    rgba(217, 119, 6, 0.28) 0%,
-    rgba(245, 158, 11, 0.16) 45%,
-    rgba(180, 83, 9, 0.06) 75%,
-    transparent 100%
+    rgba(0, 0, 0, 0.045) 0%,
+    rgba(0, 0, 0, 0.015) 50%,
+    transparent 72%
   );
 }
 
+.dark .glowing-conic-bg,
 .dark .glowing-static-bg {
   background: radial-gradient(
     ellipse at center,
-    rgba(251, 191, 36, 0.32) 0%,
-    rgba(245, 158, 11, 0.18) 45%,
-    rgba(255, 255, 255, 0.08) 70%,
-    transparent 100%
+    rgba(255, 255, 255, 0.065) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 72%
   );
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .glowing-shadow-spin {
-    animation: none !important;
-    transform: none !important;
-  }
+.glowing-shadow-spin {
+  animation: none !important;
+  transform: none !important;
 }
 

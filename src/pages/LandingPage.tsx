@@ -119,8 +119,8 @@ const features = [
     icon: RefreshCw,
     title: 'Template Switching',
     desc: 'Change resume templates without losing your entered information.',
-    accent: 'text-amber-600 dark:text-amber-400',
-    bg: 'bg-amber-50 dark:bg-amber-950/50',
+    accent: 'text-teal-600 dark:text-teal-400',
+    bg: 'bg-teal-50 dark:bg-teal-950/50',
   },
   {
     icon: Smartphone,
@@ -263,9 +263,7 @@ export default function LandingPage({
       ======================================== */}
       <section
         id="how-it-works"
-        className={`py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] transition-colors duration-200 ${
-          isDark ? 'bg-[#151513]/55 backdrop-blur-[1px]' : 'bg-[#EFECE5]/50 backdrop-blur-[1px]'
-        }`}
+        className="py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
@@ -297,8 +295,8 @@ export default function LandingPage({
                   <div
                     className={`h-full p-6 rounded-2xl border transition-all ${
                       isDark
-                        ? 'bg-[#181816] border-white/[0.08] hover:border-amber-400/30'
-                        : 'bg-[#FCFAF7] border-black/[0.08] shadow-xs hover:shadow-sm'
+                        ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
+                        : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-4">
@@ -362,9 +360,7 @@ export default function LandingPage({
       ======================================== */}
       <section
         id="features"
-        className={`py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] transition-colors duration-200 ${
-          isDark ? 'bg-[#151513]/55 backdrop-blur-[1px]' : 'bg-[#EFECE5]/50 backdrop-blur-[1px]'
-        }`}
+        className="py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">
@@ -396,8 +392,8 @@ export default function LandingPage({
                   <div
                     className={`h-full p-6 sm:p-7 rounded-2xl border transition-all ${
                       isDark
-                        ? 'bg-[#181816] border-white/[0.08] hover:border-amber-400/30'
-                        : 'bg-[#FCFAF7] border-black/[0.08] shadow-xs hover:shadow-sm'
+                        ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
+                        : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
                     }`}
                   >
                     <div

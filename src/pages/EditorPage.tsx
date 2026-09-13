@@ -51,7 +51,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
       className={`min-h-screen transition-colors duration-200 bg-transparent ${isDark ? 'text-white' : 'text-slate-900'}`}
     >
       {/* Header */}
-      <header className={`sticky top-0 z-40 no-print backdrop-blur-xl border-b transition-colors duration-200 ${isDark ? 'bg-[#141412]/90 border-white/[0.08] shadow-black/40' : 'bg-[#FAF8F5]/90 border-black/[0.08]'} shadow-sm`}>
+      <header className={`sticky top-0 z-40 no-print backdrop-blur-xl border-b transition-colors duration-200 ${isDark ? 'bg-[#111111]/90 border-white/[0.09] shadow-black/40' : 'bg-white/90 border-black/[0.08]'} shadow-sm`}>
         <div className="px-4 py-3 flex items-center justify-between gap-3">
           {/* Left */}
           <div className="flex items-center gap-3 min-w-0">
@@ -212,7 +212,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
           className={`
             ${showPreview ? 'hidden lg:flex' : 'flex'}
             lg:w-[440px] xl:w-[500px] overflow-y-auto no-print flex-col
-            ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-r
+            ${isDark ? 'bg-[#171717] border-white/[0.09]' : 'bg-white border-black/[0.08]'} border-r
           `}
           initial={false}
         >
@@ -222,27 +222,29 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
         {/* Preview Area */}
         <div className={`
           ${showPreview ? 'flex' : 'hidden lg:flex'}
-          flex-1 overflow-y-auto flex-col
-          ${isDark ? 'bg-[#11110F]' : 'bg-[#EFECE5]'}
+          flex-1 overflow-y-auto flex-col min-w-0
+          ${isDark ? 'bg-[#111111]' : 'bg-white'}
         `}>
-          <div className={`px-4 py-3 flex items-center justify-between border-b no-print ${isDark ? 'bg-[#141412] border-white/[0.08]' : 'bg-[#FAF8F5] border-black/[0.08]'}`}>
+          <div className={`px-4 py-3 flex items-center justify-between border-b no-print ${isDark ? 'bg-[#171717] border-white/[0.09]' : 'bg-white border-black/[0.08]'}`}>
             <span className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Live Preview</span>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>Auto-saving</span>
             </div>
           </div>
-          <div className="flex-1 p-4 lg:p-8 overflow-y-auto">
-            <GlowingShadow
-              variant="subtle"
-              interactive={false}
-              rounded="rounded-lg"
-              className="max-w-[900px] mx-auto"
-            >
-              <div id="resume-preview-content">
-                <ResumePreview />
-              </div>
-            </GlowingShadow>
+          <div className="flex-1 p-2 sm:p-4 lg:p-8 overflow-x-auto overflow-y-auto w-full flex flex-col items-center">
+            <div className="w-full max-w-[850px] min-w-0">
+              <GlowingShadow
+                variant="subtle"
+                interactive={false}
+                rounded="rounded-lg"
+                className="w-full mx-auto"
+              >
+                <div id="resume-preview-content" className="w-full overflow-x-auto">
+                  <ResumePreview />
+                </div>
+              </GlowingShadow>
+            </div>
           </div>
         </div>
       </div>

@@ -57,7 +57,7 @@ export default function ForgotPasswordPage({
           </p>
         </div>
 
-        <div className={`rounded-2xl shadow-xl border p-6 sm:p-8 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+        <div className={`rounded-2xl shadow-xl border p-6 sm:p-8 ${isDark ? 'bg-[#171717] border-white/[0.09]' : 'bg-white border-black/[0.08]'}`}>
           {submitted ? (
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-4">
               <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-950/50 rounded-full flex items-center justify-center mx-auto mb-3">

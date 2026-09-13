@@ -208,15 +208,15 @@ export default function AuthPage({
 
         {/* Authentication Card with GlowingShadow */}
         <GlowingShadow variant="primary" interactive={false} rounded="rounded-2xl">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 shadow-xl shadow-slate-200/50 dark:shadow-black/40 p-6 sm:p-8">
+          <div className="bg-white dark:bg-[#171717] rounded-2xl border border-black/[0.08] dark:border-white/[0.09] shadow-xl shadow-slate-200/50 dark:shadow-black/40 p-6 sm:p-8">
             {/* Segmented Mode Switcher */}
-          <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-gray-800/80 rounded-xl mb-6 border border-slate-200/60 dark:border-gray-700/60">
+          <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-[#111111] rounded-xl mb-6 border border-slate-200/60 dark:border-white/[0.08]">
             <button
               type="button"
               onClick={() => handleSwitchMode("signin")}
               className={`py-2 text-sm font-semibold rounded-lg transition-all duration-150 ${
                 mode === "signin"
-                  ? "bg-white dark:bg-gray-900 text-slate-900 dark:text-white shadow-sm"
+                  ? "bg-white dark:bg-[#171717] text-slate-900 dark:text-white shadow-sm"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
@@ -227,7 +227,7 @@ export default function AuthPage({
               onClick={() => handleSwitchMode("signup")}
               className={`py-2 text-sm font-semibold rounded-lg transition-all duration-150 ${
                 mode === "signup"
-                  ? "bg-white dark:bg-gray-900 text-slate-900 dark:text-white shadow-sm"
+                  ? "bg-white dark:bg-[#171717] text-slate-900 dark:text-white shadow-sm"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
@@ -469,9 +469,9 @@ export default function AuthPage({
                           className={`h-full flex-1 rounded-full transition-colors duration-200 ${
                             passwordScore >= step
                               ? passwordScore <= 1
-                                ? "bg-amber-500"
+                                ? "bg-red-500"
                                 : passwordScore <= 2
-                                ? "bg-amber-500"
+                                ? "bg-indigo-500"
                                 : "bg-emerald-500"
                               : "bg-slate-200 dark:bg-gray-700"
                           }`}
@@ -539,7 +539,7 @@ export default function AuthPage({
                     className={`text-xs mt-1.5 flex items-center gap-1 ${
                       password === confirmPassword
                         ? "text-emerald-600 dark:text-emerald-400"
-                        : "text-amber-600 dark:text-amber-400"
+                        : "text-red-600 dark:text-red-400"
                     }`}
                   >
                     {password === confirmPassword ? (

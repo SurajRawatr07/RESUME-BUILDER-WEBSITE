@@ -21,7 +21,7 @@ const getSectionIcon = (id: SectionId) => {
     case 'education':
       return <GraduationCap className="w-4 h-4 text-emerald-500" />;
     case 'projects':
-      return <FolderGit2 className="w-4 h-4 text-amber-500" />;
+      return <FolderGit2 className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />;
     case 'skills':
       return <Sparkles className="w-4 h-4 text-purple-500" />;
     case 'additional':
