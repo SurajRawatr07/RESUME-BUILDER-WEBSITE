@@ -48,34 +48,35 @@ export default function CinematicThemeSwitcher({
         damping: 20,
       };
 
-  // Responsive sizing configurations
+  // Responsive sizing configurations matching user specifications:
+  // Mobile: ~76–84px wide × 44–50px high
+  // Desktop: ~104px × 64px maximum
   const sizeClasses = {
-    // Navbar: 68px x 34px on mobile, 76px x 36px on tablet, 84px x 38px on desktop (max well below 104px x 64px)
-    navbar: "w-[66px] h-[33px] sm:w-[74px] sm:h-[36px] md:w-[82px] md:h-[38px] p-[3.5px] sm:p-[4px]",
-    sm: "w-[64px] h-[32px] p-[3px]",
-    md: "w-[76px] h-[36px] p-[4px]",
-    lg: "w-[92px] h-[44px] p-[5px]",
+    navbar: "w-[76px] h-[44px] sm:w-[84px] sm:h-[46px] md:w-[94px] md:h-[48px] p-[4px] sm:p-[4.5px] md:p-[5px]",
+    sm: "w-[68px] h-[36px] p-[3.5px]",
+    md: "w-[80px] h-[44px] p-[4px]",
+    lg: "w-[96px] h-[52px] p-[5px]",
   }[size];
 
   const thumbSizeClasses = {
-    navbar: "w-[24px] h-[24px] sm:w-[26px] sm:h-[26px] md:w-[28px] md:h-[28px]",
-    sm: "w-[24px] h-[24px]",
-    md: "w-[26px] h-[26px]",
-    lg: "w-[32px] h-[32px]",
+    navbar: "w-[36px] h-[36px] sm:w-[37px] sm:h-[37px] md:w-[38px] md:h-[38px]",
+    sm: "w-[29px] h-[29px]",
+    md: "w-[36px] h-[36px]",
+    lg: "w-[42px] h-[42px]",
   }[size];
 
   const iconSizeClasses = {
-    navbar: "w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-3.5 md:h-3.5",
-    sm: "w-3 h-3",
-    md: "w-3.5 h-3.5",
-    lg: "w-4 h-4",
+    navbar: "w-4 h-4 sm:w-[17px] sm:h-[17px] md:w-[18px] md:h-[18px]",
+    sm: "w-3.5 h-3.5",
+    md: "w-4 h-4",
+    lg: "w-5 h-5",
   }[size];
 
   const trackIconSizeClasses = {
-    navbar: "w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5",
-    sm: "w-2.5 h-2.5",
-    md: "w-3 h-3",
-    lg: "w-3.5 h-3.5",
+    navbar: "w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4",
+    sm: "w-3 h-3",
+    md: "w-3.5 h-3.5",
+    lg: "w-4 h-4",
   }[size];
 
   // Hydration safety placeholder: identical dimensions to avoid any visual layout jump

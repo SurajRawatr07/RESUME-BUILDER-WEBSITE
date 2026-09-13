@@ -27,7 +27,7 @@ export default function ForgotPasswordPage({
   };
 
   return (
-    <div className={`min-h-screen relative overflow-hidden flex items-center justify-center p-4 transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-slate-50'}`}>
+    <div className={`min-h-screen relative overflow-hidden flex items-center justify-center p-4 transition-colors duration-300 bg-transparent ${isDark ? 'text-white' : 'text-slate-900'}`}>
       <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-20 flex items-center gap-2">
         {onBackToHome && (
           <button

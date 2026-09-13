@@ -48,7 +48,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className={`min-h-screen transition-colors duration-200 ${isDark ? 'bg-[#11110F]' : 'bg-[#F7F4EE]'}`}
+      className={`min-h-screen transition-colors duration-200 bg-transparent ${isDark ? 'text-white' : 'text-slate-900'}`}
     >
       {/* Header */}
       <header className={`sticky top-0 z-40 no-print backdrop-blur-xl border-b transition-colors duration-200 ${isDark ? 'bg-[#141412]/90 border-white/[0.08] shadow-black/40' : 'bg-[#FAF8F5]/90 border-black/[0.08]'} shadow-sm`}>

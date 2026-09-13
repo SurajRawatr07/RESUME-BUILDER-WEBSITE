@@ -182,8 +182,8 @@ export default function LandingPage({
   return (
     <div
       id="home"
-      className={`min-h-screen overflow-x-hidden transition-colors duration-200 ${
-        isDark ? 'bg-[#11110F] text-[#F3F3EE]' : 'bg-[#F7F4EE] text-gray-900'
+      className={`min-h-screen overflow-x-hidden transition-colors duration-200 bg-transparent ${
+        isDark ? 'text-[#F3F3EE]' : 'text-gray-900'
       }`}
     >
       {/* ========================================
@@ -263,8 +263,8 @@ export default function LandingPage({
       ======================================== */}
       <section
         id="how-it-works"
-        className={`py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] ${
-          isDark ? 'bg-[#151513]' : 'bg-[#EFECE5]'
+        className={`py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] transition-colors duration-200 ${
+          isDark ? 'bg-[#151513]/55 backdrop-blur-[1px]' : 'bg-[#EFECE5]/50 backdrop-blur-[1px]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -362,8 +362,8 @@ export default function LandingPage({
       ======================================== */}
       <section
         id="features"
-        className={`py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] ${
-          isDark ? 'bg-[#151513]' : 'bg-[#EFECE5]'
+        className={`py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] transition-colors duration-200 ${
+          isDark ? 'bg-[#151513]/55 backdrop-blur-[1px]' : 'bg-[#EFECE5]/50 backdrop-blur-[1px]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
