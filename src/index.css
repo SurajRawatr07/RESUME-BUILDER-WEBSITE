@@ -264,6 +264,31 @@ button, a, input, [role="button"] {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ─── Futuristic Geometric Brand Wordmark for Floating Navbar ─── */
+.brand-wordmark-futuristic {
+  font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.015em !important;
+  animation: none !important;
+  text-shadow: none !important;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.brand-wordmark-futuristic:hover {
+  text-shadow: none !important;
+}
+
+.dark .brand-wordmark-futuristic {
+  font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  animation: none !important;
+  text-shadow: none !important;
+}
+
+.dark .brand-wordmark-futuristic:hover {
+  text-shadow: none !important;
+}
+
 .brand-wordmark:hover {
   text-shadow:
     0 0 12px rgba(79, 70, 229, 0.32),

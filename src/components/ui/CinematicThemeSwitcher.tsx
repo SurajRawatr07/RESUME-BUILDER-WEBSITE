@@ -49,27 +49,27 @@ export default function CinematicThemeSwitcher({
       };
 
   // Responsive sizing configurations matching user specifications:
-  // Desktop: 44–52px wide × 28–34px high (e.g. 48px × 30px)
-  // Mobile: 38–44px wide × 26–30px high (e.g. 40px × 26px)
+  // Desktop: ~38–44px wide × 28–32px high (e.g. 42px × 28px)
+  // Mobile: ~34–40px wide × 26–30px high (e.g. 36px × 26px)
   const sizeClasses = {
-    navbar: "w-[40px] h-[26px] p-[2.5px] sm:w-[48px] sm:h-[30px] sm:p-[3px]",
-    sm: "w-[38px] h-[26px] p-[2.5px]",
-    md: "w-[46px] h-[29px] p-[2.5px]",
-    lg: "w-[54px] h-[32px] p-[3px]",
+    navbar: "w-[36px] h-[26px] p-[2px] sm:w-[42px] sm:h-[28px] sm:p-[2.5px]",
+    sm: "w-[36px] h-[26px] p-[2px]",
+    md: "w-[40px] h-[28px] p-[2px]",
+    lg: "w-[44px] h-[30px] p-[2.5px]",
   }[size];
 
   const thumbSizeClasses = {
-    navbar: "w-[21px] h-[21px] sm:w-[24px] sm:h-[24px]",
-    sm: "w-[21px] h-[21px]",
-    md: "w-[24px] h-[24px]",
-    lg: "w-[26px] h-[26px]",
+    navbar: "w-[20px] h-[20px] sm:w-[22px] sm:h-[22px]",
+    sm: "w-[20px] h-[20px]",
+    md: "w-[22px] h-[22px]",
+    lg: "w-[24px] h-[24px]",
   }[size];
 
   const iconSizeClasses = {
     navbar: "w-3 h-3 sm:w-3.5 sm:h-3.5",
     sm: "w-3 h-3",
     md: "w-3.5 h-3.5",
-    lg: "w-4 h-4",
+    lg: "w-3.5 h-3.5",
   }[size];
 
   // Hydration safety placeholder: identical dimensions to avoid any visual layout jump

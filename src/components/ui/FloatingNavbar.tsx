@@ -11,6 +11,7 @@ import {
   ArrowRight,
   LogOut,
   User,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -52,6 +53,19 @@ const getNavIcon = (href: string): LucideIcon => {
   }
 };
 
+/**
+ * FloatingNavbar
+ *
+ * Inspired by Ruixen UI Floating Nav (21st.dev/@ruixen.ui/components/floating-nav):
+ * - Floating pill-shaped container with subtle elevation and glass backdrop
+ * - Centered layout with balanced horizontal padding
+ * - Smooth Framer Motion spring active-pill background transition
+ * - Minimalist icon + text navigation with subtle hover states
+ * - Compact futuristic/geometric "Resume Craft" branding
+ * - Sized theme switcher with Sun/Moon icons (no yellow/gold accents)
+ * - Truly responsive mobile layout: [ Resume Craft ] [ Theme ] [ Menu ]
+ * - Fully accessible keyboard navigation and prefers-reduced-motion support
+ */
 export default function FloatingNavbar({
   navLinks,
   onStartBuilding,
@@ -66,9 +80,10 @@ export default function FloatingNavbar({
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
 
-  // Scroll detection for floating elevation and active section
+  // Scroll detection for active section and elevated glass styling
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -91,7 +106,7 @@ export default function FloatingNavbar({
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [navLinks]);
 
@@ -148,46 +163,51 @@ export default function FloatingNavbar({
   return (
     <header
       ref={navRef}
-      className="fixed top-2.5 sm:top-4 md:top-5 inset-x-0 z-50 flex flex-col items-center px-2.5 sm:px-4 md:px-6 pointer-events-none"
+      className="fixed top-3 sm:top-5 lg:top-6 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-4 md:px-6 pointer-events-none"
     >
-      {/* ─── Main Floating Navbar Pill Container (Tubelight Navbar Design) ─── */}
+      {/* ─── Floating Nav Pill Bar ─── */}
       <motion.nav
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className={`pointer-events-auto relative isolate w-full max-w-5xl rounded-full transition-all duration-300 ease-out flex items-center justify-between px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 ${
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className={`pointer-events-auto relative isolate w-full max-w-[94vw] sm:max-w-3xl lg:max-w-5xl h-[50px] sm:h-[54px] lg:h-[56px] rounded-full transition-all duration-300 ease-out flex items-center justify-between px-3 sm:px-4 lg:px-5 ${
           scrolled
             ? isDark
-              ? "bg-[#111111]/92 border border-white/[0.12] shadow-[0_12px_32px_-4px_rgba(0,0,0,0.65)] backdrop-blur-xl"
-              : "bg-white/92 border border-black/[0.08] shadow-[0_10px_28px_-4px_rgba(0,0,0,0.07)] backdrop-blur-xl"
+              ? "bg-[#111111]/90 border border-white/[0.14] shadow-[0_12px_32px_-4px_rgba(0,0,0,0.7)] backdrop-blur-xl"
+              : "bg-white/90 border border-black/[0.09] shadow-[0_10px_28px_-4px_rgba(0,0,0,0.08)] backdrop-blur-xl"
             : isDark
-            ? "bg-[#111111]/85 border border-white/[0.09] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.45)] backdrop-blur-lg"
-            : "bg-white/85 border border-black/[0.06] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] backdrop-blur-lg"
+            ? "bg-[#111111]/80 border border-white/[0.10] shadow-[0_8px_24px_-4px_rgba(0,0,0,0.45)] backdrop-blur-md"
+            : "bg-white/80 border border-black/[0.07] shadow-[0_8px_24px_-4px_rgba(0,0,0,0.05)] backdrop-blur-md"
         }`}
-        style={{ fontFamily: '"Times New Roman", Times, serif' }}
         aria-label="Main Navigation"
       >
-        {/* ─── 1. Brand Wordmark (TEXT ONLY, NO ICON) ─── */}
-        <div className="flex items-center shrink-0 pr-1.5 sm:pr-3">
+        {/* ─── 1. Brand Wordmark (Futuristic / Geometric Typography, Compact) ─── */}
+        <div className="flex items-center shrink-0 pr-1 sm:pr-2 lg:pr-3">
           <BrandWordmark
             size="md"
+            variant="futuristic"
             onClick={() => handleNavClick("#home")}
             ariaLabel="Resume Craft Home"
           />
         </div>
 
-        {/* ─── 2. Center Tubelight Navigation Items (Desktop & Tablet) ─── */}
-        <div className="hidden md:flex items-center gap-1 lg:gap-1.5 relative">
+        {/* ─── 2. Center Floating Navigation Items (Desktop & Tablet >= 768px) ─── */}
+        <div
+          className="hidden md:flex items-center gap-0.5 lg:gap-1 relative"
+          onMouseLeave={() => setHoveredSection(null)}
+        >
           {navLinks.map((link) => {
             const sectionId = link.href.replace("#", "");
             const isActive = activeSection === sectionId;
+            const isHovered = hoveredSection === sectionId;
             const Icon = getNavIcon(link.href);
 
             return (
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link.href)}
-                className={`relative px-3 sm:px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors duration-200 flex items-center gap-1.5 select-none cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 ${
+                onMouseEnter={() => setHoveredSection(sectionId)}
+                className={`relative px-2.5 lg:px-3 py-1.5 rounded-full text-[13px] lg:text-[14px] font-medium transition-colors duration-200 flex items-center gap-1.5 select-none cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 ${
                   isActive
                     ? isDark
                       ? "text-white font-semibold"
@@ -198,84 +218,68 @@ export default function FloatingNavbar({
                 }`}
                 aria-current={isActive ? "page" : undefined}
               >
-                <Icon className="w-3.5 h-3.5 shrink-0 opacity-80" />
-                <span>{link.label}</span>
+                <Icon className="w-3.5 h-3.5 lg:w-4 lg:h-4 shrink-0 opacity-80" />
+                <span className="whitespace-nowrap">{link.label}</span>
 
-                {/* Tubelight Lamp Active Indicator */}
+                {/* Shared Active Pill Indicator (Smooth spring transition) */}
                 {isActive && (
                   <motion.div
-                    layoutId="tubelightLamp"
-                    initial={false}
+                    layoutId="floatingNavActiveIndicator"
                     transition={
                       shouldReduceMotion
                         ? { duration: 0 }
                         : {
                             type: "spring",
-                            stiffness: 320,
-                            damping: 28,
+                            stiffness: 380,
+                            damping: 30,
                           }
                     }
                     className={`absolute inset-0 w-full rounded-full -z-10 ${
                       isDark ? "bg-white/[0.12]" : "bg-black/[0.06]"
                     }`}
-                  >
-                    {/* Small Lamp Bar at Top of Active Tab */}
-                    <div
-                      className={`absolute -top-1.5 left-1/2 -translate-x-1/2 w-8 h-1 rounded-t-full ${
-                        isDark ? "bg-white" : "bg-neutral-900"
-                      }`}
-                    >
-                      {/* Subtle Soft Glow Layers (Strictly neutral monochrome, no yellow/gold) */}
-                      <div
-                        className={`absolute w-12 h-5 rounded-full blur-md -top-2 -left-2 pointer-events-none ${
-                          isDark ? "bg-white/20" : "bg-neutral-900/15"
-                        }`}
-                      />
-                      <div
-                        className={`absolute w-8 h-4 rounded-full blur-sm -top-1 pointer-events-none ${
-                          isDark ? "bg-white/25" : "bg-neutral-900/20"
-                        }`}
-                      />
-                      <div
-                        className={`absolute w-4 h-3 rounded-full blur-xs top-0 left-2 pointer-events-none ${
-                          isDark ? "bg-white/30" : "bg-neutral-900/25"
-                        }`}
-                      />
-                    </div>
-                  </motion.div>
+                  />
+                )}
+
+                {/* Subtle Hover Backdrop when not active */}
+                {!isActive && isHovered && (
+                  <motion.div
+                    layoutId="floatingNavHoverIndicator"
+                    transition={{ duration: 0.15 }}
+                    className={`absolute inset-0 w-full rounded-full -z-10 ${
+                      isDark ? "bg-white/[0.05]" : "bg-black/[0.03]"
+                    }`}
+                  />
                 )}
               </button>
             );
           })}
         </div>
 
-        {/* ─── 3. Right Controls: Sized Theme Switcher + Auth / Profile + CTA ─── */}
+        {/* ─── 3. Right Controls: Auth / Profile + Resume CTA + Theme Switcher ─── */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {/* Theme Toggle (Cinematic Switcher, resized specifically for navbar) */}
-          <div className="flex items-center shrink-0">
-            <CinematicThemeSwitcher size="navbar" />
-          </div>
-
-          {/* Desktop Authentication & Action Buttons */}
+          {/* Desktop/Tablet Authentication & Action Buttons */}
           {isAuthenticated ? (
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-1.5 sm:gap-2">
               <ProfileDropdown
                 onNavigateToProfile={onNavigateToProfile}
                 onNavigateToDashboard={() => handleNavClick("#home")}
                 onNavigateToEditor={() => onStartBuilding()}
               />
               <button
+                id="navbar-resume-btn-auth"
                 onClick={() => onStartBuilding()}
-                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 shadow-xs transition-colors whitespace-nowrap cursor-pointer"
+                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-xs sm:text-[13px] lg:text-sm px-3 sm:px-3.5 lg:px-4 py-1.5 shadow-xs transition-colors whitespace-nowrap cursor-pointer flex items-center gap-1.5"
               >
-                Create Resume
+                <FileText className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
+                <span>Resume</span>
               </button>
             </div>
           ) : (
-            <div className="hidden sm:flex items-center gap-1.5">
+            <div className="hidden sm:flex items-center gap-1 sm:gap-1.5">
               <button
+                id="navbar-signin-btn"
                 onClick={onNavigateToLogin || (() => onStartBuilding())}
-                className={`rounded-full px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
+                className={`rounded-full px-2.5 sm:px-3 py-1.5 text-xs sm:text-[13px] font-medium transition-colors cursor-pointer flex items-center gap-1 ${
                   isDark
                     ? "text-neutral-300 hover:text-white hover:bg-white/[0.08]"
                     : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.05]"
@@ -286,18 +290,26 @@ export default function FloatingNavbar({
               </button>
 
               <button
+                id="navbar-resume-btn"
                 onClick={() => onStartBuilding()}
-                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-xs sm:text-sm px-3.5 sm:px-4 py-1.5 sm:py-2 shadow-xs transition-colors whitespace-nowrap cursor-pointer flex items-center gap-1"
+                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-xs sm:text-[13px] lg:text-sm px-3 sm:px-3.5 lg:px-4 py-1.5 shadow-xs transition-colors whitespace-nowrap cursor-pointer flex items-center gap-1.5"
               >
-                <span>Create Resume</span>
+                <FileText className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
+                <span>Resume</span>
               </button>
             </div>
           )}
 
-          {/* Mobile Menu Trigger Button (Clean, compact, no horizontal overflow) */}
+          {/* Theme Toggle (Compact navbar size, no yellow/gold) */}
+          <div className="flex items-center shrink-0">
+            <CinematicThemeSwitcher size="navbar" />
+          </div>
+
+          {/* Mobile Menu Trigger Button (Compact rounded icon button) */}
           <button
+            id="mobile-nav-toggle-btn"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`md:hidden p-1.5 sm:p-2 rounded-full border transition-colors cursor-pointer ${
+            className={`md:hidden p-1.5 sm:p-2 rounded-full border transition-colors cursor-pointer flex items-center justify-center ${
               isDark
                 ? "border-white/[0.12] text-neutral-200 hover:bg-white/[0.08]"
                 : "border-black/[0.08] text-neutral-700 hover:bg-black/[0.05]"
@@ -310,20 +322,19 @@ export default function FloatingNavbar({
         </div>
       </motion.nav>
 
-      {/* ─── Mobile Glass Dropdown Sheet (With Tubelight Style Items) ─── */}
+      {/* ─── Mobile Glass Dropdown Sheet (Ruixen UI Style) ─── */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className={`pointer-events-auto w-full max-w-5xl mt-2 rounded-2xl p-3 sm:p-4 border transition-colors shadow-2xl backdrop-blur-2xl ${
+            className={`pointer-events-auto w-[calc(100vw-24px)] max-w-sm sm:max-w-md mt-2 rounded-2xl p-3 border transition-colors shadow-2xl backdrop-blur-2xl ${
               isDark
                 ? "bg-[#111111]/95 border-white/[0.12] text-white"
                 : "bg-white/95 border-black/[0.08] text-neutral-900"
             }`}
-            style={{ fontFamily: '"Times New Roman", Times, serif' }}
           >
             <div className="flex flex-col space-y-1">
               {navLinks.map((link) => {
@@ -353,8 +364,8 @@ export default function FloatingNavbar({
                     {isActive && (
                       <div className="flex items-center gap-1.5">
                         <span
-                          className={`w-2 h-1 rounded-full ${
-                            isDark ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)]" : "bg-neutral-900 shadow-[0_0_8px_rgba(0,0,0,0.4)]"
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            isDark ? "bg-white" : "bg-neutral-900"
                           }`}
                         />
                       </div>
@@ -413,8 +424,9 @@ export default function FloatingNavbar({
                   setMobileMenuOpen(false);
                   onStartBuilding();
                 }}
-                className="w-full mt-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-medium text-sm py-2.5 px-4 shadow-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                className="w-full mt-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-medium text-sm py-2 px-4 shadow-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
+                <FileText className="w-4 h-4" />
                 <span>Create Resume</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
