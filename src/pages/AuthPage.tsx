@@ -194,7 +194,11 @@ export default function AuthPage({
         {/* Brand Header */}
         <div className="text-center mb-6">
           <div className="mb-2">
-            <BrandWordmark size="xl" />
+            <BrandWordmark
+              size="xl"
+              onClick={onBackToHome}
+              ariaLabel="Resume Craft Home"
+            />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mt-1">
             {mode === "signin" ? "Welcome Back" : "Create Your Account"}

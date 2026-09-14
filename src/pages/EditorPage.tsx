@@ -65,7 +65,12 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
               <span className="hidden sm:inline">Back</span>
             </Button>
             <div className="flex items-center">
-              <BrandWordmark size="md" className="hidden sm:inline-block" />
+              <BrandWordmark
+                size="md"
+                className="hidden sm:inline-block"
+                onClick={onBack}
+                ariaLabel="Resume Craft Home"
+              />
             </div>
           </div>
 

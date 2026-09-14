@@ -73,8 +73,8 @@ export default function StackedCircularFooter({
 
         {/* Copyright & Disclaimer */}
         <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500 dark:text-gray-400">
-          <p>
-            © {currentYear} <strong>Resume Craft</strong>. All rights reserved.
+          <p className="flex items-center gap-1">
+            © {currentYear} <span className="brand-script-text text-[15px] font-normal text-neutral-900 dark:text-neutral-100">Resume Craft</span>. All rights reserved.
           </p>
           <p className="text-[11px]">
             100% Free • ATS-Compliant • Overleaf & LaTeX Architectural Standards

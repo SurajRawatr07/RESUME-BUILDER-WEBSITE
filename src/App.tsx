@@ -65,8 +65,8 @@ function AppContent() {
         <div className="relative z-1 min-h-screen flex items-center justify-center">
           <div className="text-center">
             <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-gray-700 dark:text-gray-300 font-medium text-sm">
-              Loading Resume Craft...
+            <p className="text-gray-700 dark:text-gray-300 font-medium text-sm flex items-center justify-center gap-1.5">
+              Loading <span className="brand-script-text text-base font-normal text-neutral-900 dark:text-white">Resume Craft</span>...
             </p>
           </div>
         </div>

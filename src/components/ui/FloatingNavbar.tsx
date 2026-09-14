@@ -7,11 +7,8 @@ import {
   Sparkles,
   Menu,
   X,
-  LogIn,
-  ArrowRight,
   LogOut,
   User,
-  FileText,
   type LucideIcon,
 } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -28,7 +25,7 @@ export interface NavLinkItem {
 
 interface FloatingNavbarProps {
   navLinks: NavLinkItem[];
-  onStartBuilding: (templateId?: TemplateType) => void;
+  onStartBuilding?: (templateId?: TemplateType) => void;
   onNavigateToProfile?: () => void;
   onNavigateToLogin?: () => void;
   onScrollTo?: (id: string) => void;
@@ -70,7 +67,6 @@ export default function FloatingNavbar({
   navLinks,
   onStartBuilding,
   onNavigateToProfile,
-  onNavigateToLogin,
   onScrollTo,
 }: FloatingNavbarProps) {
   const { isDark } = useTheme();
@@ -170,7 +166,7 @@ export default function FloatingNavbar({
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
-        className={`pointer-events-auto relative isolate w-full max-w-[94vw] sm:max-w-3xl lg:max-w-5xl h-[50px] sm:h-[54px] lg:h-[56px] rounded-full transition-all duration-300 ease-out flex items-center justify-between px-3 sm:px-4 lg:px-5 ${
+        className={`pointer-events-auto relative isolate w-full max-w-[calc(100vw-24px)] xs:max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl h-[48px] sm:h-[52px] lg:h-[54px] rounded-full transition-all duration-300 ease-out flex items-center justify-between px-3.5 sm:px-4 lg:px-5 ${
           scrolled
             ? isDark
               ? "bg-[#111111]/90 border border-white/[0.14] shadow-[0_12px_32px_-4px_rgba(0,0,0,0.7)] backdrop-blur-xl"
@@ -181,11 +177,11 @@ export default function FloatingNavbar({
         }`}
         aria-label="Main Navigation"
       >
-        {/* ─── 1. Brand Wordmark (Futuristic / Geometric Typography, Compact) ─── */}
-        <div className="flex items-center shrink-0 pr-1 sm:pr-2 lg:pr-3">
+        {/* ─── 1. Brand Wordmark (Signature / Calligraphic Script Typography, Compact) ─── */}
+        <div className="flex items-center shrink-0">
           <BrandWordmark
+            id="floating-navbar-brand"
             size="md"
-            variant="futuristic"
             onClick={() => handleNavClick("#home")}
             ariaLabel="Resume Craft Home"
           />
@@ -193,7 +189,7 @@ export default function FloatingNavbar({
 
         {/* ─── 2. Center Floating Navigation Items (Desktop & Tablet >= 768px) ─── */}
         <div
-          className="hidden md:flex items-center gap-0.5 lg:gap-1 relative"
+          className="hidden md:flex items-center gap-0.5 lg:gap-1 md:absolute md:left-1/2 md:-translate-x-1/2"
           onMouseLeave={() => setHoveredSection(null)}
         >
           {navLinks.map((link) => {
@@ -255,48 +251,16 @@ export default function FloatingNavbar({
           })}
         </div>
 
-        {/* ─── 3. Right Controls: Auth / Profile + Resume CTA + Theme Switcher ─── */}
+        {/* ─── 3. Right Controls: Profile (if authenticated) + Theme Switcher + Mobile Menu Trigger ─── */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          {/* Desktop/Tablet Authentication & Action Buttons */}
-          {isAuthenticated ? (
-            <div className="hidden sm:flex items-center gap-1.5 sm:gap-2">
+          {/* Desktop/Tablet Authentication Profile Dropdown (Only if logged in) */}
+          {isAuthenticated && (
+            <div className="hidden sm:flex items-center">
               <ProfileDropdown
                 onNavigateToProfile={onNavigateToProfile}
                 onNavigateToDashboard={() => handleNavClick("#home")}
-                onNavigateToEditor={() => onStartBuilding()}
+                onNavigateToEditor={onStartBuilding}
               />
-              <button
-                id="navbar-resume-btn-auth"
-                onClick={() => onStartBuilding()}
-                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-xs sm:text-[13px] lg:text-sm px-3 sm:px-3.5 lg:px-4 py-1.5 shadow-xs transition-colors whitespace-nowrap cursor-pointer flex items-center gap-1.5"
-              >
-                <FileText className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
-                <span>Resume</span>
-              </button>
-            </div>
-          ) : (
-            <div className="hidden sm:flex items-center gap-1 sm:gap-1.5">
-              <button
-                id="navbar-signin-btn"
-                onClick={onNavigateToLogin || (() => onStartBuilding())}
-                className={`rounded-full px-2.5 sm:px-3 py-1.5 text-xs sm:text-[13px] font-medium transition-colors cursor-pointer flex items-center gap-1 ${
-                  isDark
-                    ? "text-neutral-300 hover:text-white hover:bg-white/[0.08]"
-                    : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.05]"
-                }`}
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                <span>Sign In</span>
-              </button>
-
-              <button
-                id="navbar-resume-btn"
-                onClick={() => onStartBuilding()}
-                className="rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] text-white font-medium text-xs sm:text-[13px] lg:text-sm px-3 sm:px-3.5 lg:px-4 py-1.5 shadow-xs transition-colors whitespace-nowrap cursor-pointer flex items-center gap-1.5"
-              >
-                <FileText className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
-                <span>Resume</span>
-              </button>
             </div>
           )}
 
@@ -374,62 +338,36 @@ export default function FloatingNavbar({
                 );
               })}
 
-              <div className={`my-2 h-px ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`} />
-
-              {/* Mobile Auth Actions */}
-              {isAuthenticated ? (
-                <div className="space-y-1">
-                  {onNavigateToProfile && (
+              {/* Mobile Auth Actions (Only if authenticated) */}
+              {isAuthenticated && (
+                <>
+                  <div className={`my-1.5 h-px ${isDark ? "bg-neutral-800" : "bg-neutral-100"}`} />
+                  <div className="space-y-1">
+                    {onNavigateToProfile && (
+                      <button
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          onNavigateToProfile();
+                        }}
+                        className="w-full text-left px-3.5 py-2 rounded-xl text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10 transition-colors flex items-center gap-2 cursor-pointer"
+                      >
+                        <User className="w-4 h-4" />
+                        <span>{user?.name ? `${user.name} — Profile` : "My Account Profile"}</span>
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
-                        onNavigateToProfile();
+                        logout();
                       }}
-                      className="w-full text-left px-3.5 py-2 rounded-xl text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500/10 transition-colors flex items-center gap-2 cursor-pointer"
+                      className="w-full text-left px-3.5 py-2 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2 cursor-pointer"
                     >
-                      <User className="w-4 h-4" />
-                      <span>{user?.name ? `${user.name} — Profile` : "My Account Profile"}</span>
+                      <LogOut className="w-4 h-4" />
+                      <span>Sign Out</span>
                     </button>
-                  )}
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      logout();
-                    }}
-                    className="w-full text-left px-3.5 py-2 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-2 cursor-pointer"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span>Sign Out</span>
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    if (onNavigateToLogin) onNavigateToLogin();
-                    else onStartBuilding();
-                  }}
-                  className={`text-left px-3.5 py-2 rounded-xl text-sm font-medium flex items-center gap-2 transition-colors cursor-pointer ${
-                    isDark ? "text-neutral-300 hover:bg-white/5" : "text-neutral-700 hover:bg-black/5"
-                  }`}
-                >
-                  <LogIn className="w-4 h-4" />
-                  <span>Sign In</span>
-                </button>
+                  </div>
+                </>
               )}
-
-              {/* Primary Mobile CTA Button */}
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onStartBuilding();
-                }}
-                className="w-full mt-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-medium text-sm py-2 px-4 shadow-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <FileText className="w-4 h-4" />
-                <span>Create Resume</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
             </div>
           </motion.div>
         )}

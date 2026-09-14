@@ -222,103 +222,46 @@ button, a, input, [role="button"] {
   box-shadow: 0 0 30px rgba(99, 102, 241, 0.25);
 }
 
-/* ─── Premium Resume Craft Wordmark & Luminous Glow ─── */
-@keyframes wordmark-glow-light {
-  0%, 100% {
-    text-shadow:
-      0 0 6px rgba(79, 70, 229, 0.12),
-      0 0 14px rgba(99, 102, 241, 0.06);
-  }
-  50% {
-    text-shadow:
-      0 0 10px rgba(79, 70, 229, 0.22),
-      0 0 20px rgba(99, 102, 241, 0.12);
-  }
-}
-
-@keyframes wordmark-glow-dark {
-  0%, 100% {
-    text-shadow:
-      0 0 8px rgba(129, 140, 248, 0.28),
-      0 0 16px rgba(99, 102, 241, 0.16),
-      0 0 24px rgba(99, 102, 241, 0.06);
-  }
-  50% {
-    text-shadow:
-      0 0 14px rgba(165, 180, 252, 0.42),
-      0 0 24px rgba(129, 140, 248, 0.26),
-      0 0 32px rgba(99, 102, 241, 0.12);
-  }
-}
-
-.brand-wordmark {
-  font-family: "Times New Roman", Times, serif !important;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  display: inline-block;
+/* ─── Elegant Handwritten / Calligraphic Script Brand ("Resume Craft") ─── */
+.brand-wordmark,
+.brand-script-text {
+  font-family: 'Alex Brush', 'Allura', cursive, 'Brush Script MT', -apple-system, sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal;
+  display: inline-flex;
+  align-items: center;
   white-space: nowrap;
-  transition: text-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease, transform 0.2s ease;
-  animation: wordmark-glow-light 3.5s ease-in-out infinite;
-  color: #0f172a;
+  letter-spacing: 0.015em;
+  color: inherit;
+  text-shadow: none !important;
+  animation: none !important;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.15;
 }
 
-/* ─── Futuristic Geometric Brand Wordmark for Floating Navbar ─── */
-.brand-wordmark-futuristic {
-  font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.015em !important;
-  animation: none !important;
-  text-shadow: none !important;
-  display: inline-block;
-  white-space: nowrap;
+.brand-wordmark-interactive {
+  transition: opacity 180ms ease, transform 180ms ease;
+  will-change: opacity, transform;
 }
 
-.brand-wordmark-futuristic:hover {
+.brand-wordmark-interactive:hover {
+  opacity: 0.82;
+  transform: translateY(-0.5px);
   text-shadow: none !important;
 }
 
-.dark .brand-wordmark-futuristic {
-  font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  animation: none !important;
-  text-shadow: none !important;
-}
-
-.dark .brand-wordmark-futuristic:hover {
-  text-shadow: none !important;
-}
-
-.brand-wordmark:hover {
-  text-shadow:
-    0 0 12px rgba(79, 70, 229, 0.32),
-    0 0 22px rgba(99, 102, 241, 0.18);
-}
-
-.dark .brand-wordmark {
-  animation: wordmark-glow-dark 3.5s ease-in-out infinite;
-  color: #ffffff;
-}
-
-.dark .brand-wordmark:hover {
-  text-shadow:
-    0 0 16px rgba(165, 180, 252, 0.55),
-    0 0 28px rgba(129, 140, 248, 0.38),
-    0 0 38px rgba(99, 102, 241, 0.20);
+.brand-wordmark-interactive:active {
+  opacity: 0.96;
+  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .brand-wordmark {
-    animation: none !important;
-    text-shadow:
-      0 0 8px rgba(79, 70, 229, 0.14),
-      0 0 16px rgba(99, 102, 241, 0.08) !important;
-  }
-  .dark .brand-wordmark {
-    animation: none !important;
-    text-shadow:
-      0 0 10px rgba(129, 140, 248, 0.30),
-      0 0 20px rgba(99, 102, 241, 0.16) !important;
+  .brand-wordmark-interactive,
+  .brand-wordmark-interactive:hover {
+    transition: opacity 150ms ease !important;
+    transform: none !important;
   }
 }
 

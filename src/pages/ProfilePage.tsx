@@ -144,10 +144,11 @@ export default function ProfilePage({
 
             <div className="hidden sm:flex items-center border-l border-gray-200 dark:border-gray-800 pl-3">
               <BrandWordmark
-                size="sm"
+                size="md"
                 onClick={onBackToDashboard}
+                ariaLabel="Resume Craft Home"
               />
-              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1.5 font-medium">
+              <span className="text-xs text-gray-500 dark:text-gray-400 ml-2 font-medium">
                 Profile
               </span>
             </div>

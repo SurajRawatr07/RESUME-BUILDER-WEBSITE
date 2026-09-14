@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import {
   motion,
   AnimatePresence,
@@ -161,6 +161,26 @@ const faqItems = [
   },
 ];
 
+// Helper to render "Resume Craft" with signature calligraphic typography
+const renderWithBrand = (text: string) => {
+  if (!text.includes('Resume Craft')) return text;
+  const parts = text.split('Resume Craft');
+  return (
+    <>
+      {parts.map((part, idx) => (
+        <React.Fragment key={idx}>
+          {part}
+          {idx < parts.length - 1 && (
+            <span className="brand-script-text text-[1.15em] font-normal text-neutral-900 dark:text-neutral-100">
+              Resume Craft
+            </span>
+          )}
+        </React.Fragment>
+      ))}
+    </>
+  );
+};
+
 /* ========================================
    MAIN COMPONENT
 ======================================== */
@@ -202,6 +222,19 @@ export default function LandingPage({
       ======================================== */}
       <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-20 sm:pb-28 lg:pb-32 overflow-hidden border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent">
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+          {/* Hero Brand Eyebrow Badge */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-4 inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-black/[0.08] dark:border-white/[0.12] bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xs select-none"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400" />
+            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
+              Welcome to <span className="brand-script-text text-[15px] font-normal text-neutral-900 dark:text-neutral-100">Resume Craft</span>
+            </span>
+          </motion.div>
+
           {/* Main Heading */}
           <motion.h1
             initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
@@ -438,7 +471,7 @@ export default function LandingPage({
                 isDark ? 'text-gray-400' : 'text-gray-600'
               }`}
             >
-              Clear answers to common questions about Resume Craft and our ATS templates.
+              {renderWithBrand('Clear answers to common questions about Resume Craft and our ATS templates.')}
             </p>
           </div>
 
@@ -447,13 +480,13 @@ export default function LandingPage({
               <Disclosure key={item.id} id={item.id}>
                 <DisclosureTrigger>
                   <span className="font-bold text-base sm:text-lg text-gray-900 dark:text-gray-100 pr-4 leading-snug">
-                    {item.question}
+                    {renderWithBrand(item.question)}
                   </span>
                   <DisclosureIndicator />
                 </DisclosureTrigger>
                 <DisclosurePanel>
                   <p className="text-sm sm:text-base leading-relaxed text-gray-600 dark:text-gray-300">
-                    {item.answer}
+                    {renderWithBrand(item.answer)}
                   </p>
                 </DisclosurePanel>
               </Disclosure>
