@@ -4,21 +4,21 @@ import {
   AnimatePresence,
   useReducedMotion,
 } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+
 import {
-  Zap,
-  Download,
-  Eye,
-  Layout,
-  ArrowRight,
-  Shield,
-  RefreshCw,
-  HelpCircle,
-  MousePointerClick,
-  Sparkles,
-  Smartphone,
-  LogIn,
-  UserPlus,
-} from 'lucide-react';
+  AnimatedChooseTemplateIcon,
+  AnimatedAddInfoIcon,
+  AnimatedCustomizeResumeIcon,
+  AnimatedExportIcon,
+  AnimatedTemplatesGridIcon,
+  AnimatedATSScanIcon,
+  AnimatedLiveEditIcon,
+  AnimatedPdfExportIcon,
+  AnimatedTemplateSwitchIcon,
+  AnimatedResponsiveDevicesIcon,
+  AnimatedIconProps,
+} from '@/components/icons/animated';
 
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
@@ -60,77 +60,178 @@ const navLinks = [
 const steps = [
   {
     step: '01',
-    icon: Layout,
+    icon: AnimatedChooseTemplateIcon,
     title: 'Choose a Template',
     desc: 'Select a professional resume format designed for your career path.',
   },
   {
     step: '02',
-    icon: MousePointerClick,
+    icon: AnimatedAddInfoIcon,
     title: 'Add Your Information',
     desc: 'Enter your education, experience, skills, projects and other relevant information.',
   },
   {
     step: '03',
-    icon: Eye,
+    icon: AnimatedCustomizeResumeIcon,
     title: 'Customize Your Resume',
     desc: 'Edit sections and adjust your content while keeping the professional document structure.',
   },
   {
     step: '04',
-    icon: Download,
+    icon: AnimatedExportIcon,
     title: 'Export',
     desc: 'Generate your final resume as a clean, print-ready PDF.',
   },
 ];
+
+interface StepCardItemProps {
+  step: (typeof steps)[number];
+  isDark: boolean;
+}
+
+const StepCardItem: React.FC<StepCardItemProps> = ({ step, isDark }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const Icon = step.icon;
+
+  return (
+    <GlowingShadow
+      variant="subtle"
+      rounded="rounded-2xl"
+      className="h-full"
+    >
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`h-full p-6 rounded-2xl border transition-all ${
+          isDark
+            ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
+            : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
+        }`}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center transition-colors">
+            <Icon
+              isHovered={isHovered}
+              className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8"
+            />
+          </div>
+          <span className="text-2xl font-black text-gray-300 dark:text-gray-700 select-none">
+            {step.step}
+          </span>
+        </div>
+
+        <h3 className="text-base font-bold mb-2 text-gray-900 dark:text-white">
+          {step.title}
+        </h3>
+
+        <p
+          className={`text-xs sm:text-sm leading-relaxed ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}
+        >
+          {step.desc}
+        </p>
+      </div>
+    </GlowingShadow>
+  );
+};
 
 /* ========================================
    FEATURES (6 Core Features)
 ======================================== */
 const features = [
   {
-    icon: Layout,
+    icon: AnimatedTemplatesGridIcon,
     title: 'Professional Templates',
     desc: 'Real resume structures designed for different career paths.',
     accent: 'text-indigo-600 dark:text-indigo-400',
     bg: 'bg-indigo-50 dark:bg-indigo-950/50',
   },
   {
-    icon: Zap,
+    icon: AnimatedATSScanIcon,
     title: 'ATS-Friendly Structure',
     desc: 'Clean semantic formatting designed to remain readable by applicant tracking systems.',
     accent: 'text-emerald-600 dark:text-emerald-400',
     bg: 'bg-emerald-50 dark:bg-emerald-950/50',
   },
   {
-    icon: Eye,
+    icon: AnimatedLiveEditIcon,
     title: 'Live Resume Editing',
     desc: 'Update resume information and see changes immediately.',
     accent: 'text-purple-600 dark:text-purple-400',
     bg: 'bg-purple-50 dark:bg-purple-950/50',
   },
   {
-    icon: Download,
+    icon: AnimatedPdfExportIcon,
     title: 'PDF Export',
     desc: 'Generate a clean printable PDF.',
     accent: 'text-blue-600 dark:text-blue-400',
     bg: 'bg-blue-50 dark:bg-blue-950/50',
   },
   {
-    icon: RefreshCw,
+    icon: AnimatedTemplateSwitchIcon,
     title: 'Template Switching',
     desc: 'Change resume templates without losing your entered information.',
     accent: 'text-teal-600 dark:text-teal-400',
     bg: 'bg-teal-50 dark:bg-teal-950/50',
   },
   {
-    icon: Smartphone,
+    icon: AnimatedResponsiveDevicesIcon,
     title: 'Responsive Experience',
     desc: 'Create and manage resumes across desktop, tablet and mobile.',
     accent: 'text-rose-600 dark:text-rose-400',
     bg: 'bg-rose-50 dark:bg-rose-950/50',
   },
 ];
+
+interface FeatureCardItemProps {
+  feature: (typeof features)[number];
+  isDark: boolean;
+}
+
+const FeatureCardItem: React.FC<FeatureCardItemProps> = ({ feature, isDark }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const Icon = feature.icon;
+
+  return (
+    <GlowingShadow
+      variant="subtle"
+      rounded="rounded-2xl"
+      className="h-full"
+    >
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`h-full p-6 sm:p-7 rounded-2xl border transition-all ${
+          isDark
+            ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
+            : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
+        }`}
+      >
+        <div
+          className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors ${feature.bg} ${feature.accent}`}
+        >
+          <Icon
+            isHovered={isHovered}
+            className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8"
+          />
+        </div>
+
+        <h3 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white">
+          {feature.title}
+        </h3>
+
+        <p
+          className={`text-xs sm:text-sm leading-relaxed ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}
+        >
+          {feature.desc}
+        </p>
+      </div>
+    </GlowingShadow>
+  );
+};
 
 /* ========================================
    FAQ (Exactly 4 Requested Questions & Answers)
@@ -319,46 +420,13 @@ export default function LandingPage({
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((step) => {
-              const Icon = step.icon;
-              return (
-                <GlowingShadow
-                  key={step.step}
-                  variant="subtle"
-                  rounded="rounded-2xl"
-                  className="h-full"
-                >
-                  <div
-                    className={`h-full p-6 rounded-2xl border transition-all ${
-                      isDark
-                        ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
-                        : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <span className="text-2xl font-black text-gray-300 dark:text-gray-700">
-                        {step.step}
-                      </span>
-                    </div>
-
-                    <h3 className="text-base font-bold mb-2 text-gray-900 dark:text-white">
-                      {step.title}
-                    </h3>
-
-                    <p
-                      className={`text-xs sm:text-sm leading-relaxed ${
-                        isDark ? 'text-gray-400' : 'text-gray-600'
-                      }`}
-                    >
-                      {step.desc}
-                    </p>
-                  </div>
-                </GlowingShadow>
-              );
-            })}
+            {steps.map((step) => (
+              <StepCardItem
+                key={step.step}
+                step={step}
+                isDark={isDark}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -416,43 +484,13 @@ export default function LandingPage({
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature) => {
-              const Icon = feature.icon;
-              return (
-                <GlowingShadow
-                  key={feature.title}
-                  variant="subtle"
-                  rounded="rounded-2xl"
-                  className="h-full"
-                >
-                  <div
-                    className={`h-full p-6 sm:p-7 rounded-2xl border transition-all ${
-                      isDark
-                        ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
-                        : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
-                    }`}
-                  >
-                    <div
-                      className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 ${feature.bg} ${feature.accent}`}
-                    >
-                      <Icon className="w-5 h-5" />
-                    </div>
-
-                    <h3 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white">
-                      {feature.title}
-                    </h3>
-
-                    <p
-                      className={`text-xs sm:text-sm leading-relaxed ${
-                        isDark ? 'text-gray-400' : 'text-gray-600'
-                      }`}
-                    >
-                      {feature.desc}
-                    </p>
-                  </div>
-                </GlowingShadow>
-              );
-            })}
+            {features.map((feature) => (
+              <FeatureCardItem
+                key={feature.title}
+                feature={feature}
+                isDark={isDark}
+              />
+            ))}
           </div>
         </div>
       </section>
