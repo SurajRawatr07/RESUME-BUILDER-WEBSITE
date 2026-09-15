@@ -91,10 +91,10 @@ export default function ProfileDropdown({
         aria-expanded={isOpen}
         aria-haspopup="menu"
         aria-label={`User profile for ${user.name}`}
-        className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-full border border-neutral-200/80 dark:border-neutral-700/80 bg-neutral-100/60 dark:bg-neutral-800/60 hover:bg-neutral-200/70 dark:hover:bg-neutral-700/70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 shadow-xs cursor-pointer select-none shrink-0"
+        className="flex items-center gap-2 pl-1 pr-2.5 py-1 rounded-full border border-neutral-200/80 dark:border-neutral-700/80 bg-neutral-100/60 dark:bg-neutral-800/60 hover:bg-neutral-200/70 dark:hover:bg-neutral-700/70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 shadow-xs cursor-pointer select-none shrink-0"
       >
-        {/* Avatar / Initials (32–36px) */}
-        <div className="w-[32px] h-[32px] sm:w-[34px] sm:h-[34px] rounded-full overflow-hidden flex items-center justify-center font-bold text-xs bg-gradient-to-tr from-indigo-700 to-indigo-900 text-white shadow-xs shrink-0">
+        {/* Avatar / Initials (32px compact) */}
+        <div className="w-[32px] h-[32px] rounded-full overflow-hidden flex items-center justify-center font-bold text-xs bg-gradient-to-tr from-indigo-700 to-indigo-900 text-white shadow-xs shrink-0">
           {user.avatar ? (
             <img
               src={user.avatar}
@@ -107,8 +107,8 @@ export default function ProfileDropdown({
           )}
         </div>
 
-        {/* User Name (13–15px, compact & graceful truncation) */}
-        <span className="inline-block text-[13px] sm:text-[13.5px] lg:text-[14px] font-medium text-neutral-800 dark:text-neutral-200 max-w-[80px] md:max-w-[100px] lg:max-w-[125px] truncate whitespace-nowrap">
+        {/* User Name (13–14px, compact & graceful truncation) */}
+        <span className="inline-block text-[13px] md:text-[13.5px] font-medium text-neutral-800 dark:text-neutral-200 max-w-[80px] md:max-w-[95px] lg:max-w-[110px] truncate whitespace-nowrap">
           {user.name}
         </span>
 

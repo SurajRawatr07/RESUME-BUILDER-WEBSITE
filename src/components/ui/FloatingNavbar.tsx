@@ -163,7 +163,7 @@ export default function FloatingNavbar({
   return (
     <header
       ref={navRef}
-      className="fixed top-3 sm:top-4 lg:top-5 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-4 md:px-6 pointer-events-none"
+      className="fixed top-3 sm:top-4 lg:top-5 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-4 pointer-events-none"
     >
       {/* ─── Floating Nav Pill Bar ─── */}
       <motion.nav
@@ -171,7 +171,7 @@ export default function FloatingNavbar({
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
-        className={`pointer-events-auto relative isolate w-[calc(100%-24px)] md:w-[min(96vw,1200px)] max-w-[1200px] h-[50px] sm:h-[52px] lg:h-[56px] rounded-full transition-all duration-300 ease-out flex items-center justify-between px-3 sm:px-4 md:px-5 lg:px-6 ${
+        className={`pointer-events-auto relative isolate w-[calc(100%-24px)] max-w-md md:w-fit md:max-w-[96vw] h-[48px] sm:h-[50px] lg:h-[52px] rounded-full transition-all duration-300 ease-out flex items-center px-3 sm:px-3.5 lg:px-4 ${
           scrolled
             ? isDark
               ? "bg-[#111111]/92 border border-white/[0.14] shadow-[0_12px_32px_-4px_rgba(0,0,0,0.7)] backdrop-blur-xl"
@@ -182,10 +182,50 @@ export default function FloatingNavbar({
         }`}
         aria-label="Main Navigation"
       >
-        {/* ─── Left Group: Brand Wordmark + Desktop Nav Items ─── */}
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-3.5 lg:gap-6 shrink-0 min-w-0">
-          {/* 1. Brand Wordmark (Handwritten / Script Brand Typography) */}
+        {/* ─── MOBILE VIEW (< 768px): [Resume Craft] [Theme] [Menu] ─── */}
+        <div className="flex md:hidden items-center justify-between w-full">
+          {/* Brand Wordmark */}
           <div className="flex items-center shrink-0">
+            <BrandWordmark
+              id="floating-navbar-brand-mobile"
+              size="md"
+              onClick={() => handleNavClick("#home")}
+              ariaLabel="Resume Craft Home"
+            />
+          </div>
+
+          {/* Right Mobile Actions: [Theme] [Menu] */}
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center shrink-0">
+              <CinematicThemeSwitcher size="navbar" />
+            </div>
+
+            <button
+              id="mobile-nav-toggle-btn"
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`p-1.5 rounded-full border transition-colors cursor-pointer flex items-center justify-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 ${
+                isDark
+                  ? "border-white/[0.12] text-neutral-200 hover:bg-white/[0.08]"
+                  : "border-black/[0.08] text-neutral-700 hover:bg-black/[0.05]"
+              }`}
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav-menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-4 h-4 shrink-0" aria-hidden="true" />
+              ) : (
+                <Menu className="w-4 h-4 shrink-0" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* ─── DESKTOP & TABLET VIEW (>= 768px): Compact cohesive floating pill ─── */}
+        <div className="hidden md:flex items-center shrink-0">
+          {/* 1. Brand Wordmark (Brand → first nav item: 18–24px) */}
+          <div className="flex items-center shrink-0 mr-4.5 lg:mr-5.5">
             <BrandWordmark
               id="floating-navbar-brand"
               size="md"
@@ -194,9 +234,9 @@ export default function FloatingNavbar({
             />
           </div>
 
-          {/* 2. Desktop Navigation Items (Tablet & Desktop >= 768px: Icon + Text ALWAYS visible) */}
+          {/* 2. Desktop Navigation Items: 6–12px gap, 10–14px horizontal padding */}
           <div
-            className="hidden md:flex items-center gap-1 lg:gap-1.5 shrink-0"
+            className="flex items-center gap-1.5 lg:gap-2 shrink-0"
             onMouseLeave={() => setHoveredSection(null)}
           >
             {navLinks.map((link) => {
@@ -204,6 +244,7 @@ export default function FloatingNavbar({
               const isActive = activeSection === sectionId;
               const isHovered = hoveredSection === sectionId;
               const Icon = getNavIcon(link.href);
+              const isHowItWorks = sectionId === "how-it-works";
 
               return (
                 <button
@@ -212,7 +253,9 @@ export default function FloatingNavbar({
                   type="button"
                   onClick={() => handleNavClick(link.href)}
                   onMouseEnter={() => setHoveredSection(sectionId)}
-                  className={`relative px-2 sm:px-2.5 lg:px-3.5 py-1.5 rounded-full text-[13px] lg:text-[14px] font-medium transition-colors duration-150 flex items-center gap-1.5 select-none cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 whitespace-nowrap shrink-0 ${
+                  className={`relative ${
+                    isHowItWorks ? "px-3 lg:px-3.5" : "px-2.5 lg:px-3"
+                  } py-1.5 rounded-full text-[13px] lg:text-[13.5px] font-medium transition-colors duration-150 flex items-center gap-1.5 select-none cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 whitespace-nowrap shrink-0 ${
                     isActive
                       ? isDark
                         ? "text-white font-semibold"
@@ -226,7 +269,7 @@ export default function FloatingNavbar({
                   <Icon className="w-3.5 h-3.5 lg:w-4 lg:h-4 shrink-0 opacity-80" aria-hidden="true" />
                   <span className="whitespace-nowrap leading-none">{link.label}</span>
 
-                  {/* Shared Active Pill Indicator (Smooth spring transition) */}
+                  {/* Shared Active Pill Indicator */}
                   {isActive && (
                     <motion.div
                       layoutId="floatingNavActiveIndicator"
@@ -259,46 +302,25 @@ export default function FloatingNavbar({
               );
             })}
           </div>
-        </div>
 
-        {/* ─── Right Group: [Profile] [Theme] [Mobile Menu Button (md:hidden)] ─── */}
-        <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-3 shrink-0 ml-auto pl-2">
-          {/* Desktop/Tablet Profile Dropdown (Only shown when authenticated) */}
-          {isAuthenticated && (
-            <div className="hidden md:flex items-center shrink-0">
-              <ProfileDropdown
-                onNavigateToProfile={onNavigateToProfile}
-                onNavigateToDashboard={onNavigateToDashboard || (() => handleNavClick("#home"))}
-                onNavigateToEditor={onStartBuilding}
-              />
-            </div>
-          )}
-
-          {/* Theme Toggle (Always visible in all viewports, clean and compact) */}
-          <div className="flex items-center shrink-0">
-            <CinematicThemeSwitcher size="navbar" />
-          </div>
-
-          {/* Mobile Menu Hamburger Button (Visible only on < 768px) */}
-          <button
-            id="mobile-nav-toggle-btn"
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`md:hidden p-1.5 sm:p-2 rounded-full border transition-colors cursor-pointer flex items-center justify-center shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 ${
-              isDark
-                ? "border-white/[0.12] text-neutral-200 hover:bg-white/[0.08]"
-                : "border-black/[0.08] text-neutral-700 hover:bg-black/[0.05]"
-            }`}
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-nav-menu"
-          >
-            {mobileMenuOpen ? (
-              <X className="w-4 h-4 shrink-0" aria-hidden="true" />
-            ) : (
-              <Menu className="w-4 h-4 shrink-0" aria-hidden="true" />
+          {/* 3. Controls Group: [Profile] (gap: 6-10px) [Theme] */}
+          <div className="flex items-center shrink-0 ml-3 lg:ml-4 gap-2 lg:gap-2.5">
+            {/* Desktop/Tablet Profile Dropdown (Only shown when authenticated) */}
+            {isAuthenticated && (
+              <div className="flex items-center shrink-0">
+                <ProfileDropdown
+                  onNavigateToProfile={onNavigateToProfile}
+                  onNavigateToDashboard={onNavigateToDashboard || (() => handleNavClick("#home"))}
+                  onNavigateToEditor={onStartBuilding}
+                />
+              </div>
             )}
-          </button>
+
+            {/* Theme Toggle (Always visible, 6–10px away from profile) */}
+            <div className="flex items-center shrink-0">
+              <CinematicThemeSwitcher size="navbar" />
+            </div>
+          </div>
         </div>
       </motion.nav>
 
