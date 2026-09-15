@@ -1,15 +1,17 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { TemplateDefinition } from '../templates/registry';
 import { getDemoDataForTemplate } from '@/data/demoResumeData';
+import { ResumeData } from '@/types/resume';
 
 interface TemplateMiniPreviewProps {
   template: TemplateDefinition;
+  liveData?: ResumeData;
 }
 
-export const TemplateMiniPreview: React.FC<TemplateMiniPreviewProps> = ({ template }) => {
+export const TemplateMiniPreview: React.FC<TemplateMiniPreviewProps> = ({ template, liveData }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0.35);
-  const demoData = getDemoDataForTemplate(template.id);
+  const dataToRender = (liveData && (liveData.fullName || liveData.skills?.length)) ? liveData : getDemoDataForTemplate(template.id);
   const Component = template.component;
 
   useEffect(() => {
@@ -46,7 +48,7 @@ export const TemplateMiniPreview: React.FC<TemplateMiniPreviewProps> = ({ templa
           backgroundColor: '#ffffff',
         }}
       >
-        <Component data={demoData} />
+        <Component data={dataToRender} />
       </div>
 
       {/* Subtle bottom role badge */}

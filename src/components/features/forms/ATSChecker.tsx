@@ -26,10 +26,11 @@ import {
 
 interface ATSCheckerProps {
   resumeData: ResumeData;
-  onClose: () => void;
+  onClose?: () => void;
+  isInline?: boolean;
 }
 
-export default function ATSChecker({ resumeData, onClose }: ATSCheckerProps) {
+export default function ATSChecker({ resumeData, onClose, isInline = false }: ATSCheckerProps) {
   const [targetRole, setTargetRole] = useState('Full Stack Developer');
   const [jobDescription, setJobDescription] = useState('');
   const [activeTab, setActiveTab] = useState<'overview' | 'sections' | 'keywords'>('overview');
@@ -42,10 +43,10 @@ export default function ATSChecker({ resumeData, onClose }: ATSCheckerProps) {
 
   const roles = Object.keys(ROLE_KEYWORD_DICTIONARIES);
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
-      <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 shadow-2xl overflow-hidden my-auto">
-        {/* Modal Header */}
+  const content = (
+    <div className={`relative w-full ${isInline ? '' : 'max-w-4xl max-h-[92vh] flex flex-col rounded-2xl bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-800 shadow-2xl overflow-hidden my-auto'}`}>
+      {/* Modal Header (Only shown when not inline) */}
+      {!isInline && (
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-gray-800 bg-slate-50/80 dark:bg-gray-950/80">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-md">
@@ -66,13 +67,16 @@ export default function ATSChecker({ resumeData, onClose }: ATSCheckerProps) {
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
+      )}
 
         {/* Role Configuration Bar */}
         <div className="p-4 sm:px-6 bg-indigo-50/40 dark:bg-indigo-950/20 border-b border-indigo-100 dark:border-indigo-950/40 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
@@ -320,16 +324,29 @@ export default function ATSChecker({ resumeData, onClose }: ATSCheckerProps) {
           )}
         </div>
 
-        {/* Modal Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 dark:border-gray-800 bg-slate-50/80 dark:bg-gray-950/80">
-          <span className="text-xs text-slate-500 dark:text-gray-400">
-            Updates in real-time as you refine your resume sections.
-          </span>
-          <Button onClick={onClose} size="sm" className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
-            Done
-          </Button>
-        </div>
+        {/* Modal Footer (Only shown when not inline) */}
+        {!isInline && (
+          <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 dark:border-gray-800 bg-slate-50/80 dark:bg-gray-950/80">
+            <span className="text-xs text-slate-500 dark:text-gray-400">
+              Updates in real-time as you refine your resume sections.
+            </span>
+            {onClose && (
+              <Button onClick={onClose} size="sm" className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
+                Done
+              </Button>
+            )}
+          </div>
+        )}
       </div>
+  );
+
+  if (isInline) {
+    return content;
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+      {content}
     </div>
   );
 }
