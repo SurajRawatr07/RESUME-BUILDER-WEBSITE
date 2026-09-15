@@ -7,12 +7,13 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import LandingPage from './pages/LandingPage';
 import EditorPage from './pages/EditorPage';
 import ProfilePage from './pages/ProfilePage';
+import DashboardPage from './pages/DashboardPage';
 import FloatingPathsBackground from './components/ui/floating-paths-background';
 import { useState, useEffect } from 'react';
 import { useResumeStore } from './stores/resumeStore';
 import { TemplateType } from './types/resume';
 
-type Page = 'landing' | 'editor' | 'profile' | 'login' | 'signup' | 'forgot-password';
+type Page = 'landing' | 'editor' | 'profile' | 'dashboard' | 'login' | 'signup' | 'forgot-password';
 
 function AppContent() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -20,7 +21,7 @@ function AppContent() {
 
   // Landing page is public by default!
   const [currentPage, setCurrentPage] = useState<Page>('landing');
-  const [postLoginDestination, setPostLoginDestination] = useState<Page>('editor');
+  const [postLoginDestination, setPostLoginDestination] = useState<Page>('dashboard');
 
   // Handle protected actions for unauthenticated visitors
   const handleStartBuilding = (templateId?: TemplateType) => {
@@ -45,6 +46,15 @@ function AppContent() {
     }
   };
 
+  const handleNavigateToDashboard = () => {
+    if (!isAuthenticated) {
+      setPostLoginDestination('dashboard');
+      setCurrentPage('login');
+    } else {
+      setCurrentPage('dashboard');
+    }
+  };
+
   const handleLoginSuccess = () => {
     setCurrentPage(postLoginDestination);
   };
@@ -52,7 +62,7 @@ function AppContent() {
   // If user signs out while on protected pages, return to public landing page
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      if (currentPage === 'editor' || currentPage === 'profile') {
+      if (currentPage === 'editor' || currentPage === 'profile' || currentPage === 'dashboard') {
         setCurrentPage('landing');
       }
     }
@@ -107,6 +117,26 @@ function AppContent() {
     }
 
     // Protected Pages (requires authentication)
+    if (currentPage === 'dashboard') {
+      if (!isAuthenticated) {
+        return (
+          <LoginPage
+            onLoginSuccess={() => setCurrentPage('dashboard')}
+            onNavigateToSignup={() => setCurrentPage('signup')}
+            onNavigateToForgotPassword={() => setCurrentPage('forgot-password')}
+            onBackToHome={() => setCurrentPage('landing')}
+          />
+        );
+      }
+      return (
+        <DashboardPage
+          onNavigateToEditor={(resumeId) => setCurrentPage('editor')}
+          onNavigateToProfile={() => setCurrentPage('profile')}
+          onBackToHome={() => setCurrentPage('landing')}
+        />
+      );
+    }
+
     if (currentPage === 'editor') {
       if (!isAuthenticated) {
         return (
@@ -119,7 +149,7 @@ function AppContent() {
       }
       return (
         <EditorPage
-          onBack={() => setCurrentPage('landing')}
+          onBack={() => setCurrentPage('dashboard')}
           onNavigateToProfile={() => setCurrentPage('profile')}
         />
       );
@@ -137,7 +167,7 @@ function AppContent() {
       }
       return (
         <ProfilePage
-          onBackToDashboard={() => setCurrentPage('landing')}
+          onBackToDashboard={() => setCurrentPage('dashboard')}
           onNavigateToEditor={() => setCurrentPage('editor')}
         />
       );
@@ -147,9 +177,10 @@ function AppContent() {
     return (
       <LandingPage
         onStartBuilding={handleStartBuilding}
+        onNavigateToDashboard={handleNavigateToDashboard}
         onNavigateToProfile={handleNavigateToProfile}
         onNavigateToLogin={() => {
-          setPostLoginDestination('editor');
+          setPostLoginDestination('dashboard');
           setCurrentPage('login');
         }}
       />

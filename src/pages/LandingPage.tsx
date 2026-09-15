@@ -38,6 +38,7 @@ import { TemplateType } from '@/types/resume';
 
 interface LandingPageProps {
   onStartBuilding: (templateId?: TemplateType) => void;
+  onNavigateToDashboard?: () => void;
   onNavigateToProfile?: () => void;
   onNavigateToLogin?: () => void;
 }
@@ -186,6 +187,7 @@ const renderWithBrand = (text: string) => {
 ======================================== */
 export default function LandingPage({
   onStartBuilding,
+  onNavigateToDashboard,
   onNavigateToProfile,
   onNavigateToLogin,
 }: LandingPageProps) {
@@ -212,6 +214,7 @@ export default function LandingPage({
       <FloatingNavbar
         navLinks={navLinks}
         onStartBuilding={onStartBuilding}
+        onNavigateToDashboard={onNavigateToDashboard}
         onNavigateToProfile={onNavigateToProfile}
         onNavigateToLogin={onNavigateToLogin}
         onScrollTo={scrollTo}

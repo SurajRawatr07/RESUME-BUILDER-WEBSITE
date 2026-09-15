@@ -26,6 +26,7 @@ export interface NavLinkItem {
 interface FloatingNavbarProps {
   navLinks: NavLinkItem[];
   onStartBuilding?: (templateId?: TemplateType) => void;
+  onNavigateToDashboard?: () => void;
   onNavigateToProfile?: () => void;
   onNavigateToLogin?: () => void;
   onScrollTo?: (id: string) => void;
@@ -66,6 +67,7 @@ const getNavIcon = (href: string): LucideIcon => {
 export default function FloatingNavbar({
   navLinks,
   onStartBuilding,
+  onNavigateToDashboard,
   onNavigateToProfile,
   onScrollTo,
 }: FloatingNavbarProps) {
@@ -258,7 +260,7 @@ export default function FloatingNavbar({
             <div className="hidden sm:flex items-center">
               <ProfileDropdown
                 onNavigateToProfile={onNavigateToProfile}
-                onNavigateToDashboard={() => handleNavClick("#home")}
+                onNavigateToDashboard={onNavigateToDashboard || (() => handleNavClick("#home"))}
                 onNavigateToEditor={onStartBuilding}
               />
             </div>

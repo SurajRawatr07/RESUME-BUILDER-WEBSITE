@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Download, Eye, EyeOff, User, LogOut, FileCheck, Layout, FileText, Sun, Moon, FileDown, Printer } from 'lucide-react';
+import { ArrowLeft, Download, Eye, EyeOff, User, LogOut, FileCheck, Layout, FileText, Sun, Moon, FileDown, Printer, Sparkles, Check, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useResumeStore } from '@/stores/resumeStore';
 import { useAuth } from '@/hooks/useAuth';
@@ -23,7 +23,14 @@ interface EditorPageProps {
 export default function EditorPage({ onBack, onNavigateToProfile }: EditorPageProps) {
   const { logout } = useAuth();
   const { isDark } = useTheme();
-  const resumeData = useResumeStore(state => state.resumeData);
+  const {
+    resumeData,
+    atsScore,
+    isSaving,
+    saveCurrentResume,
+    currentResumeTitle,
+    setCurrentResumeTitle,
+  } = useResumeStore();
   const [showPreview, setShowPreview] = useState(true);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const [showATSChecker, setShowATSChecker] = useState(false);
@@ -64,18 +71,67 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
               <ArrowLeft className="w-4 h-4 mr-1.5" />
               <span className="hidden sm:inline">Back</span>
             </Button>
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
               <BrandWordmark
                 size="md"
                 className="hidden sm:inline-block"
                 onClick={onBack}
                 ariaLabel="Resume Craft Home"
               />
+              <input
+                type="text"
+                value={currentResumeTitle}
+                onChange={(e) => setCurrentResumeTitle(e.target.value)}
+                placeholder="Resume Title"
+                className={`hidden md:inline-block max-w-[180px] px-2.5 py-1 text-xs font-semibold rounded-lg border bg-transparent truncate focus:outline-none focus:ring-1 focus:ring-indigo-500 ${
+                  isDark ? 'border-gray-800 text-gray-200' : 'border-slate-200 text-slate-800'
+                }`}
+              />
             </div>
           </div>
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Auto-Save & Manual Save Status Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => saveCurrentResume()}
+              disabled={isSaving}
+              className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-xl ${
+                isDark ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-slate-100 text-slate-600'
+              }`}
+            >
+              {isSaving ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-500" />
+                  <span className="hidden md:inline">Saving...</span>
+                </>
+              ) : (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-500" />
+                  <span className="hidden md:inline">Saved</span>
+                </>
+              )}
+            </Button>
+
+            {/* Live ATS Score Pill */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowATSChecker(true)}
+              className={`flex items-center gap-1.5 rounded-xl font-bold text-xs transition-all ${
+                atsScore >= 80
+                  ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400'
+                  : atsScore >= 60
+                  ? 'border-indigo-200 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400'
+                  : 'border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>ATS {atsScore}</span>
+            </Button>
+
             <ThemeToggle />
 
             <ProfileDropdown
@@ -83,16 +139,6 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
               onNavigateToDashboard={onBack}
               onNavigateToEditor={() => {}}
             />
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowATSChecker(true)}
-              className={`hidden md:flex items-center gap-1.5 rounded-xl transition-all ${isDark ? 'border-gray-600 text-gray-300 hover:bg-gray-800 hover:border-green-500 hover:text-green-400' : 'border-green-200 hover:bg-green-50 hover:text-green-700 hover:border-green-300'}`}
-            >
-              <FileCheck className="w-4 h-4" />
-              <span className="hidden lg:inline">ATS Check</span>
-            </Button>
 
             <Button
               variant="outline"
