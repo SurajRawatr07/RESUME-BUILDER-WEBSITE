@@ -2,6 +2,10 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { AnimatedIconProps } from './types';
 
+/**
+ * Line MD style: Animated Live Resume Edit Icon
+ * Pure monoline black SVG with real-time pencil stroke drawing and active line drafting.
+ */
 export const AnimatedLiveEditIcon: React.FC<AnimatedIconProps> = ({
   isHovered = false,
   className = 'w-7 h-7 sm:w-8 sm:h-8',
@@ -10,6 +14,11 @@ export const AnimatedLiveEditIcon: React.FC<AnimatedIconProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const active = isHovered && !shouldReduceMotion;
 
+  const transition = {
+    duration: 0.65,
+    ease: [0.25, 1, 0.5, 1],
+  };
+
   return (
     <svg
       viewBox="0 0 24 24"
@@ -17,74 +26,111 @@ export const AnimatedLiveEditIcon: React.FC<AnimatedIconProps> = ({
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.8}
+      strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className}
+      className={`text-[#111111] dark:text-neutral-100 ${className}`}
       aria-hidden="true"
     >
-      {/* Editor Screen / Canvas */}
-      <motion.rect
-        x="3"
-        y="3"
-        width="18"
-        height="18"
-        rx="2.5"
-        animate={{
-          strokeOpacity: active ? [0.8, 1, 0.8] : 0.85,
-        }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
-      />
-
-      {/* Static Header Line */}
-      <line x1="6.5" y1="7.5" x2="13.5" y2="7.5" opacity="0.85" />
-
-      {/* Static Body Line */}
-      <line x1="6.5" y1="11.5" x2="17.5" y2="11.5" opacity="0.85" />
-
-      {/* Dynamic Typing Line */}
-      <motion.line
-        x1="6.5"
-        y1="15.5"
-        x2="11"
-        y2="15.5"
-        animate={{
-          x2: active ? [9.5, 14, 11] : 11,
-          opacity: active ? [0.6, 1, 0.85] : 0.85,
-        }}
-        transition={{ duration: 0.7, ease: 'easeInOut' }}
-      />
-
-      {/* Live Text Blinking Cursor */}
-      <motion.line
-        x1="11.5"
-        y1="14"
-        x2="11.5"
-        y2="17"
-        strokeWidth={2}
-        animate={{
-          x: active ? [0, 3, 0] : 0,
-          opacity: active ? [1, 0.2, 1, 0.3, 1] : [1, 0.4, 1],
-        }}
-        transition={{
-          duration: 0.7,
-          ease: 'easeInOut',
-        }}
-      />
-
-      {/* Live Sparkle / Instant Edit Star (Top Right) */}
+      {/* Document Base Sheet */}
       <motion.path
-        d="M 16.5 4.5 L 17 6 L 18.5 6.5 L 17 7 L 16.5 8.5 L 16 7 L 14.5 6.5 L 16 6 Z"
-        fill="currentColor"
-        fillOpacity="0.2"
-        strokeWidth={1.2}
-        animate={{
-          scale: active ? [1, 1.25, 1] : 1,
-          rotate: active ? [0, 45, 0] : 0,
-        }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
-        style={{ transformOrigin: '16.5px 6.5px' }}
+        d="M 11 4 L 5 4 C 4.4 4 4 4.4 4 5 L 4 19 C 4 19.6 4.4 20 5 20 L 17 20 C 17.6 20 18 19.6 18 19 L 18 13"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.3, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={transition}
       />
+
+      {/* Static Document Text Lines */}
+      <motion.line
+        x1="7"
+        y1="16"
+        x2="13"
+        y2="16"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.15 }}
+      />
+      <motion.line
+        x1="7"
+        y1="12.5"
+        x2="11"
+        y2="12.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.22 }}
+      />
+
+      {/* Live Edited Text Line (Draws from Left to Right) */}
+      <motion.line
+        x1="7"
+        y1="9"
+        x2="12.5"
+        y2="9"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1], delay: 0.28 }}
+      />
+
+      {/* Typing Cursor */}
+      <motion.line
+        x1="13.5"
+        y1="7.5"
+        x2="13.5"
+        y2="10.5"
+        animate={
+          active
+            ? { opacity: [1, 0, 1, 0, 1] }
+            : { opacity: 1 }
+        }
+        transition={{ duration: 0.7, delay: 0.3 }}
+      />
+
+      {/* Precision Drafting Stylus / Pencil */}
+      <motion.g
+        animate={
+          active
+            ? {
+                x: [0, -1, 1, 0],
+                y: [0, 1, -1, 0],
+              }
+            : { x: 0, y: 0 }
+        }
+        transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
+      >
+        <motion.path
+          d="M 13.5 6.5 L 18 2 L 22 6 L 17.5 10.5 L 13 11 L 13.5 6.5 Z"
+          animate={
+            active
+              ? { pathLength: [0, 1], opacity: [0.2, 1] }
+              : { pathLength: 1, opacity: 1 }
+          }
+          transition={{ ...transition, delay: 0.1 }}
+        />
+        <motion.line
+          x1="16.5"
+          y1="3.5"
+          x2="20.5"
+          y2="7.5"
+          animate={
+            active
+              ? { pathLength: [0, 1], opacity: [0.2, 1] }
+              : { pathLength: 1, opacity: 1 }
+          }
+          transition={{ ...transition, delay: 0.2 }}
+        />
+      </motion.g>
     </svg>
   );
 };

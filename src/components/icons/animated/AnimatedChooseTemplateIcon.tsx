@@ -2,6 +2,10 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { AnimatedIconProps } from './types';
 
+/**
+ * Line MD style: Animated Document Template Icon
+ * Pure monoline black SVG with staggered stroke path drawing.
+ */
 export const AnimatedChooseTemplateIcon: React.FC<AnimatedIconProps> = ({
   isHovered = false,
   className = 'w-7 h-7 sm:w-8 sm:h-8',
@@ -10,6 +14,11 @@ export const AnimatedChooseTemplateIcon: React.FC<AnimatedIconProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const active = isHovered && !shouldReduceMotion;
 
+  const transition = {
+    duration: 0.65,
+    ease: [0.25, 1, 0.5, 1],
+  };
+
   return (
     <svg
       viewBox="0 0 24 24"
@@ -17,89 +26,112 @@ export const AnimatedChooseTemplateIcon: React.FC<AnimatedIconProps> = ({
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.8}
+      strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className}
+      className={`text-[#111111] dark:text-neutral-100 ${className}`}
       aria-hidden="true"
     >
-      {/* Outer Template Document Frame */}
-      <motion.rect
-        x="3"
-        y="3"
-        width="18"
-        height="18"
-        rx="2.5"
-        animate={{
-          strokeDashoffset: active ? [0, 2, 0] : 0,
-        }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
+      {/* Outer Document Sheet Frame */}
+      <motion.path
+        d="M 4 3 L 14 3 L 19 8 L 19 21 C 19 21.6 18.5 22 17.9 22 L 5.1 22 C 4.5 22 4 21.6 4 21 Z"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.3, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={transition}
       />
 
-      {/* Top Header Accent Banner */}
+      {/* Folded Top-Right Corner */}
+      <motion.path
+        d="M 14 3 L 14 8 L 19 8"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.12 }}
+      />
+
+      {/* Header Bar */}
       <motion.line
-        x1="6"
-        y1="7"
-        x2="18"
-        y2="7"
-        animate={{
-          scaleX: active ? [1, 1.05, 1] : 1,
-          opacity: active ? [0.7, 1, 0.7] : 0.8,
-        }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
-      />
-
-      {/* Left Sidebar Layout Column */}
-      <motion.rect
-        x="6"
-        y="10"
-        width="4"
-        height="8"
-        rx="1"
-        animate={{
-          y: active ? [10, 11, 10] : 10,
-          opacity: active ? [0.6, 1, 0.6] : 0.7,
-        }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
-      />
-
-      {/* Content Line 1 */}
-      <motion.line
-        x1="13"
+        x1="7"
         y1="11"
-        x2="18"
+        x2="16"
         y2="11"
-        animate={{
-          x2: active ? [15, 18, 18] : 18,
-          opacity: active ? [0.5, 1, 1] : 0.85,
-        }}
-        transition={{ duration: 0.5, delay: 0.05, ease: 'easeInOut' }}
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.2 }}
       />
 
-      {/* Content Line 2 */}
+      {/* Column Split Line */}
       <motion.line
-        x1="13"
-        y1="14"
-        x2="17"
-        y2="14"
-        animate={{
-          x2: active ? [14, 17, 17] : 17,
-          opacity: active ? [0.5, 1, 1] : 0.85,
-        }}
-        transition={{ duration: 0.5, delay: 0.1, ease: 'easeInOut' }}
+        x1="11"
+        y1="13.5"
+        x2="11"
+        y2="18.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.28 }}
       />
 
-      {/* Content Line 3 */}
+      {/* Left Column Entry Line */}
+      <motion.line
+        x1="7"
+        y1="14.5"
+        x2="9.5"
+        y2="14.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.35 }}
+      />
+      <motion.line
+        x1="7"
+        y1="17.5"
+        x2="9.5"
+        y2="17.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.4 }}
+      />
+
+      {/* Right Column Content Lines */}
       <motion.line
         x1="13"
-        y1="17"
-        x2="15"
-        y2="17"
-        animate={{
-          x2: active ? [13, 15, 15] : 15,
-          opacity: active ? [0.4, 0.9, 0.8] : 0.7,
-        }}
-        transition={{ duration: 0.5, delay: 0.15, ease: 'easeInOut' }}
+        y1="14.5"
+        x2="16"
+        y2="14.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.45 }}
+      />
+      <motion.line
+        x1="13"
+        y1="17.5"
+        x2="15.5"
+        y2="17.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.5 }}
       />
     </svg>
   );

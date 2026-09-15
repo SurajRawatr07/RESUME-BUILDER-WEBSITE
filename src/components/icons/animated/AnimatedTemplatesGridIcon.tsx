@@ -2,6 +2,10 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { AnimatedIconProps } from './types';
 
+/**
+ * Line MD style: Animated Professional Templates Icon
+ * Pure monoline black SVG with layered layout document sheets and structure path reveals.
+ */
 export const AnimatedTemplatesGridIcon: React.FC<AnimatedIconProps> = ({
   isHovered = false,
   className = 'w-7 h-7 sm:w-8 sm:h-8',
@@ -10,6 +14,11 @@ export const AnimatedTemplatesGridIcon: React.FC<AnimatedIconProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const active = isHovered && !shouldReduceMotion;
 
+  const transition = {
+    duration: 0.65,
+    ease: [0.25, 1, 0.5, 1],
+  };
+
   return (
     <svg
       viewBox="0 0 24 24"
@@ -17,91 +26,93 @@ export const AnimatedTemplatesGridIcon: React.FC<AnimatedIconProps> = ({
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.8}
+      strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className}
+      className={`text-[#111111] dark:text-neutral-100 ${className}`}
       aria-hidden="true"
     >
-      {/* Background Template Sheet */}
-      <motion.rect
-        x="6.5"
-        y="3"
-        width="14.5"
-        height="14.5"
-        rx="2"
-        opacity="0.45"
-        strokeDasharray="2 2"
-        animate={{
-          x: active ? [6.5, 8.5, 6.5] : 6.5,
-          y: active ? [3, 1.5, 3] : 3,
-          opacity: active ? [0.45, 0.8, 0.45] : 0.45,
-        }}
-        transition={{ duration: 0.65, ease: 'easeInOut' }}
+      {/* Background Template Sheet Accent */}
+      <motion.path
+        d="M 7.5 2.5 L 18.5 2.5 C 19.6 2.5 20.5 3.4 20.5 4.5 L 20.5 15.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.3, 0.8] }
+            : { pathLength: 1, opacity: 0.6 }
+        }
+        transition={transition}
       />
 
-      {/* Foreground Primary Template Sheet */}
+      {/* Foreground Main Template Sheet */}
       <motion.rect
-        x="3"
-        y="6.5"
-        width="14.5"
-        height="14.5"
+        x="3.5"
+        y="5.5"
+        width="14"
+        height="16"
         rx="2"
-        animate={{
-          strokeOpacity: active ? [0.9, 1, 0.9] : 0.9,
-        }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.3, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.1 }}
       />
 
-      {/* Internal Layout: Top Header Band */}
+      {/* Template Header Band */}
       <motion.line
-        x1="5.5"
+        x1="6.5"
         y1="9.5"
         x2="14.5"
         y2="9.5"
-        animate={{
-          scaleX: active ? [1, 1.05, 1] : 1,
-        }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.2 }}
       />
 
-      {/* Internal Layout: Left Column */}
+      {/* Left Sidebar Block */}
       <motion.rect
-        x="5.5"
-        y="12"
-        width="3.5"
+        x="6.5"
+        y="12.5"
+        width="3"
         height="6"
-        rx="0.8"
-        animate={{
-          opacity: active ? [0.7, 1, 0.7] : 0.8,
-        }}
-        transition={{ duration: 0.5, delay: 0.08, ease: 'easeInOut' }}
+        rx="0.75"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.28 }}
       />
 
-      {/* Internal Layout: Right Text Line 1 */}
+      {/* Right Content Line 1 */}
       <motion.line
-        x1="11"
-        y1="13"
+        x1="11.5"
+        y1="13.5"
         x2="15"
-        y2="13"
-        animate={{
-          x2: active ? [13, 15, 15] : 15,
-          opacity: active ? [0.6, 1, 1] : 0.85,
-        }}
-        transition={{ duration: 0.5, delay: 0.1, ease: 'easeInOut' }}
+        y2="13.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.36 }}
       />
 
-      {/* Internal Layout: Right Text Line 2 */}
+      {/* Right Content Line 2 */}
       <motion.line
-        x1="11"
-        y1="16"
+        x1="11.5"
+        y1="16.5"
         x2="14"
-        y2="16"
-        animate={{
-          x2: active ? [12.5, 14, 14] : 14,
-          opacity: active ? [0.5, 1, 1] : 0.85,
-        }}
-        transition={{ duration: 0.5, delay: 0.15, ease: 'easeInOut' }}
+        y2="16.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.42 }}
       />
     </svg>
   );

@@ -109,10 +109,10 @@ const StepCardItem: React.FC<StepCardItemProps> = ({ step, isDark }) => {
         }`}
       >
         <div className="flex items-center justify-between mb-4">
-          <div className="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center transition-colors">
+          <div className="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 text-[#111111] dark:text-neutral-100 flex items-center justify-center transition-colors">
             <Icon
               isHovered={isHovered}
-              className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8"
+              className="w-7 h-7 sm:w-7 sm:h-7 md:w-[30px] md:h-[30px] lg:w-8 lg:h-8 text-[#111111] dark:text-neutral-100"
             />
           </div>
           <span className="text-2xl font-black text-gray-300 dark:text-gray-700 select-none">
@@ -144,43 +144,31 @@ const features = [
     icon: AnimatedTemplatesGridIcon,
     title: 'Professional Templates',
     desc: 'Real resume structures designed for different career paths.',
-    accent: 'text-indigo-600 dark:text-indigo-400',
-    bg: 'bg-indigo-50 dark:bg-indigo-950/50',
   },
   {
     icon: AnimatedATSScanIcon,
     title: 'ATS-Friendly Structure',
     desc: 'Clean semantic formatting designed to remain readable by applicant tracking systems.',
-    accent: 'text-emerald-600 dark:text-emerald-400',
-    bg: 'bg-emerald-50 dark:bg-emerald-950/50',
   },
   {
     icon: AnimatedLiveEditIcon,
     title: 'Live Resume Editing',
     desc: 'Update resume information and see changes immediately.',
-    accent: 'text-purple-600 dark:text-purple-400',
-    bg: 'bg-purple-50 dark:bg-purple-950/50',
   },
   {
     icon: AnimatedPdfExportIcon,
     title: 'PDF Export',
     desc: 'Generate a clean printable PDF.',
-    accent: 'text-blue-600 dark:text-blue-400',
-    bg: 'bg-blue-50 dark:bg-blue-950/50',
   },
   {
     icon: AnimatedTemplateSwitchIcon,
     title: 'Template Switching',
     desc: 'Change resume templates without losing your entered information.',
-    accent: 'text-teal-600 dark:text-teal-400',
-    bg: 'bg-teal-50 dark:bg-teal-950/50',
   },
   {
     icon: AnimatedResponsiveDevicesIcon,
     title: 'Responsive Experience',
     desc: 'Create and manage resumes across desktop, tablet and mobile.',
-    accent: 'text-rose-600 dark:text-rose-400',
-    bg: 'bg-rose-50 dark:bg-rose-950/50',
   },
 ];
 
@@ -209,11 +197,11 @@ const FeatureCardItem: React.FC<FeatureCardItemProps> = ({ feature, isDark }) =>
         }`}
       >
         <div
-          className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors ${feature.bg} ${feature.accent}`}
+          className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors bg-neutral-100 dark:bg-neutral-800/80 text-[#111111] dark:text-neutral-100"
         >
           <Icon
             isHovered={isHovered}
-            className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8"
+            className="w-7 h-7 sm:w-7 sm:h-7 md:w-[30px] md:h-[30px] lg:w-8 lg:h-8 text-[#111111] dark:text-neutral-100"
           />
         </div>
 

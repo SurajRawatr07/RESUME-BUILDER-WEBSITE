@@ -2,6 +2,10 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { AnimatedIconProps } from './types';
 
+/**
+ * Line MD style: Animated User / Personal Information Icon
+ * Pure monoline black SVG with avatar drawing and information field lines.
+ */
 export const AnimatedAddInfoIcon: React.FC<AnimatedIconProps> = ({
   isHovered = false,
   className = 'w-7 h-7 sm:w-8 sm:h-8',
@@ -10,6 +14,11 @@ export const AnimatedAddInfoIcon: React.FC<AnimatedIconProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const active = isHovered && !shouldReduceMotion;
 
+  const transition = {
+    duration: 0.65,
+    ease: [0.25, 1, 0.5, 1],
+  };
+
   return (
     <svg
       viewBox="0 0 24 24"
@@ -17,98 +26,87 @@ export const AnimatedAddInfoIcon: React.FC<AnimatedIconProps> = ({
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.8}
+      strokeWidth={1.75}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className}
+      className={`text-[#111111] dark:text-neutral-100 ${className}`}
       aria-hidden="true"
     >
-      {/* Document / Card Border */}
-      <motion.rect
-        x="3"
-        y="3"
-        width="18"
-        height="18"
-        rx="2.5"
-        animate={{
-          strokeOpacity: active ? [0.8, 1, 0.8] : 0.85,
-        }}
-        transition={{ duration: 0.6, ease: 'easeInOut' }}
-      />
-
-      {/* User Avatar - Head */}
+      {/* User Avatar Head Circle */}
       <motion.circle
-        cx="8.5"
-        cy="8.5"
-        r="2"
-        animate={{
-          y: active ? [0, -0.8, 0] : 0,
-        }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        cx="9"
+        cy="7.5"
+        r="3.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.3, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={transition}
       />
 
-      {/* User Avatar - Shoulders */}
+      {/* User Torso & Shoulders Arc */}
       <motion.path
-        d="M 5.5 13.5 C 5.5 12 6.8 11.2 8.5 11.2 C 10.2 11.2 11.5 12 11.5 13.5"
-        animate={{
-          y: active ? [0, -0.5, 0] : 0,
-        }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        d="M 2.5 20 C 2.5 16 5.5 13.5 9 13.5 C 10.8 13.5 12.4 14.2 13.5 15.3"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.3, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.15 }}
       />
 
-      {/* Information Line 1 (Name / Title) */}
+      {/* Information Header Line */}
       <motion.line
-        x1="13.5"
-        y1="8"
-        x2="18"
-        y2="8"
-        animate={{
-          x2: active ? [15, 18, 18] : 18,
-          opacity: active ? [0.6, 1, 1] : 0.85,
-        }}
-        transition={{ duration: 0.5, delay: 0.05, ease: 'easeInOut' }}
+        x1="15"
+        y1="6"
+        x2="21.5"
+        y2="6"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.25 }}
       />
 
-      {/* Information Line 2 (Contact / Skills) */}
+      {/* Information Sub-line */}
       <motion.line
-        x1="13.5"
-        y1="11"
-        x2="17"
-        y2="11"
-        animate={{
-          x2: active ? [14.5, 17, 17] : 17,
-          opacity: active ? [0.5, 1, 1] : 0.85,
-        }}
-        transition={{ duration: 0.5, delay: 0.1, ease: 'easeInOut' }}
+        x1="15"
+        y1="9.5"
+        x2="19.5"
+        y2="9.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.32 }}
       />
 
-      {/* Information Line 3 (Active entry field) */}
-      <motion.line
-        x1="6"
-        y1="17"
-        x2="14"
-        y2="17"
-        animate={{
-          x2: active ? [9, 14, 14] : 14,
-          opacity: active ? [0.4, 1, 1] : 0.85,
-        }}
-        transition={{ duration: 0.55, delay: 0.15, ease: 'easeInOut' }}
+      {/* Edit / Add Badge Circle */}
+      <motion.circle
+        cx="18.5"
+        cy="17.5"
+        r="3.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.38 }}
       />
 
-      {/* Precise Pen / Cursor adding data */}
-      <motion.g
-        animate={{
-          x: active ? [0, 2, 0] : 0,
-          y: active ? [0, -1, 0] : 0,
-          rotate: active ? [0, -6, 0] : 0,
-        }}
-        transition={{ duration: 0.65, ease: 'easeInOut' }}
-        style={{ transformOrigin: '17px 16px' }}
-      >
-        <path d="M 15.5 15.5 L 18 13 L 19 14 L 16.5 16.5 Z" />
-        <line x1="15.5" y1="15.5" x2="15" y2="17" />
-        <line x1="15" y1="17" x2="16.5" y2="16.5" />
-      </motion.g>
+      {/* Plus Icon Inside Add Badge */}
+      <motion.path
+        d="M 18.5 15.5 L 18.5 19.5 M 16.5 17.5 L 20.5 17.5"
+        animate={
+          active
+            ? { pathLength: [0, 1], opacity: [0.2, 1] }
+            : { pathLength: 1, opacity: 1 }
+        }
+        transition={{ ...transition, delay: 0.48 }}
+      />
     </svg>
   );
 };
