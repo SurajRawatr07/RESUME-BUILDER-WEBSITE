@@ -126,7 +126,6 @@ export default function ProfilePage({
   return (
     <div
       className="min-h-screen bg-transparent text-slate-900 dark:text-gray-100 transition-colors duration-200"
-      style={{ fontFamily: '"Times New Roman", Times, serif' }}
     >
       {/* Top Navbar */}
       <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 dark:bg-[#111111]/90 border-b border-black/[0.08] dark:border-white/[0.09] transition-colors">
