@@ -226,7 +226,7 @@ button, a, input, [role="button"] {
 .brand-wordmark,
 .brand-script-text {
   font-family: 'Alex Brush', 'Allura', cursive, 'Brush Script MT', -apple-system, sans-serif !important;
-  font-weight: 400 !important;
+  font-weight: 700;
   font-style: normal;
   display: inline-flex;
   align-items: center;
