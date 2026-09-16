@@ -22,8 +22,8 @@ export const BrandWordmark: React.FC<BrandWordmarkProps> = ({
   // Mobile: ~14–17px (15px–15.5px)
   const sizeClasses = {
     xs: 'text-[12px] sm:text-[13px]',
-    sm: 'text-[13.5px] sm:text-[14.5px] md:text-[15.5px]',
-    md: 'text-[15px] xs:text-[15.5px] sm:text-[16.5px] md:text-[17.5px] lg:text-[18.5px] xl:text-[19px]',
+    sm: 'text-[14px] sm:text-[15px]',
+    md: 'text-[17.5px] sm:text-[18px] lg:text-[20px]',
     lg: 'text-[21px] sm:text-[23px] md:text-[25px]',
     xl: 'text-[28px] sm:text-[32px] md:text-[36px]',
     '2xl': 'text-[34px] sm:text-[40px] md:text-[44px]',
@@ -50,9 +50,10 @@ export const BrandWordmark: React.FC<BrandWordmarkProps> = ({
       aria-label={ariaLabel}
       className={`brand-wordmark ${
         isClickable ? 'brand-wordmark-interactive cursor-pointer' : ''
-      } select-none whitespace-nowrap text-neutral-900 dark:text-neutral-50 ${sizeClasses[size]} ${className}`}
+      } select-none whitespace-nowrap font-bold text-[#111111] dark:text-white ${sizeClasses[size]} ${className}`}
       style={{
         fontFamily: "'Alex Brush', 'Allura', cursive, 'Brush Script MT', -apple-system, sans-serif",
+        fontWeight: 700,
       }}
     >
       Resume Craft

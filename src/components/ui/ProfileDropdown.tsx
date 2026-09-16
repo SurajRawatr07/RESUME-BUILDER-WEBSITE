@@ -91,10 +91,10 @@ export default function ProfileDropdown({
         aria-expanded={isOpen}
         aria-haspopup="menu"
         aria-label={`User profile for ${user.name}`}
-        className="flex items-center gap-2 pl-1 pr-2.5 py-1 rounded-full border border-neutral-200/80 dark:border-neutral-700/80 bg-neutral-100/60 dark:bg-neutral-800/60 hover:bg-neutral-200/70 dark:hover:bg-neutral-700/70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 shadow-xs cursor-pointer select-none shrink-0"
+        className="flex items-center gap-2 pl-1 pr-2.5 py-1 rounded-full border border-[rgba(17,17,17,0.10)] dark:border-[rgba(255,255,255,0.12)] bg-neutral-100/70 dark:bg-neutral-800/70 hover:bg-neutral-200/70 dark:hover:bg-neutral-700/70 transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 shadow-xs cursor-pointer select-none shrink-0"
       >
-        {/* Avatar / Initials (32px compact) */}
-        <div className="w-[32px] h-[32px] rounded-full overflow-hidden flex items-center justify-center font-bold text-xs bg-gradient-to-tr from-indigo-700 to-indigo-900 text-white shadow-xs shrink-0">
+        {/* Avatar / Initials (30px compact) */}
+        <div className="w-[30px] h-[30px] rounded-full overflow-hidden flex items-center justify-center font-bold text-xs bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 shadow-xs shrink-0">
           {user.avatar ? (
             <img
               src={user.avatar}
@@ -108,7 +108,7 @@ export default function ProfileDropdown({
         </div>
 
         {/* User Name (13–14px, compact & graceful truncation) */}
-        <span className="inline-block text-[13px] md:text-[13.5px] font-medium text-neutral-800 dark:text-neutral-200 max-w-[80px] md:max-w-[95px] lg:max-w-[110px] truncate whitespace-nowrap">
+        <span className="inline-block text-[13px] md:text-[13.5px] font-medium text-[#111111] dark:text-white max-w-[80px] md:max-w-[95px] lg:max-w-[110px] truncate whitespace-nowrap">
           {user.name}
         </span>
 
@@ -121,7 +121,7 @@ export default function ProfileDropdown({
         />
       </button>
 
-      {/* Kokonut-style Profile Dropdown Menu */}
+      {/* Profile Dropdown Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -129,12 +129,12 @@ export default function ProfileDropdown({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -4 }}
             transition={{ duration: 0.16, ease: "easeOut" }}
-            className="absolute right-0 mt-2 w-64 sm:w-72 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl z-50 overflow-hidden"
+            className="absolute right-0 mt-2 w-64 sm:w-72 rounded-2xl bg-[#FFFFFF] dark:bg-[#111111] border border-[rgba(17,17,17,0.10)] dark:border-[rgba(255,255,255,0.12)] shadow-2xl z-50 overflow-hidden"
           >
             {/* Header: User Information */}
-            <div className="p-4 border-b border-gray-100 dark:border-gray-800 bg-slate-50/70 dark:bg-gray-950/50">
+            <div className="p-4 border-b border-neutral-100 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center font-bold text-sm bg-gradient-to-tr from-indigo-700 to-indigo-900 text-white shadow-md ring-2 ring-indigo-500/30 shrink-0">
+                <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center font-bold text-sm bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900 shrink-0 shadow-xs">
                   {user.avatar ? (
                     <img
                       src={user.avatar}
@@ -148,14 +148,14 @@ export default function ProfileDropdown({
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-bold text-gray-900 dark:text-gray-100 truncate">
+                  <p className="text-sm font-bold text-[#111111] dark:text-white truncate">
                     {user.name}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5">
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate mt-0.5">
                     {user.email}
                   </p>
                   {user.title && (
-                    <span className="inline-block mt-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200/50 dark:border-indigo-800/40">
+                    <span className="inline-block mt-1.5 px-2 py-0.5 text-[10px] font-semibold rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700">
                       {user.title}
                     </span>
                   )}
