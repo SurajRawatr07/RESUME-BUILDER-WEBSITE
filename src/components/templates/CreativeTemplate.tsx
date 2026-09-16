@@ -11,7 +11,7 @@ export default function CreativeTemplate({ data }: CreativeTemplateProps) {
       {/* Stylish Header */}
       <div className="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-8 pb-12">
         <div className="max-w-4xl">
-          <h1 className="text-4xl font-bold mb-2">{data.fullName}</h1>
+          <h1 className="text-4xl font-bold mb-2">{data.fullName || 'Suraj Rawat'}</h1>
           <p className="text-xl text-blue-100 mb-4">{data.jobTitle}</p>
           {data.aboutMe && (
             <p className="text-sm text-blue-50 max-w-2xl italic">{data.aboutMe}</p>

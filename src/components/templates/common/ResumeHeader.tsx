@@ -28,7 +28,7 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
     return (
       <header className="mb-4 text-center border-b border-black pb-2.5">
         <h1 className="text-[20pt] font-serif font-bold tracking-normal uppercase text-black leading-tight mb-1">
-          {fullName || 'YOUR NAME'}
+          {fullName || 'Suraj Rawat'}
         </h1>
         {jobTitle && (
           <p className="text-[10pt] font-serif italic text-gray-800 mb-1.5">
@@ -83,7 +83,7 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-1">
           <div>
             <h1 className="text-[22pt] font-bold text-slate-900 tracking-tight leading-none">
-              {fullName || 'YOUR NAME'}
+              {fullName || 'Suraj Rawat'}
             </h1>
             {jobTitle && (
               <p className="text-[11pt] font-semibold text-slate-700 mt-1 uppercase tracking-wide">
@@ -152,7 +152,7 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
           <div>
             <h1 className="text-[23pt] font-semibold text-gray-950 tracking-tight leading-none">
-              {fullName || 'YOUR NAME'}
+              {fullName || 'Suraj Rawat'}
             </h1>
             {jobTitle && (
               <p className="text-[11pt] font-medium text-gray-600 mt-1">
@@ -208,7 +208,7 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
   return (
     <header className="mb-3 text-center border-b border-gray-900 pb-2">
       <h1 className="text-[20pt] font-bold text-gray-900 tracking-tight leading-tight">
-        {fullName || 'YOUR NAME'}
+        {fullName || 'Suraj Rawat'}
       </h1>
       {jobTitle && (
         <p className="text-[9.5pt] font-medium text-gray-700 mb-1">

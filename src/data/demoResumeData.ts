@@ -1,7 +1,7 @@
 import { ResumeData, TemplateType } from '@/types/resume';
 
 export const BASE_DEMO_DATA: ResumeData = {
-  fullName: 'Alex Morgan',
+  fullName: 'Suraj Rawat',
   jobTitle: 'Software Engineer',
   email: 'alex.morgan@example.com',
   phone: '+1 (555) 123-4567',

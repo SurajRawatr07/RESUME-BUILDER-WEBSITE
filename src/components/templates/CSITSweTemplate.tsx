@@ -25,7 +25,7 @@ export default function CSITSweTemplate({ data }: TemplateProps) {
       {/* 1. CS / IT FOCUSED HEADER */}
       <header className="border-b-2 border-black pb-2 mb-2 text-center">
         <h1 className="text-[21pt] font-bold tracking-normal uppercase text-black leading-none mb-1">
-          {data.fullName || 'Alex Morgan'}
+          {data.fullName || 'Suraj Rawat'}
         </h1>
         <div className="text-[9.5pt] font-semibold text-gray-800 tracking-wide mb-1">
           Computer Science & IT • Software Developer

@@ -17,7 +17,7 @@ export default function PersonalInfoForm() {
       <div className="space-y-3">
         <div>
           <Label htmlFor="fullName" className={labelClass}>Full Name *</Label>
-          <Input id="fullName" value={resumeData.fullName} onChange={e => setResumeData({ fullName: e.target.value })} placeholder="John Anderson" className={inputClass} />
+          <Input id="fullName" value={resumeData.fullName} onChange={e => setResumeData({ fullName: e.target.value })} placeholder="Suraj Rawat" className={inputClass} />
         </div>
         <div>
           <Label htmlFor="jobTitle" className={labelClass}>Job Title *</Label>

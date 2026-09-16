@@ -13,7 +13,7 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
         <div className="flex items-end justify-between">
           <div>
             <h1 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '32px', fontWeight: 700, color: 'white', letterSpacing: '-0.5px', marginBottom: '4px' }}>
-              {data.fullName}
+              {data.fullName || 'Suraj Rawat'}
             </h1>
             <p style={{ fontSize: '15px', color: '#94a3b8', fontWeight: 500, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
               {data.jobTitle}

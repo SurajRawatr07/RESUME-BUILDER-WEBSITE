@@ -27,7 +27,7 @@ export default function FrontendTemplate({ data }: TemplateProps) {
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-end border-b-2 border-black pb-2.5 mb-2.5 gap-2">
         <div>
           <h1 className="text-[22pt] font-bold tracking-tight uppercase leading-none text-black">
-            {data.fullName || 'Alex Morgan'}
+            {data.fullName || 'Suraj Rawat'}
           </h1>
           <p className="text-[10pt] font-semibold text-gray-800 tracking-wide mt-1">
             {data.jobTitle || 'Frontend Developer / React Engineer'}

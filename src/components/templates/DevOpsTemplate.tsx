@@ -28,7 +28,7 @@ export default function DevOpsTemplate({ data }: TemplateProps) {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-1.5">
           <div>
             <h1 className="text-[21pt] font-bold tracking-tight uppercase text-black leading-none">
-              {data.fullName || 'Alex Morgan'}
+              {data.fullName || 'Suraj Rawat'}
             </h1>
             <p className="text-[10pt] font-semibold text-gray-800 tracking-wide mt-1">
               {data.jobTitle || 'DevOps & Cloud Platform Engineer'}

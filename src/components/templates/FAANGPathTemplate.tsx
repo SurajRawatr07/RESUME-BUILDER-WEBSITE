@@ -25,7 +25,7 @@ export default function FAANGPathTemplate({ data }: TemplateProps) {
       {/* 1. FAANGPATH CLASSIC MINIMAL CENTERED HEADER */}
       <header className="text-center pb-1.5 mb-1.5 border-b border-black">
         <h1 className="text-[22pt] font-normal tracking-wide uppercase leading-none mb-1 text-black">
-          {data.fullName || 'Alex Morgan'}
+          {data.fullName || 'Suraj Rawat'}
         </h1>
         <div className="text-[8.5pt] text-gray-800 flex flex-wrap justify-center items-center gap-x-1.5 gap-y-0.5">
           {data.location && <span>{data.location}</span>}

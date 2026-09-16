@@ -13,7 +13,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
         <div className="space-y-6">
           {/* Name */}
           <div className="border-b border-indigo-400 pb-4">
-            <h1 className="text-2xl font-bold mb-1">{data.fullName}</h1>
+            <h1 className="text-2xl font-bold mb-1">{data.fullName || 'Suraj Rawat'}</h1>
             <p className="text-indigo-200 text-sm font-medium">{data.jobTitle}</p>
           </div>
 

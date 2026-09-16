@@ -26,7 +26,7 @@ export default function FAANGTemplate({ data }: TemplateProps) {
       {/* 1. FAANGPATH ULTRA-DENSE RECRUITER HEADER */}
       <header className="text-center pb-1 mb-2">
         <h1 className="text-[22pt] font-bold tracking-tight uppercase text-black leading-tight">
-          {data.fullName || 'Alex Morgan'}
+          {data.fullName || 'Suraj Rawat'}
         </h1>
         <div className="text-[8.5pt] text-gray-800 flex flex-wrap justify-center items-center gap-x-2 gap-y-0.5 mt-0.5 font-medium">
           <ContactItem type="location" value={data.location} showIcon={false} />

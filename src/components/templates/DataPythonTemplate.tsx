@@ -26,7 +26,7 @@ export default function DataPythonTemplate({ data }: TemplateProps) {
       {/* 1. DATA/PYTHON ANALYTICAL HEADER */}
       <header className="text-center pb-2 mb-2 border-b border-black">
         <h1 className="text-[22pt] font-bold tracking-normal uppercase text-black leading-tight mb-0.5">
-          {data.fullName || 'Alex Morgan'}
+          {data.fullName || 'Suraj Rawat'}
         </h1>
         <div className="text-[9.5pt] font-bold tracking-wider text-gray-800 uppercase mb-1">
           {data.jobTitle || 'Data Engineer & Python Developer'}

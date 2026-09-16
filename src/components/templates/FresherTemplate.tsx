@@ -26,7 +26,7 @@ export default function FresherTemplate({ data }: TemplateProps) {
       {/* 1. STUDENT/FRESHER HEADER */}
       <header className="text-center pb-2 mb-2 border-b-2 border-black">
         <h1 className="text-[23pt] font-bold tracking-tight uppercase text-black leading-tight">
-          {data.fullName || 'Alex Morgan'}
+          {data.fullName || 'Suraj Rawat'}
         </h1>
         <div className="text-[9pt] font-semibold text-gray-800 tracking-wide mt-0.5">
           {data.jobTitle || 'Computer Science Graduate • Aspiring Software Engineer'}

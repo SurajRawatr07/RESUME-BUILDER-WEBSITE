@@ -28,7 +28,7 @@ export default function FullStackTemplate({ data }: TemplateProps) {
         <div className="flex flex-col sm:flex-row justify-between items-baseline gap-1">
           <div>
             <h1 className="text-[22pt] font-bold uppercase tracking-tight text-black">
-              {data.fullName || 'Alex Morgan'}
+              {data.fullName || 'Suraj Rawat'}
             </h1>
             <p className="text-[10pt] font-bold text-gray-800 tracking-wide">
               {data.jobTitle || 'Full Stack Software Engineer'}
