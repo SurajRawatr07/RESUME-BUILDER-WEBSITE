@@ -77,20 +77,23 @@ export function analyzeResumeHealth(
   // 3. Content Quality (Summary strength, word density, lack of filler words)
   let qualityScore = 50;
   if (resume.summary && resume.summary.length > 50) qualityScore += 25;
-  if (breakdown.experience.score >= 15) qualityScore += 25;
+  if (breakdown.experienceProjects.score >= 10) qualityScore += 25;
   qualityScore = Math.min(100, qualityScore);
 
   // 4. Keyword Match Pillar
-  let keywordScore = Math.round((breakdown.keywords.score / breakdown.keywords.max) * 100);
+  let keywordScore = Math.round((breakdown.keywordMatch.score / breakdown.keywordMatch.max) * 100);
   if (jbResult && jbResult.totalJDKeywords > 0) {
     keywordScore = Math.round((keywordScore + jbResult.matchScore) / 2);
   }
 
   // 5. Formatting & ATS Layout
-  const formattingScore = Math.round((breakdown.formatting.score / breakdown.formatting.max) * 100);
+  const formattingScore = Math.round((breakdown.atsFormatting.score / breakdown.atsFormatting.max) * 100);
 
   // 6. Contact & Professional Links
-  const contactScore = Math.round((breakdown.contact.score / breakdown.contact.max) * 100);
+  let contactScore = 0;
+  if (resume.fullName && resume.email) contactScore += 50;
+  if (resume.phone) contactScore += 25;
+  if (resume.linkedin || resume.github || resume.portfolio) contactScore += 25;
 
   // Overall Composite Health Score
   const overallHealthScore = Math.round(

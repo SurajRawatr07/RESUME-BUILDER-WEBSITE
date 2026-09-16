@@ -29,7 +29,13 @@ export interface ApiResume {
   userId: string;
   title: string;
   selectedTemplate: TemplateType;
-  atsScore: number;
+  atsScore?: number;
+  lastAtsAnalysis?: {
+    score: number;
+    targetJobTitle: string;
+    analyzedAt: string;
+    status: string;
+  };
   resumeData: ResumeData;
   createdAt: string;
   updatedAt: string;
@@ -126,14 +132,12 @@ function getUserResumes(userId: string): ApiResume[] {
     const key = `${STORAGE_KEYS.RESUMES_PREFIX}${userId}`;
     const raw = localStorage.getItem(key);
     if (!raw) {
-      const initialATS = calculateATSScore(BASE_DEMO_DATA);
       const initialResume: ApiResume = {
         _id: 'res-default-1',
         id: 'res-default-1',
         userId,
         title: "Alex's Resume",
         selectedTemplate: 'frontend',
-        atsScore: initialATS.score,
         resumeData: { ...BASE_DEMO_DATA },
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -215,14 +219,12 @@ class ApiClient {
       setCurrentUser(newUser);
 
       // Seed an initial resume for the user
-      const initialATS = calculateATSScore(BASE_DEMO_DATA);
       const initialResume: ApiResume = {
         _id: generateId('res'),
         id: generateId('res'),
         userId,
         title: `${trimmedName}'s Resume`,
         selectedTemplate: 'frontend',
-        atsScore: initialATS.score,
         resumeData: {
           ...BASE_DEMO_DATA,
           fullName: trimmedName,
@@ -347,7 +349,6 @@ class ApiClient {
 
       const resumeId = generateId('res');
       const freshResumeData = data.resumeData || { ...BASE_DEMO_DATA };
-      const atsResult = calculateATSScore(freshResumeData);
 
       const newResume: ApiResume = {
         _id: resumeId,
@@ -355,7 +356,7 @@ class ApiClient {
         userId,
         title: data.title?.trim() || 'Untitled Resume',
         selectedTemplate: (data.selectedTemplate as TemplateType) || 'frontend',
-        atsScore: data.atsScore !== undefined ? data.atsScore : atsResult.score,
+        atsScore: data.atsScore,
         resumeData: freshResumeData,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -399,7 +400,7 @@ class ApiClient {
 
       const existing = resumes[index];
       const resumeData = data.resumeData || existing.resumeData;
-      const atsScore = data.atsScore !== undefined ? data.atsScore : calculateATSScore(resumeData).score;
+      const atsScore = data.atsScore !== undefined ? data.atsScore : existing.atsScore;
 
       const updatedResume: ApiResume = {
         ...existing,

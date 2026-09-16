@@ -35,7 +35,6 @@ import ResumeForm from '@/components/features/ResumeForm';
 import ResumePreview from '@/components/features/ResumePreview';
 import TemplateSelector from '@/components/features/TemplateSelector';
 import ATSChecker from '@/components/features/forms/ATSChecker';
-import ATSScoreCard from '@/components/features/ATSScoreCard';
 import FeatureHubModal, { FeatureModalTab } from '@/components/features/FeatureHubModal';
 import ResumeReadinessModal from '@/components/features/ResumeReadinessModal';
 import { ResumeVersion } from '@/lib/storage';
@@ -193,21 +192,19 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
               )}
             </Button>
 
-            {/* Live ATS Score Pill (Click opens Diagnostic) */}
+            {/* ATS Score Feature Button (Opens dedicated ATS Analysis modal) */}
             <Button
               variant="outline"
               size="sm"
               onClick={() => handleOpenFeature('ats_diagnostic')}
-              className={`flex items-center gap-1.5 rounded-xl font-bold text-xs transition-all ${
-                atsScore >= 80
-                  ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400'
-                  : atsScore >= 60
-                  ? 'border-indigo-200 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400'
-                  : 'border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400'
+              className={`flex items-center gap-1.5 rounded-xl font-semibold text-xs transition-all ${
+                isDark
+                  ? 'border-neutral-700 bg-neutral-900 text-neutral-200 hover:bg-neutral-800 hover:text-white'
+                  : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>ATS {atsScore}</span>
+              <FileCheck className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-300" />
+              <span>ATS Score</span>
             </Button>
 
             {/* Pre-Flight Audit Button */}
@@ -443,14 +440,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
           `}
           initial={false}
         >
-          {/* Live ATS Score Card directly inside editor */}
-          <div className="p-3 border-b border-slate-200 dark:border-gray-800 shrink-0">
-            <ATSScoreCard
-              resumeData={resumeData}
-              onOpenFullDiagnostic={() => handleOpenFeature('ats_diagnostic')}
-            />
-          </div>
-
+          {/* Form Area - Focused purely on editing without ATS distraction */}
           <div className="flex-1 overflow-y-auto">
             <ResumeForm />
           </div>

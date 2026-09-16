@@ -11,7 +11,8 @@ import {
   Layout,
   RefreshCw,
   Clock,
-  ArrowRight
+  ArrowRight,
+  FileCheck
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useResumeStore } from '@/stores/resumeStore';
@@ -221,7 +222,7 @@ export default function DashboardPage({
         ) : filteredResumes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredResumes.map((resume) => {
-              const score = resume.atsScore || 75;
+              const hasAnalysis = !!resume.lastAtsAnalysis?.score;
               const isWorking = actionInProgressId === String(resume._id);
 
               return (
@@ -233,7 +234,7 @@ export default function DashboardPage({
                   className="group relative flex flex-col justify-between p-5 rounded-2xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-indigo-400 dark:hover:border-indigo-600 shadow-sm hover:shadow-md transition-all cursor-pointer"
                 >
                   <div>
-                    {/* Header: Title & ATS Score Badge */}
+                    {/* Header: Title & Optional Completed ATS Analysis Badge */}
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
                         <h3 className="text-base font-bold text-slate-900 dark:text-white truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
@@ -244,18 +245,15 @@ export default function DashboardPage({
                         </p>
                       </div>
 
-                      <div
-                        className={`shrink-0 px-2.5 py-1 rounded-lg text-xs font-bold border flex items-center gap-1 ${
-                          score >= 80
-                            ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-400'
-                            : score >= 60
-                            ? 'bg-indigo-50 text-indigo-600 border-indigo-200 dark:bg-indigo-950/40 dark:border-indigo-800 dark:text-indigo-400'
-                            : 'bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/40 dark:border-amber-800 dark:text-amber-400'
-                        }`}
-                      >
-                        <Sparkles className="w-3 h-3" />
-                        <span>ATS {score}</span>
-                      </div>
+                      {hasAnalysis && resume.lastAtsAnalysis && (
+                        <div
+                          className="shrink-0 px-2.5 py-1 rounded-lg text-xs font-semibold border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-800/80 text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5"
+                          title={`Analyzed for ${resume.lastAtsAnalysis.targetJobTitle} on ${new Date(resume.lastAtsAnalysis.analyzedAt).toLocaleDateString()}`}
+                        >
+                          <FileCheck className="w-3 h-3 text-neutral-600 dark:text-neutral-400" />
+                          <span>ATS {resume.lastAtsAnalysis.score}</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Template Badge & Date */}

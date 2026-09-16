@@ -70,7 +70,7 @@ export default function FeatureHubModal({
   const tabs: Array<{ id: FeatureModalTab; label: string; icon: React.ReactNode; badge?: string }> = [
     { id: 'job_matcher', label: 'JD Matcher', icon: <Search className="w-4 h-4" /> },
     { id: 'keyword_gap', label: 'Keyword Gap', icon: <Target className="w-4 h-4" /> },
-    { id: 'ats_diagnostic', label: 'ATS Diagnostic', icon: <FileCheck className="w-4 h-4" />, badge: `${atsScore}` },
+    { id: 'ats_diagnostic', label: 'ATS Score', icon: <FileCheck className="w-4 h-4" /> },
     { id: 'content_assistant', label: 'Content Assistant', icon: <Sparkles className="w-4 h-4" /> },
     { id: 'versions', label: 'Versions', icon: <GitBranch className="w-4 h-4" /> },
     { id: 'comparison', label: 'Compare', icon: <GitCompare className="w-4 h-4" /> },

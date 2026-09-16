@@ -48,16 +48,12 @@ export function compareTwoResumes(
   const breakdownB = analysisB.breakdown;
 
   const sectionsToCompare: Array<keyof typeof breakdownA> = [
-    'contact',
-    'summary',
-    'skills',
-    'experience',
-    'projects',
-    'education',
-    'achievements',
-    'certifications',
-    'keywords',
-    'formatting',
+    'jobTitleRelevance',
+    'keywordMatch',
+    'contentCompleteness',
+    'experienceProjects',
+    'educationCertifications',
+    'atsFormatting',
   ];
 
   const improvedSections: ResumeComparisonResult['improvedSections'] = [];

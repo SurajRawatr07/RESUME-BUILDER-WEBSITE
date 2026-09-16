@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { ResumeData, TemplateType, normalizeTemplateId } from '../types/resume';
 import { BASE_DEMO_DATA } from '@/data/demoResumeData';
 import { api, ApiResume } from '@/lib/api';
-import { calculateATSScore } from '@/lib/atsEngine';
 
 interface ResumeStore {
   currentResumeId: string | null;
@@ -13,7 +12,7 @@ interface ResumeStore {
   isLoadingResumes: boolean;
   isSaving: boolean;
   lastSavedAt: string | null;
-  atsScore: number;
+  atsScore: number | null;
 
   // Actions
   setResumeData: (data: Partial<ResumeData>) => void;
@@ -46,19 +45,15 @@ export const useResumeStore = create<ResumeStore>()((set, get) => ({
   isLoadingResumes: false,
   isSaving: false,
   lastSavedAt: null,
-  atsScore: 78,
+  atsScore: null,
 
   setResumeData: (data) => {
-    set((state) => {
-      const updatedResume = { ...state.resumeData, ...data };
-      const atsResult = calculateATSScore(updatedResume);
-      return {
-        resumeData: updatedResume,
-        atsScore: atsResult.score,
-      };
-    });
+    // Pure resume data update - NO automatic ATS calculation while creating or editing
+    set((state) => ({
+      resumeData: { ...state.resumeData, ...data },
+    }));
 
-    // Debounced background auto-save to localStorage
+    // Debounced background auto-save to storage
     if (get().currentResumeId) {
       if (autoSaveTimeout) clearTimeout(autoSaveTimeout);
       autoSaveTimeout = setTimeout(() => {
@@ -96,7 +91,7 @@ export const useResumeStore = create<ResumeStore>()((set, get) => ({
       currentResumeTitle: 'My Resume',
       resumeData: initialResumeData,
       selectedTemplate: 'frontend',
-      atsScore: 78,
+      atsScore: null,
       lastSavedAt: null,
     }),
 
@@ -129,14 +124,13 @@ export const useResumeStore = create<ResumeStore>()((set, get) => ({
   selectResumeToEdit: (resume: ApiResume) => {
     const template = normalizeTemplateId(resume.selectedTemplate || 'frontend');
     const resumeData = resume.resumeData || initialResumeData;
-    const atsResult = calculateATSScore(resumeData);
 
     set({
       currentResumeId: String(resume._id),
       currentResumeTitle: resume.title || 'My Resume',
       selectedTemplate: template,
       resumeData,
-      atsScore: resume.atsScore || atsResult.score,
+      atsScore: resume.lastAtsAnalysis?.score ?? null,
       lastSavedAt: resume.updatedAt || new Date().toISOString(),
     });
   },
@@ -159,12 +153,10 @@ export const useResumeStore = create<ResumeStore>()((set, get) => ({
     set({ isSaving: true });
     try {
       const freshData = { ...initialResumeData };
-      const atsResult = calculateATSScore(freshData);
 
       const res = await api.resumes.create({
         title,
         selectedTemplate: template,
-        atsScore: atsResult.score,
         resumeData: freshData,
       });
 
@@ -175,7 +167,7 @@ export const useResumeStore = create<ResumeStore>()((set, get) => ({
           currentResumeTitle: res.resume.title,
           selectedTemplate: normalizeTemplateId(res.resume.selectedTemplate),
           resumeData: res.resume.resumeData || freshData,
-          atsScore: res.resume.atsScore || atsResult.score,
+          atsScore: null,
           lastSavedAt: res.resume.updatedAt,
         }));
         return res.resume;
@@ -190,7 +182,7 @@ export const useResumeStore = create<ResumeStore>()((set, get) => ({
   },
 
   saveCurrentResume: async () => {
-    const { currentResumeId, currentResumeTitle, selectedTemplate, resumeData, atsScore } = get();
+    const { currentResumeId, currentResumeTitle, selectedTemplate, resumeData } = get();
     if (!currentResumeId) {
       // Create new on backend if none exists yet
       const created = await get().createNewResume(currentResumeTitle, selectedTemplate);
@@ -199,18 +191,15 @@ export const useResumeStore = create<ResumeStore>()((set, get) => ({
 
     set({ isSaving: true });
     try {
-      const calculatedAts = calculateATSScore(resumeData).score;
       const res = await api.resumes.update(currentResumeId, {
         title: currentResumeTitle,
         selectedTemplate,
-        atsScore: calculatedAts,
         resumeData,
       });
 
       if (res.success && res.resume) {
         set((state) => ({
           lastSavedAt: new Date().toISOString(),
-          atsScore: calculatedAts,
           savedResumes: state.savedResumes.map((r) =>
             String(r._id) === String(currentResumeId) ? res.resume : r
           ),
@@ -257,13 +246,14 @@ export const useResumeStore = create<ResumeStore>()((set, get) => ({
                   currentResumeTitle: filtered[0].title,
                   selectedTemplate: normalizeTemplateId(filtered[0].selectedTemplate),
                   resumeData: filtered[0].resumeData,
-                  atsScore: filtered[0].atsScore,
+                  atsScore: filtered[0].lastAtsAnalysis?.score ?? null,
                 }
               : isCurrentDeleted
               ? {
                   currentResumeId: null,
                   currentResumeTitle: 'My Resume',
                   resumeData: initialResumeData,
+                  atsScore: null,
                 }
               : {}),
           };
