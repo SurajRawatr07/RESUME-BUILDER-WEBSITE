@@ -14,6 +14,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useResumeStore } from './stores/resumeStore';
 import { TemplateType } from './types/resume';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 type Page = 'landing' | 'editor' | 'profile' | 'dashboard' | 'login' | 'signup' | 'forgot-password';
 
@@ -198,10 +199,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </ThemeProvider>
+    <ErrorBoundary fallbackTitle="Application Error" fallbackMessage="Something went wrong while running the resume editor. You can refresh or try again.">
+      <ThemeProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }

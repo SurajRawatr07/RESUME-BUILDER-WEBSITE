@@ -12,7 +12,13 @@ export interface CategorizedSkills {
 }
 
 export function categorizeSkills(data: ResumeData): CategorizedSkills {
-  const all = [...(data.technologies || []), ...(data.skills || [])];
+  const getArray = (val: unknown): string[] => {
+    if (!val) return [];
+    if (Array.isArray(val)) return val.filter(Boolean).map(String);
+    if (typeof val === 'string') return val.split(/[,•|/\n]/).map((s) => s.trim()).filter(Boolean);
+    return [];
+  };
+  const all = [...getArray(data?.technologies), ...getArray(data?.skills)];
   const unique = Array.from(new Set(all.map((s) => s.trim()).filter(Boolean)));
 
   const result: CategorizedSkills = {

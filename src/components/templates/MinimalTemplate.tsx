@@ -113,16 +113,16 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
           Skills & Technologies
         </h2>
         <div className="space-y-2">
-          {data.skills.length > 0 && (
+          {data.skills && data.skills.length > 0 && (
             <div>
               <p className="text-xs text-gray-500 mb-1">Skills:</p>
-              <p className="text-sm text-gray-700">{data.skills.join(' • ')}</p>
+              <p className="text-sm text-gray-700">{Array.isArray(data.skills) ? data.skills.join(' • ') : data.skills}</p>
             </div>
           )}
-          {data.technologies.length > 0 && (
+          {data.technologies && (Array.isArray(data.technologies) ? data.technologies.length > 0 : Boolean(data.technologies)) && (
             <div>
               <p className="text-xs text-gray-500 mb-1">Technologies:</p>
-              <p className="text-sm text-gray-700">{data.technologies.join(' • ')}</p>
+              <p className="text-sm text-gray-700">{Array.isArray(data.technologies) ? data.technologies.join(' • ') : data.technologies}</p>
             </div>
           )}
         </div>
@@ -178,12 +178,12 @@ export default function MinimalTemplate({ data }: MinimalTemplateProps) {
             </div>
           </div>
         )}
-        {data.interests.length > 0 && (
+        {data.interests && (Array.isArray(data.interests) ? data.interests.length > 0 : Boolean(data.interests)) && (
           <div>
             <h2 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-3">
               Interests
             </h2>
-            <p className="text-sm text-gray-700">{data.interests.join(', ')}</p>
+            <p className="text-sm text-gray-700">{Array.isArray(data.interests) ? data.interests.join(', ') : data.interests}</p>
           </div>
         )}
       </div>

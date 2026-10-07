@@ -192,12 +192,17 @@ export const exportToDOCX = async (data: unknown, fileName: string) => {
       })
     );
     resume.projects.forEach((proj) => {
+      const techText = Array.isArray(proj.technologies)
+        ? (proj.technologies as string[]).join(', ')
+        : typeof proj.technologies === 'string'
+        ? proj.technologies
+        : '';
       children.push(
         new Paragraph({
           children: [
             new TextRun({ text: proj.title, bold: true, size: 22 }),
             new TextRun({
-              text: proj.technologies?.length ? ` | ${proj.technologies.join(", ")}` : "",
+              text: techText?.trim() ? ` | ${techText.trim()}` : "",
               italics: true,
               size: 20,
             }),

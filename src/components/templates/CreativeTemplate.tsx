@@ -131,18 +131,24 @@ export default function CreativeTemplate({ data }: CreativeTemplateProps) {
                 </div>
               </div>
             )}
-            {data.technologies.length > 0 && (
+            {data.technologies && (Array.isArray(data.technologies) ? data.technologies.length > 0 : Boolean(data.technologies)) && (
               <div>
                 <p className="text-xs text-gray-500 uppercase mb-2">Technologies</p>
                 <div className="flex flex-wrap gap-2">
-                  {data.technologies.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm"
-                    >
-                      {tech}
+                  {Array.isArray(data.technologies) ? (
+                    data.technologies.map((tech, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm"
+                      >
+                        {tech}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm">
+                      {data.technologies}
                     </span>
-                  ))}
+                  )}
                 </div>
               </div>
             )}
@@ -227,10 +233,10 @@ export default function CreativeTemplate({ data }: CreativeTemplateProps) {
         )}
 
         {/* Interests */}
-        {data.interests.length > 0 && (
+        {data.interests && (Array.isArray(data.interests) ? data.interests.length > 0 : Boolean(data.interests)) && (
           <div className="mt-6">
             <h3 className="text-sm font-bold text-gray-900 uppercase mb-3">Interests</h3>
-            <p className="text-sm text-gray-700">{data.interests.join(' • ')}</p>
+            <p className="text-sm text-gray-700">{Array.isArray(data.interests) ? data.interests.join(' • ') : data.interests}</p>
           </div>
         )}
       </div>

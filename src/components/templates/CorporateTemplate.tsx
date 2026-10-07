@@ -150,17 +150,23 @@ export default function CorporateTemplate({ data }: CorporateTemplateProps) {
           )}
 
           {/* Technologies */}
-          {data.technologies.length > 0 && (
+          {data.technologies && (Array.isArray(data.technologies) ? data.technologies.length > 0 : Boolean(data.technologies)) && (
             <section>
               <h2 style={{ fontFamily: '"Times New Roman", Times, serif', fontSize: '10px', fontWeight: 700, color: '#0f172a', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px', borderBottom: '2px solid #f59e0b', paddingBottom: '4px' }}>
                 Technologies
               </h2>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
-                {data.technologies.map((t, i) => (
-                  <span key={i} style={{ fontSize: '10px', background: '#e2e8f0', color: '#334155', padding: '2px 7px', borderRadius: '4px', fontWeight: 500 }}>
-                    {t}
+                {Array.isArray(data.technologies) ? (
+                  data.technologies.map((t, i) => (
+                    <span key={i} style={{ fontSize: '10px', background: '#e2e8f0', color: '#334155', padding: '2px 7px', borderRadius: '4px', fontWeight: 500 }}>
+                      {t}
+                    </span>
+                  ))
+                ) : (
+                  <span style={{ fontSize: '10px', background: '#e2e8f0', color: '#334155', padding: '2px 7px', borderRadius: '4px', fontWeight: 500 }}>
+                    {data.technologies}
                   </span>
-                ))}
+                )}
               </div>
             </section>
           )}

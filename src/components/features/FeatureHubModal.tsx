@@ -22,6 +22,7 @@ import ResumeComparison from './ResumeComparison';
 import ResumeHealthDashboard from './ResumeHealthDashboard';
 import ResumeImporter from './ResumeImporter';
 import ATSChecker from './forms/ATSChecker';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 export type FeatureModalTab =
   | 'job_matcher'
@@ -166,62 +167,64 @@ export default function FeatureHubModal({
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.15 }}
             >
-              {currentTab === 'job_matcher' && (
-                <JobMatcher
-                  resumeData={resumeData}
-                  onOpenKeywordGap={() => onTabChange('keyword_gap')}
-                />
-              )}
+              <ErrorBoundary key={currentTab} fallbackTitle={`Unable to load ${tabConfig.find(t => t.id === currentTab)?.label || 'feature'}`}>
+                {currentTab === 'job_matcher' && (
+                  <JobMatcher
+                    resumeData={resumeData}
+                    onOpenKeywordGap={() => onTabChange('keyword_gap')}
+                  />
+                )}
 
-              {currentTab === 'keyword_gap' && (
-                <KeywordGapAnalyzer resumeData={resumeData} />
-              )}
+                {currentTab === 'keyword_gap' && (
+                  <KeywordGapAnalyzer resumeData={resumeData} />
+                )}
 
-              {currentTab === 'ats_diagnostic' && (
-                <ATSChecker resumeData={resumeData} onClose={onClose} />
-              )}
+                {currentTab === 'ats_diagnostic' && (
+                  <ATSChecker resumeData={resumeData} onClose={onClose} />
+                )}
 
-              {currentTab === 'content_assistant' && (
-                <ContentAssistant
-                  resumeData={resumeData}
-                  onApplyImprovement={onApplyContentAssistant}
-                  onClose={onClose}
-                />
-              )}
+                {currentTab === 'content_assistant' && (
+                  <ContentAssistant
+                    resumeData={resumeData}
+                    onApplyImprovement={onApplyContentAssistant}
+                    onClose={onClose}
+                  />
+                )}
 
-              {currentTab === 'versions' && (
-                <ResumeVersionManager
-                  currentResumeId={currentResumeId}
-                  currentResumeTitle={currentResumeTitle}
-                  currentResumeData={resumeData}
-                  currentTemplate={currentTemplate}
-                  atsScore={atsScore}
-                  onSelectVersion={onSelectVersion}
-                  onClose={onClose}
-                />
-              )}
+                {currentTab === 'versions' && (
+                  <ResumeVersionManager
+                    currentResumeId={currentResumeId}
+                    currentResumeTitle={currentResumeTitle}
+                    currentResumeData={resumeData}
+                    currentTemplate={currentTemplate}
+                    atsScore={atsScore}
+                    onSelectVersion={onSelectVersion}
+                    onClose={onClose}
+                  />
+                )}
 
-              {currentTab === 'comparison' && (
-                <ResumeComparison
-                  currentResumeId={currentResumeId}
-                  currentResumeData={resumeData}
-                />
-              )}
+                {currentTab === 'comparison' && (
+                  <ResumeComparison
+                    currentResumeId={currentResumeId}
+                    currentResumeData={resumeData}
+                  />
+                )}
 
-              {currentTab === 'health_dashboard' && (
-                <ResumeHealthDashboard
-                  resumeData={resumeData}
-                  onOpenContentAssistant={() => onTabChange('content_assistant')}
-                  onOpenJobMatcher={() => onTabChange('job_matcher')}
-                />
-              )}
+                {currentTab === 'health_dashboard' && (
+                  <ResumeHealthDashboard
+                    resumeData={resumeData}
+                    onOpenContentAssistant={() => onTabChange('content_assistant')}
+                    onOpenJobMatcher={() => onTabChange('job_matcher')}
+                  />
+                )}
 
-              {currentTab === 'import_resume' && (
-                <ResumeImporter
-                  onApplyImportedData={onApplyImportedData}
-                  onClose={onClose}
-                />
-              )}
+                {currentTab === 'import_resume' && (
+                  <ResumeImporter
+                    onApplyImportedData={onApplyImportedData}
+                    onClose={onClose}
+                  />
+                )}
+              </ErrorBoundary>
             </motion.div>
           </AnimatePresence>
         </div>

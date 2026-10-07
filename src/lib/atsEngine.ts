@@ -133,6 +133,26 @@ const ACTION_VERBS = [
 const METRIC_PATTERN = /(\d+[%kKmMbB+]|\$\d+|\b\d+\s*(?:percent|users|requests|ms|seconds|x|times)\b)/i;
 
 /**
+ * Helper to safely extract technologies as a string.
+ */
+export function getProjectTechString(technologies: unknown): string {
+  if (!technologies) return '';
+  if (Array.isArray(technologies)) return technologies.filter(Boolean).map(String).join(' ');
+  if (typeof technologies === 'string') return technologies;
+  return String(technologies);
+}
+
+/**
+ * Helper to safely extract array of strings from either string, string[], or undefined.
+ */
+export function toCleanStringArray(val: unknown): string[] {
+  if (!val) return [];
+  if (Array.isArray(val)) return val.filter(Boolean).map(String);
+  if (typeof val === 'string') return val.split(/[,•|/\n]/).map((s) => s.trim()).filter(Boolean);
+  return [];
+}
+
+/**
  * Extracts all textual content from a ResumeData object for keyword searching.
  */
 export function extractResumeText(resume: ResumeData): string {
@@ -143,8 +163,8 @@ export function extractResumeText(resume: ResumeData): string {
     resume.jobTitle || '',
     resume.summary || '',
     resume.aboutMe || '',
-    ...(resume.skills || []),
-    ...(resume.technologies || []),
+    ...toCleanStringArray(resume.skills),
+    ...toCleanStringArray(resume.technologies),
   ];
 
   if (resume.experiences) {
@@ -152,7 +172,10 @@ export function extractResumeText(resume: ResumeData): string {
       parts.push(exp.jobTitle || '');
       parts.push(exp.company || '');
       parts.push(exp.description || '');
-      if (exp.technologies) parts.push(...exp.technologies);
+      const expWithTech = exp as { technologies?: unknown };
+      if (expWithTech.technologies) {
+        parts.push(...toCleanStringArray(expWithTech.technologies));
+      }
     });
   }
 
@@ -160,7 +183,9 @@ export function extractResumeText(resume: ResumeData): string {
     resume.projects.forEach((proj) => {
       parts.push(proj.title || '');
       parts.push(proj.description || '');
-      if (proj.technologies) parts.push(...proj.technologies);
+      if (proj.technologies) {
+        parts.push(...toCleanStringArray(proj.technologies));
+      }
     });
   }
 
@@ -181,10 +206,27 @@ export function extractResumeText(resume: ResumeData): string {
   }
 
   if (resume.achievements) {
-    resume.achievements.forEach((ach) => {
-      parts.push(ach.title || '');
-      parts.push(ach.description || '');
+    resume.achievements.forEach((ach: unknown) => {
+      if (typeof ach === 'string') {
+        parts.push(ach);
+      } else if (ach && typeof ach === 'object') {
+        const achObj = ach as { title?: string; description?: string };
+        parts.push(achObj.title || '');
+        parts.push(achObj.description || '');
+      }
     });
+  }
+
+  if (resume.interests) {
+    parts.push(...toCleanStringArray(resume.interests));
+  }
+
+  if (resume.publications) {
+    parts.push(...toCleanStringArray(resume.publications));
+  }
+
+  if (resume.leadership) {
+    parts.push(...toCleanStringArray(resume.leadership));
   }
 
   return parts.join(' ').toLowerCase();
@@ -323,7 +365,10 @@ export function calculateATSScore(
   const achievements = resume?.achievements || [];
 
   const resumeFullText = extractResumeText(resume);
-  const skillsList = [...skills, ...(resume?.technologies || [])];
+  const skillsList = [
+    ...toCleanStringArray(skills),
+    ...toCleanStringArray(resume?.technologies),
+  ];
 
   // Tokenize target role for semantic relevance
   const stopWords = new Set(['senior', 'junior', 'lead', 'principal', 'staff', 'associate', 'intern', 'the', 'and', 'for', 'of', 'in', 'at']);
@@ -382,7 +427,7 @@ export function calculateATSScore(
   if (projects.length > 0) {
     let projMatch = 0;
     projects.forEach((p) => {
-      const pText = `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`.toLowerCase();
+      const pText = `${p.title || ''} ${p.description || ''} ${getProjectTechString(p.technologies)}`.toLowerCase();
       if (roleTokens.some((t) => pText.includes(t))) {
         projMatch += 1.5;
       }
@@ -497,8 +542,8 @@ export function calculateATSScore(
   let roleTermsInExp = 0;
 
   const combinedExpAndProjText = [
-    ...experiences.map((e) => `${e.jobTitle} ${e.company} ${e.description}`),
-    ...projects.map((p) => `${p.title} ${p.description} ${(p.technologies || []).join(' ')}`)
+    ...experiences.map((e) => `${e.jobTitle || ''} ${e.company || ''} ${e.description || ''}`),
+    ...projects.map((p) => `${p.title || ''} ${p.description || ''} ${getProjectTechString(p.technologies)}`),
   ].join(' ').toLowerCase();
 
   ACTION_VERBS.forEach((verb) => {

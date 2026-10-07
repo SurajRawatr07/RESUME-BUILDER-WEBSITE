@@ -49,16 +49,23 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
           )}
 
           {/* Technologies */}
-          {data.technologies.length > 0 && (
+          {data.technologies && (Array.isArray(data.technologies) ? data.technologies.length > 0 : Boolean(data.technologies)) && (
             <div className="space-y-2">
               <h2 className="text-base font-bold uppercase tracking-wider mb-3">Technologies</h2>
               <div className="space-y-1 text-sm">
-                {data.technologies.map((tech, idx) => (
-                  <div key={idx} className="flex items-center">
+                {Array.isArray(data.technologies) ? (
+                  data.technologies.map((tech, idx) => (
+                    <div key={idx} className="flex items-center">
+                      <span className="w-1 h-1 bg-indigo-300 rounded-full mr-2"></span>
+                      <span>{tech}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex items-center">
                     <span className="w-1 h-1 bg-indigo-300 rounded-full mr-2"></span>
-                    <span>{tech}</span>
+                    <span>{data.technologies}</span>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           )}

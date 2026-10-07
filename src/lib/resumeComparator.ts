@@ -36,12 +36,22 @@ export function compareTwoResumes(
   const scoreDiff = scoreB - scoreA;
 
   // Skills Diff
-  const skillsA = new Set((resumeA.skills || []).map((s) => s.trim().toLowerCase()));
-  const skillsB = new Set((resumeB.skills || []).map((s) => s.trim().toLowerCase()));
+  const extractSkills = (r?: ResumeData): string[] => {
+    if (!r) return [];
+    const skills = Array.isArray(r.skills) ? r.skills : (typeof r.skills === 'string' ? [r.skills] : []);
+    const techs = Array.isArray(r.technologies) ? r.technologies : (typeof r.technologies === 'string' ? [r.technologies] : []);
+    return [...skills, ...techs].map((s) => String(s).trim()).filter(Boolean);
+  };
 
-  const skillsAdded = (resumeB.skills || []).filter((s) => !skillsA.has(s.trim().toLowerCase()));
-  const skillsRemoved = (resumeA.skills || []).filter((s) => !skillsB.has(s.trim().toLowerCase()));
-  const skillsCommon = (resumeB.skills || []).filter((s) => skillsA.has(s.trim().toLowerCase()));
+  const listA = extractSkills(resumeA);
+  const listB = extractSkills(resumeB);
+
+  const skillsA = new Set(listA.map((s) => s.toLowerCase()));
+  const skillsB = new Set(listB.map((s) => s.toLowerCase()));
+
+  const skillsAdded = listB.filter((s) => !skillsA.has(s.toLowerCase()));
+  const skillsRemoved = listA.filter((s) => !skillsB.has(s.toLowerCase()));
+  const skillsCommon = listB.filter((s) => skillsA.has(s.toLowerCase()));
 
   // Section-by-section comparison
   const breakdownA = analysisA.breakdown;
