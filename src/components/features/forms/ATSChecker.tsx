@@ -44,11 +44,18 @@ export default function ATSChecker({
   onClose,
   isInline = false,
 }: ATSCheckerProps) {
-  // Target Job Title input state
-  const [jobTitle, setJobTitle] = useState('');
+  // Target Job Title input state: initialized from resume's target role or common default
+  const defaultRole = resumeData.jobTitle || resumeData.targetRole || 'Full Stack Developer';
+  const [jobTitle, setJobTitle] = useState(defaultRole);
   
-  // Analysis result state - null until user explicitly clicks "Analyze Resume"
-  const [analysisResult, setAnalysisResult] = useState<ATSAnalysisResult | null>(null);
+  // Analysis result state - initialized with real deterministic score against current resume data
+  const [analysisResult, setAnalysisResult] = useState<ATSAnalysisResult | null>(() => {
+    try {
+      return calculateATSScore(resumeData, defaultRole);
+    } catch {
+      return null;
+    }
+  });
   
   // Loading & step progression state
   const [isAnalyzing, setIsAnalyzing] = useState(false);

@@ -12,21 +12,35 @@ interface SkillsSectionProps {
   variant?: 'latex' | 'serif' | 'executive' | 'designer';
 }
 
+const toFormattedList = (val: unknown): string => {
+  if (!val) return '';
+  if (Array.isArray(val)) return val.filter(Boolean).map(String).join(', ');
+  if (typeof val === 'string') return val;
+  return String(val);
+};
+
+const hasItems = (val: unknown): boolean => {
+  if (!val) return false;
+  if (Array.isArray(val)) return val.length > 0;
+  if (typeof val === 'string') return val.trim().length > 0;
+  return Boolean(val);
+};
+
 export const SkillsSection: React.FC<SkillsSectionProps> = ({
   skills = [],
   technologies = [],
   categories,
   variant = 'latex',
 }) => {
-  const hasSkills = skills && skills.length > 0;
-  const hasTech = technologies && technologies.length > 0;
-  const hasCategories = categories && categories.length > 0;
+  const hasSkills = hasItems(skills);
+  const hasTech = hasItems(technologies);
+  const hasCategories = Array.isArray(categories) && categories.length > 0;
 
   if (!hasSkills && !hasTech && !hasCategories) return null;
 
   // Custom categorized view if provided
   if (hasCategories && categories) {
-    const validCats = categories.filter((c) => c.items && c.items.length > 0);
+    const validCats = categories.filter((c) => c && hasItems(c.items));
     if (validCats.length === 0) return null;
 
     if (variant === 'serif') {
@@ -35,7 +49,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
           {validCats.map((cat, i) => (
             <div key={i} className="flex">
               <span className="font-bold text-black min-w-[140px]">{cat.label}: </span>
-              <span className="flex-1 text-gray-800">{cat.items.join(', ')}</span>
+              <span className="flex-1 text-gray-800">{toFormattedList(cat.items)}</span>
             </div>
           ))}
         </div>
@@ -49,7 +63,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
             <span className="font-bold text-gray-900 min-w-[150px] shrink-0">
               {cat.label}:{' '}
             </span>
-            <span className="flex-1 text-gray-800">{cat.items.join(', ')}</span>
+            <span className="flex-1 text-gray-800">{toFormattedList(cat.items)}</span>
           </div>
         ))}
       </div>
@@ -63,13 +77,13 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
         {hasTech && (
           <div className="flex">
             <span className="font-bold text-black min-w-[130px]">Technical Skills: </span>
-            <span className="flex-1 text-gray-800">{technologies.join(', ')}</span>
+            <span className="flex-1 text-gray-800">{toFormattedList(technologies)}</span>
           </div>
         )}
         {hasSkills && (
           <div className="flex">
             <span className="font-bold text-black min-w-[130px]">Core Competencies: </span>
-            <span className="flex-1 text-gray-800">{skills.join(', ')}</span>
+            <span className="flex-1 text-gray-800">{toFormattedList(skills)}</span>
           </div>
         )}
       </div>
@@ -83,7 +97,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
           <span className="font-bold text-gray-900 min-w-[130px] shrink-0">
             Technologies & Tools:{' '}
           </span>
-          <span className="flex-1 text-gray-800">{technologies.join(', ')}</span>
+          <span className="flex-1 text-gray-800">{toFormattedList(technologies)}</span>
         </div>
       )}
       {hasSkills && (
@@ -91,7 +105,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({
           <span className="font-bold text-gray-900 min-w-[130px] shrink-0">
             Core Competencies:{' '}
           </span>
-          <span className="flex-1 text-gray-800">{skills.join(', ')}</span>
+          <span className="flex-1 text-gray-800">{toFormattedList(skills)}</span>
         </div>
       )}
     </div>

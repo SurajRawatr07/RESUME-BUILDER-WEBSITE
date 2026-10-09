@@ -1,5 +1,5 @@
 import { ResumeData } from '@/types/resume';
-import { calculateATSScore, ATSAnalysisResult } from './atsEngine';
+import { calculateATSScore, ATSAnalysisResult, ATSBreakdown } from './atsEngine';
 
 export interface ResumeComparisonResult {
   scoreA: number;
@@ -54,10 +54,10 @@ export function compareTwoResumes(
   const skillsCommon = listB.filter((s) => skillsA.has(s.toLowerCase()));
 
   // Section-by-section comparison
-  const breakdownA = analysisA.breakdown;
-  const breakdownB = analysisB.breakdown;
+  const breakdownA = analysisA?.breakdown || {};
+  const breakdownB = analysisB?.breakdown || {};
 
-  const sectionsToCompare: Array<keyof typeof breakdownA> = [
+  const sectionsToCompare: Array<keyof ATSBreakdown> = [
     'jobTitleRelevance',
     'keywordMatch',
     'contentCompleteness',
@@ -70,46 +70,49 @@ export function compareTwoResumes(
   const weakerSections: ResumeComparisonResult['weakerSections'] = [];
   const unchangedSections: ResumeComparisonResult['unchangedSections'] = [];
 
+  const breakdownARecord = breakdownA as Record<string, { score?: number; label?: string; feedback?: string } | undefined>;
+  const breakdownBRecord = breakdownB as Record<string, { score?: number; label?: string; feedback?: string } | undefined>;
+
   sectionsToCompare.forEach((key) => {
-    const secA = breakdownA[key];
-    const secB = breakdownB[key];
-    const diff = secB.score - secA.score;
+    const secA = breakdownARecord[key] || { score: 0, label: String(key), feedback: '' };
+    const secB = breakdownBRecord[key] || { score: 0, label: String(key), feedback: '' };
+    const diff = (secB.score || 0) - (secA.score || 0);
 
     if (diff > 0) {
       improvedSections.push({
-        name: secB.label,
+        name: secB.label || String(key),
         diff,
-        feedback: secB.feedback,
+        feedback: secB.feedback || '',
       });
     } else if (diff < 0) {
       weakerSections.push({
-        name: secB.label,
+        name: secB.label || String(key),
         diff,
-        feedback: secB.feedback,
+        feedback: secB.feedback || '',
       });
     } else {
       unchangedSections.push({
-        name: secB.label,
-        score: secB.score,
+        name: secB.label || String(key),
+        score: secB.score || 0,
       });
     }
   });
 
   return {
-    scoreA,
-    scoreB,
-    scoreDiff,
-    statusA: analysisA.status,
-    statusB: analysisB.status,
+    scoreA: analysisA?.score || 0,
+    scoreB: analysisB?.score || 0,
+    scoreDiff: (analysisB?.score || 0) - (analysisA?.score || 0),
+    statusA: analysisA?.status || 'Good',
+    statusB: analysisB?.status || 'Good',
     skillsAdded,
     skillsRemoved,
     skillsCommon,
-    experienceCountA: resumeA.experiences?.length || 0,
-    experienceCountB: resumeB.experiences?.length || 0,
-    projectsCountA: resumeA.projects?.length || 0,
-    projectsCountB: resumeB.projects?.length || 0,
-    educationCountA: resumeA.education?.length || 0,
-    educationCountB: resumeB.education?.length || 0,
+    experienceCountA: resumeA?.experiences?.length || 0,
+    experienceCountB: resumeB?.experiences?.length || 0,
+    projectsCountA: resumeA?.projects?.length || 0,
+    projectsCountB: resumeB?.projects?.length || 0,
+    educationCountA: resumeA?.education?.length || 0,
+    educationCountB: resumeB?.education?.length || 0,
     improvedSections,
     weakerSections,
     unchangedSections,

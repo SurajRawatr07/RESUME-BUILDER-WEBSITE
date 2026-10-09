@@ -3,43 +3,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
   Download,
-  Eye,
-  EyeOff,
-  User,
-  LogOut,
   FileCheck,
-  Layout,
   FileText,
-  Sun,
-  Moon,
   FileDown,
   Printer,
-  Sparkles,
-  Check,
-  Loader2,
-  Search,
-  Target,
-  Wand2,
-  GitBranch,
-  Activity,
-  UploadCloud,
-  ShieldCheck,
-  SlidersHorizontal,
-  ChevronDown
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useResumeStore } from '@/stores/resumeStore';
-import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/context/ThemeContext';
 import ResumeForm from '@/components/features/ResumeForm';
 import ResumePreview from '@/components/features/ResumePreview';
 import TemplateSelector from '@/components/features/TemplateSelector';
-import ATSChecker from '@/components/features/forms/ATSChecker';
 import FeatureHubModal, { FeatureModalTab } from '@/components/features/FeatureHubModal';
 import ResumeReadinessModal from '@/components/features/ResumeReadinessModal';
 import { ResumeVersion } from '@/lib/storage';
-import ThemeToggle from '@/components/ui/ThemeToggle';
-import ProfileDropdown from '@/components/ui/ProfileDropdown';
 import BrandWordmark from '@/components/ui/BrandWordmark';
 import GlowingShadow from '@/components/ui/GlowingShadow';
 import { exportToPDF, exportToDOCX } from '@/lib/utils';
@@ -50,7 +27,6 @@ interface EditorPageProps {
 }
 
 export default function EditorPage({ onBack, onNavigateToProfile }: EditorPageProps) {
-  const { logout } = useAuth();
   const { isDark } = useTheme();
   const {
     currentResumeId,
@@ -61,8 +37,6 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
     selectedTemplate,
     setSelectedTemplate,
     atsScore,
-    isSaving,
-    saveCurrentResume,
   } = useResumeStore();
 
   const [showPreview, setShowPreview] = useState(true);
@@ -70,11 +44,10 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
   const [showExportMenu, setShowExportMenu] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
-  // New Feature Hub & Readiness Modals State
+  // Feature Hub & Readiness Modals State (for ATS score and detailed diagnostics)
   const [featureModalOpen, setFeatureModalOpen] = useState(false);
-  const [activeFeatureTab, setActiveFeatureTab] = useState<FeatureModalTab>('job_matcher');
+  const [activeFeatureTab, setActiveFeatureTab] = useState<FeatureModalTab>('ats_diagnostic');
   const [showReadinessModal, setShowReadinessModal] = useState(false);
-  const [showToolsDropdown, setShowToolsDropdown] = useState(false);
 
   const handleOpenFeature = (tab: FeatureModalTab) => {
     setActiveFeatureTab(tab);
@@ -155,106 +128,55 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
                 onClick={onBack}
                 ariaLabel="Resume Craft Home"
               />
+              {/* Editable Resume Title (Visible on tablet & desktop, clean and minimal) */}
               <input
                 type="text"
                 value={currentResumeTitle}
                 onChange={(e) => setCurrentResumeTitle(e.target.value)}
                 placeholder="Resume Title"
-                className={`hidden md:inline-block max-w-[170px] px-2.5 py-1 text-xs font-semibold rounded-lg border bg-transparent truncate focus:outline-none focus:ring-1 focus:ring-indigo-500 ${
-                  isDark ? 'border-gray-800 text-gray-200' : 'border-slate-200 text-slate-800'
+                aria-label="Editable resume name"
+                className={`max-w-[130px] sm:max-w-[200px] md:max-w-[260px] px-2.5 py-1 text-xs font-semibold rounded-lg border bg-transparent truncate focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-colors ${
+                  isDark ? 'border-neutral-800 text-neutral-200 hover:border-neutral-700' : 'border-slate-200 text-slate-800 hover:border-slate-300'
                 }`}
               />
             </div>
           </div>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-            {/* Auto-Save & Manual Save Status Button */}
+          {/* Right Primary Actions: ONLY ATS Score and Export */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* ATS Score Button (Analyzes current resume and opens detailed score & improvement suggestions) */}
             <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => saveCurrentResume()}
-              disabled={isSaving}
-              className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-xl ${
-                isDark ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-slate-100 text-slate-600'
-              }`}
-            >
-              {isSaving ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-500" />
-                  <span className="hidden md:inline">Saving...</span>
-                </>
-              ) : (
-                <>
-                  <Check className="w-3.5 h-3.5 text-emerald-500" />
-                  <span className="hidden md:inline">Saved</span>
-                </>
-              )}
-            </Button>
-
-            {/* ATS Score Feature Button (Opens dedicated ATS Analysis modal) */}
-            <Button
+              id="editor-ats-score-btn"
               variant="outline"
               size="sm"
               onClick={() => handleOpenFeature('ats_diagnostic')}
-              className={`flex items-center gap-1.5 rounded-xl font-semibold text-xs transition-all ${
+              className={`flex items-center gap-1.5 rounded-xl font-semibold text-xs px-3 py-1.5 transition-all shadow-2xs ${
                 isDark
                   ? 'border-neutral-700 bg-neutral-900 text-neutral-200 hover:bg-neutral-800 hover:text-white'
-                  : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+                  : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
               <FileCheck className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-300" />
               <span>ATS Score</span>
             </Button>
 
-            {/* Pre-Flight Audit Button */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowReadinessModal(true)}
-              className="hidden md:inline-flex items-center gap-1.5 rounded-xl border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 font-semibold text-xs"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span className="hidden xl:inline">Pre-Flight Review</span>
-            </Button>
-
-            {/* Template Selector Button */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowTemplateSelector(true)}
-              className={`hidden sm:flex items-center gap-1.5 rounded-xl transition-all ${isDark ? 'border-gray-600 text-gray-300 hover:bg-gray-800 hover:border-indigo-500' : 'border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-300'}`}
-            >
-              <Layout className="w-4 h-4" />
-              <span className="hidden lg:inline">Template</span>
-            </Button>
-
-            {/* Mobile View Toggle */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowPreview(!showPreview)}
-              className={`lg:hidden rounded-xl ${isDark ? 'border-gray-600 text-gray-300 hover:bg-gray-800' : ''}`}
-            >
-              {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            </Button>
-
-            {/* Export Menu */}
+            {/* Export Button & Menu */}
             <div className="relative">
               <Button
+                id="editor-export-btn"
                 onClick={() => setShowExportMenu(!showExportMenu)}
                 size="sm"
                 disabled={isExporting}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition-all rounded-xl"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition-all rounded-xl font-semibold text-xs px-3 py-1.5 flex items-center gap-1.5"
               >
                 {isExporting ? (
                   <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}>
-                    <Download className="w-4 h-4" />
+                    <Download className="w-3.5 h-3.5" />
                   </motion.div>
                 ) : (
-                  <Download className="w-4 h-4" />
+                  <Download className="w-3.5 h-3.5" />
                 )}
-                <span className="hidden sm:inline ml-1.5">Export</span>
+                <span>Export</span>
               </Button>
 
               <AnimatePresence>
@@ -296,127 +218,27 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
                 )}
               </AnimatePresence>
             </div>
-
-            <ThemeToggle />
-
-            <ProfileDropdown
-              onNavigateToProfile={onNavigateToProfile}
-              onNavigateToDashboard={onBack}
-              onNavigateToEditor={() => {}}
-            />
-
-            <Button
-              onClick={logout}
-              variant="ghost"
-              size="sm"
-              className={`hidden md:flex rounded-xl transition-all ${isDark ? 'text-gray-400 hover:bg-gray-800 hover:text-red-400' : 'hover:bg-red-50 hover:text-red-600'}`}
-            >
-              <LogOut className="w-4 h-4" />
-            </Button>
           </div>
         </div>
 
-        {/* Feature Tools Subheader Bar */}
-        <div className={`px-4 py-2 border-t flex items-center justify-between gap-2 overflow-x-auto text-xs ${isDark ? 'bg-gray-950/60 border-white/[0.06]' : 'bg-slate-50/90 border-slate-200/80'}`}>
-          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none py-0.5">
-            <button
-              onClick={() => handleOpenFeature('job_matcher')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-colors ${
-                isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-slate-700 hover:text-indigo-600 hover:bg-white'
-              }`}
-            >
-              <Search className="w-3.5 h-3.5 text-indigo-500" />
-              <span>JD Matcher</span>
-            </button>
-
-            <button
-              onClick={() => handleOpenFeature('keyword_gap')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-colors ${
-                isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-slate-700 hover:text-indigo-600 hover:bg-white'
-              }`}
-            >
-              <Target className="w-3.5 h-3.5 text-purple-500" />
-              <span>Keyword Gap</span>
-            </button>
-
-            <button
-              onClick={() => handleOpenFeature('content_assistant')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-colors ${
-                isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-slate-700 hover:text-indigo-600 hover:bg-white'
-              }`}
-            >
-              <Wand2 className="w-3.5 h-3.5 text-cyan-500" />
-              <span>Content Assistant</span>
-            </button>
-
-            <button
-              onClick={() => handleOpenFeature('versions')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-colors ${
-                isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-slate-700 hover:text-indigo-600 hover:bg-white'
-              }`}
-            >
-              <GitBranch className="w-3.5 h-3.5 text-blue-500" />
-              <span>Versions</span>
-            </button>
-
-            <button
-              onClick={() => handleOpenFeature('comparison')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-colors ${
-                isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-slate-700 hover:text-indigo-600 hover:bg-white'
-              }`}
-            >
-              <SlidersHorizontal className="w-3.5 h-3.5 text-amber-500" />
-              <span>Compare</span>
-            </button>
-
-            <button
-              onClick={() => handleOpenFeature('health_dashboard')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-colors ${
-                isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-slate-700 hover:text-indigo-600 hover:bg-white'
-              }`}
-            >
-              <Activity className="w-3.5 h-3.5 text-emerald-500" />
-              <span>Health Score</span>
-            </button>
-
-            <button
-              onClick={() => handleOpenFeature('import_resume')}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-colors ${
-                isDark ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-slate-700 hover:text-indigo-600 hover:bg-white'
-              }`}
-            >
-              <UploadCloud className="w-3.5 h-3.5 text-rose-500" />
-              <span>Import Resume</span>
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => setShowReadinessModal(true)}
-              className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors"
-            >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Readiness</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile tab switcher */}
-        <div className={`lg:hidden flex border-t ${isDark ? 'border-gray-800' : 'border-gray-100'}`}>
+        {/* Mobile Tab Switcher (Edit vs Preview) for responsive ergonomics */}
+        <div className={`lg:hidden flex border-t ${isDark ? 'border-neutral-800' : 'border-slate-200'}`}>
           <button
             onClick={() => setShowPreview(false)}
-            className={`flex-1 py-2.5 text-sm font-medium transition-colors ${!showPreview
-              ? 'text-indigo-600 border-b-2 border-indigo-600 font-bold'
-              : isDark ? 'text-gray-400' : 'text-gray-500'
+            className={`flex-1 py-2 text-xs font-semibold transition-colors ${
+              !showPreview
+                ? 'text-indigo-600 border-b-2 border-indigo-600 bg-indigo-50/20'
+                : isDark ? 'text-neutral-400' : 'text-neutral-500'
             }`}
           >
             Edit
           </button>
           <button
             onClick={() => setShowPreview(true)}
-            className={`flex-1 py-2.5 text-sm font-medium transition-colors ${showPreview
-              ? 'text-indigo-600 border-b-2 border-indigo-600 font-bold'
-              : isDark ? 'text-gray-400' : 'text-gray-500'
+            className={`flex-1 py-2 text-xs font-semibold transition-colors ${
+              showPreview
+                ? 'text-indigo-600 border-b-2 border-indigo-600 bg-indigo-50/20'
+                : isDark ? 'text-neutral-400' : 'text-neutral-500'
             }`}
           >
             Preview
@@ -429,9 +251,9 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
         <div className="fixed inset-0 z-30" onClick={() => setShowExportMenu(false)} />
       )}
 
-      {/* Editor Layout */}
-      <div className="flex flex-col lg:flex-row" style={{ height: 'calc(100vh - 95px)' }}>
-        {/* Form Sidebar with Reactive Live ATS Card at top */}
+      {/* Editor Layout: Responsive flex height that fills viewport cleanly */}
+      <div className="flex flex-col lg:flex-row h-[calc(100dvh-88px)] lg:h-[calc(100dvh-54px)] overflow-hidden">
+        {/* Form Sidebar */}
         <motion.div
           className={`
             ${showPreview ? 'hidden lg:flex' : 'flex'}

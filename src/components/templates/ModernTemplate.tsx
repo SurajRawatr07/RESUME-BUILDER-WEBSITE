@@ -71,7 +71,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
           )}
 
           {/* Languages */}
-          {data.languages.length > 0 && (
+          {Boolean(data.languages?.length) && (
             <div className="space-y-2">
               <h2 className="text-base font-bold uppercase tracking-wider mb-3">Languages</h2>
               {data.languages.map((lang) => (
@@ -84,7 +84,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
           )}
 
           {/* Interests */}
-          {data.interests.length > 0 && (
+          {Boolean(data.interests?.length) && (
             <div className="space-y-2">
               <h2 className="text-base font-bold uppercase tracking-wider mb-3">Interests</h2>
               <div className="text-sm space-y-1">
@@ -110,7 +110,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
         )}
 
         {/* Experience */}
-        {data.experiences.length > 0 && (
+        {Boolean(data.experiences?.length) && (
           <div className="mb-6">
             <h2 className="text-lg font-bold text-gray-900 mb-3 pb-1 border-b-2 border-indigo-600">
               EXPERIENCE
@@ -137,7 +137,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
         )}
 
         {/* Projects */}
-        {data.projects.length > 0 && (
+        {Boolean(data.projects?.length) && (
           <div className="mb-6">
             <h2 className="text-lg font-bold text-gray-900 mb-3 pb-1 border-b-2 border-indigo-600">
               PROJECTS
@@ -161,7 +161,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
         )}
 
         {/* Education */}
-        {data.education.length > 0 && (
+        {Boolean(data.education?.length) && (
           <div className="mb-6">
             <h2 className="text-lg font-bold text-gray-900 mb-3 pb-1 border-b-2 border-indigo-600">
               EDUCATION
@@ -191,7 +191,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
         )}
 
         {/* Certifications */}
-        {data.certifications.length > 0 && (
+        {Boolean(data.certifications?.length) && (
           <div className="mb-6">
             <h2 className="text-lg font-bold text-gray-900 mb-3 pb-1 border-b-2 border-indigo-600">
               CERTIFICATIONS
@@ -211,7 +211,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
         )}
 
         {/* Achievements */}
-        {data.achievements.length > 0 && (
+        {Boolean(data.achievements?.length) && (
           <div className="mb-6">
             <h2 className="text-lg font-bold text-gray-900 mb-3 pb-1 border-b-2 border-indigo-600">
               ACHIEVEMENTS
@@ -220,7 +220,7 @@ export default function ModernTemplate({ data }: ModernTemplateProps) {
               {data.achievements.map((achievement, idx) => (
                 <li key={idx} className="flex">
                   <span className="mr-2">•</span>
-                  <span>{achievement}</span>
+                  <span>{typeof achievement === 'object' && achievement !== null ? (achievement as { title?: string; description?: string }).title || (achievement as { title?: string; description?: string }).description || '' : String(achievement)}</span>
                 </li>
               ))}
             </ul>
