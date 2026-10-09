@@ -167,7 +167,7 @@ export default function FeatureHubModal({
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.15 }}
             >
-              <ErrorBoundary key={currentTab} fallbackTitle={`Unable to load ${tabConfig.find(t => t.id === currentTab)?.label || 'feature'}`}>
+              <ErrorBoundary key={currentTab} fallbackTitle={`Unable to load ${tabs.find(t => t.id === currentTab)?.label || 'feature'}`}>
                 {currentTab === 'job_matcher' && (
                   <JobMatcher
                     resumeData={resumeData}

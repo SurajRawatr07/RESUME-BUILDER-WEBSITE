@@ -52,7 +52,6 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
   const handleOpenFeature = (tab: FeatureModalTab) => {
     setActiveFeatureTab(tab);
     setFeatureModalOpen(true);
-    setShowToolsDropdown(false);
   };
 
   const handleApplyContentAssistant = (newText: string, sectionType: string) => {
