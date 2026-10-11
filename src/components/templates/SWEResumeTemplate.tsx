@@ -26,7 +26,7 @@ export default function SWEResumeTemplate({ data }: TemplateProps) {
       <header className="flex flex-col sm:flex-row justify-between items-start border-b-2 border-black pb-2 mb-2">
         <div>
           <h1 className="text-[22pt] font-bold tracking-tight text-black leading-none">
-            {data.fullName || 'Suraj Rawat'}
+            {data.fullName || 'Your Name'}
           </h1>
           <div className="text-[10pt] font-semibold text-gray-800 tracking-wide mt-1">
             {data.jobTitle || 'Software Engineer'} | Full Stack Developer

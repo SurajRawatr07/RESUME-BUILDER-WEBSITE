@@ -25,7 +25,7 @@ export default function UndergraduateCVTemplate({ data }: TemplateProps) {
       {/* 1. ACADEMIC & STUDENT CV HEADER */}
       <header className="border-b-2 border-black pb-2 mb-2 text-center">
         <h1 className="text-[22pt] font-bold tracking-normal uppercase text-black leading-none mb-1">
-          {data.fullName || 'Suraj Rawat'}
+          {data.fullName || 'Your Name'}
         </h1>
         <div className="text-[9.5pt] font-semibold text-gray-800 tracking-wide mb-1">
           Undergraduate Computer Applications Candidate • Software Engineer

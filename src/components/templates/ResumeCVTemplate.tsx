@@ -25,7 +25,7 @@ export default function ResumeCVTemplate({ data }: TemplateProps) {
       {/* 1. CLASSIC BALANCED RESUME / CV HEADER */}
       <header className="text-center pb-2 mb-2 border-b-2 border-black">
         <h1 className="text-[22pt] font-bold tracking-wide uppercase text-black leading-none mb-1">
-          {data.fullName || 'Suraj Rawat'}
+          {data.fullName || 'Your Name'}
         </h1>
         <div className="text-[9.5pt] font-semibold text-gray-800 tracking-wider uppercase mb-1">
           {data.jobTitle || 'Software Engineer'} • General Resume / CV

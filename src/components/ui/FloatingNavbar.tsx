@@ -332,7 +332,7 @@ export default function FloatingNavbar({
 
           {/* 3. Controls Group: Profile Dropdown (if authenticated) + Theme Toggle (margin-left: 6–10px) */}
           <div className="flex items-center shrink-0 ml-2 lg:ml-2.5 gap-2">
-            {isAuthenticated && (
+            {isAuthenticated ? (
               <div className="flex items-center shrink-0">
                 <ProfileDropdown
                   onNavigateToProfile={onNavigateToProfile}
@@ -340,7 +340,20 @@ export default function FloatingNavbar({
                   onNavigateToEditor={onStartBuilding}
                 />
               </div>
-            )}
+            ) : onNavigateToLogin ? (
+              <button
+                id="desktop-nav-signin-btn"
+                type="button"
+                onClick={onNavigateToLogin}
+                className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition-colors shrink-0 cursor-pointer ${
+                  isDark
+                    ? "text-neutral-200 hover:text-white bg-white/[0.08] hover:bg-white/[0.14]"
+                    : "text-neutral-800 hover:text-black bg-black/[0.05] hover:bg-black/[0.10]"
+                }`}
+              >
+                Sign In
+              </button>
+            ) : null}
 
             {/* Theme Toggle: compact 38–44px wide × 28–32px high */}
             <div className="flex items-center shrink-0">

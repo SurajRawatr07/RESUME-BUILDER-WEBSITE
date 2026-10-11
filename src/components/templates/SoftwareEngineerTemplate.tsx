@@ -25,7 +25,7 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
       {/* 1. BACKEND & SYSTEMS FOCUSED HEADER */}
       <header className="text-center pb-2 mb-2 border-b border-black">
         <h1 className="text-[20pt] font-bold tracking-wide uppercase leading-none mb-1 text-black">
-          {data.fullName || 'Suraj Rawat'}
+          {data.fullName || 'Your Name'}
         </h1>
         <div className="text-[9.5pt] font-semibold tracking-wider uppercase text-gray-800 mb-1">
           {data.jobTitle || 'Software Engineer'} • Backend & Systems Developer

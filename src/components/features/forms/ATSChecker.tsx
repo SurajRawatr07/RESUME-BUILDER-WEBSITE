@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { ResumeData } from '@/types/resume';
 import { calculateATSScore, ATSAnalysisResult } from '@/lib/atsEngine';
+import { api } from '@/lib/api';
+import { useResumeStore } from '@/stores/resumeStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -33,33 +35,30 @@ const COMMON_EXAMPLE_ROLES = [
 ];
 
 const ANALYSIS_STEPS = [
-  'Analyzing your resume...',
-  'Checking role relevance',
-  'Matching keywords',
-  'Evaluating resume structure',
+  'Analyzing your resume content...',
+  'Checking role and title relevance',
+  'Matching technical skills & keywords',
+  'Evaluating resume sections & ATS format',
 ];
 
 export default function ATSChecker({
   resumeData,
   onClose,
-  isInline = false,
+  isInline = true,
 }: ATSCheckerProps) {
-  // Target Job Title input state: initialized from resume's target role or common default
-  const defaultRole = resumeData.jobTitle || resumeData.targetRole || 'Full Stack Developer';
+  // Target Job Title input state: initialized from resume's target role or headline
+  const defaultRole = resumeData.jobTitle || resumeData.targetRole || '';
   const [jobTitle, setJobTitle] = useState(defaultRole);
+  const [jobDescription, setJobDescription] = useState('');
+  const [showJobDescription, setShowJobDescription] = useState(false);
   
-  // Analysis result state - initialized with real deterministic score against current resume data
-  const [analysisResult, setAnalysisResult] = useState<ATSAnalysisResult | null>(() => {
-    try {
-      return calculateATSScore(resumeData, defaultRole);
-    } catch {
-      return null;
-    }
-  });
+  // Analysis result state - starts null so the user selects/confirms target role first
+  const [analysisResult, setAnalysisResult] = useState<ATSAnalysisResult | null>(null);
   
   // Loading & step progression state
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   // Animated score counter for visualization
   const [animatedScore, setAnimatedScore] = useState(0);
@@ -67,28 +66,58 @@ export default function ATSChecker({
   // Active tab within results view: 'overview' | 'keywords' | 'breakdown'
   const [resultTab, setResultTab] = useState<'overview' | 'keywords' | 'breakdown'>('overview');
 
-  const handleAnalyze = () => {
-    const trimmed = jobTitle.trim();
-    if (!trimmed) return;
+  const handleAnalyze = async () => {
+    const trimmedTitle = jobTitle.trim();
+    if (!trimmedTitle) {
+      setError('Please provide a target job title to evaluate against.');
+      return;
+    }
+
+    if (isAnalyzing) return; // Prevent duplicate requests
 
     setIsAnalyzing(true);
+    setError(null);
     setCurrentStepIdx(0);
-    setAnalysisResult(null);
 
-    // Step-by-step realistic feedback transitions (~800ms total)
-    const stepDuration = 200;
+    // Step-by-step feedback animation transitions
+    const stepDuration = 220;
     ANALYSIS_STEPS.forEach((_, idx) => {
       setTimeout(() => {
         setCurrentStepIdx(idx);
       }, idx * stepDuration);
     });
 
-    setTimeout(() => {
-      // Deterministic calculation against the CURRENT resume data and entered job title
-      const result = calculateATSScore(resumeData, trimmed);
-      setAnalysisResult(result);
-      setIsAnalyzing(false);
-    }, ANALYSIS_STEPS.length * stepDuration);
+    try {
+      const res = await api.ats.analyze({
+        resumeData,
+        targetRole: trimmedTitle,
+        jobDescription: jobDescription.trim() || undefined,
+      });
+
+      setTimeout(() => {
+        if (res.success && res.data) {
+          setAnalysisResult(res.data);
+          // Sync real ATS score to global resume store
+          try {
+            useResumeStore.setState({ atsScore: res.data.score });
+          } catch (syncErr) {
+            console.debug('[ATSChecker] Store score sync skipped:', syncErr);
+          }
+        } else {
+          setError('Could not complete ATS evaluation for this resume content.');
+        }
+        setIsAnalyzing(false);
+      }, ANALYSIS_STEPS.length * stepDuration);
+    } catch (err) {
+      setTimeout(() => {
+        setIsAnalyzing(false);
+        setError(
+          err instanceof Error
+            ? err.message
+            : 'Analysis failed. Please verify your resume content and try again.'
+        );
+      }, ANALYSIS_STEPS.length * stepDuration);
+    }
   };
 
   // Animate score counter when analysisResult is ready
@@ -120,6 +149,7 @@ export default function ATSChecker({
     setAnalysisResult(null);
     setIsAnalyzing(false);
     setCurrentStepIdx(0);
+    setError(null);
   };
 
   const content = (
@@ -157,23 +187,34 @@ export default function ATSChecker({
         {/* STEP 3 — ASK FOR JOB TITLE (Before Analysis)              */}
         {/* ========================================================= */}
         {!isAnalyzing && !analysisResult && (
-          <div className="max-w-2xl mx-auto py-6 space-y-6">
-            <div className="text-center space-y-2">
-              <h3 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
-                Target Role Evaluation
+          <div className="max-w-2xl mx-auto py-4 sm:py-6 space-y-5">
+            <div className="text-center space-y-1.5">
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
+                Target Role & ATS Evaluation
               </h3>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-lg mx-auto leading-relaxed">
-                Enter the job title you&apos;re targeting so we can evaluate how well your resume matches the role.
+              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-lg mx-auto leading-relaxed">
+                Enter the job title you&apos;re targeting to evaluate how well your current resume matches real ATS criteria and industry keywords.
               </p>
             </div>
 
-            {/* Input Field */}
-            <div className="space-y-3 pt-2">
+            {/* Error Message if any */}
+            {error && (
+              <div className="p-3.5 rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/40 text-xs text-rose-700 dark:text-rose-300 flex items-start gap-2.5">
+                <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="font-semibold">Analysis Failed</p>
+                  <p className="mt-0.5">{error}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Input Field for Target Job Title */}
+            <div className="space-y-2.5 pt-1">
               <label
                 htmlFor="target-job-title-input"
                 className="block text-xs font-semibold uppercase tracking-wider text-neutral-700 dark:text-neutral-300"
               >
-                Enter Job Title
+                Target Job Title *
               </label>
 
               <div className="flex flex-col sm:flex-row gap-2.5">
@@ -182,7 +223,10 @@ export default function ATSChecker({
                     id="target-job-title-input"
                     type="text"
                     value={jobTitle}
-                    onChange={(e) => setJobTitle(e.target.value)}
+                    onChange={(e) => {
+                      setJobTitle(e.target.value);
+                      if (error) setError(null);
+                    }}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && jobTitle.trim()) {
                         handleAnalyze();
@@ -204,9 +248,10 @@ export default function ATSChecker({
                 </div>
 
                 <Button
+                  id="ats-start-analysis-btn"
                   onClick={handleAnalyze}
                   disabled={!jobTitle.trim() || isAnalyzing}
-                  className="h-11 px-6 rounded-xl font-semibold text-sm bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200 transition-all shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="h-11 px-6 rounded-xl font-semibold text-sm bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200 transition-all shrink-0 disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
                 >
                   <span>Analyze Resume</span>
                   <ArrowRight className="w-4 h-4 ml-1.5" />
@@ -215,16 +260,19 @@ export default function ATSChecker({
             </div>
 
             {/* Example Role Chips */}
-            <div className="space-y-2.5 pt-2">
+            <div className="space-y-2 pt-1">
               <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
-                Or pick a common role to test:
+                Or pick a role to evaluate:
               </span>
               <div className="flex flex-wrap gap-2">
                 {COMMON_EXAMPLE_ROLES.map((role) => (
                   <button
                     key={role}
                     type="button"
-                    onClick={() => setJobTitle(role)}
+                    onClick={() => {
+                      setJobTitle(role);
+                      if (error) setError(null);
+                    }}
                     className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
                       jobTitle === role
                         ? 'bg-neutral-900 text-white border-neutral-900 dark:bg-white dark:text-neutral-900 dark:border-white'
@@ -237,15 +285,42 @@ export default function ATSChecker({
               </div>
             </div>
 
+            {/* Optional Job Description Section */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => setShowJobDescription(!showJobDescription)}
+                className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>{showJobDescription ? '− Hide Job Description' : '+ Add Job Description (Optional - match job posting)'}</span>
+              </button>
+
+              {showJobDescription && (
+                <div className="mt-2.5 space-y-1.5">
+                  <textarea
+                    id="ats-job-description-input"
+                    rows={4}
+                    value={jobDescription}
+                    onChange={(e) => setJobDescription(e.target.value)}
+                    placeholder="Paste the job description or requirements here to check for company-specific keywords..."
+                    className="w-full p-3 text-xs rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-neutral-900 dark:focus:ring-white"
+                  />
+                  <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
+                    If provided, the ATS engine will match terms from this job description against your resume text.
+                  </p>
+                </div>
+              )}
+            </div>
+
             {/* Info Notice */}
             <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/40 text-xs text-neutral-600 dark:text-neutral-400 flex items-start gap-3">
               <Sparkles className="w-4 h-4 text-neutral-700 dark:text-neutral-300 shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <p className="font-semibold text-neutral-800 dark:text-neutral-200">
-                  Real deterministic evaluation
+                  Real ATS Evaluation
                 </p>
                 <p className="leading-relaxed">
-                  The ATS analysis checks your current resume content against 6 measurable factors: Job Title Relevance, Skills & Keyword Match, Content Completeness, Experience Relevance, Education & Certifications, and ATS Formatting.
+                  Evaluates your current resume against 6 core ATS criteria: Job Title Relevance, Skills & Keyword Match, Content Completeness, Experience Relevance, Education & Certifications, and Clean ATS Formatting.
                 </p>
               </div>
             </div>

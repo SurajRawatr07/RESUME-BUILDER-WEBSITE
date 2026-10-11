@@ -110,15 +110,21 @@ export default function DashboardPage({
     }
   };
 
-  const handleDelete = async (e: React.MouseEvent, resumeId: string, title: string) => {
+  const [resumeToDelete, setResumeToDelete] = useState<{ id: string; title: string } | null>(null);
+
+  const handleDelete = (e: React.MouseEvent, resumeId: string, title: string) => {
     e.stopPropagation();
-    if (window.confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) {
-      setActionInProgressId(resumeId);
-      try {
-        await deleteResume(resumeId);
-      } finally {
-        setActionInProgressId(null);
-      }
+    setResumeToDelete({ id: resumeId, title });
+  };
+
+  const confirmDelete = async () => {
+    if (!resumeToDelete) return;
+    setActionInProgressId(resumeToDelete.id);
+    try {
+      await deleteResume(resumeToDelete.id);
+      setResumeToDelete(null);
+    } finally {
+      setActionInProgressId(null);
     }
   };
 
@@ -406,6 +412,42 @@ export default function DashboardPage({
                 </Button>
               </div>
             </form>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Modal: Confirm Delete Resume */}
+      {resumeToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="w-full max-w-sm rounded-2xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-2xl space-y-4"
+          >
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">
+              Delete Resume
+            </h3>
+            <p className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed">
+              Are you sure you want to delete <strong className="text-slate-900 dark:text-white">&ldquo;{resumeToDelete.title}&rdquo;</strong>? This action cannot be undone.
+            </p>
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-gray-800">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setResumeToDelete(null)}
+                className="text-xs"
+              >
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                onClick={confirmDelete}
+                disabled={actionInProgressId === resumeToDelete.id}
+                className="text-xs bg-red-600 hover:bg-red-700 text-white"
+              >
+                {actionInProgressId === resumeToDelete.id ? 'Deleting...' : 'Delete'}
+              </Button>
+            </div>
           </motion.div>
         </div>
       )}

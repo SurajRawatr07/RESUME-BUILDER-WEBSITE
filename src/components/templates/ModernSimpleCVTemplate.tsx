@@ -27,7 +27,7 @@ export default function ModernSimpleCVTemplate({ data }: TemplateProps) {
         <div className="flex flex-col sm:flex-row justify-between items-start">
           <div>
             <h1 className="text-[22pt] font-normal tracking-wide uppercase text-black leading-none">
-              {data.fullName || 'Suraj Rawat'}
+              {data.fullName || 'Your Name'}
             </h1>
             <div className="text-[10pt] font-semibold text-gray-800 tracking-wider uppercase mt-1">
               Frontend Developer • UI & Web Engineer

@@ -180,7 +180,7 @@ export default function FeatureHubModal({
                 )}
 
                 {currentTab === 'ats_diagnostic' && (
-                  <ATSChecker resumeData={resumeData} onClose={onClose} />
+                  <ATSChecker resumeData={resumeData} onClose={onClose} isInline={true} />
                 )}
 
                 {currentTab === 'content_assistant' && (

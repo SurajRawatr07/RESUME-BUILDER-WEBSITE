@@ -27,7 +27,6 @@ import FloatingNavbar from '@/components/ui/FloatingNavbar';
 import TemplateGallery from '@/components/features/TemplateGallery';
 import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
 import GlowingShadow from '@/components/ui/GlowingShadow';
-import AnimatedResumeHeroVisual from '@/components/ui/AnimatedResumeHeroVisual';
 import {
   DisclosureGroup,
   Disclosure,
@@ -311,89 +310,97 @@ export default function LandingPage({
       />
 
       {/* ========================================
-          1. HOME (HERO SECTION - TWO-COLUMN ON DESKTOP, STACKED ON MOBILE)
+          1. HOME (HERO SECTION - CLEAN & LIGHTWEIGHT)
       ======================================== */}
       <section className="relative pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 lg:pb-28 overflow-hidden border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-            {/* Left Column: Polished Hero Copy & CTAs */}
-            <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
-              {/* Hero Brand Eyebrow Badge */}
-              <motion.div
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="mb-4 inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-black/[0.08] dark:border-white/[0.12] bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xs select-none"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400" />
-                <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
-                  Welcome to <span className="brand-script-text text-[15px] font-normal text-neutral-900 dark:text-neutral-100">Resume Craft</span>
-                </span>
-              </motion.div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+          {/* Hero Brand Eyebrow Badge */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.12] bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xs select-none"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400" />
+            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
+              Welcome to <span className="brand-script-text text-[15px] font-normal text-neutral-900 dark:text-neutral-100">Resume Craft</span>
+            </span>
+          </motion.div>
 
-              {/* Main Heading */}
-              <motion.h1
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="hero-heading-shimmer text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.14] text-gray-900 dark:text-white max-w-2xl mb-5 select-none"
-                style={{ fontFamily: '"Playfair Display", "Times New Roman", Georgia, serif' }}
-              >
-                Build a professional resume that gets noticed.
-              </motion.h1>
+          {/* Main Heading */}
+          <motion.h1
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.14] text-gray-900 dark:text-white max-w-3xl mb-5 select-none"
+            style={{ fontFamily: '"Playfair Display", "Times New Roman", Georgia, serif' }}
+          >
+            Build a professional resume that gets noticed.
+          </motion.h1>
 
-              {/* Subtitle */}
-              <motion.p
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="text-base sm:text-lg leading-relaxed max-w-xl mb-8 text-gray-600 dark:text-gray-300 font-normal select-none"
-                style={{ fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
-              >
-                Create clean, ATS-friendly resumes using professionally structured templates for different career paths.
-              </motion.p>
+          {/* Subtitle */}
+          <motion.p
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="text-base sm:text-lg leading-relaxed max-w-2xl mb-8 text-gray-600 dark:text-gray-300 font-normal select-none"
+            style={{ fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
+          >
+            Create clean, ATS-friendly resumes using professionally structured templates for different career paths.
+          </motion.p>
 
-              {/* Hero Actions / Buttons */}
-              <motion.div
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 sm:gap-4 w-full sm:w-auto"
+          {/* Hero Actions / Buttons */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 w-full sm:w-auto"
+          >
+            <GlowingShadow variant="button" rounded="rounded-xl">
+              <Button
+                id="hero-create-resume-btn"
+                onClick={() => onStartBuilding()}
+                className="h-12 px-7 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm flex items-center gap-2 text-sm sm:text-base transition-all cursor-pointer w-full sm:w-auto justify-center"
               >
-                <GlowingShadow variant="button" rounded="rounded-xl">
-                  <Button
-                    id="hero-create-resume-btn"
-                    onClick={() => onStartBuilding()}
-                    className="h-12 px-7 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm flex items-center gap-2 text-sm sm:text-base transition-all cursor-pointer w-full sm:w-auto justify-center"
-                  >
-                    <span>Create Resume</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </GlowingShadow>
+                <span>Create Resume</span>
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </GlowingShadow>
 
-                <Button
-                  id="hero-explore-templates-btn"
-                  variant="outline"
-                  onClick={() => scrollTo('#templates')}
-                  className={`h-12 px-6 rounded-xl font-medium text-sm sm:text-base transition-all cursor-pointer w-full sm:w-auto ${
-                    isDark
-                      ? 'border-gray-800 hover:bg-gray-800 text-gray-300'
-                      : 'border-gray-300 hover:bg-gray-50 text-gray-700'
-                  }`}
-                >
-                  Explore Templates
-                </Button>
-              </motion.div>
+            <Button
+              id="hero-explore-templates-btn"
+              variant="outline"
+              onClick={() => scrollTo('#templates')}
+              className={`h-12 px-6 rounded-xl font-medium text-sm sm:text-base transition-all cursor-pointer w-full sm:w-auto ${
+                isDark
+                  ? 'border-gray-800 hover:bg-gray-800 text-gray-300'
+                  : 'border-gray-300 hover:bg-gray-50 text-gray-700'
+              }`}
+            >
+              Explore Templates
+            </Button>
+          </motion.div>
+
+          {/* Clean Trust / Highlights Badges */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-12 pt-8 border-t border-black/[0.06] dark:border-white/[0.08] w-full max-w-xl flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs text-neutral-500 dark:text-neutral-400 select-none"
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">ATS Optimized</span>
             </div>
-
-            {/* Right Column: Premium Animated Laptop-and-Resume Visual */}
-            <div className="lg:col-span-5 flex items-center justify-center w-full px-2 sm:px-0">
-              <AnimatedResumeHeroVisual
-                onCreateResume={() => onStartBuilding()}
-                onExploreTemplates={() => scrollTo('#templates')}
-              />
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">9 Overleaf & LaTeX Templates</span>
             </div>
-          </div>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">Instant PDF Export</span>
+            </div>
+          </motion.div>
         </div>
       </section>
 

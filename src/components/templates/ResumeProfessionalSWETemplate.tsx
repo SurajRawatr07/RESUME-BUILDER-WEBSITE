@@ -25,7 +25,7 @@ export default function ResumeProfessionalSWETemplate({ data }: TemplateProps) {
       {/* 1. PROFESSIONAL EXECUTIVE HEADER */}
       <header className="border-b-2 border-black pb-2 mb-2 text-center">
         <h1 className="text-[22pt] font-bold tracking-normal uppercase text-black leading-none mb-1">
-          {data.fullName || 'Suraj Rawat'}
+          {data.fullName || 'Your Name'}
         </h1>
         <div className="text-[10pt] font-semibold tracking-wider uppercase text-gray-800 mb-1">
           {data.jobTitle || 'Software Engineer'} • Professional Resume

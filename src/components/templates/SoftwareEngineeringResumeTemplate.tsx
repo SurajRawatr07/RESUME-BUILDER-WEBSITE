@@ -27,7 +27,7 @@ export default function SoftwareEngineeringResumeTemplate({ data }: TemplateProp
         <div className="flex flex-col sm:flex-row justify-between items-baseline">
           <div>
             <h1 className="text-[22pt] font-bold tracking-tight text-black leading-none">
-              {data.fullName || 'Suraj Rawat'}
+              {data.fullName || 'Your Name'}
             </h1>
             <div className="text-[10pt] font-semibold text-gray-800 tracking-wide mt-1">
               Software Engineer | Systems & Backend Developer

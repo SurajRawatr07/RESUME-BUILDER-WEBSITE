@@ -56,40 +56,16 @@ function generateId(prefix = 'id'): string {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
 }
 
-// Default initial user for instant frontend usability
-const DEFAULT_DEMO_USER: StoredUser = {
-  id: 'usr-demo-1',
-  _id: 'usr-demo-1',
-  name: 'Suraj Rawat',
-  email: 'alex@example.com',
-  password: 'Password123!',
-  title: 'Senior Software Engineer',
-  phone: '+1 (555) 019-2834',
-  location: 'San Francisco, CA',
-  bio: 'Crafting high-impact professional resumes with verified ATS compatibility.',
-  avatar: '',
-  skills: ['TypeScript', 'React', 'Tailwind CSS', 'Next.js', 'System Design'],
-  linkedin: 'https://linkedin.com/in/alexrivera',
-  github: 'https://github.com/alexrivera',
-  portfolio: 'https://alexrivera.dev',
-  totalResumes: 1,
-  latestResume: "Suraj's Resume.pdf",
-  lastUpdated: 'Recently',
-  templatesUsed: ['frontend'],
-  createdAt: new Date().toISOString(),
-};
-
 function getStoredUsers(): StoredUser[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.USERS);
     if (!raw) {
-      const initial = [DEFAULT_DEMO_USER];
-      localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(initial));
-      return initial;
+      return [];
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    return [DEFAULT_DEMO_USER];
+    return [];
   }
 }
 
@@ -105,13 +81,17 @@ function getCurrentUser(): StoredUser | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
     if (!raw) {
-      // Default to demo user for frontend session
-      localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(DEFAULT_DEMO_USER));
-      return DEFAULT_DEMO_USER;
+      return null;
     }
-    return JSON.parse(raw);
+    const user = JSON.parse(raw);
+    // Discard any residual mock session from previous versions
+    if (user && (user.id === 'usr-demo-1' || user.email === 'alex@example.com' || user.name === 'Suraj Rawat')) {
+      localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+      return null;
+    }
+    return user && user.id ? user : null;
   } catch {
-    return DEFAULT_DEMO_USER;
+    return null;
   }
 }
 
@@ -132,20 +112,10 @@ function getUserResumes(userId: string): ApiResume[] {
     const key = `${STORAGE_KEYS.RESUMES_PREFIX}${userId}`;
     const raw = localStorage.getItem(key);
     if (!raw) {
-      const initialResume: ApiResume = {
-        _id: 'res-default-1',
-        id: 'res-default-1',
-        userId,
-        title: "Suraj's Resume",
-        selectedTemplate: 'frontend',
-        resumeData: { ...BASE_DEMO_DATA },
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-      localStorage.setItem(key, JSON.stringify([initialResume]));
-      return [initialResume];
+      return [];
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
@@ -274,7 +244,7 @@ class ApiClient {
     getMe: async () => {
       const user = getCurrentUser();
       if (!user) {
-        return { success: false, user: DEFAULT_DEMO_USER };
+        return { success: false, user: null };
       }
       return { success: true, user };
     },
@@ -313,8 +283,13 @@ class ApiClient {
   resumes = {
     getAll: async () => {
       const user = getCurrentUser();
-      const userId = user?.id || 'usr-demo-1';
-      const resumes = getUserResumes(userId);
+      if (!user) {
+        return {
+          success: true,
+          resumes: [],
+        };
+      }
+      const resumes = getUserResumes(user.id);
       return {
         success: true,
         resumes,
@@ -323,8 +298,10 @@ class ApiClient {
 
     getById: async (id: string) => {
       const user = getCurrentUser();
-      const userId = user?.id || 'usr-demo-1';
-      const resumes = getUserResumes(userId);
+      if (!user) {
+        throw new Error('Please sign in to access your resumes.');
+      }
+      const resumes = getUserResumes(user.id);
       const found = resumes.find((r) => r._id === id || r.id === id);
 
       if (!found) {
@@ -344,11 +321,15 @@ class ApiClient {
       resumeData?: ResumeData;
     }) => {
       const user = getCurrentUser();
-      const userId = user?.id || 'usr-demo-1';
+      const userId = user?.id || generateId('usr');
       const resumes = getUserResumes(userId);
 
       const resumeId = generateId('res');
-      const freshResumeData = data.resumeData || { ...BASE_DEMO_DATA };
+      const freshResumeData = data.resumeData || {
+        ...BASE_DEMO_DATA,
+        fullName: user?.name || '',
+        email: user?.email || '',
+      };
 
       const newResume: ApiResume = {
         _id: resumeId,
@@ -390,7 +371,7 @@ class ApiClient {
       }
     ) => {
       const user = getCurrentUser();
-      const userId = user?.id || 'usr-demo-1';
+      const userId = user?.id || 'anonymous';
       const resumes = getUserResumes(userId);
 
       const index = resumes.findIndex((r) => r._id === id || r.id === id);
@@ -430,7 +411,7 @@ class ApiClient {
 
     duplicate: async (id: string) => {
       const user = getCurrentUser();
-      const userId = user?.id || 'usr-demo-1';
+      const userId = user?.id || 'anonymous';
       const resumes = getUserResumes(userId);
 
       const existing = resumes.find((r) => r._id === id || r.id === id);
@@ -460,7 +441,7 @@ class ApiClient {
 
     delete: async (id: string) => {
       const user = getCurrentUser();
-      const userId = user?.id || 'usr-demo-1';
+      const userId = user?.id || 'anonymous';
       const resumes = getUserResumes(userId);
 
       const filtered = resumes.filter((r) => r._id !== id && r.id !== id);

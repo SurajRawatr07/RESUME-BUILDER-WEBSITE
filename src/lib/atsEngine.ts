@@ -1,4 +1,4 @@
-import { ResumeData } from '@/types/resume';
+import { ResumeData, Experience, Project, Education, Certification } from '@/types/resume';
 
 export interface ATSSectionScore {
   score: number;
@@ -167,45 +167,54 @@ export function extractResumeText(resume: ResumeData): string {
     ...toCleanStringArray(resume.technologies),
   ];
 
-  if (resume.experiences) {
-    resume.experiences.forEach((exp) => {
-      parts.push(exp.jobTitle || '');
-      parts.push(exp.company || '');
-      parts.push(exp.description || '');
-      const expWithTech = exp as { technologies?: unknown };
-      if (expWithTech.technologies) {
-        parts.push(...toCleanStringArray(expWithTech.technologies));
+  const exps: Experience[] = resume.experiences || (resume as unknown as { experience?: Experience[] }).experience || [];
+  if (Array.isArray(exps)) {
+    exps.forEach((exp: Experience) => {
+      if (exp) {
+        parts.push(exp.jobTitle || '');
+        parts.push(exp.company || '');
+        parts.push(exp.description || '');
+        const expWithTech = exp as { technologies?: unknown };
+        if (expWithTech.technologies) {
+          parts.push(...toCleanStringArray(expWithTech.technologies));
+        }
       }
     });
   }
 
-  if (resume.projects) {
-    resume.projects.forEach((proj) => {
-      parts.push(proj.title || '');
-      parts.push(proj.description || '');
-      if (proj.technologies) {
-        parts.push(...toCleanStringArray(proj.technologies));
+  if (Array.isArray(resume.projects)) {
+    resume.projects.forEach((proj: Project) => {
+      if (proj) {
+        parts.push(proj.title || '');
+        parts.push(proj.description || '');
+        if (proj.technologies) {
+          parts.push(...toCleanStringArray(proj.technologies));
+        }
       }
     });
   }
 
-  if (resume.education) {
-    resume.education.forEach((edu) => {
-      parts.push(edu.institution || '');
-      parts.push(edu.degree || '');
-      parts.push(edu.fieldOfStudy || '');
-      parts.push(edu.coursework || '');
+  if (Array.isArray(resume.education)) {
+    resume.education.forEach((edu: Education) => {
+      if (edu) {
+        parts.push(edu.institution || '');
+        parts.push(edu.degree || '');
+        parts.push(edu.fieldOfStudy || '');
+        parts.push(edu.coursework || '');
+      }
     });
   }
 
-  if (resume.certifications) {
-    resume.certifications.forEach((cert) => {
-      parts.push(cert.name || '');
-      parts.push(cert.issuer || '');
+  if (Array.isArray(resume.certifications)) {
+    resume.certifications.forEach((cert: Certification) => {
+      if (cert) {
+        parts.push(cert.name || '');
+        parts.push(cert.issuer || '');
+      }
     });
   }
 
-  if (resume.achievements) {
+  if (Array.isArray(resume.achievements)) {
     resume.achievements.forEach((ach: unknown) => {
       if (typeof ach === 'string') {
         parts.push(ach);
@@ -217,15 +226,15 @@ export function extractResumeText(resume: ResumeData): string {
     });
   }
 
-  if (resume.interests) {
+  if (Array.isArray(resume.interests)) {
     parts.push(...toCleanStringArray(resume.interests));
   }
 
-  if (resume.publications) {
+  if (Array.isArray(resume.publications)) {
     parts.push(...toCleanStringArray(resume.publications));
   }
 
-  if (resume.leadership) {
+  if (Array.isArray(resume.leadership)) {
     parts.push(...toCleanStringArray(resume.leadership));
   }
 
@@ -340,10 +349,27 @@ function getKeywordsForRole(targetJobTitle: string): string[] {
  *
  * TOTAL = 100 POINTS
  */
+export function extractKeywordsFromText(text: string): string[] {
+  if (!text || !text.trim()) return [];
+  const lower = text.toLowerCase();
+  const allKnown = new Set<string>();
+  Object.values(ROLE_KEYWORD_DICTIONARIES).forEach((list) => {
+    list.forEach((w) => allKnown.add(w));
+  });
+
+  const extracted: string[] = [];
+  allKnown.forEach((w) => {
+    if (lower.includes(w.toLowerCase())) {
+      extracted.push(w);
+    }
+  });
+  return extracted;
+}
+
 export function calculateATSScore(
   resume: ResumeData,
   targetJobTitle = 'Full Stack Developer',
-  _customJobDescription = ''
+  customJobDescription = ''
 ): ATSAnalysisResult {
   const strengths: string[] = [];
   const weaknesses: string[] = [];
@@ -357,7 +383,7 @@ export function calculateATSScore(
   const phone = (resume?.phone || '').trim();
   const headline = (resume?.jobTitle || '').trim();
   const summary = (resume?.summary || resume?.aboutMe || '').trim();
-  const experiences = resume?.experiences || [];
+  const experiences: Experience[] = resume?.experiences || (resume as unknown as { experience?: Experience[] })?.experience || [];
   const projects = resume?.projects || [];
   const education = resume?.education || [];
   const skills = resume?.skills || [];
@@ -369,6 +395,41 @@ export function calculateATSScore(
     ...toCleanStringArray(skills),
     ...toCleanStringArray(resume?.technologies),
   ];
+
+  const roleKeywords = getKeywordsForRole(rawRole);
+  const jdKeywords = customJobDescription ? extractKeywordsFromText(customJobDescription) : [];
+  const targetKeywords = Array.from(new Set([...roleKeywords, ...jdKeywords]));
+
+  // Gracefully handle completely empty resume
+  if (!resumeFullText.trim()) {
+    return {
+      score: 0,
+      targetJobTitle: rawRole,
+      status: 'Weak Match',
+      statusColor: 'text-rose-600 bg-rose-50 border-rose-200 dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-300',
+      strengths: [],
+      weaknesses: [
+        'Resume is empty. No personal information, skills, experience, or education found.',
+      ],
+      recommendations: [
+        `Fill in your contact details, resume headline for "${rawRole}", core technical skills, and at least one experience or project.`,
+      ],
+      matchedKeywords: [],
+      missingKeywords: targetKeywords.slice(0, 10),
+      breakdown: {
+        jobTitleRelevance: { score: 0, max: 20, label: 'Job Title Relevance', feedback: 'No resume title or headline provided' },
+        keywordMatch: { score: 0, max: 30, label: 'Keyword Match', feedback: '0 keywords matched' },
+        contentCompleteness: { score: 0, max: 15, label: 'Content Completeness', feedback: 'All resume sections are currently empty' },
+        experienceProjects: { score: 0, max: 15, label: 'Experience / Projects', feedback: 'No work experience or projects listed' },
+        educationCertifications: { score: 0, max: 10, label: 'Education / Certifications', feedback: 'No education listed' },
+        atsFormatting: { score: 0, max: 10, label: 'ATS Formatting', feedback: 'Empty resume document' },
+        contact: { score: 0, max: 10, label: 'Contact Information', feedback: 'Missing contact info' },
+        summary: { score: 0, max: 10, label: 'Professional Summary', feedback: 'Missing summary' },
+        skills: { score: 0, max: 15, label: 'Technical Skills', feedback: 'No skills entered' },
+        experience: { score: 0, max: 20, label: 'Work Experience', feedback: 'No experience entered' },
+      },
+    };
+  }
 
   // Tokenize target role for semantic relevance
   const stopWords = new Set(['senior', 'junior', 'lead', 'principal', 'staff', 'associate', 'intern', 'the', 'and', 'for', 'of', 'in', 'at']);
@@ -459,7 +520,6 @@ export function calculateATSScore(
   // ==========================================
   // 2. Skills & Keyword Match (30 Points)
   // ==========================================
-  const targetKeywords = getKeywordsForRole(rawRole);
   const matchedKeywords: string[] = [];
   const missingKeywords: string[] = [];
 

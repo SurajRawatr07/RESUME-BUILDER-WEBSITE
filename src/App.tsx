@@ -9,7 +9,6 @@ import EditorPage from './pages/EditorPage';
 import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
 import FloatingPathsBackground from './components/ui/floating-paths-background';
-import InitialLoadingScreen from './components/ui/InitialLoadingScreen';
 import { AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useResumeStore } from './stores/resumeStore';
@@ -21,9 +20,6 @@ type Page = 'landing' | 'editor' | 'profile' | 'dashboard' | 'login' | 'signup' 
 function AppContent() {
   const { isAuthenticated, isLoading } = useAuth();
   const { setSelectedTemplate } = useResumeStore();
-
-  // Exactly 3-second initial loader state
-  const [showInitialLoader, setShowInitialLoader] = useState(true);
 
   // Landing page is public by default!
   const [currentPage, setCurrentPage] = useState<Page>('landing');
@@ -184,15 +180,14 @@ function AppContent() {
 
       {/* 2. Main Application Content (Z-index: 1, Relative) */}
       <div className="relative z-1 min-h-screen">
-        {renderCurrentPage()}
+        <ErrorBoundary
+          fallbackTitle="Page Unavailable"
+          fallbackMessage="An issue occurred loading this section. You can return to the homepage or try again."
+          onReset={() => setCurrentPage('landing')}
+        >
+          {renderCurrentPage()}
+        </ErrorBoundary>
       </div>
-
-      {/* 3. Global Initial Loader (Visible for EXACTLY 3 seconds, then smooth 350ms exit) */}
-      <AnimatePresence>
-        {showInitialLoader && (
-          <InitialLoadingScreen onComplete={() => setShowInitialLoader(false)} />
-        )}
-      </AnimatePresence>
     </div>
   );
 }

@@ -59,7 +59,6 @@ export function DisclosureGroup({
     <DisclosureGroupContext.Provider value={{ expandedKeys: currentKeys, toggleItem }}>
       <div
         className={cn('space-y-4', className)}
-        style={{ fontFamily: '"Times New Roman", Times, serif' }}
       >
         {children}
       </div>

@@ -57,13 +57,13 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
   const handleApplyContentAssistant = (newText: string, sectionType: string) => {
     if (sectionType === 'summary') {
       setResumeData({ summary: newText });
-    } else if (sectionType === 'experience' && resumeData.experience && resumeData.experience.length > 0) {
-      const updatedExp = [...resumeData.experience];
+    } else if (sectionType === 'experience' && resumeData.experiences && resumeData.experiences.length > 0) {
+      const updatedExp = [...resumeData.experiences];
       updatedExp[0] = {
         ...updatedExp[0],
         description: newText,
       };
-      setResumeData({ experience: updatedExp });
+      setResumeData({ experiences: updatedExp });
     } else if (sectionType === 'project' && resumeData.projects && resumeData.projects.length > 0) {
       const updatedProj = [...resumeData.projects];
       updatedProj[0] = {
