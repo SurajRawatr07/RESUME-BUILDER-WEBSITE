@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 
 import {
   AnimatedChooseTemplateIcon,
@@ -15,9 +13,8 @@ import {
   AnimatedResponsiveDevicesIcon,
 } from '@/components/icons/animated';
 
-import { Button } from '@/components/ui/button';
 import { useTheme } from '@/context/ThemeContext';
-import FloatingNavbar from '@/components/ui/FloatingNavbar';
+import HeroOne from '@/components/ui/hero-01';
 import TemplateGallery from '@/components/features/TemplateGallery';
 import StackedCircularFooter from '@/components/ui/StackedCircularFooter';
 import GlowingShadow from '@/components/ui/GlowingShadow';
@@ -36,13 +33,6 @@ interface LandingPageProps {
   onNavigateToProfile?: () => void;
   onNavigateToLogin?: () => void;
 }
-
-const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Templates', href: '#templates' },
-  { label: 'Features', href: '#features' },
-];
 
 const steps = [
   {
@@ -244,7 +234,6 @@ export default function LandingPage({
   onNavigateToLogin,
 }: LandingPageProps) {
   const { isDark } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
 
   const scrollTo = (id: string) => {
     document.getElementById(id.replace('#', ''))?.scrollIntoView({
@@ -254,122 +243,20 @@ export default function LandingPage({
 
   return (
     <div
-      id="home"
       className={`min-h-screen overflow-x-hidden transition-colors duration-200 bg-transparent ${
         isDark ? 'text-[#F3F3EE]' : 'text-gray-900'
       }`}
     >
-      <FloatingNavbar
-        navLinks={navLinks}
+      {/* ========================================
+          1. HERO-01 TEMPLATE (Header + Hero + BrandSlider)
+      ======================================== */}
+      <HeroOne
         onStartBuilding={onStartBuilding}
+        onNavigateToLogin={onNavigateToLogin}
         onNavigateToDashboard={onNavigateToDashboard}
         onNavigateToProfile={onNavigateToProfile}
-        onNavigateToLogin={onNavigateToLogin}
         onScrollTo={scrollTo}
       />
-
-      {/* ========================================
-          1. HERO SECTION
-      ======================================== */}
-      <section className="relative pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 lg:pb-28 overflow-hidden border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent">
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-black/[0.08] dark:border-white/[0.12] bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xs select-none"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400" />
-            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
-              Welcome to{' '}
-              <span className="brand-script-text text-[15px] font-normal text-neutral-900 dark:text-neutral-100">
-                Resume Craft
-              </span>
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.14] text-gray-900 dark:text-white max-w-3xl mb-5 select-none"
-            style={{
-              fontFamily: '"Playfair Display", Georgia, serif',
-            }}
-          >
-            Build a professional resume that gets noticed.
-          </motion.h1>
-
-          <motion.p
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-lg leading-relaxed max-w-2xl mb-8 text-gray-600 dark:text-gray-300 font-normal select-none"
-            style={{
-              fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-            }}
-          >
-            Create clean, ATS-friendly resumes using professionally structured templates for different career paths.
-          </motion.p>
-
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 w-full sm:w-auto"
-          >
-            <GlowingShadow variant="button" rounded="rounded-xl">
-              <Button
-                id="hero-create-resume-btn"
-                onClick={() => onStartBuilding()}
-                className="h-12 px-7 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm flex items-center gap-2 text-sm sm:text-base transition-all cursor-pointer w-full sm:w-auto justify-center"
-              >
-                <span>Create Resume</span>
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </GlowingShadow>
-
-            <Button
-              id="hero-explore-templates-btn"
-              variant="outline"
-              onClick={() => scrollTo('#templates')}
-              className={`h-12 px-6 rounded-xl font-medium text-sm sm:text-base transition-all cursor-pointer w-full sm:w-auto ${
-                isDark
-                  ? 'border-gray-800 hover:bg-gray-800 text-gray-300'
-                  : 'border-gray-300 hover:bg-gray-50 text-gray-700'
-              }`}
-            >
-              Explore Templates
-            </Button>
-          </motion.div>
-
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-12 pt-8 border-t border-black/[0.06] dark:border-white/[0.08] w-full max-w-xl flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs text-neutral-500 dark:text-neutral-400 select-none"
-          >
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span className="font-medium text-neutral-700 dark:text-neutral-300">
-                ATS Optimized
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-              <span className="font-medium text-neutral-700 dark:text-neutral-300">
-                9 Overleaf &amp; LaTeX Templates
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-              <span className="font-medium text-neutral-700 dark:text-neutral-300">
-                Instant PDF Export
-              </span>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* ========================================
           2. HOW IT WORKS
