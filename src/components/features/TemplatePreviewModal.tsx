@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TemplateDefinition } from '../templates/registry';
 import { ResumeData } from '@/types/resume';
 import { X, Check, ZoomIn, ZoomOut, RotateCcw, FileText, CheckCircle2 } from 'lucide-react';
@@ -23,6 +23,17 @@ export const TemplatePreviewModal: React.FC<TemplatePreviewModalProps> = ({
   useDemoData = true,
 }) => {
   const [zoom, setZoom] = useState<number>(100);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen || !template) return null;
 
@@ -119,8 +130,10 @@ export const TemplatePreviewModal: React.FC<TemplatePreviewModalProps> = ({
 
             {/* Close Button */}
             <button
+              type="button"
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Close preview"
+              className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>

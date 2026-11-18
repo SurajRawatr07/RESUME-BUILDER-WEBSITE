@@ -4,7 +4,7 @@ import { useResumeStore } from '@/stores/resumeStore';
 import { TemplateType } from '@/types/resume';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/context/ThemeContext';
-import { Check, Eye, CheckCircle2, Sparkles, Filter } from 'lucide-react';
+import { Check, Eye, Filter } from 'lucide-react';
 import {
   TEMPLATES,
   TEMPLATE_CATEGORIES,
@@ -40,7 +40,7 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
     <div className="space-y-8 max-w-7xl mx-auto">
       {/* Category Filter Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b pb-4 border-gray-200 dark:border-gray-800">
-        <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 scrollbar-none">
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 w-full sm:w-auto">
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-xs font-semibold text-gray-700 dark:text-gray-300 shrink-0">
             <Filter className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
             <span>Category</span>
@@ -50,8 +50,9 @@ export default function TemplateGallery({ onSelectTemplate }: TemplateGalleryPro
             return (
               <button
                 key={category}
+                type="button"
                 onClick={() => setActiveCategory(category)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
                   isActive
                     ? 'bg-indigo-600 text-white shadow-xs font-semibold'
                     : isDark

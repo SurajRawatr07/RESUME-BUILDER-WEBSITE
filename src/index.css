@@ -112,7 +112,7 @@
 
   /* Refined Editorial Headings (Playfair Display / Editorial Serif) */
   h1, .font-serif-heading {
-    font-family: "Playfair Display", "Times New Roman", Georgia, serif;
+    font-family: "Playfair Display", Georgia, serif;
     letter-spacing: -0.02em;
   }
 

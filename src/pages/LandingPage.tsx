@@ -1,9 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import {
-  motion,
-  AnimatePresence,
-  useReducedMotion,
-} from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 import {
@@ -17,11 +13,9 @@ import {
   AnimatedPdfExportIcon,
   AnimatedTemplateSwitchIcon,
   AnimatedResponsiveDevicesIcon,
-  AnimatedIconProps,
 } from '@/components/icons/animated';
 
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/context/ThemeContext';
 import FloatingNavbar from '@/components/ui/FloatingNavbar';
 import TemplateGallery from '@/components/features/TemplateGallery';
@@ -43,10 +37,6 @@ interface LandingPageProps {
   onNavigateToLogin?: () => void;
 }
 
-/* ========================================
-   NAVIGATION (Strict requested order)
-   Home → How It Works → Templates → Features
-======================================== */
 const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'How It Works', href: '#how-it-works' },
@@ -54,9 +44,6 @@ const navLinks = [
   { label: 'Features', href: '#features' },
 ];
 
-/* ========================================
-   HOW IT WORKS (4-Step Process)
-======================================== */
 const steps = [
   {
     step: '01',
@@ -84,61 +71,6 @@ const steps = [
   },
 ];
 
-interface StepCardItemProps {
-  step: (typeof steps)[number];
-  isDark: boolean;
-}
-
-const StepCardItem: React.FC<StepCardItemProps> = ({ step, isDark }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const Icon = step.icon;
-
-  return (
-    <GlowingShadow
-      variant="subtle"
-      rounded="rounded-2xl"
-      className="h-full"
-    >
-      <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className={`h-full p-6 rounded-2xl border transition-all ${
-          isDark
-            ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
-            : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
-        }`}
-      >
-        <div className="flex items-center justify-between mb-4">
-          <div className="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 text-[#111111] dark:text-neutral-100 flex items-center justify-center transition-colors">
-            <Icon
-              isHovered={isHovered}
-              className="w-7 h-7 sm:w-7 sm:h-7 md:w-[30px] md:h-[30px] lg:w-8 lg:h-8 text-[#111111] dark:text-neutral-100"
-            />
-          </div>
-          <span className="text-2xl font-black text-gray-300 dark:text-gray-700 select-none">
-            {step.step}
-          </span>
-        </div>
-
-        <h3 className="text-base font-bold mb-2 text-gray-900 dark:text-white">
-          {step.title}
-        </h3>
-
-        <p
-          className={`text-xs sm:text-sm leading-relaxed ${
-            isDark ? 'text-gray-400' : 'text-gray-600'
-          }`}
-        >
-          {step.desc}
-        </p>
-      </div>
-    </GlowingShadow>
-  );
-};
-
-/* ========================================
-   FEATURES (6 Core Features)
-======================================== */
 const features = [
   {
     icon: AnimatedTemplatesGridIcon,
@@ -172,59 +104,7 @@ const features = [
   },
 ];
 
-interface FeatureCardItemProps {
-  feature: (typeof features)[number];
-  isDark: boolean;
-}
-
-const FeatureCardItem: React.FC<FeatureCardItemProps> = ({ feature, isDark }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const Icon = feature.icon;
-
-  return (
-    <GlowingShadow
-      variant="subtle"
-      rounded="rounded-2xl"
-      className="h-full"
-    >
-      <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className={`h-full p-6 sm:p-7 rounded-2xl border transition-all ${
-          isDark
-            ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
-            : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
-        }`}
-      >
-        <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors bg-neutral-100 dark:bg-neutral-800/80 text-[#111111] dark:text-neutral-100"
-        >
-          <Icon
-            isHovered={isHovered}
-            className="w-7 h-7 sm:w-7 sm:h-7 md:w-[30px] md:h-[30px] lg:w-8 lg:h-8 text-[#111111] dark:text-neutral-100"
-          />
-        </div>
-
-        <h3 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white">
-          {feature.title}
-        </h3>
-
-        <p
-          className={`text-xs sm:text-sm leading-relaxed ${
-            isDark ? 'text-gray-400' : 'text-gray-600'
-          }`}
-        >
-          {feature.desc}
-        </p>
-      </div>
-    </GlowingShadow>
-  );
-};
-
-/* ========================================
-   FAQ (Exactly 4 Requested Questions & Answers)
-======================================== */
-const faqItems = [
+const faqs = [
   {
     id: 'faq-1',
     question: 'What is Resume Craft?',
@@ -251,16 +131,15 @@ const faqItems = [
   },
 ];
 
-// Helper to render "Resume Craft" with signature calligraphic typography
-const renderWithBrand = (text: string) => {
+const renderBrandCopy = (text: string): React.ReactNode => {
   if (!text.includes('Resume Craft')) return text;
   const parts = text.split('Resume Craft');
   return (
     <>
-      {parts.map((part, idx) => (
-        <React.Fragment key={idx}>
+      {parts.map((part, index) => (
+        <React.Fragment key={index}>
           {part}
-          {idx < parts.length - 1 && (
+          {index < parts.length - 1 && (
             <span className="brand-script-text text-[1.15em] font-normal text-neutral-900 dark:text-neutral-100">
               Resume Craft
             </span>
@@ -271,16 +150,99 @@ const renderWithBrand = (text: string) => {
   );
 };
 
-/* ========================================
-   MAIN COMPONENT
-======================================== */
+interface StepCardProps {
+  step: (typeof steps)[number];
+  isDark: boolean;
+}
+
+const StepCard: React.FC<StepCardProps> = ({ step, isDark }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const Icon = step.icon;
+
+  return (
+    <GlowingShadow variant="subtle" rounded="rounded-2xl" className="h-full">
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`h-full p-6 rounded-2xl border transition-all ${
+          isDark
+            ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
+            : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
+        }`}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div className="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 text-[#111111] dark:text-neutral-100 flex items-center justify-center transition-colors">
+            <Icon
+              isHovered={isHovered}
+              className="w-7 h-7 sm:w-7 sm:h-7 md:w-[30px] md:h-[30px] lg:w-8 lg:h-8 text-[#111111] dark:text-neutral-100"
+            />
+          </div>
+          <span className="text-2xl font-black text-gray-300 dark:text-gray-700 select-none">
+            {step.step}
+          </span>
+        </div>
+        <h3 className="text-base font-bold mb-2 text-gray-900 dark:text-white">
+          {step.title}
+        </h3>
+        <p
+          className={`text-xs sm:text-sm leading-relaxed ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}
+        >
+          {step.desc}
+        </p>
+      </div>
+    </GlowingShadow>
+  );
+};
+
+interface FeatureCardProps {
+  feature: (typeof features)[number];
+  isDark: boolean;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ feature, isDark }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const Icon = feature.icon;
+
+  return (
+    <GlowingShadow variant="subtle" rounded="rounded-2xl" className="h-full">
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`h-full p-6 sm:p-7 rounded-2xl border transition-all ${
+          isDark
+            ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
+            : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
+        }`}
+      >
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors bg-neutral-100 dark:bg-neutral-800/80 text-[#111111] dark:text-neutral-100">
+          <Icon
+            isHovered={isHovered}
+            className="w-7 h-7 sm:w-7 sm:h-7 md:w-[30px] md:h-[30px] lg:w-8 lg:h-8 text-[#111111] dark:text-neutral-100"
+          />
+        </div>
+        <h3 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white">
+          {feature.title}
+        </h3>
+        <p
+          className={`text-xs sm:text-sm leading-relaxed ${
+            isDark ? 'text-gray-400' : 'text-gray-600'
+          }`}
+        >
+          {feature.desc}
+        </p>
+      </div>
+    </GlowingShadow>
+  );
+};
+
 export default function LandingPage({
   onStartBuilding,
   onNavigateToDashboard,
   onNavigateToProfile,
   onNavigateToLogin,
 }: LandingPageProps) {
-  const { user, isAuthenticated } = useAuth();
   const { isDark } = useTheme();
   const shouldReduceMotion = useReducedMotion();
 
@@ -297,9 +259,6 @@ export default function LandingPage({
         isDark ? 'text-[#F3F3EE]' : 'text-gray-900'
       }`}
     >
-      {/* ========================================
-          FLOATING NAVBAR (21st.dev inspired)
-      ======================================== */}
       <FloatingNavbar
         navLinks={navLinks}
         onStartBuilding={onStartBuilding}
@@ -310,11 +269,10 @@ export default function LandingPage({
       />
 
       {/* ========================================
-          1. HOME (HERO SECTION - CLEAN & LIGHTWEIGHT)
+          1. HERO SECTION
       ======================================== */}
       <section className="relative pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-24 lg:pb-28 overflow-hidden border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-          {/* Hero Brand Eyebrow Badge */}
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -323,33 +281,37 @@ export default function LandingPage({
           >
             <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400" />
             <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
-              Welcome to <span className="brand-script-text text-[15px] font-normal text-neutral-900 dark:text-neutral-100">Resume Craft</span>
+              Welcome to{' '}
+              <span className="brand-script-text text-[15px] font-normal text-neutral-900 dark:text-neutral-100">
+                Resume Craft
+              </span>
             </span>
           </motion.div>
 
-          {/* Main Heading */}
           <motion.h1
             initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.14] text-gray-900 dark:text-white max-w-3xl mb-5 select-none"
-            style={{ fontFamily: '"Playfair Display", "Times New Roman", Georgia, serif' }}
+            style={{
+              fontFamily: '"Playfair Display", Georgia, serif',
+            }}
           >
             Build a professional resume that gets noticed.
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
             initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-base sm:text-lg leading-relaxed max-w-2xl mb-8 text-gray-600 dark:text-gray-300 font-normal select-none"
-            style={{ fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
+            style={{
+              fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+            }}
           >
             Create clean, ATS-friendly resumes using professionally structured templates for different career paths.
           </motion.p>
 
-          {/* Hero Actions / Buttons */}
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -381,7 +343,6 @@ export default function LandingPage({
             </Button>
           </motion.div>
 
-          {/* Clean Trust / Highlights Badges */}
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -390,15 +351,21 @@ export default function LandingPage({
           >
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span className="font-medium text-neutral-700 dark:text-neutral-300">ATS Optimized</span>
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                ATS Optimized
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-              <span className="font-medium text-neutral-700 dark:text-neutral-300">9 Overleaf & LaTeX Templates</span>
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                9 Overleaf &amp; LaTeX Templates
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-              <span className="font-medium text-neutral-700 dark:text-neutral-300">Instant PDF Export</span>
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                Instant PDF Export
+              </span>
             </div>
           </motion.div>
         </div>
@@ -419,22 +386,14 @@ export default function LandingPage({
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
               How It Works
             </h2>
-            <p
-              className={`text-sm sm:text-base ${
-                isDark ? 'text-gray-400' : 'text-gray-600'
-              }`}
-            >
+            <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               Create a recruiter-ready, ATS-compliant resume in minutes without design friction.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step) => (
-              <StepCardItem
-                key={step.step}
-                step={step}
-                isDark={isDark}
-              />
+              <StepCard key={step.step} step={step} isDark={isDark} />
             ))}
           </div>
         </div>
@@ -443,7 +402,10 @@ export default function LandingPage({
       {/* ========================================
           3. TEMPLATES
       ======================================== */}
-      <section id="templates" className="py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent">
+      <section
+        id="templates"
+        className="py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
@@ -452,19 +414,12 @@ export default function LandingPage({
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
               9 Professional Resume Templates
             </h2>
-            <p
-              className={`text-sm sm:text-base ${
-                isDark ? 'text-gray-400' : 'text-gray-600'
-              }`}
-            >
+            <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               Engineered with single-column layouts, strict semantic hierarchy, and verified ATS compatibility. Filter by role and preview in full A4 resolution.
             </p>
           </div>
 
-          {/* Template Gallery with Filtering */}
-          <TemplateGallery
-            onSelectTemplate={() => onStartBuilding()}
-          />
+          <TemplateGallery onSelectTemplate={() => onStartBuilding()} />
         </div>
       </section>
 
@@ -481,24 +436,16 @@ export default function LandingPage({
               Built For Precision
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
-              Engineered for Job Seekers & Recruiters
+              Engineered for Job Seekers &amp; Recruiters
             </h2>
-            <p
-              className={`text-sm sm:text-base ${
-                isDark ? 'text-gray-400' : 'text-gray-600'
-              }`}
-            >
+            <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               Every tool and structure you need to deliver an error-free, high-conversion resume.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature) => (
-              <FeatureCardItem
-                key={feature.title}
-                feature={feature}
-                isDark={isDark}
-              />
+              <FeatureCard key={feature.title} feature={feature} isDark={isDark} />
             ))}
           </div>
         </div>
@@ -514,29 +461,27 @@ export default function LandingPage({
               Frequently Asked Questions
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
-              Questions & Answers
+              Questions &amp; Answers
             </h2>
-            <p
-              className={`text-sm sm:text-base ${
-                isDark ? 'text-gray-400' : 'text-gray-600'
-              }`}
-            >
-              {renderWithBrand('Clear answers to common questions about Resume Craft and our ATS templates.')}
+            <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              {renderBrandCopy(
+                'Clear answers to common questions about Resume Craft and our ATS templates.'
+              )}
             </p>
           </div>
 
           <DisclosureGroup defaultExpandedKeys={['faq-1']} allowsMultipleExpanded={false}>
-            {faqItems.map((item) => (
-              <Disclosure key={item.id} id={item.id}>
+            {faqs.map((faq) => (
+              <Disclosure key={faq.id} id={faq.id}>
                 <DisclosureTrigger>
                   <span className="font-bold text-base sm:text-lg text-gray-900 dark:text-gray-100 pr-4 leading-snug">
-                    {renderWithBrand(item.question)}
+                    {renderBrandCopy(faq.question)}
                   </span>
                   <DisclosureIndicator />
                 </DisclosureTrigger>
                 <DisclosurePanel>
                   <p className="text-sm sm:text-base leading-relaxed text-gray-600 dark:text-gray-300">
-                    {renderWithBrand(item.answer)}
+                    {renderBrandCopy(faq.answer)}
                   </p>
                 </DisclosurePanel>
               </Disclosure>

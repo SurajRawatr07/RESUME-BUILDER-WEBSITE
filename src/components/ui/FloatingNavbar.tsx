@@ -93,8 +93,6 @@ export default function FloatingNavbar({
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
 
-  // Desktop navigation links matching the requested SaaS visual hierarchy:
-  // [ Resume Craft ] [ Home ] [ Templates ] [ How It Works ] [ FAQ ] [ Theme ]
   const desktopNavLinks: NavLinkItem[] = useMemo(() => {
     return [
       { label: "Home", href: "#home" },
@@ -104,7 +102,6 @@ export default function FloatingNavbar({
     ];
   }, []);
 
-  // Mobile navigation links includes all core landing page sections
   const mobileNavLinks: NavLinkItem[] = useMemo(() => {
     return [
       { label: "Home", href: "#home" },
@@ -256,8 +253,8 @@ export default function FloatingNavbar({
 
         {/* ─── DESKTOP & TABLET VIEW (>= 768px): Compact cohesive floating pill ─── */}
         <div className="hidden md:flex items-center shrink-0">
-          {/* 1. Brand Wordmark (Resume Craft: 18–21px, bold weight 700; Brand → nav: 18–24px) */}
-          <div className="flex items-center shrink-0 mr-4.5 lg:mr-5">
+          {/* 1. Brand Wordmark */}
+          <div className="flex items-center shrink-0 mr-3.5 lg:mr-5">
             <BrandWordmark
               id="floating-navbar-brand"
               size="md"
@@ -266,7 +263,7 @@ export default function FloatingNavbar({
             />
           </div>
 
-          {/* 2. Desktop Navigation Items: 6–12px gap, 10–14px px, 8–10px py, 10–12px rounded */}
+          {/* 2. Desktop Navigation Items */}
           <div
             className="flex items-center gap-1.5 lg:gap-2 shrink-0"
             onMouseLeave={() => setHoveredSection(null)}
@@ -283,7 +280,7 @@ export default function FloatingNavbar({
                   type="button"
                   onClick={() => handleNavClick(link.href)}
                   onMouseEnter={() => setHoveredSection(sectionId)}
-                  className={`relative px-3 lg:px-3.5 py-2 rounded-[10px] text-[13.5px] lg:text-[14px] leading-none transition-colors duration-180 flex items-center justify-center select-none cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 whitespace-nowrap shrink-0 ${
+                  className={`relative px-2.5 md:px-3 lg:px-3.5 py-2 rounded-[10px] text-[13.5px] lg:text-[14px] leading-none transition-colors duration-180 flex items-center justify-center select-none cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-neutral-400 dark:focus-visible:ring-neutral-500 whitespace-nowrap shrink-0 ${
                     isActive
                       ? isDark
                         ? "text-white font-semibold"
@@ -330,7 +327,7 @@ export default function FloatingNavbar({
             })}
           </div>
 
-          {/* 3. Controls Group: Profile Dropdown (if authenticated) + Theme Toggle (margin-left: 6–10px) */}
+          {/* 3. Controls Group: Auth / Profile + Theme Toggle */}
           <div className="flex items-center shrink-0 ml-2 lg:ml-2.5 gap-2">
             {isAuthenticated ? (
               <div className="flex items-center shrink-0">
@@ -345,7 +342,7 @@ export default function FloatingNavbar({
                 id="desktop-nav-signin-btn"
                 type="button"
                 onClick={onNavigateToLogin}
-                className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition-colors shrink-0 cursor-pointer ${
+                className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                   isDark
                     ? "text-neutral-200 hover:text-white bg-white/[0.08] hover:bg-white/[0.14]"
                     : "text-neutral-800 hover:text-black bg-black/[0.05] hover:bg-black/[0.10]"
@@ -355,7 +352,7 @@ export default function FloatingNavbar({
               </button>
             ) : null}
 
-            {/* Theme Toggle: compact 38–44px wide × 28–32px high */}
+            {/* Theme Toggle */}
             <div className="flex items-center shrink-0">
               <CinematicThemeSwitcher size="navbar" />
             </div>
@@ -478,7 +475,7 @@ export default function FloatingNavbar({
                         className="w-full text-left px-3.5 py-2 rounded-xl text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800/60 transition-colors flex items-center gap-2.5 cursor-pointer"
                       >
                         <User className="w-4 h-4 opacity-70 shrink-0" />
-                        <span>Profile & Account</span>
+                        <span>Profile &amp; Account</span>
                       </button>
                     )}
 
@@ -508,6 +505,7 @@ export default function FloatingNavbar({
                   <div className="flex flex-col gap-1.5 pt-1">
                     {onNavigateToLogin && (
                       <button
+                        id="mobile-nav-login-btn"
                         type="button"
                         onClick={() => {
                           setMobileMenuOpen(false);
@@ -521,6 +519,7 @@ export default function FloatingNavbar({
                     )}
                     {onStartBuilding && (
                       <button
+                        id="mobile-nav-create-btn"
                         type="button"
                         onClick={() => {
                           setMobileMenuOpen(false);

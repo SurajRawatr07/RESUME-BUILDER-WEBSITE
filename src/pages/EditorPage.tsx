@@ -115,6 +115,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
               variant="ghost"
               size="sm"
               onClick={onBack}
+              aria-label="Back"
               className={`rounded-xl transition-colors shrink-0 ${isDark ? 'hover:bg-gray-800 text-gray-300' : 'hover:bg-indigo-50 hover:text-indigo-600'}`}
             >
               <ArrowLeft className="w-4 h-4 mr-1.5" />

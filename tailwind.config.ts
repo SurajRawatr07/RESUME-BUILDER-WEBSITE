@@ -58,7 +58,7 @@ export default {
       },
       fontFamily: {
         sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
-        serif: ['"Playfair Display"', 'Georgia', '"Times New Roman"', 'serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
         brand: ['"Alex Brush"', '"Allura"', 'cursive'],
       },
