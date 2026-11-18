@@ -50,6 +50,7 @@ export const AnimatedCustomizeResumeIcon: React.FC<AnimatedIconProps> = ({
         cx="9"
         cy="6"
         r="2.5"
+        initial={{ cx: 9 }}
         animate={
           active
             ? {
@@ -79,6 +80,7 @@ export const AnimatedCustomizeResumeIcon: React.FC<AnimatedIconProps> = ({
         cx="16"
         cy="12"
         r="2.5"
+        initial={{ cx: 16 }}
         animate={
           active
             ? {
@@ -108,6 +110,7 @@ export const AnimatedCustomizeResumeIcon: React.FC<AnimatedIconProps> = ({
         cx="10"
         cy="18"
         r="2.5"
+        initial={{ cx: 10 }}
         animate={
           active
             ? {

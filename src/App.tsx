@@ -9,7 +9,6 @@ import EditorPage from './pages/EditorPage';
 import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
 import FloatingPathsBackground from './components/ui/floating-paths-background';
-import { AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useResumeStore } from './stores/resumeStore';
 import { TemplateType } from './types/resume';
@@ -179,7 +178,7 @@ function AppContent() {
       <FloatingPathsBackground />
 
       {/* 2. Main Application Content (Z-index: 1, Relative) */}
-      <div className="relative z-1 min-h-screen">
+      <div className="relative z-[1] min-h-screen">
         <ErrorBoundary
           fallbackTitle="Page Unavailable"
           fallbackMessage="An issue occurred loading this section. You can return to the homepage or try again."
