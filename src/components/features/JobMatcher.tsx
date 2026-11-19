@@ -8,12 +8,12 @@ import {
   RotateCcw,
   ArrowRight,
   TrendingUp,
-  FileText,
   Copy,
   Check,
-  Briefcase,
   Layers,
-  ChevronDown
+  Plus,
+  Info,
+  Briefcase
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -36,11 +36,13 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
   const [jobDescription, setJobDescription] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<JobMatchAnalysis | null>(null);
-  const [activeTab, setActiveTab] = useState<'all' | 'matched' | 'missing'>('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'matched' | 'partial' | 'missing'>('all');
   const [selectedKeywordForInfo, setSelectedKeywordForInfo] = useState<KeywordMatchItem | null>(null);
   const [copiedKeyword, setCopiedKeyword] = useState<string | null>(null);
+  const [pendingConfirmKeyword, setPendingConfirmKeyword] = useState<string | null>(null);
+  const [addedKeywords, setAddedKeywords] = useState<Record<string, boolean>>({});
 
-  // Load persistent JD on mount
+  // Load persistent JD on mount & recalculate smoothly when resumeData changes
   useEffect(() => {
     const saved = jobDescriptionStorage.getLatest();
     if (saved && saved.rawText) {
@@ -51,39 +53,38 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
   }, [resumeData]);
 
   const handleAnalyze = () => {
-    if (!jobDescription.trim()) return;
-    setIsAnalyzing(true);
-    // 350ms deterministic UX transition
-    setTimeout(() => {
-      const res = analyzeJobMatch(resumeData, jobDescription);
-      setAnalysis(res);
+    setPendingConfirmKeyword(null);
+    const res = analyzeJobMatch(resumeData, jobDescription);
+    setAnalysis(res);
+    if (res.isValidJD) {
       jobDescriptionStorage.save({
         rawText: jobDescription,
         targetRole: res.targetRoleDetected,
       });
-      setIsAnalyzing(false);
-    }, 350);
+    }
+    setIsAnalyzing(false);
   };
 
   const handleClear = () => {
     setJobDescription('');
     setAnalysis(null);
     setSelectedKeywordForInfo(null);
+    setPendingConfirmKeyword(null);
     jobDescriptionStorage.clear();
   };
 
   const handleSelectSample = (sampleText: string) => {
     setJobDescription(sampleText);
-    setIsAnalyzing(true);
-    setTimeout(() => {
-      const res = analyzeJobMatch(resumeData, sampleText);
-      setAnalysis(res);
+    setPendingConfirmKeyword(null);
+    const res = analyzeJobMatch(resumeData, sampleText);
+    setAnalysis(res);
+    if (res.isValidJD) {
       jobDescriptionStorage.save({
         rawText: sampleText,
         targetRole: res.targetRoleDetected,
       });
-      setIsAnalyzing(false);
-    }, 350);
+    }
+    setIsAnalyzing(false);
   };
 
   const handleCopy = (text: string) => {
@@ -91,6 +92,23 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
     setCopiedKeyword(text);
     setTimeout(() => setCopiedKeyword(null), 2000);
   };
+
+  const handleConfirmAddSkill = (keyword: string, section = 'skills') => {
+    if (!onApplyKeyword) return;
+    onApplyKeyword(keyword, section);
+    setAddedKeywords((prev) => ({ ...prev, [keyword]: true }));
+    setPendingConfirmKeyword(null);
+  };
+
+  const displayedKeywords = analysis
+    ? activeTab === 'all'
+      ? [...analysis.matchedKeywords, ...analysis.partialKeywords, ...analysis.missingKeywords]
+      : activeTab === 'matched'
+      ? analysis.matchedKeywords
+      : activeTab === 'partial'
+      ? analysis.partialKeywords
+      : analysis.missingKeywords
+    : [];
 
   return (
     <div className="space-y-6">
@@ -103,11 +121,10 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
               Target Job Description
             </h3>
             <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">
-              Paste the job posting to calculate a real, deterministic keyword match percentage.
+              Paste the job posting to compare skills, partial matches, experience overlap, and missing keywords.
             </p>
           </div>
 
-          {/* Preset quick samples */}
           <div className="flex items-center gap-1.5 flex-wrap">
             <span className="text-[11px] font-semibold text-slate-400 dark:text-gray-500">Quick Samples:</span>
             {SAMPLE_JOB_DESCRIPTIONS.map((s, idx) => (
@@ -115,7 +132,7 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                 key={idx}
                 type="button"
                 onClick={() => handleSelectSample(s.text)}
-                className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-gray-800 hover:bg-indigo-50 dark:hover:bg-indigo-950 text-slate-700 dark:text-gray-300 hover:text-indigo-600 transition-colors"
+                className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-gray-800 hover:bg-indigo-50 dark:hover:bg-indigo-950 text-slate-700 dark:text-gray-300 hover:text-indigo-600 transition-colors cursor-pointer"
               >
                 {s.title.split(' ')[0]} {s.title.split(' ')[1]}
               </button>
@@ -124,18 +141,20 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
         </div>
 
         <Textarea
+          id="jd-matcher-input"
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
-          placeholder="Paste requirements, tech stack, and responsibilities from any job posting (e.g. LinkedIn, Indeed, Greenhouse)..."
+          placeholder="Paste requirements, tech stack, and responsibilities from any job posting..."
           rows={5}
-          className="resize-y text-xs sm:text-sm font-mono border-slate-200 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-950/50 focus:bg-white dark:focus:bg-gray-900 transition-colors mb-4"
+          className="resize-y text-xs sm:text-sm border-slate-200 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-950/50 focus:bg-white dark:focus:bg-gray-900 transition-colors mb-4"
         />
 
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2">
             <Button
+              id="jd-matcher-analyze-btn"
               onClick={handleAnalyze}
-              disabled={isAnalyzing || !jobDescription.trim()}
+              disabled={isAnalyzing}
               className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-sm text-xs font-semibold px-4"
             >
               {isAnalyzing ? (
@@ -167,10 +186,18 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
             {jobDescription ? `${jobDescription.split(/\s+/).filter(Boolean).length} words detected` : 'No job description loaded'}
           </span>
         </div>
+
+        {/* Validation Error Display */}
+        {analysis && !analysis.isValidJD && analysis.validationError && (
+          <div className="mt-4 p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 flex items-start gap-2.5 text-xs text-rose-700 dark:text-rose-300">
+            <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+            <span>{analysis.validationError}</span>
+          </div>
+        )}
       </div>
 
       {/* Analysis Results Display */}
-      {analysis && analysis.totalJDKeywords > 0 && (
+      {analysis && analysis.isValidJD && analysis.totalJDKeywords > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -180,7 +207,6 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
           <div className="rounded-2xl border border-slate-200 dark:border-gray-800 bg-gradient-to-br from-white to-slate-50/70 dark:from-gray-900 dark:to-gray-950 p-6 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="flex items-center gap-5">
-                {/* Circular Score Gauge */}
                 <div className="relative w-24 h-24 shrink-0 flex items-center justify-center">
                   <svg className="w-24 h-24 transform -rotate-90">
                     <circle
@@ -222,7 +248,7 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                 </div>
 
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h4 className="text-lg font-bold text-slate-900 dark:text-white">
                       Job Description Compatibility
                     </h4>
@@ -233,20 +259,29 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                         ? 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/50 dark:text-indigo-300 dark:border-indigo-800'
                         : 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800'
                     }`}>
-                      {analysis.matchScore >= 80 ? 'High Match' : analysis.matchScore >= 60 ? 'Moderate Match' : 'Keyword Gap'}
+                      {analysis.matchScore >= 80 ? 'High Match' : analysis.matchScore >= 60 ? 'Moderate Match' : 'Needs Tailoring'}
                     </span>
                   </div>
                   <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">
                     Target Role Detected: <strong className="text-slate-800 dark:text-gray-200">{analysis.targetRoleDetected}</strong>
                   </p>
-                  <div className="flex items-center gap-4 mt-3 text-xs">
-                    <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
-                      <CheckCircle2 className="w-4 h-4" /> {analysis.matchedCount} Matched Keywords
+                  <div className="flex items-center gap-3 mt-2.5 text-xs flex-wrap">
+                    <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> {analysis.matchedCount} Exact
                     </span>
-                    <span className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 font-semibold">
-                      <AlertCircle className="w-4 h-4" /> {analysis.missingCount} Missing Keywords
+                    <span className="flex items-center gap-1 text-indigo-600 dark:text-indigo-400 font-semibold">
+                      <Info className="w-3.5 h-3.5" /> {analysis.partialCount} Partial
+                    </span>
+                    <span className="flex items-center gap-1 text-amber-600 dark:text-amber-400 font-semibold">
+                      <AlertCircle className="w-3.5 h-3.5" /> {analysis.missingCount} Missing
+                    </span>
+                    <span className="flex items-center gap-1 text-slate-600 dark:text-gray-300 font-semibold">
+                      <Briefcase className="w-3.5 h-3.5" /> {analysis.experienceOverlapCount} Exp Overlap
                     </span>
                   </div>
+                  <p className="text-[11px] text-slate-500 dark:text-gray-400 mt-2">
+                    {analysis.matchFormulaNote}
+                  </p>
                 </div>
               </div>
 
@@ -261,6 +296,22 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                 </Button>
               )}
             </div>
+
+            {analysis.experienceOverlapTerms.length > 0 && (
+              <div className="mt-4 pt-3 border-t border-slate-200/80 dark:border-gray-800 flex items-center gap-2 flex-wrap text-xs">
+                <span className="font-semibold text-slate-600 dark:text-gray-300">
+                  Relevant Experience Overlap:
+                </span>
+                {analysis.experienceOverlapTerms.slice(0, 10).map((term) => (
+                  <span
+                    key={term}
+                    className="px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-medium"
+                  >
+                    {term}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Keywords Breakdown Tabs */}
@@ -271,10 +322,10 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                 Extracted Keyword Comparison
               </h4>
 
-              <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-gray-800 text-xs font-medium">
+              <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-gray-800 text-xs font-medium overflow-x-auto">
                 <button
                   onClick={() => setActiveTab('all')}
-                  className={`px-3 py-1 rounded-lg transition-all ${
+                  className={`px-3 py-1 rounded-lg transition-all whitespace-nowrap ${
                     activeTab === 'all'
                       ? 'bg-white dark:bg-gray-700 text-slate-900 dark:text-white shadow-xs font-semibold'
                       : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
@@ -284,7 +335,7 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                 </button>
                 <button
                   onClick={() => setActiveTab('matched')}
-                  className={`px-3 py-1 rounded-lg transition-all ${
+                  className={`px-3 py-1 rounded-lg transition-all whitespace-nowrap ${
                     activeTab === 'matched'
                       ? 'bg-white dark:bg-gray-700 text-emerald-600 dark:text-emerald-400 shadow-xs font-semibold'
                       : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
@@ -293,8 +344,18 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                   Matched ({analysis.matchedCount})
                 </button>
                 <button
+                  onClick={() => setActiveTab('partial')}
+                  className={`px-3 py-1 rounded-lg transition-all whitespace-nowrap ${
+                    activeTab === 'partial'
+                      ? 'bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-xs font-semibold'
+                      : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  Partial ({analysis.partialCount})
+                </button>
+                <button
                   onClick={() => setActiveTab('missing')}
-                  className={`px-3 py-1 rounded-lg transition-all ${
+                  className={`px-3 py-1 rounded-lg transition-all whitespace-nowrap ${
                     activeTab === 'missing'
                       ? 'bg-white dark:bg-gray-700 text-amber-600 dark:text-amber-400 shadow-xs font-semibold'
                       : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
@@ -307,27 +368,32 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
 
             {/* Keyword Chips Grid */}
             <div className="pt-4 flex flex-wrap gap-2">
-              {(activeTab === 'all'
-                ? [...analysis.matchedKeywords, ...analysis.missingKeywords]
-                : activeTab === 'matched'
-                ? analysis.matchedKeywords
-                : analysis.missingKeywords
-              ).map((item) => {
+              {displayedKeywords.map((item) => {
                 const isSelected = selectedKeywordForInfo?.keyword === item.keyword;
+                const badgeClass =
+                  item.matchStatus === 'exact'
+                    ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 hover:border-emerald-400'
+                    : item.matchStatus === 'partial'
+                    ? 'bg-indigo-50 dark:bg-indigo-950/40 border-indigo-200 dark:border-indigo-800 text-indigo-800 dark:text-indigo-300 hover:border-indigo-400'
+                    : item.isHighPriority
+                    ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 hover:border-rose-400'
+                    : 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 hover:border-amber-400';
+
                 return (
                   <button
                     key={item.keyword}
-                    onClick={() => setSelectedKeywordForInfo(isSelected ? null : item)}
-                    className={`group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
-                      item.foundInResume
-                        ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 hover:border-emerald-400'
-                        : item.isHighPriority
-                        ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-300 hover:border-rose-400'
-                        : 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 hover:border-amber-400'
-                    } ${isSelected ? 'ring-2 ring-indigo-500 scale-105' : ''}`}
+                    onClick={() => {
+                      setSelectedKeywordForInfo(isSelected ? null : item);
+                      setPendingConfirmKeyword(null);
+                    }}
+                    className={`group inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all cursor-pointer ${badgeClass} ${
+                      isSelected ? 'ring-2 ring-indigo-500 scale-105' : ''
+                    }`}
                   >
-                    {item.foundInResume ? (
+                    {item.matchStatus === 'exact' ? (
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    ) : item.matchStatus === 'partial' ? (
+                      <Info className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
                     ) : (
                       <AlertCircle className={`w-3.5 h-3.5 ${item.isHighPriority ? 'text-rose-500' : 'text-amber-500'}`} />
                     )}
@@ -335,7 +401,12 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                     <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-black/5 dark:bg-white/10 font-bold">
                       {item.frequencyInJD}x
                     </span>
-                    {item.isHighPriority && !item.foundInResume && (
+                    {item.matchStatus === 'partial' && (
+                      <span className="text-[9px] font-bold uppercase text-indigo-600 dark:text-indigo-300">
+                        Partial
+                      </span>
+                    )}
+                    {item.isHighPriority && item.matchStatus === 'missing' && (
                       <span className="text-[9px] font-bold uppercase text-rose-600 dark:text-rose-400">
                         Priority
                       </span>
@@ -354,40 +425,80 @@ export default function JobMatcher({ resumeData, onApplyKeyword, onOpenKeywordGa
                   exit={{ opacity: 0, height: 0 }}
                   className="mt-4 p-4 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-950/30 overflow-hidden"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="flex items-center gap-2">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-bold text-sm text-slate-900 dark:text-white">
                           {selectedKeywordForInfo.keyword}
                         </span>
                         <span className="text-xs px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 font-semibold capitalize">
-                          {selectedKeywordForInfo.category}
+                          {selectedKeywordForInfo.group.replace('_', ' ')}
                         </span>
                         <span className="text-xs text-slate-500 dark:text-gray-400">
-                          Appears {selectedKeywordForInfo.frequencyInJD} time(s) in JD
+                          {selectedKeywordForInfo.matchStatus === 'exact'
+                            ? 'Exact match in resume'
+                            : selectedKeywordForInfo.matchStatus === 'partial'
+                            ? `Partial match (${selectedKeywordForInfo.matchEvidence || 'related term'})`
+                            : 'Missing from resume'}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-600 dark:text-gray-300 mt-1.5">
+                      <p className="text-xs text-slate-600 dark:text-gray-300">
                         {selectedKeywordForInfo.contextRecommendation?.suggestion}
                       </p>
                     </div>
 
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleCopy(selectedKeywordForInfo.keyword)}
-                      className="rounded-lg text-xs font-semibold h-8 bg-white dark:bg-gray-800 shrink-0"
-                    >
-                      {copiedKeyword === selectedKeywordForInfo.keyword ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-500 mr-1" /> Copied
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5 mr-1" /> Copy Keyword
-                        </>
+                    <div className="flex items-center gap-2 flex-wrap shrink-0">
+                      {onApplyKeyword && selectedKeywordForInfo.matchStatus !== 'exact' && (
+                        addedKeywords[selectedKeywordForInfo.keyword] ? (
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800">
+                            <Check className="w-3.5 h-3.5" /> Added to Skills
+                          </span>
+                        ) : pendingConfirmKeyword === selectedKeywordForInfo.keyword ? (
+                          <div className="flex items-center gap-1.5">
+                            <Button
+                              size="sm"
+                              onClick={() => handleConfirmAddSkill(selectedKeywordForInfo.keyword, 'skills')}
+                              className="h-8 rounded-lg text-xs bg-indigo-600 hover:bg-indigo-700 text-white"
+                            >
+                              Confirm Add Skill
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => setPendingConfirmKeyword(null)}
+                              className="h-8 rounded-lg text-xs"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        ) : (
+                          <Button
+                            size="sm"
+                            onClick={() => setPendingConfirmKeyword(selectedKeywordForInfo.keyword)}
+                            className="h-8 rounded-lg text-xs bg-indigo-600 hover:bg-indigo-700 text-white"
+                          >
+                            <Plus className="w-3.5 h-3.5 mr-1" /> Add Missing Skill
+                          </Button>
+                        )
                       )}
-                    </Button>
+
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleCopy(selectedKeywordForInfo.keyword)}
+                        className="rounded-lg text-xs font-semibold h-8 bg-white dark:bg-gray-800 shrink-0"
+                      >
+                        {copiedKeyword === selectedKeywordForInfo.keyword ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-500 mr-1" /> Copied
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5 mr-1" /> Copy
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 </motion.div>
               )}

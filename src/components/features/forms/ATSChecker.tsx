@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   FileCheck,
   CheckCircle2,
@@ -10,11 +9,13 @@ import {
   Check,
   ChevronRight,
   TrendingUp,
+  Info,
   X
 } from 'lucide-react';
 import { ResumeData } from '@/types/resume';
 import { calculateATSScore, ATSAnalysisResult } from '@/lib/atsEngine';
 import { api } from '@/lib/api';
+import { jobDescriptionStorage } from '@/lib/storage';
 import { useResumeStore } from '@/stores/resumeStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -46,25 +47,38 @@ export default function ATSChecker({
   onClose,
   isInline = true,
 }: ATSCheckerProps) {
-  // Target Job Title input state: initialized from resume's target role or headline
   const defaultRole = resumeData.jobTitle || resumeData.targetRole || '';
+  const savedJD = jobDescriptionStorage.getLatest();
   const [jobTitle, setJobTitle] = useState(defaultRole);
-  const [jobDescription, setJobDescription] = useState('');
-  const [showJobDescription, setShowJobDescription] = useState(false);
-  
-  // Analysis result state - starts null so the user selects/confirms target role first
+  const [jobDescription, setJobDescription] = useState(savedJD?.rawText || '');
+  const [showJobDescription, setShowJobDescription] = useState(Boolean(savedJD?.rawText));
+
   const [analysisResult, setAnalysisResult] = useState<ATSAnalysisResult | null>(null);
-  
-  // Loading & step progression state
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
-  // Animated score counter for visualization
   const [animatedScore, setAnimatedScore] = useState(0);
-
-  // Active tab within results view: 'overview' | 'keywords' | 'breakdown'
   const [resultTab, setResultTab] = useState<'overview' | 'keywords' | 'breakdown'>('overview');
+
+  // Dynamic reactive recalculation whenever resumeData updates while results are displayed
+  useEffect(() => {
+    if (!analysisResult || isAnalyzing) return;
+    const role = analysisResult.targetJobTitle || jobTitle.trim() || 'Software Engineer';
+    const updated = calculateATSScore(
+      resumeData,
+      role,
+      jobDescription.trim() || undefined
+    );
+    setAnalysisResult(updated);
+    setAnimatedScore(updated.score);
+    try {
+      useResumeStore.setState({ atsScore: updated.score });
+    } catch {
+      // ignore store sync error
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resumeData]);
 
   const handleAnalyze = async () => {
     const trimmedTitle = jobTitle.trim();
@@ -73,14 +87,13 @@ export default function ATSChecker({
       return;
     }
 
-    if (isAnalyzing) return; // Prevent duplicate requests
+    if (isAnalyzing) return;
 
     setIsAnalyzing(true);
     setError(null);
     setCurrentStepIdx(0);
 
-    // Step-by-step feedback animation transitions
-    const stepDuration = 220;
+    const stepDuration = 180;
     ANALYSIS_STEPS.forEach((_, idx) => {
       setTimeout(() => {
         setCurrentStepIdx(idx);
@@ -97,7 +110,6 @@ export default function ATSChecker({
       setTimeout(() => {
         if (res.success && res.data) {
           setAnalysisResult(res.data);
-          // Sync real ATS score to global resume store
           try {
             useResumeStore.setState({ atsScore: res.data.score });
           } catch (syncErr) {
@@ -120,29 +132,15 @@ export default function ATSChecker({
     }
   };
 
-  // Animate score counter when analysisResult is ready
+  // Animate score counter only when transitioning from null -> result
   useEffect(() => {
     if (!analysisResult) {
       setAnimatedScore(0);
       return;
     }
 
-    let start = 0;
     const end = analysisResult.score;
-    const duration = 600; // ms
-    const increment = end / (duration / 16);
-
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setAnimatedScore(end);
-        clearInterval(timer);
-      } else {
-        setAnimatedScore(Math.floor(start));
-      }
-    }, 16);
-
-    return () => clearInterval(timer);
+    setAnimatedScore(end);
   }, [analysisResult]);
 
   const handleResetToInput = () => {
@@ -162,10 +160,10 @@ export default function ATSChecker({
           </div>
           <div>
             <h2 className="text-base font-bold text-neutral-900 dark:text-white leading-tight">
-              ATS Resume Analysis
+              Estimated ATS-Readiness Analysis
             </h2>
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
-              Role-targeted deterministic ATS scoring & keyword gap analysis
+              Simulated client-side diagnostic evaluating keywords, completeness &amp; formatting
             </p>
           </div>
         </div>
@@ -183,21 +181,17 @@ export default function ATSChecker({
 
       {/* Main Content Area */}
       <div className="flex-1 overflow-y-auto p-6">
-        {/* ========================================================= */}
-        {/* STEP 3 — ASK FOR JOB TITLE (Before Analysis)              */}
-        {/* ========================================================= */}
         {!isAnalyzing && !analysisResult && (
           <div className="max-w-2xl mx-auto py-4 sm:py-6 space-y-5">
             <div className="text-center space-y-1.5">
               <h3 className="text-lg sm:text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
-                Target Role & ATS Evaluation
+                Target Role &amp; Estimated ATS-Readiness Check
               </h3>
               <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-lg mx-auto leading-relaxed">
-                Enter the job title you&apos;re targeting to evaluate how well your current resume matches real ATS criteria and industry keywords.
+                Enter the job title you&apos;re targeting to run a transparent client-side diagnostic against role keywords, section completeness, and ATS formatting rules.
               </p>
             </div>
 
-            {/* Error Message if any */}
             {error && (
               <div className="p-3.5 rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/40 text-xs text-rose-700 dark:text-rose-300 flex items-start gap-2.5">
                 <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
@@ -208,7 +202,6 @@ export default function ATSChecker({
               </div>
             )}
 
-            {/* Input Field for Target Job Title */}
             <div className="space-y-2.5 pt-1">
               <label
                 htmlFor="target-job-title-input"
@@ -253,13 +246,12 @@ export default function ATSChecker({
                   disabled={!jobTitle.trim() || isAnalyzing}
                   className="h-11 px-6 rounded-xl font-semibold text-sm bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200 transition-all shrink-0 disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
                 >
-                  <span>Analyze Resume</span>
+                  <span>Check ATS Readiness</span>
                   <ArrowRight className="w-4 h-4 ml-1.5" />
                 </Button>
               </div>
             </div>
 
-            {/* Example Role Chips */}
             <div className="space-y-2 pt-1">
               <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400">
                 Or pick a role to evaluate:
@@ -285,7 +277,6 @@ export default function ATSChecker({
               </div>
             </div>
 
-            {/* Optional Job Description Section */}
             <div className="pt-2">
               <button
                 type="button"
@@ -302,34 +293,30 @@ export default function ATSChecker({
                     rows={4}
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
-                    placeholder="Paste the job description or requirements here to check for company-specific keywords..."
+                    placeholder="Paste the job description or requirements here to check for posting-specific keywords..."
                     className="w-full p-3 text-xs rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:ring-1 focus:ring-neutral-900 dark:focus:ring-white"
                   />
                   <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                    If provided, the ATS engine will match terms from this job description against your resume text.
+                    If provided, the diagnostic matches terms from this posting against your resume text.
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Info Notice */}
             <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/40 text-xs text-neutral-600 dark:text-neutral-400 flex items-start gap-3">
               <Sparkles className="w-4 h-4 text-neutral-700 dark:text-neutral-300 shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <p className="font-semibold text-neutral-800 dark:text-neutral-200">
-                  Real ATS Evaluation
+                  About This Estimated ATS-Readiness Score
                 </p>
                 <p className="leading-relaxed">
-                  Evaluates your current resume against 6 core ATS criteria: Job Title Relevance, Skills & Keyword Match, Content Completeness, Experience Relevance, Education & Certifications, and Clean ATS Formatting.
+                  Calculates an estimated ATS-readiness score across 6 weighted factors: Job Title Relevance (20), Keyword Match (30), Content Completeness (15), Experience &amp; Projects (15), Education &amp; Certifications (10), and Clean Formatting (10). This is a simulated heuristic check and not an official third-party ATS score.
                 </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* ========================================================= */}
-        {/* STEP 4 — LOADING STATE (During Analysis)                  */}
-        {/* ========================================================= */}
         {isAnalyzing && (
           <div className="max-w-md mx-auto py-12 text-center space-y-6">
             <div className="w-12 h-12 mx-auto rounded-full border-2 border-neutral-300 dark:border-neutral-700 border-t-neutral-900 dark:border-t-neutral-100 animate-spin" />
@@ -339,7 +326,7 @@ export default function ATSChecker({
                 Evaluating against &ldquo;{jobTitle}&rdquo;
               </h3>
               <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                Please wait while we perform deterministic ATS parsing...
+                Running deterministic ATS-readiness checks...
               </p>
             </div>
 
@@ -374,14 +361,21 @@ export default function ATSChecker({
           </div>
         )}
 
-        {/* ========================================================= */}
-        {/* STEP 5–8 — RESULT & BREAKDOWN (Only After Analysis)       */}
-        {/* ========================================================= */}
         {analysisResult && (
           <div className="space-y-6">
+            {/* Estimated Disclaimer Banner */}
+            <div className="p-3 rounded-xl border border-amber-200 dark:border-amber-800/70 bg-amber-50/70 dark:bg-amber-950/30 text-xs text-amber-900 dark:text-amber-200 flex items-start gap-2.5">
+              <Info className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+              <span>
+                {analysisResult.estimationNote ||
+                  'Estimated ATS-readiness score calculated locally from keyword match, section completeness, and formatting checks. Not an official third-party ATS score.'}{' '}
+                Score recalculates automatically as you edit your resume.
+              </span>
+            </div>
+
             {/* Target Role & Re-analyze Toolbar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-900/70">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs text-neutral-500 dark:text-neutral-400">Target Role:</span>
                 <span className="text-xs font-bold px-2.5 py-1 rounded-md bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white">
                   {analysisResult.targetJobTitle}
@@ -410,10 +404,9 @@ export default function ATSChecker({
 
             {/* Score Hero Section */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Score Display Card */}
               <div className="p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/60 flex flex-col items-center justify-center text-center">
                 <span className="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
-                  ATS SCORE
+                  ESTIMATED ATS-READINESS
                 </span>
 
                 <div className="text-5xl font-black tracking-tight text-neutral-900 dark:text-white my-2">
@@ -431,10 +424,10 @@ export default function ATSChecker({
 
                 <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-3 leading-relaxed max-w-xs">
                   {analysisResult.score >= 80
-                    ? 'Strong candidate match with high probability of clearing automated ATS filters.'
+                    ? 'Strong alignment across target keywords, clean formatting, and structured experience.'
                     : analysisResult.score >= 60
-                    ? 'Solid base match. Incorporating missing keywords and metrics will improve callback probability.'
-                    : 'Target title relevance and keyword coverage require improvement for this role.'}
+                    ? 'Solid baseline readiness. Adding relevant skills and clarifying descriptions will improve alignment.'
+                    : 'Target role alignment, missing keywords, or section completeness need attention.'}
                 </p>
               </div>
 
@@ -492,7 +485,7 @@ export default function ATSChecker({
 
                 <div className="mt-3 pt-3 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between text-xs">
                   <span className="font-bold text-neutral-900 dark:text-white">
-                    TOTAL ATS SCORE
+                    TOTAL ESTIMATED ATS-READINESS
                   </span>
                   <span className="font-bold text-sm text-neutral-900 dark:text-white">
                     {analysisResult.score} / 100
@@ -538,12 +531,9 @@ export default function ATSChecker({
               </button>
             </div>
 
-            {/* Tab: Overview & Action Plan */}
             {resultTab === 'overview' && (
               <div className="space-y-4">
-                {/* Strengths & Improvements */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Strengths */}
                   <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2 mb-3">
                       <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
@@ -563,7 +553,6 @@ export default function ATSChecker({
                     )}
                   </div>
 
-                  {/* Improvements */}
                   <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2 mb-3">
                       <AlertCircle className="w-4 h-4 text-neutral-800 dark:text-neutral-200" />
@@ -579,12 +568,11 @@ export default function ATSChecker({
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-xs text-neutral-400 italic">Resume meets all standard ATS checks for this role.</p>
+                      <p className="text-xs text-neutral-400 italic">Resume meets all standard ATS-readiness checks for this role.</p>
                     )}
                   </div>
                 </div>
 
-                {/* Quick Keyword Gap Glance */}
                 <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div>
                     <span className="font-semibold text-neutral-800 dark:text-neutral-200">
@@ -609,10 +597,8 @@ export default function ATSChecker({
               </div>
             )}
 
-            {/* Tab: Keywords Gap */}
             {resultTab === 'keywords' && (
               <div className="space-y-5">
-                {/* Matched Keywords */}
                 <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-3">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
@@ -641,7 +627,6 @@ export default function ATSChecker({
                   )}
                 </div>
 
-                {/* Missing / Recommended Keywords */}
                 <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 space-y-3">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white flex items-center gap-2">
@@ -654,7 +639,7 @@ export default function ATSChecker({
                   </div>
 
                   <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                    Naturally incorporate relevant missing keywords that you have experience with into your Skills, Experience descriptions, or Projects:
+                    Incorporate any missing keywords you genuinely have experience with into your Skills, Experience descriptions, or Projects:
                   </p>
 
                   {analysisResult.missingKeywords.length > 0 ? (
@@ -677,7 +662,6 @@ export default function ATSChecker({
               </div>
             )}
 
-            {/* Tab: Detailed Factor Breakdown */}
             {resultTab === 'breakdown' && (
               <div className="space-y-3">
                 {[
@@ -704,7 +688,6 @@ export default function ATSChecker({
                         </span>
                       </div>
 
-                      {/* Progress bar */}
                       <div className="w-full h-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-neutral-900 dark:bg-neutral-100 transition-all duration-300"
@@ -724,13 +707,12 @@ export default function ATSChecker({
         )}
       </div>
 
-      {/* Footer */}
       {!isInline && (
         <div className="flex items-center justify-between px-6 py-3.5 border-t border-neutral-200 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/60">
           <span className="text-xs text-neutral-500 dark:text-neutral-400">
             {analysisResult
               ? `Analysis complete for ${analysisResult.targetJobTitle}`
-              : 'Enter job title and click Analyze Resume'}
+              : 'Enter job title and click Check ATS Readiness'}
           </span>
 
           <div className="flex items-center gap-2">

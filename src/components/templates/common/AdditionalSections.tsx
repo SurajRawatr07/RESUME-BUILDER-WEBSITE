@@ -19,12 +19,12 @@ export const SummarySection: React.FC<SummarySectionProps> = ({
   return (
     <ResumeSection title={title} variant={variant}>
       <p
-        className={`leading-relaxed text-justify ${
+        className={`leading-relaxed text-left ${
           variant === 'serif'
-            ? 'text-[9pt] font-serif text-gray-900'
+            ? 'text-[9pt] text-gray-900'
             : variant === 'executive'
-            ? 'text-[9pt] font-sans text-slate-800'
-            : 'text-[8.5pt] font-sans text-gray-800'
+            ? 'text-[9pt] text-slate-800'
+            : 'text-[8.5pt] text-gray-800'
         }`}
       >
         {summary}
@@ -53,7 +53,7 @@ export const CertificationsSection: React.FC<CertificationsSectionProps> = ({
           <div
             key={cert.id}
             className={`flex justify-between items-baseline ${
-              variant === 'serif' ? 'text-[9pt] font-serif' : 'text-[8.5pt] font-sans'
+              variant === 'serif' ? 'text-[9pt]' : 'text-[8.5pt]'
             }`}
           >
             <div>
@@ -92,8 +92,8 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
       <ul
         className={`list-disc pl-4 space-y-0.5 leading-snug ${
           variant === 'serif'
-            ? 'text-[9pt] font-serif text-gray-900'
-            : 'text-[8.5pt] font-sans text-gray-800'
+            ? 'text-[9pt] text-gray-900'
+            : 'text-[8.5pt] text-gray-800'
         }`}
       >
         {achievements.map((item, idx) => (
@@ -122,8 +122,8 @@ export const LanguagesSection: React.FC<LanguagesSectionProps> = ({
       <p
         className={`${
           variant === 'serif'
-            ? 'text-[9pt] font-serif text-gray-900'
-            : 'text-[8.5pt] font-sans text-gray-800'
+            ? 'text-[9pt] text-gray-900'
+            : 'text-[8.5pt] text-gray-800'
         }`}
       >
         {languages

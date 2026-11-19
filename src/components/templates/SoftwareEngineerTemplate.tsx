@@ -69,7 +69,7 @@ export default function SoftwareEngineerTemplate({ data }: TemplateProps) {
           <h2 className="text-[10.5pt] font-bold uppercase tracking-wider border-b border-black pb-0.5 mb-1 text-black">
             Professional Summary
           </h2>
-          <p className="text-[9pt] leading-snug text-justify text-gray-900">
+          <p className="text-[9pt] leading-snug text-left text-gray-900">
             {data.summary || data.aboutMe}
           </p>
         </section>

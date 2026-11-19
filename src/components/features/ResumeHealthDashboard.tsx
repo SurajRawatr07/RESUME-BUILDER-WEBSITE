@@ -1,14 +1,11 @@
-import { motion } from 'framer-motion';
 import {
   Activity,
   CheckCircle2,
   AlertCircle,
-  TrendingUp,
   Sparkles,
   ArrowRight,
-  ShieldCheck,
-  Award,
-  Zap
+  Zap,
+  AlertTriangle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ResumeData } from '@/types/resume';
@@ -31,7 +28,7 @@ export default function ResumeHealthDashboard({
   const savedJD = jobDescriptionStorage.getLatest();
   const health: ResumeHealthAnalysis = analyzeResumeHealth(
     resumeData,
-    resumeData.jobTitle || 'Full Stack Developer',
+    resumeData.jobTitle || 'Software Engineer',
     savedJD?.rawText
   );
 
@@ -43,7 +40,6 @@ export default function ResumeHealthDashboard({
       <div className="rounded-2xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
-            {/* Health Score Dial */}
             <div className="relative w-24 h-24 shrink-0 flex items-center justify-center">
               <svg className="w-24 h-24 transform -rotate-90">
                 <circle
@@ -85,7 +81,7 @@ export default function ResumeHealthDashboard({
             </div>
 
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Activity className="w-5 h-5 text-indigo-600" /> Resume Health Matrix
                 </h3>
@@ -94,24 +90,24 @@ export default function ResumeHealthDashboard({
                     ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800'
                     : 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/50 dark:text-indigo-300 dark:border-indigo-800'
                 }`}>
-                  {health.overallHealthScore >= 85 ? 'Job Market Ready' : 'Optimization In Progress'}
+                  {health.overallHealthScore >= 85 ? 'Application Ready' : 'Improvements Available'}
                 </span>
               </div>
               <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">
-                Synthesized across 6 core criteria: Completeness, Quantifiable Impact, Keywords, Formatting, and Content Quality.
+                Live health audit across Completeness, Formatting, Contact Details, Keywords, Impact, and Content Quality.
               </p>
 
-              <div className="flex items-center gap-4 mt-3 text-xs">
+              <div className="flex items-center gap-4 mt-3 text-xs flex-wrap">
                 <span className="font-semibold text-slate-700 dark:text-gray-300">
-                  ATS Score: <strong>{health.atsScore}/100</strong>
+                  Est. ATS-Readiness: <strong>{health.atsScore}/100</strong>
                 </span>
                 {health.jobMatchScore !== null && (
                   <span className="font-semibold text-indigo-600 dark:text-indigo-400">
                     JD Match: <strong>{health.jobMatchScore}%</strong>
                   </span>
                 )}
-                <span className="text-slate-400">
-                  Readiness: <strong>{health.readinessScore}%</strong>
+                <span className="text-slate-500 dark:text-gray-400">
+                  Checklist Score: <strong>{health.readinessScore}%</strong>
                 </span>
               </div>
             </div>
@@ -141,6 +137,21 @@ export default function ResumeHealthDashboard({
         </div>
       </div>
 
+      {/* Detected Structural & Data Hygiene Issues */}
+      {health.issuesDetected && health.issuesDetected.length > 0 && (
+        <div className="rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/70 dark:bg-amber-950/30 p-4 space-y-2">
+          <div className="flex items-center gap-2 text-xs font-bold text-amber-900 dark:text-amber-200 uppercase tracking-wider">
+            <AlertTriangle className="w-4 h-4 text-amber-600" />
+            Detected Hygiene &amp; Consistency Issues ({health.issuesDetected.length})
+          </div>
+          <ul className="space-y-1 text-xs text-amber-900 dark:text-amber-100 list-disc pl-5">
+            {health.issuesDetected.map((issue, i) => (
+              <li key={i}>{issue}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* 6 Core Pillars Progress Breakdown */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {pillarsList.map((pillar) => (
@@ -163,7 +174,6 @@ export default function ResumeHealthDashboard({
               </span>
             </div>
 
-            {/* Progress Bar */}
             <div className="h-2 w-full bg-slate-100 dark:bg-gray-800 rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-500 ${
@@ -181,18 +191,18 @@ export default function ResumeHealthDashboard({
               {pillar.feedback}
             </p>
 
-            <div className="pt-2 border-t border-slate-100 dark:border-gray-800 flex items-center justify-between text-[11px] text-slate-400">
+            <div className="pt-2 border-t border-slate-100 dark:border-gray-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-gray-400">
               <span className="truncate">{pillar.actionableHint}</span>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Real Actionable Recommendations List */}
+      {/* Real Actionable Checklist */}
       <div className="rounded-2xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm space-y-4">
         <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <Zap className="w-4 h-4 text-amber-500" />
-          Prioritized Action Items for This Resume
+          Resume Completeness &amp; Hygiene Checklist
         </h4>
 
         <div className="space-y-2.5">
@@ -224,7 +234,9 @@ export default function ResumeHealthDashboard({
                     <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded uppercase ${
                       item.status === 'passed'
                         ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200'
-                        : 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200'
+                        : item.status === 'warning'
+                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200'
+                        : 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200'
                     }`}>
                       {item.status}
                     </span>

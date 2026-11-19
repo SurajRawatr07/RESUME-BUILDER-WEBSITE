@@ -5,14 +5,12 @@ import {
   Plus,
   Copy,
   Trash2,
-  ExternalLink,
   Edit2,
   Check,
-  Calendar,
-  Sparkles,
-  AlertTriangle,
-  FolderKanban,
-  CheckCircle2
+  CheckCircle2,
+  Eye,
+  X,
+  Clock
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ResumeData, TemplateType } from '@/types/resume';
@@ -29,6 +27,22 @@ interface ResumeVersionManagerProps {
   onClose?: () => void;
 }
 
+function formatDateTime(iso: string): string {
+  try {
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  } catch {
+    return iso;
+  }
+}
+
 export default function ResumeVersionManager({
   currentResumeId,
   currentResumeTitle,
@@ -38,67 +52,81 @@ export default function ResumeVersionManager({
   onSelectVersion,
   onClose,
 }: ResumeVersionManagerProps) {
+  const resumeKey = currentResumeId || 'default-resume';
   const [versions, setVersions] = useState<ResumeVersion[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [newVersionName, setNewVersionName] = useState('');
-  const [newTargetRole, setNewTargetRole] = useState('Frontend Developer');
+  const [newTargetRole, setNewTargetRole] = useState(currentResumeData.jobTitle || 'Frontend Developer');
   const [editingVersionId, setEditingVersionId] = useState<string | null>(null);
   const [editedName, setEditedName] = useState('');
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [confirmRestoreVersion, setConfirmRestoreVersion] = useState<ResumeVersion | null>(null);
+  const [previewVersion, setPreviewVersion] = useState<ResumeVersion | null>(null);
 
   useEffect(() => {
+    const initialScore =
+      typeof atsScore === 'number' && atsScore > 0
+        ? atsScore
+        : calculateATSScore(currentResumeData, currentResumeData.jobTitle || 'Software Engineer').score;
     const loaded = versionStorage.createInitialVersionIfEmpty(
-      currentResumeId || 'default-resume',
+      resumeKey,
       currentResumeTitle || 'Primary Resume',
       currentTemplate,
-      atsScore,
+      initialScore,
       currentResumeData
     );
     setVersions(loaded);
-  }, [currentResumeId, currentResumeTitle, currentTemplate, atsScore, currentResumeData]);
+    // Only initialize on resumeKey mount/change so edits don't overwrite saved snapshots
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resumeKey]);
 
   const handleCreateVersion = (e: React.FormEvent) => {
     e.preventDefault();
-    const name = newVersionName.trim() || `${newTargetRole} Version`;
+    const roleToUse = newTargetRole.trim() || currentResumeData.jobTitle || 'Software Engineer';
+    const name = newVersionName.trim() || `${roleToUse} Snapshot`;
+    const computedScore = calculateATSScore(currentResumeData, roleToUse).score;
+    const nowIso = new Date().toISOString();
+
     const newVer: ResumeVersion = {
       id: `ver-${Date.now()}`,
-      resumeId: currentResumeId || 'default-resume',
+      resumeId: resumeKey,
       name,
-      targetRole: newTargetRole,
+      targetRole: roleToUse,
       selectedTemplate: currentTemplate,
-      atsScore: calculateATSScore(currentResumeData, newTargetRole).score,
-      resumeData: {
-        ...currentResumeData,
-        jobTitle: newTargetRole,
-      },
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      atsScore: computedScore,
+      resumeData: JSON.parse(JSON.stringify(currentResumeData)),
+      createdAt: nowIso,
+      updatedAt: nowIso,
       isActive: false,
     };
 
-    const updated = versionStorage.saveVersion(currentResumeId || 'default-resume', newVer);
+    const updated = versionStorage.saveVersion(resumeKey, newVer);
     setVersions(updated);
     setIsCreating(false);
     setNewVersionName('');
   };
 
   const handleDuplicateVersion = (v: ResumeVersion) => {
+    const nowIso = new Date().toISOString();
     const dup: ResumeVersion = {
       ...v,
       id: `ver-${Date.now()}`,
       name: `${v.name} (Copy)`,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      resumeData: JSON.parse(JSON.stringify(v.resumeData)),
+      createdAt: nowIso,
+      updatedAt: nowIso,
       isActive: false,
     };
-    const updated = versionStorage.saveVersion(currentResumeId || 'default-resume', dup);
+    const updated = versionStorage.saveVersion(resumeKey, dup);
     setVersions(updated);
   };
 
   const handleDeleteVersion = (id: string) => {
-    const updated = versionStorage.deleteVersion(currentResumeId || 'default-resume', id);
+    const updated = versionStorage.deleteVersion(resumeKey, id);
     setVersions(updated);
     setConfirmDeleteId(null);
+    if (previewVersion?.id === id) setPreviewVersion(null);
+    if (confirmRestoreVersion?.id === id) setConfirmRestoreVersion(null);
   };
 
   const handleSaveRename = (id: string) => {
@@ -109,15 +137,19 @@ export default function ResumeVersionManager({
         name: editedName.trim(),
         updatedAt: new Date().toISOString(),
       };
-      const updated = versionStorage.saveVersion(currentResumeId || 'default-resume', updatedItem);
+      const updated = versionStorage.saveVersion(resumeKey, updatedItem);
       setVersions(updated);
     }
     setEditingVersionId(null);
     setEditedName('');
   };
 
-  const handleOpenVersion = (v: ResumeVersion) => {
-    versionStorage.setActiveVersion(currentResumeId || 'default-resume', v.id);
+  const handleConfirmRestore = (v: ResumeVersion) => {
+    versionStorage.setActiveVersion(resumeKey, v.id);
+    const refreshed = versionStorage.getVersions(resumeKey);
+    setVersions(refreshed);
+    setConfirmRestoreVersion(null);
+    setPreviewVersion(null);
     onSelectVersion(v);
     if (onClose) onClose();
   };
@@ -146,15 +178,16 @@ export default function ResumeVersionManager({
               </h3>
             </div>
             <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">
-              Maintain role-specific resume branches (e.g. Frontend vs Backend) with independent templates and ATS scores.
+              Save timestamped snapshots of your resume, preview any branch, and safely restore or compare versions.
             </p>
           </div>
 
           <Button
+            id="create-version-toggle-btn"
             onClick={() => setIsCreating(!isCreating)}
             className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold h-9 shadow-sm shrink-0"
           >
-            <Plus className="w-4 h-4 mr-1.5" /> Create New Version
+            <Plus className="w-4 h-4 mr-1.5" /> Save Snapshot
           </Button>
         </div>
 
@@ -166,10 +199,10 @@ export default function ResumeVersionManager({
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               onSubmit={handleCreateVersion}
-              className="mt-5 p-4 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-950/30 space-y-3"
+              className="mt-5 p-4 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/50 dark:bg-indigo-950/30 space-y-3 overflow-hidden"
             >
               <h4 className="text-xs font-bold text-indigo-900 dark:text-indigo-200">
-                Branch New Resume Version
+                Create Named Resume Snapshot
               </h4>
               <div className="grid sm:grid-cols-2 gap-3">
                 <div>
@@ -177,10 +210,11 @@ export default function ResumeVersionManager({
                     Version Name:
                   </label>
                   <input
+                    id="new-version-name-input"
                     type="text"
                     value={newVersionName}
                     onChange={(e) => setNewVersionName(e.target.value)}
-                    placeholder="e.g. Senior Frontend at FAANG"
+                    placeholder="e.g. Tailored for Product Team"
                     className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-slate-900 dark:text-white"
                   />
                 </div>
@@ -190,7 +224,7 @@ export default function ResumeVersionManager({
                     Target Role Alignment:
                   </label>
                   <select
-                    value={newTargetRole}
+                    value={roles.includes(newTargetRole) ? newTargetRole : roles[0]}
                     onChange={(e) => setNewTargetRole(e.target.value)}
                     className="w-full text-xs px-3 py-2 rounded-lg border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-slate-900 dark:text-white"
                   >
@@ -212,6 +246,7 @@ export default function ResumeVersionManager({
                   Cancel
                 </Button>
                 <Button
+                  id="save-version-submit-btn"
                   type="submit"
                   size="sm"
                   className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs"
@@ -224,11 +259,86 @@ export default function ResumeVersionManager({
         </AnimatePresence>
       </div>
 
+      {/* Preview Snapshot Drawer */}
+      <AnimatePresence>
+        {previewVersion && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="rounded-2xl border-2 border-indigo-300 dark:border-indigo-700 bg-white dark:bg-gray-900 p-5 shadow-md space-y-4"
+          >
+            <div className="flex items-start justify-between gap-3 border-b border-slate-100 dark:border-gray-800 pb-3">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                  Version Snapshot Preview
+                </span>
+                <h4 className="text-base font-bold text-slate-900 dark:text-white">
+                  {previewVersion.name}
+                </h4>
+                <p className="text-xs text-slate-500 dark:text-gray-400">
+                  Created {formatDateTime(previewVersion.createdAt)} · Template: {previewVersion.selectedTemplate.toUpperCase()}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  onClick={() => setConfirmRestoreVersion(previewVersion)}
+                  className="rounded-xl text-xs bg-indigo-600 hover:bg-indigo-700 text-white"
+                >
+                  Restore This Version
+                </Button>
+                <button
+                  onClick={() => setPreviewVersion(null)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-gray-200"
+                  aria-label="Close preview"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-4 text-xs">
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-gray-950 border border-slate-200 dark:border-gray-800 space-y-1.5">
+                <div><strong className="text-slate-700 dark:text-gray-300">Name:</strong> {previewVersion.resumeData.fullName || '—'}</div>
+                <div><strong className="text-slate-700 dark:text-gray-300">Role Title:</strong> {previewVersion.resumeData.jobTitle || '—'}</div>
+                <div><strong className="text-slate-700 dark:text-gray-300">Email:</strong> {previewVersion.resumeData.email || '—'}</div>
+                <div><strong className="text-slate-700 dark:text-gray-300">Experience Entries:</strong> {previewVersion.resumeData.experiences?.length || 0}</div>
+                <div><strong className="text-slate-700 dark:text-gray-300">Projects:</strong> {previewVersion.resumeData.projects?.length || 0}</div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-gray-950 border border-slate-200 dark:border-gray-800 space-y-2">
+                <div>
+                  <strong className="text-slate-700 dark:text-gray-300 block mb-0.5">Summary:</strong>
+                  <p className="text-slate-600 dark:text-gray-400 line-clamp-3">
+                    {previewVersion.resumeData.summary || 'No summary saved.'}
+                  </p>
+                </div>
+                <div>
+                  <strong className="text-slate-700 dark:text-gray-300 block mb-1">
+                    Skills ({previewVersion.resumeData.skills?.length || 0}):
+                  </strong>
+                  <div className="flex flex-wrap gap-1">
+                    {(previewVersion.resumeData.skills || []).slice(0, 12).map((s) => (
+                      <span key={s} className="px-1.5 py-0.5 rounded bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-[10px]">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Version Cards Grid */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {versions.map((v) => {
           const isEditing = editingVersionId === v.id;
           const isConfirmingDelete = confirmDeleteId === v.id;
+          const isConfirmingRestore = confirmRestoreVersion?.id === v.id;
 
           return (
             <motion.div
@@ -269,7 +379,8 @@ export default function ResumeVersionManager({
                             setEditingVersionId(v.id);
                             setEditedName(v.name);
                           }}
-                          className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-gray-200 transition-opacity"
+                          className="opacity-70 group-hover:opacity-100 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-gray-200 transition-opacity"
+                          title="Rename version"
                         >
                           <Edit2 className="w-3 h-3" />
                         </button>
@@ -281,13 +392,12 @@ export default function ResumeVersionManager({
                     </span>
                   </div>
 
-                  {/* ATS Badge */}
                   <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${
                     v.atsScore >= 80
                       ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
                       : 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800'
                   }`}>
-                    ATS {v.atsScore}
+                    Est. {v.atsScore}
                   </span>
                 </div>
 
@@ -298,10 +408,16 @@ export default function ResumeVersionManager({
                       {v.selectedTemplate}
                     </strong>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span>Last Updated:</span>
-                    <span className="text-[11px]">
-                      {new Date(v.updatedAt).toLocaleDateString()}
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> Created:</span>
+                    <span className="text-[11px] text-right">
+                      {formatDateTime(v.createdAt)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <span>Updated:</span>
+                    <span className="text-[11px] text-right">
+                      {formatDateTime(v.updatedAt)}
                     </span>
                   </div>
                 </div>
@@ -310,6 +426,14 @@ export default function ResumeVersionManager({
               {/* Actions Footer */}
               <div className="mt-4 pt-3 border-t border-slate-100 dark:border-gray-800 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setPreviewVersion(previewVersion?.id === v.id ? null : v)}
+                    title="Preview snapshot"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                  </button>
+
                   <button
                     onClick={() => handleDuplicateVersion(v)}
                     title="Duplicate version"
@@ -320,7 +444,10 @@ export default function ResumeVersionManager({
 
                   {versions.length > 1 && (
                     <button
-                      onClick={() => setConfirmDeleteId(confirmDeleteId === v.id ? null : v.id)}
+                      onClick={() => {
+                        setConfirmDeleteId(confirmDeleteId === v.id ? null : v.id);
+                        setConfirmRestoreVersion(null);
+                      }}
                       title="Delete version"
                       className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
                     >
@@ -332,7 +459,10 @@ export default function ResumeVersionManager({
                 <Button
                   size="sm"
                   variant={v.isActive ? 'secondary' : 'default'}
-                  onClick={() => handleOpenVersion(v)}
+                  onClick={() => {
+                    setConfirmRestoreVersion(v);
+                    setConfirmDeleteId(null);
+                  }}
                   className={`rounded-xl text-xs h-8 ${
                     v.isActive
                       ? 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950 dark:text-indigo-300'
@@ -344,10 +474,33 @@ export default function ResumeVersionManager({
                       <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-500" /> Active
                     </>
                   ) : (
-                    'Open Version'
+                    'Restore'
                   )}
                 </Button>
               </div>
+
+              {/* Confirm Restore Dialog */}
+              {isConfirmingRestore && (
+                <div className="mt-3 p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 flex items-center justify-between gap-2">
+                  <span className="text-[11px] text-indigo-800 dark:text-indigo-200 font-medium">
+                    Load this snapshot into editor?
+                  </span>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      onClick={() => handleConfirmRestore(v)}
+                      className="px-2 py-0.5 rounded bg-indigo-600 text-white text-[11px] font-semibold"
+                    >
+                      Confirm Restore
+                    </button>
+                    <button
+                      onClick={() => setConfirmRestoreVersion(null)}
+                      className="px-2 py-0.5 rounded bg-slate-200 dark:bg-gray-700 text-[11px]"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
 
               {/* Confirm Delete Warning */}
               {isConfirmingDelete && (

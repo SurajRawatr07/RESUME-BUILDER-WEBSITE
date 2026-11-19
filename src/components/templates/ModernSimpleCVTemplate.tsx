@@ -69,7 +69,7 @@ export default function ModernSimpleCVTemplate({ data }: TemplateProps) {
           <h2 className="text-[10pt] font-bold uppercase tracking-widest text-black border-b border-gray-300 pb-0.5 mb-1">
             Frontend Profile
           </h2>
-          <p className="text-[9pt] leading-snug text-gray-900 text-justify">
+          <p className="text-[9pt] leading-snug text-gray-900 text-left">
             {data.summary || data.aboutMe}
           </p>
         </section>

@@ -57,7 +57,7 @@ export default function ResumeCVTemplate({ data }: TemplateProps) {
           <h2 className="text-[10.5pt] font-bold uppercase tracking-wider border-b border-black pb-0.5 mb-1 text-black">
             Professional Summary
           </h2>
-          <p className="text-[9pt] leading-snug text-gray-900 text-justify">
+          <p className="text-[9pt] leading-snug text-gray-900 text-left">
             {data.summary || data.aboutMe}
           </p>
         </section>

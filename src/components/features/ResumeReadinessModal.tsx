@@ -128,7 +128,7 @@ export default function ResumeReadinessModal({
                   {health.readinessScore >= 85 ? 'Ready to Apply' : 'Optimization Recommended'}
                 </h3>
                 <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">
-                  <span>ATS Score: <strong className="text-slate-800 dark:text-gray-200">{health.atsScore} / 100</strong></span>
+                  <span>Est. ATS-Readiness: <strong className="text-slate-800 dark:text-gray-200">{health.atsScore} / 100</strong></span>
                   {health.jobMatchScore !== null && (
                     <span>JD Match: <strong className="text-indigo-600 dark:text-indigo-400">{health.jobMatchScore}%</strong></span>
                   )}

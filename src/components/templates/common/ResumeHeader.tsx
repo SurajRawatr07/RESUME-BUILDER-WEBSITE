@@ -111,9 +111,9 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
                 href={ensureHttp(linkedin)}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1 hover:text-slate-900 hover:underline"
+                className="inline-flex items-center gap-1 hover:text-slate-900 hover:underline"
               >
-                <Linkedin className="w-3 h-3 text-slate-700" />
+                <Linkedin className="w-3 h-3 shrink-0 text-slate-700" aria-hidden="true" />
                 <span>{cleanUrl(linkedin)}</span>
               </a>
             )}
@@ -122,9 +122,9 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
                 href={ensureHttp(github)}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1 hover:text-slate-900 hover:underline"
+                className="inline-flex items-center gap-1 hover:text-slate-900 hover:underline"
               >
-                <Github className="w-3 h-3 text-slate-700" />
+                <Github className="w-3 h-3 shrink-0 text-slate-700" aria-hidden="true" />
                 <span>{cleanUrl(github)}</span>
               </a>
             )}
@@ -133,9 +133,9 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
                 href={ensureHttp(activePortfolio)}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1 hover:text-slate-900 hover:underline"
+                className="inline-flex items-center gap-1 hover:text-slate-900 hover:underline"
               >
-                <Globe className="w-3 h-3 text-slate-700" />
+                <Globe className="w-3 h-3 shrink-0 text-slate-700" aria-hidden="true" />
                 <span>{cleanUrl(activePortfolio)}</span>
               </a>
             )}
@@ -238,7 +238,7 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
               rel="noreferrer"
               className="text-gray-900 hover:underline inline-flex items-center gap-1"
             >
-              <Linkedin className="w-2.5 h-2.5 text-gray-700" />
+              <Linkedin className="w-2.5 h-2.5 shrink-0 text-gray-700" aria-hidden="true" />
               <span>{cleanUrl(linkedin)}</span>
             </a>
           </>
@@ -252,7 +252,7 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
               rel="noreferrer"
               className="text-gray-900 hover:underline inline-flex items-center gap-1"
             >
-              <Github className="w-2.5 h-2.5 text-gray-700" />
+              <Github className="w-2.5 h-2.5 shrink-0 text-gray-700" aria-hidden="true" />
               <span>{cleanUrl(github)}</span>
             </a>
           </>
@@ -266,7 +266,7 @@ export const ResumeHeader: React.FC<ResumeHeaderProps> = ({ data, variant = 'lat
               rel="noreferrer"
               className="text-gray-900 hover:underline inline-flex items-center gap-1"
             >
-              <Globe className="w-2.5 h-2.5 text-gray-700" />
+              <Globe className="w-2.5 h-2.5 shrink-0 text-gray-700" aria-hidden="true" />
               <span>{cleanUrl(activePortfolio)}</span>
             </a>
           </>

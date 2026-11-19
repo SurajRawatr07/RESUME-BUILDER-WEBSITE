@@ -9,6 +9,15 @@ interface TemplateProps {
 
 export default function FresherTemplate({ data }: TemplateProps) {
   const cat = categorizeSkills(data);
+  const hasAnySkills =
+    cat.languages.length > 0 ||
+    cat.frontend.length > 0 ||
+    cat.backend.length > 0 ||
+    cat.databases.length > 0 ||
+    cat.tools.length > 0 ||
+    cat.coreCS.length > 0 ||
+    cat.ai.length > 0 ||
+    cat.other.length > 0;
 
   return (
     <div
@@ -24,47 +33,62 @@ export default function FresherTemplate({ data }: TemplateProps) {
       }}
     >
       {/* 1. STUDENT/FRESHER HEADER */}
-      <header className="text-center pb-2 mb-2 border-b-2 border-black">
-        <h1 className="text-[23pt] font-bold tracking-tight uppercase text-black leading-tight">
+      <header className="text-center pb-2 mb-2.5 border-b-2 border-black">
+        <h1 className="text-[23pt] font-bold tracking-tight uppercase text-black leading-tight break-words">
           {data.fullName || 'Your Name'}
         </h1>
-        <div className="text-[9pt] font-semibold text-gray-800 tracking-wide mt-0.5">
-          {data.jobTitle || 'Computer Science Graduate • Aspiring Software Engineer'}
-        </div>
+        {data.jobTitle && (
+          <div className="text-[9pt] font-semibold text-gray-800 tracking-wide mt-0.5 break-words">
+            {data.jobTitle}
+          </div>
+        )}
 
         <div className="text-[8.5pt] text-gray-800 flex flex-wrap justify-center items-center gap-x-2 gap-y-0.5 mt-1">
           <ContactItem type="location" value={data.location} />
-          {data.location && data.phone && <span>•</span>}
+          {data.location && data.phone && <span aria-hidden="true">•</span>}
           <ContactItem type="phone" value={data.phone} />
-          {data.phone && data.email && <span>•</span>}
+          {(data.location || data.phone) && data.email && <span aria-hidden="true">•</span>}
           <ContactItem type="email" value={data.email} />
-          {data.email && data.github && <span>•</span>}
+          {(data.location || data.phone || data.email) && data.github && <span aria-hidden="true">•</span>}
           <ContactItem type="github" value={data.github} />
-          {data.github && data.linkedin && <span>•</span>}
+          {(data.location || data.phone || data.email || data.github) && data.linkedin && (
+            <span aria-hidden="true">•</span>
+          )}
           <ContactItem type="linkedin" value={data.linkedin} />
-          {data.linkedin && data.leetcode && <span>•</span>}
+          {(data.location || data.phone || data.email || data.github || data.linkedin) && data.leetcode && (
+            <span aria-hidden="true">•</span>
+          )}
           <ContactItem type="leetcode" value={data.leetcode} />
         </div>
       </header>
 
-      {/* 2. EDUCATION (First for Fresher/Student) */}
+      {/* 2. SUMMARY */}
+      {(data.summary || data.aboutMe) && (
+        <section className="mb-2.5">
+          <p className="text-[9pt] text-gray-900 leading-relaxed text-left">
+            {data.summary || data.aboutMe}
+          </p>
+        </section>
+      )}
+
+      {/* 3. EDUCATION (First for Fresher/Student) */}
       {data.education && data.education.length > 0 && (
         <section className="mb-2.5">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1.5 text-black">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1.5 text-black break-after-avoid print:break-after-avoid">
             Education
           </h2>
           <div className="space-y-1.5">
             {data.education.map((edu) => (
-              <div key={edu.id}>
-                <div className="flex justify-between items-baseline font-bold text-[9.5pt]">
-                  <span>{edu.institution}</span>
-                  <span className="font-normal text-[8.5pt] text-gray-800">{edu.location}</span>
+              <div key={edu.id} className="break-inside-avoid print:break-inside-avoid">
+                <div className="flex justify-between items-baseline gap-2 font-bold text-[9.5pt]">
+                  <span className="min-w-0">{edu.institution}</span>
+                  <span className="font-normal text-[8.5pt] text-gray-800 shrink-0 text-right">{edu.location}</span>
                 </div>
-                <div className="flex justify-between items-baseline text-[9pt]">
-                  <span className="font-semibold text-gray-900 italic">
+                <div className="flex justify-between items-baseline gap-2 text-[9pt]">
+                  <span className="font-semibold text-gray-900 italic min-w-0">
                     {edu.degree} {edu.gpa ? `• GPA: ${edu.gpa}` : ''}
                   </span>
-                  <span className="text-[8.5pt] text-gray-700">{edu.graduationDate}</span>
+                  <span className="text-[8.5pt] text-gray-700 shrink-0 text-right">{edu.graduationDate}</span>
                 </div>
                 {edu.coursework && (
                   <p className="text-[8.5pt] text-gray-900 mt-0.5">
@@ -80,52 +104,62 @@ export default function FresherTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 3. TECHNICAL SKILLS */}
-      <section className="mb-2.5">
-        <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1.5 text-black">
-          Technical Skills
-        </h2>
-        <div className="space-y-0.5 text-[9pt] leading-snug">
-          {cat.languages.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Languages: </span>
-              <span className="text-gray-900">{cat.languages.join(', ')}</span>
-            </div>
-          )}
-          {(cat.frontend.length > 0 || cat.backend.length > 0) && (
-            <div>
-              <span className="font-bold text-black">Frameworks & Web: </span>
-              <span className="text-gray-900">{[...cat.frontend, ...cat.backend].join(', ')}</span>
-            </div>
-          )}
-          {cat.databases.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Databases: </span>
-              <span className="text-gray-900">{cat.databases.join(', ')}</span>
-            </div>
-          )}
-          {cat.tools.length > 0 && (
-            <div>
-              <span className="font-bold text-black">Developer Tools: </span>
-              <span className="text-gray-900">{cat.tools.join(', ')}</span>
-            </div>
-          )}
-        </div>
-      </section>
+      {/* 4. TECHNICAL SKILLS */}
+      {hasAnySkills && (
+        <section className="mb-2.5">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1.5 text-black break-after-avoid print:break-after-avoid">
+            Technical Skills
+          </h2>
+          <div className="space-y-0.5 text-[9pt] leading-snug">
+            {cat.languages.length > 0 && (
+              <div>
+                <span className="font-bold text-black">Languages: </span>
+                <span className="text-gray-900">{cat.languages.join(', ')}</span>
+              </div>
+            )}
+            {(cat.frontend.length > 0 || cat.backend.length > 0) && (
+              <div>
+                <span className="font-bold text-black">Frameworks &amp; Web: </span>
+                <span className="text-gray-900">{[...cat.frontend, ...cat.backend].join(', ')}</span>
+              </div>
+            )}
+            {cat.databases.length > 0 && (
+              <div>
+                <span className="font-bold text-black">Databases: </span>
+                <span className="text-gray-900">{cat.databases.join(', ')}</span>
+              </div>
+            )}
+            {cat.tools.length > 0 && (
+              <div>
+                <span className="font-bold text-black">Developer Tools: </span>
+                <span className="text-gray-900">{cat.tools.join(', ')}</span>
+              </div>
+            )}
+            {(cat.coreCS.length > 0 || cat.ai.length > 0 || cat.other.length > 0) && (
+              <div>
+                <span className="font-bold text-black">Coursework &amp; Additional Skills: </span>
+                <span className="text-gray-900">
+                  {[...cat.coreCS, ...cat.ai, ...cat.other].join(', ')}
+                </span>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
-      {/* 4. ACADEMIC & SOFTWARE PROJECTS (Dominant for fresher) */}
+      {/* 5. ACADEMIC & SOFTWARE PROJECTS */}
       {data.projects && data.projects.length > 0 && (
         <section className="mb-2.5">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1.5 text-black">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1.5 text-black break-after-avoid print:break-after-avoid">
             Featured Projects
           </h2>
           <div className="space-y-2">
             {data.projects.map((proj) => {
               const bullets = parseBullets(proj.description);
               return (
-                <div key={proj.id}>
-                  <div className="flex justify-between items-baseline">
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                <div key={proj.id} className="break-inside-avoid print:break-inside-avoid">
+                  <div className="flex justify-between items-baseline gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap min-w-0">
                       <span className="font-bold text-[9.5pt] text-black">{proj.title}</span>
                       {proj.technologies && (
                         <span className="text-[8.5pt] text-gray-700 italic">
@@ -137,12 +171,12 @@ export default function FresherTemplate({ data }: TemplateProps) {
                       <ContactItem
                         type="github"
                         value={proj.link}
-                        className="text-[8pt] text-gray-800 hover:underline"
+                        className="text-[8pt] text-gray-800 hover:underline shrink-0"
                       />
                     )}
                   </div>
                   {bullets.length > 0 ? (
-                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 mt-0.5">
+                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 mt-0.5 text-left">
                       {bullets.map((b, idx) => (
                         <li key={idx} className="leading-snug">
                           {b}
@@ -150,7 +184,11 @@ export default function FresherTemplate({ data }: TemplateProps) {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-[9pt] text-gray-900 leading-snug mt-0.5">{proj.description}</p>
+                    proj.description && (
+                      <p className="text-[9pt] text-gray-900 leading-snug mt-0.5 text-left">
+                        {proj.description}
+                      </p>
+                    )
                   )}
                 </div>
               );
@@ -159,35 +197,35 @@ export default function FresherTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 5. INTERNSHIPS / EXPERIENCE */}
+      {/* 6. INTERNSHIPS / EXPERIENCE */}
       {data.experiences && data.experiences.length > 0 && (
         <section className="mb-2.5">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1.5 text-black">
-            Experience & Internships
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1.5 text-black break-after-avoid print:break-after-avoid">
+            Experience &amp; Internships
           </h2>
           <div className="space-y-2">
             {data.experiences.map((exp) => {
               const bullets = parseBullets(exp.description);
               return (
-                <div key={exp.id}>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-bold text-[9.5pt] text-black">
+                <div key={exp.id} className="break-inside-avoid print:break-inside-avoid">
+                  <div className="flex justify-between items-baseline gap-2">
+                    <span className="font-bold text-[9.5pt] text-black min-w-0">
                       {exp.company}
                     </span>
-                    <span className="text-[8.5pt] font-medium text-gray-700">
+                    <span className="text-[8.5pt] font-medium text-gray-700 shrink-0 text-right">
                       {exp.location}
                     </span>
                   </div>
-                  <div className="flex justify-between items-baseline mb-0.5">
-                    <span className="italic text-[9pt] font-semibold text-gray-900">
+                  <div className="flex justify-between items-baseline gap-2 mb-0.5">
+                    <span className="italic text-[9pt] font-semibold text-gray-900 min-w-0">
                       {exp.jobTitle}
                     </span>
-                    <span className="text-[8.5pt] italic text-gray-700">
+                    <span className="text-[8.5pt] italic text-gray-700 shrink-0 text-right">
                       {exp.startDate} – {exp.current ? 'Present' : exp.endDate || 'Present'}
                     </span>
                   </div>
                   {bullets.length > 0 ? (
-                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900">
+                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 text-left">
                       {bullets.map((b, idx) => (
                         <li key={idx} className="leading-snug">
                           {b}
@@ -195,7 +233,11 @@ export default function FresherTemplate({ data }: TemplateProps) {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-[9pt] text-gray-900 leading-snug">{exp.description}</p>
+                    exp.description && (
+                      <p className="text-[9pt] text-gray-900 leading-snug text-left">
+                        {exp.description}
+                      </p>
+                    )
                   )}
                 </div>
               );
@@ -204,11 +246,28 @@ export default function FresherTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 6. ACHIEVEMENTS & EXTRACURRICULARS */}
+      {/* 7. CERTIFICATIONS */}
+      {data.certifications && data.certifications.length > 0 && (
+        <section className="mb-2.5">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
+            Certifications
+          </h2>
+          <div className="space-y-0.5 text-[8.5pt] text-gray-900">
+            {data.certifications.map((c) => (
+              <div key={c.id} className="flex justify-between gap-2 break-inside-avoid print:break-inside-avoid">
+                <span className="min-w-0">• <span className="font-semibold">{c.name}</span> — {c.issuer}</span>
+                <span className="text-gray-600 shrink-0 text-right">{c.date}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 8. ACHIEVEMENTS & EXTRACURRICULARS */}
       {data.achievements && data.achievements.length > 0 && (
         <section>
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Honors & Extracurricular Leadership
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
+            Honors &amp; Extracurricular Leadership
           </h2>
           <ul className="list-disc ml-4 space-y-0.5 text-[8.5pt] text-gray-900">
             {data.achievements.map((item, idx) => (

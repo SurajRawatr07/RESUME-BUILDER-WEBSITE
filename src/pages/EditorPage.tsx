@@ -54,26 +54,56 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
     setFeatureModalOpen(true);
   };
 
-  const handleApplyContentAssistant = (newText: string, sectionType: string) => {
+  const handleApplyContentAssistant = (newText: string, sectionType: string, entryIndex = 0) => {
     if (sectionType === 'summary') {
-      setResumeData({ summary: newText });
-    } else if (sectionType === 'experience' && resumeData.experiences && resumeData.experiences.length > 0) {
+      setResumeData({ summary: newText, aboutMe: newText });
+    } else if (sectionType === 'experience' && resumeData.experiences && resumeData.experiences.length > entryIndex) {
       const updatedExp = [...resumeData.experiences];
-      updatedExp[0] = {
-        ...updatedExp[0],
+      updatedExp[entryIndex] = {
+        ...updatedExp[entryIndex],
         description: newText,
       };
       setResumeData({ experiences: updatedExp });
-    } else if (sectionType === 'project' && resumeData.projects && resumeData.projects.length > 0) {
+    } else if (sectionType === 'project' && resumeData.projects && resumeData.projects.length > entryIndex) {
       const updatedProj = [...resumeData.projects];
-      updatedProj[0] = {
-        ...updatedProj[0],
+      updatedProj[entryIndex] = {
+        ...updatedProj[entryIndex],
         description: newText,
       };
       setResumeData({ projects: updatedProj });
+    } else if (sectionType === 'skills') {
+      const parsedSkills = newText
+        .split(/[,|\n]+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      setResumeData({ skills: parsedSkills, technologies: parsedSkills });
     } else {
-      setResumeData({ summary: newText });
+      setResumeData({ summary: newText, aboutMe: newText });
     }
+  };
+
+  const handleApplyKeyword = (keyword: string, section: string) => {
+    const clean = keyword.trim();
+    if (!clean) return;
+    if (section.toLowerCase() === 'summary') {
+      const existingSummary = (resumeData.summary || '').trim();
+      if (!existingSummary.toLowerCase().includes(clean.toLowerCase())) {
+        setResumeData({
+          summary: existingSummary ? `${existingSummary} Experienced with ${clean}.` : `Experienced with ${clean}.`,
+        });
+      }
+      return;
+    }
+
+    const existingSkills = Array.isArray(resumeData.skills) ? resumeData.skills : [];
+    const existingTech = Array.isArray(resumeData.technologies) ? resumeData.technologies : [];
+    const existsInSkills = existingSkills.some((s) => s.toLowerCase() === clean.toLowerCase());
+    const existsInTech = existingTech.some((s) => s.toLowerCase() === clean.toLowerCase());
+
+    setResumeData({
+      skills: existsInSkills ? existingSkills : [...existingSkills, clean],
+      technologies: existsInTech ? existingTech : [...existingTech, clean],
+    });
   };
 
   const handleApplyImportedData = (imported: Partial<typeof resumeData>) => {
@@ -89,14 +119,16 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
   const handleExportPDF = async () => {
     setIsExporting(true);
     setShowExportMenu(false);
-    await exportToPDF('resume-preview-content', `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
+    const safeName = (resumeData.fullName || 'resume').trim().replace(/\s+/g, '_');
+    await exportToPDF(resumeData, `${safeName}_resume`, selectedTemplate);
     setIsExporting(false);
   };
 
   const handleExportDOCX = async () => {
     setIsExporting(true);
     setShowExportMenu(false);
-    await exportToDOCX(resumeData, `${resumeData.fullName.replace(/\s+/g, '_')}_resume`);
+    const safeName = (resumeData.fullName || 'resume').trim().replace(/\s+/g, '_');
+    await exportToDOCX(resumeData, `${safeName}_resume`);
     setIsExporting(false);
   };
 
@@ -289,7 +321,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
                 rounded="rounded-lg"
                 className="w-full mx-auto"
               >
-                <div id="resume-preview-content" className="w-full overflow-x-auto">
+                <div id="resume-preview-wrapper" className="w-full overflow-x-auto">
                   <ResumePreview />
                 </div>
               </GlowingShadow>
@@ -298,7 +330,7 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
         </div>
       </div>
 
-      {/* Feature Hub Modal (Houses Features 1, 2, 3, 4, 5, 6, 7, 9) */}
+      {/* Feature Hub Modal */}
       <AnimatePresence>
         {featureModalOpen && (
           <FeatureHubModal
@@ -310,8 +342,9 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
             currentResumeId={currentResumeId || 'default_resume'}
             currentResumeTitle={currentResumeTitle}
             currentTemplate={selectedTemplate}
-            atsScore={atsScore}
+            atsScore={atsScore ?? 0}
             onApplyContentAssistant={handleApplyContentAssistant}
+            onApplyKeyword={handleApplyKeyword}
             onApplyImportedData={handleApplyImportedData}
             onSelectVersion={handleSelectVersion}
             onOpenReadinessModal={() => setShowReadinessModal(true)}
@@ -326,10 +359,10 @@ export default function EditorPage({ onBack, onNavigateToProfile }: EditorPagePr
             isOpen={showReadinessModal}
             onClose={() => setShowReadinessModal(false)}
             resumeData={resumeData}
-            currentResumeTitle={currentResumeTitle}
-            onOpenContentAssistant={() => handleOpenFeature('content_assistant')}
-            onOpenJobMatcher={() => handleOpenFeature('job_matcher')}
-            onExportPDF={handleExportPDF}
+            onEditResume={() => setShowPreview(false)}
+            onImproveResume={() => handleOpenFeature('content_assistant')}
+            onPreviewResume={() => setShowPreview(true)}
+            onDownloadPDF={handleExportPDF}
           />
         )}
       </AnimatePresence>

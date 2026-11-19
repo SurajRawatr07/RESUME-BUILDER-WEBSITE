@@ -168,7 +168,7 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .no-print, header, nav, button {
+  .no-print, nav, button, header.sticky, header.fixed {
     display: none !important;
   }
   #resume-preview-content, .resume-preview {
@@ -180,9 +180,19 @@
     margin: 0 !important;
     padding: 0 !important;
   }
+  #resume-preview-content h2,
+  .resume-preview h2 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  #resume-preview-content .break-inside-avoid,
+  .resume-preview .break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
   @page {
     size: A4 portrait;
-    margin: 10mm 8mm;
+    margin: 12mm;
   }
 }
 

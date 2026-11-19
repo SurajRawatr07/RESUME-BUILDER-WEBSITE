@@ -9,6 +9,15 @@ interface TemplateProps {
 
 export default function UIFrontendTemplate({ data }: TemplateProps) {
   const cat = categorizeSkills(data);
+  const hasAnySkills =
+    cat.frontend.length > 0 ||
+    cat.languages.length > 0 ||
+    cat.backend.length > 0 ||
+    cat.databases.length > 0 ||
+    cat.tools.length > 0 ||
+    cat.coreCS.length > 0 ||
+    cat.ai.length > 0 ||
+    cat.other.length > 0;
 
   return (
     <div
@@ -25,29 +34,31 @@ export default function UIFrontendTemplate({ data }: TemplateProps) {
     >
       {/* 1. UI ENGINEER MODERN HEADER */}
       <header className="border-b-2 border-black pb-2.5 mb-2.5">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-1.5">
-          <div>
-            <h1 className="text-[23pt] font-bold tracking-tight uppercase text-black leading-none">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-[23pt] font-bold tracking-tight uppercase text-black leading-tight break-words">
               {data.fullName || 'Your Name'}
             </h1>
-            <p className="text-[10pt] font-bold text-gray-800 tracking-wide mt-1">
-              {data.jobTitle || 'UI Engineer & Design Systems Specialist'}
-            </p>
+            {data.jobTitle && (
+              <p className="text-[10pt] font-bold text-gray-800 tracking-wide mt-0.5 break-words">
+                {data.jobTitle}
+              </p>
+            )}
           </div>
-          <div className="text-[8.5pt] text-gray-800 flex flex-col items-start sm:items-end gap-0.5">
-            <div className="flex items-center gap-2">
+          <div className="min-w-0 w-full sm:w-auto sm:max-w-[54%] text-[8.5pt] text-gray-800 flex flex-col items-start sm:items-end gap-0.5">
+            <div className="flex flex-wrap items-center sm:justify-end gap-x-2 gap-y-0.5">
               <ContactItem type="portfolio" value={data.portfolio || data.website} />
-              {(data.portfolio || data.website) && data.github && <span>•</span>}
+              {(data.portfolio || data.website) && data.github && <span aria-hidden="true">•</span>}
               <ContactItem type="github" value={data.github} />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center sm:justify-end gap-x-2 gap-y-0.5">
               <ContactItem type="email" value={data.email} />
-              {data.email && data.linkedin && <span>•</span>}
+              {data.email && data.linkedin && <span aria-hidden="true">•</span>}
               <ContactItem type="linkedin" value={data.linkedin} />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center sm:justify-end gap-x-2 gap-y-0.5">
               <ContactItem type="location" value={data.location} />
-              {data.location && data.phone && <span>•</span>}
+              {data.location && data.phone && <span aria-hidden="true">•</span>}
               <ContactItem type="phone" value={data.phone} />
             </div>
           </div>
@@ -56,76 +67,85 @@ export default function UIFrontendTemplate({ data }: TemplateProps) {
 
       {/* 2. SUMMARY / FOCUS */}
       {(data.summary || data.aboutMe) && (
-        <section className="mb-2">
-          <p className="text-[9pt] text-gray-900 leading-relaxed text-justify">
+        <section className="mb-2.5">
+          <p className="text-[9pt] text-gray-900 leading-relaxed text-left">
             {data.summary || data.aboutMe}
           </p>
         </section>
       )}
 
       {/* 3. DESIGN SYSTEMS & UI SKILLS */}
-      <section className="mb-2">
-        <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black flex items-center justify-between">
-          <span>Design Systems & Frontend Architecture</span>
-          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">UI Systems • WCAG 2.1 • Animation • CSS</span>
-        </h2>
-        <div className="space-y-0.5 text-[9pt] leading-snug">
-          <div>
-            <span className="font-bold text-black">UI Architecture & Systems: </span>
-            <span className="text-gray-900">
-              {cat.frontend.length > 0 ? cat.frontend.join(', ') : 'React, Next.js, Tailwind CSS, Radix UI, Storybook, CSS Modules'}
-            </span>
+      {hasAnySkills && (
+        <section className="mb-2.5">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
+            Design Systems &amp; Frontend Architecture
+          </h2>
+          <div className="space-y-0.5 text-[9pt] leading-snug">
+            {cat.frontend.length > 0 && (
+              <div>
+                <span className="font-bold text-black">UI Architecture &amp; Systems: </span>
+                <span className="text-gray-900">{cat.frontend.join(', ')}</span>
+              </div>
+            )}
+            {cat.languages.length > 0 && (
+              <div>
+                <span className="font-bold text-black">Languages &amp; Standards: </span>
+                <span className="text-gray-900">{cat.languages.join(', ')}</span>
+              </div>
+            )}
+            {(cat.backend.length > 0 || cat.databases.length > 0) && (
+              <div>
+                <span className="font-bold text-black">APIs &amp; Data: </span>
+                <span className="text-gray-900">{[...cat.backend, ...cat.databases].join(', ')}</span>
+              </div>
+            )}
+            {cat.tools.length > 0 && (
+              <div>
+                <span className="font-bold text-black">Developer Tools: </span>
+                <span className="text-gray-900">{cat.tools.join(', ')}</span>
+              </div>
+            )}
+            {(cat.coreCS.length > 0 || cat.ai.length > 0 || cat.other.length > 0) && (
+              <div>
+                <span className="font-bold text-black">Additional Competencies: </span>
+                <span className="text-gray-900">
+                  {[...cat.coreCS, ...cat.ai, ...cat.other].join(', ')}
+                </span>
+              </div>
+            )}
           </div>
-          <div>
-            <span className="font-bold text-black">Languages & Standards: </span>
-            <span className="text-gray-900">
-              {cat.languages.length > 0 ? cat.languages.join(', ') : 'TypeScript, JavaScript, HTML5 Semantics, CSS3 / Modern CSS'}
-            </span>
-          </div>
-          <div>
-            <span className="font-bold text-black">Accessibility & Interaction: </span>
-            <span className="text-gray-900">
-              WCAG 2.1 AA Compliance, WAI-ARIA, Micro-Interactions, Framer Motion, Responsive Design
-            </span>
-          </div>
-          <div>
-            <span className="font-bold text-black">Developer Tools: </span>
-            <span className="text-gray-900">
-              {cat.tools.length > 0 ? cat.tools.join(', ') : 'Figma, Storybook, Jest, Playwright, Git, Vite'}
-            </span>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 4. EXPERIENCE */}
       {data.experiences && data.experiences.length > 0 && (
         <section className="mb-2.5">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            UI & Frontend Experience
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
+            UI &amp; Frontend Experience
           </h2>
           <div className="space-y-2">
             {data.experiences.map((exp) => {
               const bullets = parseBullets(exp.description);
               return (
-                <div key={exp.id}>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-bold text-[9.5pt] text-black">
+                <div key={exp.id} className="break-inside-avoid print:break-inside-avoid">
+                  <div className="flex justify-between items-baseline gap-2">
+                    <span className="font-bold text-[9.5pt] text-black min-w-0">
                       {exp.company}
                     </span>
-                    <span className="text-[8.5pt] font-medium text-gray-700">
+                    <span className="text-[8.5pt] font-medium text-gray-700 shrink-0 text-right">
                       {exp.location}
                     </span>
                   </div>
-                  <div className="flex justify-between items-baseline mb-0.5">
-                    <span className="italic text-[9pt] font-semibold text-gray-900">
+                  <div className="flex justify-between items-baseline gap-2 mb-0.5">
+                    <span className="italic text-[9pt] font-semibold text-gray-900 min-w-0">
                       {exp.jobTitle}
                     </span>
-                    <span className="text-[8.5pt] italic text-gray-700">
+                    <span className="text-[8.5pt] italic text-gray-700 shrink-0 text-right">
                       {exp.startDate} – {exp.current ? 'Present' : exp.endDate || 'Present'}
                     </span>
                   </div>
                   {bullets.length > 0 ? (
-                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900">
+                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 text-left">
                       {bullets.map((b, idx) => (
                         <li key={idx} className="leading-snug">
                           {b}
@@ -133,7 +153,11 @@ export default function UIFrontendTemplate({ data }: TemplateProps) {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-[9pt] text-gray-900 leading-snug">{exp.description}</p>
+                    exp.description && (
+                      <p className="text-[9pt] text-gray-900 leading-snug text-left">
+                        {exp.description}
+                      </p>
+                    )
                   )}
                 </div>
               );
@@ -144,17 +168,17 @@ export default function UIFrontendTemplate({ data }: TemplateProps) {
 
       {/* 5. DESIGN & COMPONENT PROJECTS */}
       {data.projects && data.projects.length > 0 && (
-        <section className="mb-2">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Design Systems & Component Libraries
+        <section className="mb-2.5">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
+            Design Systems &amp; Component Libraries
           </h2>
           <div className="space-y-1.5">
             {data.projects.map((proj) => {
               const bullets = parseBullets(proj.description);
               return (
-                <div key={proj.id}>
-                  <div className="flex justify-between items-baseline">
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                <div key={proj.id} className="break-inside-avoid print:break-inside-avoid">
+                  <div className="flex justify-between items-baseline gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap min-w-0">
                       <span className="font-bold text-[9.5pt] text-black">{proj.title}</span>
                       {proj.technologies && (
                         <span className="text-[8.5pt] text-gray-700 italic">
@@ -166,12 +190,12 @@ export default function UIFrontendTemplate({ data }: TemplateProps) {
                       <ContactItem
                         type="github"
                         value={proj.link}
-                        className="text-[8pt] text-gray-800 hover:underline"
+                        className="text-[8pt] text-gray-800 hover:underline shrink-0"
                       />
                     )}
                   </div>
                   {bullets.length > 0 ? (
-                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 mt-0.5">
+                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 mt-0.5 text-left">
                       {bullets.map((b, idx) => (
                         <li key={idx} className="leading-snug">
                           {b}
@@ -179,7 +203,11 @@ export default function UIFrontendTemplate({ data }: TemplateProps) {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-[9pt] text-gray-900 leading-snug mt-0.5">{proj.description}</p>
+                    proj.description && (
+                      <p className="text-[9pt] text-gray-900 leading-snug mt-0.5 text-left">
+                        {proj.description}
+                      </p>
+                    )
                   )}
                 </div>
               );
@@ -190,22 +218,22 @@ export default function UIFrontendTemplate({ data }: TemplateProps) {
 
       {/* 6. EDUCATION */}
       {data.education && data.education.length > 0 && (
-        <section className="mb-2">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+        <section className="mb-2.5">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
             Education
           </h2>
           <div className="space-y-1">
             {data.education.map((edu) => (
-              <div key={edu.id}>
-                <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-[9.5pt] text-black">{edu.institution}</span>
-                  <span className="text-[8.5pt] text-gray-700">{edu.location}</span>
+              <div key={edu.id} className="break-inside-avoid print:break-inside-avoid">
+                <div className="flex justify-between items-baseline gap-2">
+                  <span className="font-bold text-[9.5pt] text-black min-w-0">{edu.institution}</span>
+                  <span className="text-[8.5pt] text-gray-700 shrink-0 text-right">{edu.location}</span>
                 </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="italic text-[9pt] text-gray-900">
+                <div className="flex justify-between items-baseline gap-2">
+                  <span className="italic text-[9pt] text-gray-900 min-w-0">
                     {edu.degree} {edu.gpa ? `• GPA: ${edu.gpa}` : ''}
                   </span>
-                  <span className="text-[8.5pt] italic text-gray-700">{edu.graduationDate}</span>
+                  <span className="text-[8.5pt] italic text-gray-700 shrink-0 text-right">{edu.graduationDate}</span>
                 </div>
               </div>
             ))}
@@ -216,8 +244,8 @@ export default function UIFrontendTemplate({ data }: TemplateProps) {
       {/* 7. ACHIEVEMENTS & DESIGN RECOGNITION */}
       {data.achievements && data.achievements.length > 0 && (
         <section>
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Awards & Design Recognition
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
+            Awards &amp; Design Recognition
           </h2>
           <ul className="list-disc ml-4 space-y-0.5 text-[8.5pt] text-gray-900">
             {data.achievements.map((item, idx) => (

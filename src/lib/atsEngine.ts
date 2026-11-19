@@ -33,6 +33,8 @@ export interface ATSAnalysisResult {
   statusColor: string;
   targetJobTitle: string;
   targetRole: string; // compatibility
+  isEstimated?: boolean;
+  estimationNote?: string;
   breakdown: ATSBreakdown;
   strengths: string[];
   weaknesses: string[];
@@ -405,6 +407,9 @@ export function calculateATSScore(
     return {
       score: 0,
       targetJobTitle: rawRole,
+      targetRole: rawRole,
+      isEstimated: true,
+      estimationNote: 'Estimated ATS-readiness score computed locally. This is a diagnostic simulation, not a score from any third-party ATS.',
       status: 'Weak Match',
       statusColor: 'text-rose-600 bg-rose-50 border-rose-200 dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-300',
       strengths: [],
@@ -427,6 +432,10 @@ export function calculateATSScore(
         summary: { score: 0, max: 10, label: 'Professional Summary', feedback: 'Missing summary' },
         skills: { score: 0, max: 15, label: 'Technical Skills', feedback: 'No skills entered' },
         experience: { score: 0, max: 20, label: 'Work Experience', feedback: 'No experience entered' },
+        projects: { score: 0, max: 15, label: 'Projects', feedback: 'No projects entered' },
+        education: { score: 0, max: 10, label: 'Education', feedback: 'No education entered' },
+        keywords: { score: 0, max: 30, label: 'Keyword Match', feedback: '0 keywords matched' },
+        formatting: { score: 0, max: 10, label: 'ATS Formatting', feedback: 'Empty resume document' },
       },
     };
   }
@@ -674,25 +683,53 @@ export function calculateATSScore(
   // 6. ATS Formatting / Structure (10 Points)
   // ==========================================
   let formatScore = 10;
+  const formatIssues: string[] = [];
 
   // Deduct for missing essential contact info
-  if (!fullName || !email) formatScore -= 3;
-  if (!phone) formatScore -= 1;
+  if (!fullName || !email || !email.includes('@')) {
+    formatScore -= 3;
+    formatIssues.push('missing full name or valid email');
+  }
+  if (!phone) {
+    formatScore -= 1;
+    formatIssues.push('missing phone number');
+  }
 
   // Check for excessively long unbroken text
-  const hasOverlyLongText = experiences.some((e) => (e.description || '').length > 800) || summary.length > 1000;
-  if (hasOverlyLongText) formatScore -= 2;
+  const hasOverlyLongText = experiences.some((e) => (e.description || '').length > 900) || summary.length > 1000;
+  if (hasOverlyLongText) {
+    formatScore -= 2;
+    formatIssues.push('overly long unbroken paragraphs');
+  }
 
   // Check for broken entries (empty jobTitle or company)
-  if (experiences.some((e) => !e.jobTitle || !e.company)) formatScore -= 2;
+  if (experiences.some((e) => !e.jobTitle?.trim() || !e.company?.trim())) {
+    formatScore -= 2;
+    formatIssues.push('experience entry missing role title or company');
+  }
 
-  formatScore = Math.min(10, Math.max(2, formatScore));
+  // Check for excessive formatting characters/symbols
+  const allDescriptions = [summary, ...experiences.map((e) => e.description || ''), ...projects.map((p) => p.description || '')].join(' ');
+  const excessiveSymbolsCount = (allDescriptions.match(/[★☆✓✔►▶♦♠♣♥■□▪▫|]{2,}|[★✓✔►▶]{3,}/g) || []).length;
+  if (excessiveSymbolsCount > 0) {
+    formatScore -= 2;
+    formatIssues.push('excessive decorative symbols that can hinder ATS parsers');
+  }
 
-  if (formatScore >= 8) {
-    strengths.push('Clean, single-column ATS-friendly formatting with standard section headers.');
+  // Check for duplicate skills
+  const normalizedSkills = skillsList.map((s) => s.toLowerCase().trim()).filter(Boolean);
+  if (new Set(normalizedSkills).size < normalizedSkills.length) {
+    formatScore -= 1;
+    formatIssues.push('duplicate skill entries');
+  }
+
+  formatScore = Math.min(10, Math.max(1, formatScore));
+
+  if (formatScore >= 8 && formatIssues.length === 0) {
+    strengths.push('Clean, single-column ATS-friendly structure with standard section organization.');
   } else {
-    weaknesses.push('Formatting issues: missing contact details or inconsistent section entries.');
-    recommendations.push('Ensure each experience entry has both a title and company, and keep bullet points concise.');
+    weaknesses.push(`Structure & formatting checks flagged: ${formatIssues.join(', ')}.`);
+    recommendations.push('Use clean ASCII bullet points, remove duplicate skills, and ensure every experience/education entry has complete headers.');
   }
 
   // ==========================================
@@ -800,11 +837,17 @@ export function calculateATSScore(
       label: 'Education',
       feedback: 'Education evaluated',
     },
+    keywords: {
+      score: keywordScore,
+      max: 30,
+      label: 'Keyword Match',
+      feedback: `${matchedKeywords.length}/${targetKeywords.length} target role keywords matched`,
+    },
     formatting: {
       score: formatScore,
-      max: 5,
+      max: 10,
       label: 'ATS Formatting',
-      feedback: 'Formatting evaluated',
+      feedback: formatIssues.length > 0 ? formatIssues.join('; ') : 'Formatting evaluated cleanly',
     },
   };
 
@@ -814,6 +857,8 @@ export function calculateATSScore(
     statusColor,
     targetJobTitle: rawRole,
     targetRole: rawRole,
+    isEstimated: true,
+    estimationNote: 'Estimated ATS-readiness score calculated locally from 6 structural & keyword heuristics. Not an official third-party ATS score.',
     breakdown,
     strengths,
     weaknesses,

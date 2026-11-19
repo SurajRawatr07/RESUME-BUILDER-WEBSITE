@@ -9,6 +9,25 @@ interface TemplateProps {
 
 export default function MobileTemplate({ data }: TemplateProps) {
   const cat = categorizeSkills(data);
+  const mobileFrameworks = cat.frontend.filter(
+    (f) =>
+      f.toLowerCase().includes('native') ||
+      f.toLowerCase().includes('react') ||
+      f.toLowerCase().includes('flutter') ||
+      f.toLowerCase().includes('expo') ||
+      f.toLowerCase().includes('ios') ||
+      f.toLowerCase().includes('android')
+  );
+  const otherFrontend = cat.frontend.filter((f) => !mobileFrameworks.includes(f));
+  const hasAnySkills =
+    cat.frontend.length > 0 ||
+    cat.languages.length > 0 ||
+    cat.backend.length > 0 ||
+    cat.databases.length > 0 ||
+    cat.tools.length > 0 ||
+    cat.coreCS.length > 0 ||
+    cat.ai.length > 0 ||
+    cat.other.length > 0;
 
   return (
     <div
@@ -24,99 +43,121 @@ export default function MobileTemplate({ data }: TemplateProps) {
       }}
     >
       {/* 1. MOBILE ENGINEER HEADER */}
-      <header className="border-b-2 border-black pb-2 mb-2">
-        <div className="flex flex-col sm:flex-row justify-between items-baseline gap-1">
-          <div>
-            <h1 className="text-[22pt] font-bold uppercase tracking-tight text-black">
+      <header className="border-b-2 border-black pb-2 mb-2.5">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-[22pt] font-bold uppercase tracking-tight text-black leading-tight break-words">
               {data.fullName || 'Your Name'}
             </h1>
-            <p className="text-[10pt] font-bold text-gray-800 tracking-wide">
-              {data.jobTitle || 'Mobile Application Developer (iOS & Android)'}
-            </p>
+            {data.jobTitle && (
+              <p className="text-[10pt] font-bold text-gray-800 tracking-wide mt-0.5 break-words">
+                {data.jobTitle}
+              </p>
+            )}
           </div>
-          <div className="text-[8.5pt] text-gray-800 flex flex-col items-start sm:items-end gap-0.5">
-            <div className="flex items-center gap-2">
+          <div className="min-w-0 w-full sm:w-auto sm:max-w-[54%] text-[8.5pt] text-gray-800 flex flex-col items-start sm:items-end gap-0.5">
+            <div className="flex flex-wrap items-center sm:justify-end gap-x-2 gap-y-0.5">
               <ContactItem type="location" value={data.location} />
-              {data.location && data.phone && <span>•</span>}
+              {data.location && data.phone && <span aria-hidden="true">•</span>}
               <ContactItem type="phone" value={data.phone} />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center sm:justify-end gap-x-2 gap-y-0.5">
               <ContactItem type="email" value={data.email} />
-              {data.email && data.github && <span>•</span>}
+              {data.email && data.github && <span aria-hidden="true">•</span>}
               <ContactItem type="github" value={data.github} />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center sm:justify-end gap-x-2 gap-y-0.5">
               <ContactItem type="linkedin" value={data.linkedin} />
-              {data.linkedin && (data.portfolio || data.website) && <span>•</span>}
+              {data.linkedin && (data.portfolio || data.website) && <span aria-hidden="true">•</span>}
               <ContactItem type="portfolio" value={data.portfolio || data.website} />
             </div>
           </div>
         </div>
       </header>
 
-      {/* 2. TECHNICAL COMPETENCIES (Mobile Ecosystem) */}
-      <section className="mb-2">
-        <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black flex items-center justify-between">
-          <span>Mobile & Technical Stack</span>
-          <span className="text-[7.5pt] font-normal tracking-normal text-gray-600">iOS • Android • React Native • Native Modules</span>
-        </h2>
-        <div className="space-y-0.5 text-[9pt] leading-snug">
-          <div>
-            <span className="font-bold text-black">Mobile Frameworks: </span>
-            <span className="text-gray-900">
-              {cat.frontend.filter((f) => f.toLowerCase().includes('native') || f.toLowerCase().includes('react')).join(', ') || 'React Native, iOS, Android, Expo, Flutter'}
-            </span>
-          </div>
-          <div>
-            <span className="font-bold text-black">Languages: </span>
-            <span className="text-gray-900">
-              {cat.languages.length > 0 ? cat.languages.join(', ') : 'TypeScript, JavaScript, Swift, Kotlin, Python'}
-            </span>
-          </div>
-          <div>
-            <span className="font-bold text-black">State & Data Sync: </span>
-            <span className="text-gray-900">
-              Redux Toolkit, Zustand, WatermelonDB, SQLite, REST APIs, GraphQL
-            </span>
-          </div>
-          <div>
-            <span className="font-bold text-black">Tooling & Release: </span>
-            <span className="text-gray-900">
-              {cat.tools.length > 0 ? cat.tools.join(', ') : 'Xcode, Android Studio, Fastlane, GitHub Actions, Git'}
-            </span>
-          </div>
-        </div>
-      </section>
+      {/* 2. SUMMARY */}
+      {(data.summary || data.aboutMe) && (
+        <section className="mb-2.5">
+          <p className="text-[9pt] text-gray-900 leading-relaxed text-left">
+            {data.summary || data.aboutMe}
+          </p>
+        </section>
+      )}
 
-      {/* 3. EXPERIENCE */}
+      {/* 3. TECHNICAL COMPETENCIES */}
+      {hasAnySkills && (
+        <section className="mb-2.5">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
+            Mobile &amp; Technical Stack
+          </h2>
+          <div className="space-y-0.5 text-[9pt] leading-snug">
+            {mobileFrameworks.length > 0 && (
+              <div>
+                <span className="font-bold text-black">Mobile Frameworks: </span>
+                <span className="text-gray-900">{mobileFrameworks.join(', ')}</span>
+              </div>
+            )}
+            {cat.languages.length > 0 && (
+              <div>
+                <span className="font-bold text-black">Languages: </span>
+                <span className="text-gray-900">{cat.languages.join(', ')}</span>
+              </div>
+            )}
+            {(otherFrontend.length > 0 || cat.backend.length > 0 || cat.databases.length > 0) && (
+              <div>
+                <span className="font-bold text-black">State, APIs &amp; Data Sync: </span>
+                <span className="text-gray-900">
+                  {[...otherFrontend, ...cat.backend, ...cat.databases].join(', ')}
+                </span>
+              </div>
+            )}
+            {cat.tools.length > 0 && (
+              <div>
+                <span className="font-bold text-black">Tooling &amp; Release: </span>
+                <span className="text-gray-900">{cat.tools.join(', ')}</span>
+              </div>
+            )}
+            {(cat.coreCS.length > 0 || cat.ai.length > 0 || cat.other.length > 0) && (
+              <div>
+                <span className="font-bold text-black">Additional Skills: </span>
+                <span className="text-gray-900">
+                  {[...cat.coreCS, ...cat.ai, ...cat.other].join(', ')}
+                </span>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* 4. EXPERIENCE */}
       {data.experiences && data.experiences.length > 0 && (
         <section className="mb-2.5">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
             Mobile Development Experience
           </h2>
           <div className="space-y-2">
             {data.experiences.map((exp) => {
               const bullets = parseBullets(exp.description);
               return (
-                <div key={exp.id}>
-                  <div className="flex justify-between items-baseline">
-                    <span className="font-bold text-[9.5pt] text-black">
+                <div key={exp.id} className="break-inside-avoid print:break-inside-avoid">
+                  <div className="flex justify-between items-baseline gap-2">
+                    <span className="font-bold text-[9.5pt] text-black min-w-0">
                       {exp.company}
                     </span>
-                    <span className="text-[8.5pt] font-medium text-gray-700">
+                    <span className="text-[8.5pt] font-medium text-gray-700 shrink-0 text-right">
                       {exp.location}
                     </span>
                   </div>
-                  <div className="flex justify-between items-baseline mb-0.5">
-                    <span className="italic text-[9pt] font-semibold text-gray-900">
+                  <div className="flex justify-between items-baseline gap-2 mb-0.5">
+                    <span className="italic text-[9pt] font-semibold text-gray-900 min-w-0">
                       {exp.jobTitle}
                     </span>
-                    <span className="text-[8.5pt] italic text-gray-700">
+                    <span className="text-[8.5pt] italic text-gray-700 shrink-0 text-right">
                       {exp.startDate} – {exp.current ? 'Present' : exp.endDate || 'Present'}
                     </span>
                   </div>
                   {bullets.length > 0 ? (
-                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900">
+                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 text-left">
                       {bullets.map((b, idx) => (
                         <li key={idx} className="leading-snug">
                           {b}
@@ -124,7 +165,11 @@ export default function MobileTemplate({ data }: TemplateProps) {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-[9pt] text-gray-900 leading-snug">{exp.description}</p>
+                    exp.description && (
+                      <p className="text-[9pt] text-gray-900 leading-snug text-left">
+                        {exp.description}
+                      </p>
+                    )
                   )}
                 </div>
               );
@@ -133,19 +178,19 @@ export default function MobileTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 4. MOBILE APPLICATIONS & PROJECTS */}
+      {/* 5. MOBILE APPLICATIONS & PROJECTS */}
       {data.projects && data.projects.length > 0 && (
-        <section className="mb-2">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+        <section className="mb-2.5">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
             Featured Mobile Applications
           </h2>
           <div className="space-y-1.5">
             {data.projects.map((proj) => {
               const bullets = parseBullets(proj.description);
               return (
-                <div key={proj.id}>
-                  <div className="flex justify-between items-baseline">
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                <div key={proj.id} className="break-inside-avoid print:break-inside-avoid">
+                  <div className="flex justify-between items-baseline gap-2">
+                    <div className="flex items-center gap-1.5 flex-wrap min-w-0">
                       <span className="font-bold text-[9.5pt] text-black">{proj.title}</span>
                       {proj.technologies && (
                         <span className="text-[8.5pt] text-gray-700 italic">
@@ -157,12 +202,12 @@ export default function MobileTemplate({ data }: TemplateProps) {
                       <ContactItem
                         type="github"
                         value={proj.link}
-                        className="text-[8pt] text-gray-800 hover:underline"
+                        className="text-[8pt] text-gray-800 hover:underline shrink-0"
                       />
                     )}
                   </div>
                   {bullets.length > 0 ? (
-                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 mt-0.5">
+                    <ul className="list-disc ml-4 space-y-0.5 text-[9pt] text-gray-900 mt-0.5 text-left">
                       {bullets.map((b, idx) => (
                         <li key={idx} className="leading-snug">
                           {b}
@@ -170,7 +215,11 @@ export default function MobileTemplate({ data }: TemplateProps) {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-[9pt] text-gray-900 leading-snug mt-0.5">{proj.description}</p>
+                    proj.description && (
+                      <p className="text-[9pt] text-gray-900 leading-snug mt-0.5 text-left">
+                        {proj.description}
+                      </p>
+                    )
                   )}
                 </div>
               );
@@ -179,24 +228,24 @@ export default function MobileTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 5. EDUCATION */}
+      {/* 6. EDUCATION */}
       {data.education && data.education.length > 0 && (
-        <section className="mb-2">
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
+        <section className="mb-2.5">
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
             Education
           </h2>
           <div className="space-y-1">
             {data.education.map((edu) => (
-              <div key={edu.id}>
-                <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-[9.5pt] text-black">{edu.institution}</span>
-                  <span className="text-[8.5pt] text-gray-700">{edu.location}</span>
+              <div key={edu.id} className="break-inside-avoid print:break-inside-avoid">
+                <div className="flex justify-between items-baseline gap-2">
+                  <span className="font-bold text-[9.5pt] text-black min-w-0">{edu.institution}</span>
+                  <span className="text-[8.5pt] text-gray-700 shrink-0 text-right">{edu.location}</span>
                 </div>
-                <div className="flex justify-between items-baseline">
-                  <span className="italic text-[9pt] text-gray-900">
+                <div className="flex justify-between items-baseline gap-2">
+                  <span className="italic text-[9pt] text-gray-900 min-w-0">
                     {edu.degree} {edu.gpa ? `• GPA: ${edu.gpa}` : ''}
                   </span>
-                  <span className="text-[8.5pt] italic text-gray-700">{edu.graduationDate}</span>
+                  <span className="text-[8.5pt] italic text-gray-700 shrink-0 text-right">{edu.graduationDate}</span>
                 </div>
               </div>
             ))}
@@ -204,11 +253,11 @@ export default function MobileTemplate({ data }: TemplateProps) {
         </section>
       )}
 
-      {/* 6. ACHIEVEMENTS */}
+      {/* 7. ACHIEVEMENTS */}
       {data.achievements && data.achievements.length > 0 && (
         <section>
-          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black">
-            Achievements & App Store Highlights
+          <h2 className="text-[10pt] font-bold tracking-widest uppercase border-b border-black pb-0.5 mb-1 text-black break-after-avoid print:break-after-avoid">
+            Achievements &amp; App Store Highlights
           </h2>
           <ul className="list-disc ml-4 space-y-0.5 text-[8.5pt] text-gray-900">
             {data.achievements.map((item, idx) => (

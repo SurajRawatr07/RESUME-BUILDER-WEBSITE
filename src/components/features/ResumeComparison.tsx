@@ -1,18 +1,15 @@
 import { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
 import {
   GitCompare,
   TrendingUp,
   TrendingDown,
   Minus,
   CheckCircle2,
-  XCircle,
   PlusCircle,
   MinusCircle,
-  ArrowRight,
   Layers,
-  Award,
-  Briefcase
+  FileDiff,
+  Info
 } from 'lucide-react';
 import { ResumeData } from '@/types/resume';
 import { versionStorage, ResumeVersion } from '@/lib/storage';
@@ -24,6 +21,8 @@ interface ResumeComparisonProps {
   onApplyVersion?: (version: ResumeVersion) => void;
 }
 
+const LIVE_OPTION_ID = '__current_live_resume__';
+
 export default function ResumeComparison({
   currentResumeId,
   currentResumeData,
@@ -33,90 +32,49 @@ export default function ResumeComparison({
   }, [currentResumeId]);
 
   const [versionAId, setVersionAId] = useState<string>(
-    versions[0]?.id || 'vA'
+    versions[0]?.id || LIVE_OPTION_ID
   );
   const [versionBId, setVersionBId] = useState<string>(
-    versions[1]?.id || versions[0]?.id || 'vB'
+    versions[1]?.id || LIVE_OPTION_ID
   );
 
-  const versionA = useMemo(() => {
-    return versions.find((v) => v.id === versionAId) || {
-      id: 'current',
-      name: 'Current Working Resume',
-      resumeData: currentResumeData,
-      targetRole: currentResumeData?.jobTitle || 'Full Stack Developer',
-      atsScore: 78,
-    };
-  }, [versions, versionAId, currentResumeData]);
-
-  const versionB = useMemo(() => {
-    return versions.find((v) => v.id === versionBId) || {
-      id: 'compare',
-      name: versions[1]?.name || 'Secondary Version',
-      resumeData: versions[1]?.resumeData || currentResumeData,
-      targetRole: versions[1]?.targetRole || 'Frontend Developer',
-      atsScore: 85,
-    };
-  }, [versions, versionBId, currentResumeData]);
-
-  const comparison: ResumeComparisonResult = useMemo(() => {
-    const safeATS = (data: ResumeData, role: string) => {
-      try {
-        return calculateATSScore(data, role);
-      } catch {
-        return {
-          score: 75,
-          status: 'Good Match' as const,
-          statusColor: 'text-blue-500',
-          targetJobTitle: role,
-          targetRole: role,
-          breakdown: {
-            jobTitleRelevance: { score: 15, max: 20, label: 'Role Alignment', feedback: 'Satisfactory' },
-            keywordMatch: { score: 22, max: 30, label: 'Keywords', feedback: 'Satisfactory' },
-            contentCompleteness: { score: 12, max: 15, label: 'Completeness', feedback: 'Satisfactory' },
-            experienceProjects: { score: 12, max: 15, label: 'Experience & Projects', feedback: 'Satisfactory' },
-            educationCertifications: { score: 7, max: 10, label: 'Education', feedback: 'Satisfactory' },
-            atsFormatting: { score: 7, max: 10, label: 'Formatting', feedback: 'Satisfactory' },
-          },
-          strengths: [],
-          weaknesses: [],
-          missingKeywords: [],
-          matchedKeywords: [],
-          recommendations: [],
-        };
-      }
-    };
-
-    try {
-      return compareTwoResumes(
-        versionA.resumeData,
-        versionB.resumeData,
-        versionB.targetRole || 'Full Stack Developer'
-      );
-    } catch (err) {
-      console.error('Failed to compare resumes:', err);
+  const resolveResume = (id: string, fallbackName: string) => {
+    if (id === LIVE_OPTION_ID) {
       return {
-        scoreA: 78,
-        scoreB: 85,
-        scoreDiff: 7,
-        statusA: 'Good',
-        statusB: 'Strong',
-        skillsAdded: [],
-        skillsRemoved: [],
-        skillsCommon: [],
-        experienceCountA: versionA.resumeData?.experiences?.length || 0,
-        experienceCountB: versionB.resumeData?.experiences?.length || 0,
-        projectsCountA: versionA.resumeData?.projects?.length || 0,
-        projectsCountB: versionB.resumeData?.projects?.length || 0,
-        educationCountA: versionA.resumeData?.education?.length || 0,
-        educationCountB: versionB.resumeData?.education?.length || 0,
-        improvedSections: [],
-        weakerSections: [],
-        unchangedSections: [],
-        analysisA: safeATS(versionA.resumeData, 'Full Stack Developer'),
-        analysisB: safeATS(versionB.resumeData, 'Full Stack Developer'),
+        id: LIVE_OPTION_ID,
+        name: 'Current Live Editor Resume',
+        resumeData: currentResumeData,
+        targetRole: currentResumeData?.jobTitle || 'Software Engineer',
       };
     }
+    const found = versions.find((v) => v.id === id);
+    if (found) return found;
+    return {
+      id: 'fallback',
+      name: fallbackName,
+      resumeData: currentResumeData,
+      targetRole: currentResumeData?.jobTitle || 'Software Engineer',
+    };
+  };
+
+  const versionA = useMemo(
+    () => resolveResume(versionAId, 'Baseline Resume'),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [versions, versionAId, currentResumeData]
+  );
+
+  const versionB = useMemo(
+    () => resolveResume(versionBId, 'Comparison Target'),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [versions, versionBId, currentResumeData]
+  );
+
+  const comparison: ResumeComparisonResult = useMemo(() => {
+    return compareTwoResumes(
+      versionA.resumeData,
+      versionB.resumeData,
+      versionB.targetRole || versionA.targetRole || 'Software Engineer'
+    );
   }, [versionA, versionB]);
 
   return (
@@ -133,7 +91,7 @@ export default function ResumeComparison({
                 Resume Version Comparison
               </h3>
               <p className="text-xs text-slate-500 dark:text-gray-400">
-                Visual delta analysis comparing ATS scoring, keyword alignment, and section improvements.
+                Section-by-section content diff and estimated ATS-readiness comparison between any saved snapshot and your live resume.
               </p>
             </div>
           </div>
@@ -146,13 +104,15 @@ export default function ResumeComparison({
               Baseline (Resume A):
             </label>
             <select
+              id="compare-select-a"
               value={versionAId}
               onChange={(e) => setVersionAId(e.target.value)}
               className="w-full text-xs font-semibold px-3 py-2 rounded-lg border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-slate-900 dark:text-white"
             >
+              <option value={LIVE_OPTION_ID}>Current Live Editor Resume</option>
               {versions.map((v) => (
                 <option key={v.id} value={v.id}>
-                  {v.name} ({v.targetRole}) - ATS {v.atsScore}
+                  {v.name} ({v.targetRole}) — Est. {v.atsScore}
                 </option>
               ))}
             </select>
@@ -163,13 +123,15 @@ export default function ResumeComparison({
               Comparison Target (Resume B):
             </label>
             <select
+              id="compare-select-b"
               value={versionBId}
               onChange={(e) => setVersionBId(e.target.value)}
               className="w-full text-xs font-semibold px-3 py-2 rounded-lg border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900 text-slate-900 dark:text-white"
             >
+              <option value={LIVE_OPTION_ID}>Current Live Editor Resume</option>
               {versions.map((v) => (
                 <option key={v.id} value={v.id}>
-                  {v.name} ({v.targetRole}) - ATS {v.atsScore}
+                  {v.name} ({v.targetRole}) — Est. {v.atsScore}
                 </option>
               ))}
             </select>
@@ -177,24 +139,32 @@ export default function ResumeComparison({
         </div>
       </div>
 
+      {/* Identical Version Notice */}
+      {comparison.isIdentical && (
+        <div className="rounded-2xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-900 p-4 flex items-center gap-3 text-xs text-slate-700 dark:text-gray-300">
+          <Info className="w-4 h-4 text-indigo-600 shrink-0" />
+          <span>
+            <strong>No differences detected</strong> — Resume A and Resume B currently have identical content across all sections. Select two different snapshots or edit your live resume to inspect section-by-section diffs.
+          </span>
+        </div>
+      )}
+
       {/* Primary Score Delta Banner */}
       <div className="rounded-2xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-          {/* Version A Score */}
           <div className="text-center p-4 rounded-xl bg-slate-50 dark:bg-gray-950/70 border border-slate-100 dark:border-gray-800">
             <span className="text-xs text-slate-500 dark:text-gray-400 font-medium block">
-              Resume A (Baseline)
+              {versionA.name}
             </span>
             <div className="text-3xl font-black text-slate-800 dark:text-white mt-1">
               {comparison.scoreA}
               <span className="text-sm font-normal text-slate-400">/100</span>
             </div>
             <span className="text-[11px] font-semibold text-slate-500 block mt-1">
-              {comparison.statusA}
+              Est. Readiness · {comparison.statusA}
             </span>
           </div>
 
-          {/* Delta Indicator */}
           <div className="flex flex-col items-center justify-center text-center">
             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-xl shadow-xs border ${
               comparison.scoreDiff > 0
@@ -220,27 +190,113 @@ export default function ResumeComparison({
                   ? 'text-rose-600 dark:text-rose-400'
                   : 'text-slate-500'
               }`}>
-                {comparison.scoreDiff > 0 ? `+${comparison.scoreDiff} pts improvement` : comparison.scoreDiff < 0 ? `${comparison.scoreDiff} pts decline` : 'Identical score'}
+                {comparison.scoreDiff > 0
+                  ? `+${comparison.scoreDiff} pts change`
+                  : comparison.scoreDiff < 0
+                  ? `${comparison.scoreDiff} pts change`
+                  : 'Same estimated score'}
               </span>
               <span className="text-[11px] text-slate-400 block mt-0.5">
-                Deterministic ATS differential
+                {comparison.totalSectionChanges} section(s) changed
               </span>
             </div>
           </div>
 
-          {/* Version B Score */}
           <div className="text-center p-4 rounded-xl bg-indigo-50/60 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-900">
             <span className="text-xs text-indigo-700 dark:text-indigo-400 font-medium block">
-              Resume B (Target)
+              {versionB.name}
             </span>
             <div className="text-3xl font-black text-indigo-900 dark:text-indigo-200 mt-1">
               {comparison.scoreB}
               <span className="text-sm font-normal text-indigo-400">/100</span>
             </div>
             <span className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-300 block mt-1">
-              {comparison.statusB}
+              Est. Readiness · {comparison.statusB}
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* Section-by-Section Content Diff */}
+      <div className="rounded-2xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-sm space-y-4">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <FileDiff className="w-4 h-4 text-indigo-600" />
+            Section-by-Section Content Comparison
+          </h4>
+          <span className="text-xs text-slate-500 dark:text-gray-400">
+            {comparison.totalSectionChanges === 0
+              ? 'All 7 sections identical'
+              : `${comparison.totalSectionChanges} section(s) differ`}
+          </span>
+        </div>
+
+        <div className="space-y-3">
+          {comparison.sectionDiffs.map((sec) => (
+            <div
+              key={sec.id}
+              className="rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-950/40 p-4 space-y-2.5"
+            >
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-slate-900 dark:text-white">
+                    {sec.sectionName}
+                  </span>
+                  <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full border ${
+                    sec.status === 'identical'
+                      ? 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700'
+                      : sec.status === 'added'
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800'
+                      : sec.status === 'removed'
+                      ? 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800'
+                      : 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/50 dark:text-amber-300 dark:border-amber-800'
+                  }`}>
+                    {sec.status}
+                  </span>
+                </div>
+                <span className="text-xs text-slate-500 dark:text-gray-400">
+                  {sec.summaryText}
+                </span>
+              </div>
+
+              {sec.changes.length > 0 && (
+                <div className="space-y-2 pt-1">
+                  {sec.changes.map((chg, idx) => (
+                    <div
+                      key={idx}
+                      className={`p-3 rounded-lg border text-xs space-y-1.5 ${
+                        chg.changeType === 'added'
+                          ? 'bg-emerald-50/70 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800'
+                          : chg.changeType === 'removed'
+                          ? 'bg-rose-50/70 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800'
+                          : 'bg-amber-50/70 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <strong className="text-slate-900 dark:text-white">{chg.label}</strong>
+                        <span className="text-[10px] font-bold uppercase tracking-wider">
+                          {chg.changeType}
+                        </span>
+                      </div>
+
+                      {chg.before && (
+                        <div className="p-2 rounded bg-rose-100/60 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 whitespace-pre-wrap">
+                          <span className="font-bold mr-1">- Before:</span>
+                          {chg.before}
+                        </div>
+                      )}
+                      {chg.after && (
+                        <div className="p-2 rounded bg-emerald-100/60 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 whitespace-pre-wrap">
+                          <span className="font-bold mr-1">+ After:</span>
+                          {chg.after}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -252,7 +308,6 @@ export default function ResumeComparison({
         </h4>
 
         <div className="grid md:grid-cols-3 gap-4">
-          {/* Added Skills in B */}
           <div className="p-4 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20">
             <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5 mb-2">
               <PlusCircle className="w-4 h-4 text-emerald-600" /> Added Skills in B ({comparison.skillsAdded.length})
@@ -273,10 +328,9 @@ export default function ResumeComparison({
             )}
           </div>
 
-          {/* Removed Skills in B */}
           <div className="p-4 rounded-xl border border-rose-200 dark:border-rose-800 bg-rose-50/40 dark:bg-rose-950/20">
             <span className="text-xs font-bold text-rose-800 dark:text-rose-300 flex items-center gap-1.5 mb-2">
-              <MinusCircle className="w-4 h-4 text-rose-600" /> Missing / Removed in B ({comparison.skillsRemoved.length})
+              <MinusCircle className="w-4 h-4 text-rose-600" /> Removed in B ({comparison.skillsRemoved.length})
             </span>
             {comparison.skillsRemoved.length === 0 ? (
               <span className="text-xs text-slate-400">No skills removed</span>
@@ -294,13 +348,12 @@ export default function ResumeComparison({
             )}
           </div>
 
-          {/* Common Skills */}
           <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-950">
             <span className="text-xs font-bold text-slate-700 dark:text-gray-300 flex items-center gap-1.5 mb-2">
-              <CheckCircle2 className="w-4 h-4 text-indigo-600" /> Shared Competencies ({comparison.skillsCommon.length})
+              <CheckCircle2 className="w-4 h-4 text-indigo-600" /> Shared Skills ({comparison.skillsCommon.length})
             </span>
             <div className="flex flex-wrap gap-1.5">
-              {comparison.skillsCommon.slice(0, 10).map((skill) => (
+              {comparison.skillsCommon.slice(0, 12).map((skill) => (
                 <span
                   key={skill}
                   className="text-xs font-medium px-2 py-0.5 rounded-md bg-slate-200 dark:bg-gray-800 text-slate-700 dark:text-gray-300"
@@ -308,68 +361,13 @@ export default function ResumeComparison({
                   {skill}
                 </span>
               ))}
-              {comparison.skillsCommon.length > 10 && (
+              {comparison.skillsCommon.length > 12 && (
                 <span className="text-xs text-slate-400">
-                  +{comparison.skillsCommon.length - 10} more
+                  +{comparison.skillsCommon.length - 12} more
                 </span>
               )}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Section Improvements vs Weaknesses */}
-      <div className="grid md:grid-cols-2 gap-4">
-        {/* Improved Sections */}
-        <div className="rounded-2xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-sm">
-          <h4 className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-            <TrendingUp className="w-4 h-4" /> Improved Sections in Version B
-          </h4>
-          {comparison.improvedSections.length === 0 ? (
-            <p className="text-xs text-slate-400">No sections showed positive score divergence.</p>
-          ) : (
-            <div className="space-y-2">
-              {comparison.improvedSections.map((sec) => (
-                <div
-                  key={sec.name}
-                  className="p-2.5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 flex items-center justify-between"
-                >
-                  <span className="text-xs font-bold text-slate-900 dark:text-white">
-                    {sec.name}
-                  </span>
-                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                    +{sec.diff} pts
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Weaker Sections */}
-        <div className="rounded-2xl border border-slate-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-5 shadow-sm">
-          <h4 className="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-            <TrendingDown className="w-4 h-4" /> Weaker Sections in Version B
-          </h4>
-          {comparison.weakerSections.length === 0 ? (
-            <p className="text-xs text-slate-400">No sections declined in version B.</p>
-          ) : (
-            <div className="space-y-2">
-              {comparison.weakerSections.map((sec) => (
-                <div
-                  key={sec.name}
-                  className="p-2.5 rounded-xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-800 flex items-center justify-between"
-                >
-                  <span className="text-xs font-bold text-slate-900 dark:text-white">
-                    {sec.name}
-                  </span>
-                  <span className="text-xs font-bold text-rose-600 dark:text-rose-400">
-                    {sec.diff} pts
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </div>

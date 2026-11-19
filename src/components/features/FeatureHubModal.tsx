@@ -45,7 +45,8 @@ interface FeatureHubModalProps {
   currentResumeTitle: string;
   currentTemplate: TemplateType;
   atsScore: number;
-  onApplyContentAssistant: (newText: string, sectionType: string) => void;
+  onApplyContentAssistant: (newText: string, sectionType: string, entryIndex?: number) => void;
+  onApplyKeyword?: (keyword: string, section: string) => void;
   onApplyImportedData: (data: Partial<ResumeData>) => void;
   onSelectVersion: (version: ResumeVersion) => void;
   onOpenReadinessModal?: () => void;
@@ -62,6 +63,7 @@ export default function FeatureHubModal({
   currentTemplate,
   atsScore,
   onApplyContentAssistant,
+  onApplyKeyword,
   onApplyImportedData,
   onSelectVersion,
   onOpenReadinessModal,
@@ -109,7 +111,7 @@ export default function FeatureHubModal({
                 Resume Craft Intelligence Suite
               </h2>
               <p className="text-[11px] text-slate-500 dark:text-gray-400">
-                100% Client-Side ATS Scoring, Keyword Gap Modeling & Real Document Tools
+                100% Client-Side ATS Readiness, Keyword Gap Analysis &amp; Document Tools
               </p>
             </div>
           </div>
@@ -184,12 +186,17 @@ export default function FeatureHubModal({
                 {currentTab === 'job_matcher' && (
                   <JobMatcher
                     resumeData={resumeData}
+                    onApplyKeyword={onApplyKeyword}
                     onOpenKeywordGap={() => onTabChange('keyword_gap')}
                   />
                 )}
 
                 {currentTab === 'keyword_gap' && (
-                  <KeywordGapAnalyzer resumeData={resumeData} />
+                  <KeywordGapAnalyzer
+                    resumeData={resumeData}
+                    onSelectKeywordToInsert={onApplyKeyword}
+                    onOpenJobMatcher={() => onTabChange('job_matcher')}
+                  />
                 )}
 
                 {currentTab === 'ats_diagnostic' && (
