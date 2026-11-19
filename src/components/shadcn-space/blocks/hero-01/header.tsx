@@ -6,7 +6,6 @@ import {
   ArrowUpRight,
   Github,
   Linkedin,
-  LogIn,
   FileText,
   User,
   LogOut,
@@ -27,7 +26,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
-import { useTheme } from "@/context/ThemeContext";
 import BrandWordmark from "@/components/ui/BrandWordmark";
 import CinematicThemeSwitcher from "@/components/ui/CinematicThemeSwitcher";
 import ProfileDropdown from "@/components/ui/ProfileDropdown";
@@ -82,13 +80,11 @@ const Header = ({
   navigationData,
   className,
   onStartBuilding,
-  onNavigateToLogin,
   onNavigateToDashboard,
   onNavigateToProfile,
   onScrollTo,
 }: HeaderProps) => {
   const { user, isAuthenticated, logout } = useAuth();
-  const { isDark } = useTheme();
   const shouldReduceMotion = useReducedMotion();
 
   const [sticky, setSticky] = useState(false);
@@ -239,21 +235,6 @@ const Header = ({
               </>
             ) : (
               <>
-                {onNavigateToLogin && (
-                  <button
-                    id="desktop-nav-signin-btn"
-                    type="button"
-                    onClick={onNavigateToLogin}
-                    className={cn(
-                      "px-3.5 py-2 rounded-full text-xs xl:text-sm font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer border",
-                      isDark
-                        ? "border-border/70 text-neutral-200 hover:text-white hover:bg-white/[0.08]"
-                        : "border-border/80 text-neutral-700 hover:text-black hover:bg-black/[0.05]"
-                    )}
-                  >
-                    Login
-                  </button>
-                )}
                 {onStartBuilding && (
                   <HeaderActionPill
                     id="desktop-nav-create-btn"
@@ -433,20 +414,6 @@ const Header = ({
                               onStartBuilding();
                             }}
                           />
-                        )}
-                        {onNavigateToLogin && (
-                          <button
-                            id="mobile-nav-login-btn"
-                            type="button"
-                            onClick={() => {
-                              setIsOpen(false);
-                              onNavigateToLogin();
-                            }}
-                            className="w-fit inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
-                          >
-                            <LogIn className="w-4 h-4" />
-                            <span>Login</span>
-                          </button>
                         )}
                       </div>
                     )}

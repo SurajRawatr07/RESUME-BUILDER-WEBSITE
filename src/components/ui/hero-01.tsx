@@ -43,10 +43,6 @@ export const navigationData: NavigationSection[] = [
     href: "#templates",
   },
   {
-    title: "Features",
-    href: "#features",
-  },
-  {
     title: "FAQ",
     href: "#faq",
   },

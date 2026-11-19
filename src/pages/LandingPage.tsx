@@ -5,12 +5,6 @@ import {
   AnimatedAddInfoIcon,
   AnimatedCustomizeResumeIcon,
   AnimatedExportIcon,
-  AnimatedTemplatesGridIcon,
-  AnimatedATSScanIcon,
-  AnimatedLiveEditIcon,
-  AnimatedPdfExportIcon,
-  AnimatedTemplateSwitchIcon,
-  AnimatedResponsiveDevicesIcon,
 } from '@/components/icons/animated';
 
 import { useTheme } from '@/context/ThemeContext';
@@ -58,39 +52,6 @@ const steps = [
     icon: AnimatedExportIcon,
     title: 'Export',
     desc: 'Generate your final resume as a clean, print-ready PDF.',
-  },
-];
-
-const features = [
-  {
-    icon: AnimatedTemplatesGridIcon,
-    title: 'Professional Templates',
-    desc: 'Real resume structures designed for different career paths.',
-  },
-  {
-    icon: AnimatedATSScanIcon,
-    title: 'ATS-Friendly Structure',
-    desc: 'Clean semantic formatting designed to remain readable by applicant tracking systems.',
-  },
-  {
-    icon: AnimatedLiveEditIcon,
-    title: 'Live Resume Editing',
-    desc: 'Update resume information and see changes immediately.',
-  },
-  {
-    icon: AnimatedPdfExportIcon,
-    title: 'PDF Export',
-    desc: 'Generate a clean printable PDF.',
-  },
-  {
-    icon: AnimatedTemplateSwitchIcon,
-    title: 'Template Switching',
-    desc: 'Change resume templates without losing your entered information.',
-  },
-  {
-    icon: AnimatedResponsiveDevicesIcon,
-    title: 'Responsive Experience',
-    desc: 'Create and manage resumes across desktop, tablet and mobile.',
   },
 ];
 
@@ -186,47 +147,6 @@ const StepCard: React.FC<StepCardProps> = ({ step, isDark }) => {
   );
 };
 
-interface FeatureCardProps {
-  feature: (typeof features)[number];
-  isDark: boolean;
-}
-
-const FeatureCard: React.FC<FeatureCardProps> = ({ feature, isDark }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const Icon = feature.icon;
-
-  return (
-    <GlowingShadow variant="subtle" rounded="rounded-2xl" className="h-full">
-      <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className={`h-full p-6 sm:p-7 rounded-2xl border transition-all ${
-          isDark
-            ? 'bg-[#171717] border-white/[0.09] hover:border-white/[0.16]'
-            : 'bg-white border-black/[0.08] shadow-xs hover:shadow-sm'
-        }`}
-      >
-        <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors bg-neutral-100 dark:bg-neutral-800/80 text-[#111111] dark:text-neutral-100">
-          <Icon
-            isHovered={isHovered}
-            className="w-7 h-7 sm:w-7 sm:h-7 md:w-[30px] md:h-[30px] lg:w-8 lg:h-8 text-[#111111] dark:text-neutral-100"
-          />
-        </div>
-        <h3 className="text-base sm:text-lg font-bold mb-2 text-gray-900 dark:text-white">
-          {feature.title}
-        </h3>
-        <p
-          className={`text-xs sm:text-sm leading-relaxed ${
-            isDark ? 'text-gray-400' : 'text-gray-600'
-          }`}
-        >
-          {feature.desc}
-        </p>
-      </div>
-    </GlowingShadow>
-  );
-};
-
 export default function LandingPage({
   onStartBuilding,
   onNavigateToDashboard,
@@ -298,12 +218,9 @@ export default function LandingPage({
             <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
               Role-Specific Designs
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2">
               9 Professional Resume Templates
             </h2>
-            <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Engineered with single-column layouts, strict semantic hierarchy, and verified ATS compatibility. Filter by role and preview in full A4 resolution.
-            </p>
           </div>
 
           <TemplateGallery onSelectTemplate={() => onStartBuilding()} />
@@ -311,35 +228,7 @@ export default function LandingPage({
       </section>
 
       {/* ========================================
-          4. FEATURES
-      ======================================== */}
-      <section
-        id="features"
-        className="py-20 sm:py-24 border-b border-black/[0.06] dark:border-white/[0.08] bg-transparent"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-              Built For Precision
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
-              Engineered for Job Seekers &amp; Recruiters
-            </h2>
-            <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Every tool and structure you need to deliver an error-free, high-conversion resume.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature) => (
-              <FeatureCard key={feature.title} feature={feature} isDark={isDark} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================
-          5. FAQ
+          4. FAQ
       ======================================== */}
       <section id="faq" className="py-20 sm:py-24 bg-transparent">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -348,7 +237,7 @@ export default function LandingPage({
               Frequently Asked Questions
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4">
-              Questions &amp; Answers
+              FAQ
             </h2>
             <p className={`text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               {renderBrandCopy(

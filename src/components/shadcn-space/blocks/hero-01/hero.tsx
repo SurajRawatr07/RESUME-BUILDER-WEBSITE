@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Code2, FileCheck2, Layers, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TemplateType } from "@/types/resume";
 
@@ -10,20 +10,12 @@ export type AvatarList = {
 };
 
 export interface HeroSectionProps {
-  avatarList: AvatarList[];
+  avatarList?: AvatarList[];
   onStartBuilding?: (templateId?: TemplateType) => void;
   onExploreTemplates?: () => void;
 }
 
-const badgeIcons = {
-  templates: Layers,
-  ats: FileCheck2,
-  editor: Code2,
-  export: Sparkles,
-};
-
 function HeroSection({
-  avatarList,
   onStartBuilding,
   onExploreTemplates,
 }: HeroSectionProps) {
@@ -71,15 +63,15 @@ function HeroSection({
                 </motion.p>
               </div>
 
-              {/* Hero Actions & Genuine Resume Craft Feature Stack */}
+              {/* Hero Actions */}
               <motion.div
                 initial={shouldReduceMotion ? false : { opacity: 0, y: 32 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.2, ease: "easeInOut" }}
-                className="flex items-center flex-col md:flex-row justify-center gap-6 md:gap-8"
+                className="flex items-center justify-center"
               >
                 {/* Primary & Secondary CTAs */}
-                <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="flex flex-wrap items-center justify-center gap-3.5">
                   <Button
                     id="hero-create-resume-btn"
                     type="button"
@@ -105,52 +97,6 @@ function HeroSection({
                       Explore Templates
                     </Button>
                   )}
-                </div>
-
-                {/* Overlapping Visual Stack (Hero-01 avatar arrangement using genuine Resume Craft capability badges) */}
-                <div className="flex items-center sm:gap-5 gap-3">
-                  <ul
-                    className="avatar flex flex-row items-center"
-                    aria-label="Resume Craft core capabilities"
-                  >
-                    {avatarList.map((avatar, index) => {
-                      const BadgeIcon = badgeIcons[avatar.key];
-                      return (
-                        <li
-                          key={avatar.label}
-                          title={avatar.label}
-                          className={`relative -mr-2.5 last:mr-0 z-10 transition-transform duration-200 hover:-translate-y-0.5 hover:z-20`}
-                          style={{ zIndex: avatarList.length - index }}
-                        >
-                          {avatar.image ? (
-                            <img
-                              src={avatar.image}
-                              alt={avatar.label}
-                              width={40}
-                              height={40}
-                              className="w-10 h-10 rounded-full border-2 border-background object-cover shadow-sm"
-                            />
-                          ) : (
-                            <span
-                              className="w-10 h-10 rounded-full border-2 border-background bg-muted text-foreground flex items-center justify-center shadow-sm"
-                              aria-label={avatar.label}
-                            >
-                              <BadgeIcon className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                            </span>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-
-                  <div className="gap-0.5 flex flex-col items-start text-left">
-                    <p className="text-xs sm:text-sm font-semibold text-foreground">
-                      ATS-Compliant Builder
-                    </p>
-                    <p className="text-xs font-normal text-muted-foreground">
-                      Overleaf &amp; LaTeX-inspired • Instant PDF
-                    </p>
-                  </div>
                 </div>
               </motion.div>
             </div>
