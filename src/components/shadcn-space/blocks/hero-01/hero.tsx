@@ -37,18 +37,9 @@ function HeroSection({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, ease: "easeInOut" }}
                   className="text-4xl sm:text-5xl md:text-7xl lg:text-[5rem] font-medium leading-[1.12] md:leading-[1.08] tracking-tight text-foreground"
-                  style={{
-                    fontFamily:
-                      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                  }}
                 >
                   Build a professional resume{" "}
-                  <span
-                    className="italic font-normal tracking-tight"
-                    style={{
-                      fontFamily: '"Playfair Display", Georgia, serif',
-                    }}
-                  >
+                  <span className="italic font-normal tracking-tight">
                     that gets noticed.
                   </span>
                 </motion.h1>

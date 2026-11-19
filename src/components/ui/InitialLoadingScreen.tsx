@@ -84,8 +84,6 @@ export default function InitialLoadingScreen({
           id="loading-brand-wordmark"
           className="brand-wordmark whitespace-nowrap select-none font-bold tracking-normal text-[26px] xs:text-[28px] sm:text-[34px] md:text-[38px] lg:text-[40px] leading-tight text-center"
           style={{
-            fontFamily:
-              "'Alex Brush', 'Allura', cursive, 'Brush Script MT', -apple-system, sans-serif",
             fontWeight: 700,
           }}
         >

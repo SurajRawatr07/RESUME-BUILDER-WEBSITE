@@ -16,7 +16,7 @@
 /* ─── Tailwind base tokens ─── */
 @layer base {
   :root {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Times New Roman", Times, serif;
     /* Static clean white background #FFFFFF */
     --background: 0 0% 100%;
     --foreground: 0 0% 6.7%; /* #111111 */
@@ -82,7 +82,7 @@
   }
 
   html {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Times New Roman", Times, serif;
     text-rendering: optimizeLegibility;
     background-color: #FFFFFF;
   }
@@ -97,7 +97,7 @@
     color: #111111;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Times New Roman", Times, serif;
     font-size: 15px;
     line-height: 1.6;
     letter-spacing: -0.011em;
@@ -110,9 +110,12 @@
     color: #FFFFFF;
   }
 
-  /* Refined Editorial Headings (Playfair Display / Editorial Serif) */
+  /* Headings */
+  h1, h2, h3, h4, h5, h6, .font-serif-heading {
+    font-family: "Times New Roman", Times, serif;
+  }
+
   h1, .font-serif-heading {
-    font-family: "Playfair Display", Georgia, serif;
     letter-spacing: -0.02em;
   }
 
@@ -121,11 +124,12 @@
   }
 
   /* Form and interactive controls */
-  input, button, select, textarea {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  input, button, select, textarea, optgroup {
+    font-family: "Times New Roman", Times, serif;
   }
 
   ::placeholder {
+    font-family: "Times New Roman", Times, serif;
     letter-spacing: -0.01em;
   }
 
@@ -212,10 +216,10 @@ button, a, input, [role="button"] {
   box-shadow: 0 0 30px rgba(99, 102, 241, 0.25);
 }
 
-/* ─── Elegant Handwritten / Calligraphic Script Brand ("Resume Craft") ─── */
+/* ─── Brand Wordmark ("Resume Craft") ─── */
 .brand-wordmark,
 .brand-script-text {
-  font-family: 'Alex Brush', 'Allura', cursive, 'Brush Script MT', -apple-system, sans-serif !important;
+  font-family: "Times New Roman", Times, serif !important;
   font-weight: 700;
   font-style: normal;
   display: inline-flex;

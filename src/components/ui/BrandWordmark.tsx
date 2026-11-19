@@ -52,7 +52,6 @@ export const BrandWordmark: React.FC<BrandWordmarkProps> = ({
         isClickable ? 'brand-wordmark-interactive cursor-pointer' : ''
       } select-none whitespace-nowrap font-bold text-[#111111] dark:text-white ${sizeClasses[size]} ${className}`}
       style={{
-        fontFamily: "'Alex Brush', 'Allura', cursive, 'Brush Script MT', -apple-system, sans-serif",
         fontWeight: 700,
       }}
     >
